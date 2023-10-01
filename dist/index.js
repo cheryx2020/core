@@ -1,4 +1,4 @@
-import React$1, { useState, useRef, useEffect, Component } from 'react';
+import React, { useState, useRef, useEffect, Component } from 'react';
 import { readFile, isBigFile } from '@cheryx2020/utils';
 import PropTypes from 'prop-types';
 import { ImageUploadable as ImageUploadable$1 } from '@cheryx2020/core';
@@ -11,14 +11,14 @@ const SubLink = ({
   className = '',
   renderItem = () => {}
 }) => {
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: styles$4.wrapper,
     style: wrapperStyle
   }, Array.isArray(data) && data.length > 0 && data.map((item, i) => {
-    return /*#__PURE__*/React$1.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: `${styles$4.wrapperLink} ${className}`,
       key: i
-    }, renderItem(item), i < data.length - 1 && /*#__PURE__*/React$1.createElement("div", {
+    }, renderItem(item), i < data.length - 1 && /*#__PURE__*/React.createElement("div", {
       className: styles$4.spliter
     }, '>'));
   }));
@@ -115,22 +115,22 @@ const ImageUploadable = ({
       height: imageWap.current.style.height
     });
   }
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     ref: imageWap,
     className: `${styles$3.image} ${className}`,
     style: {
       ...defaultWrapperStyle,
       ...wrapperStyle
     }
-  }, isAdmin && isEdit && /*#__PURE__*/React$1.createElement("div", {
+  }, isAdmin && isEdit && /*#__PURE__*/React.createElement("div", {
     className: styles$3.imageMenu,
     onClick: e => e.stopPropagation()
-  }, /*#__PURE__*/React$1.createElement("label", null, /*#__PURE__*/React$1.createElement("div", null, "Choose Image"), /*#__PURE__*/React$1.createElement("input", {
+  }, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("div", null, "Choose Image"), /*#__PURE__*/React.createElement("input", {
     accept: "image/png, image/jpeg, image/svg+xml",
     hidden: true,
     type: "file",
     onChange: onChange
-  }))), isEdit ? /*#__PURE__*/React$1.createElement("img", {
+  }))), isEdit ? /*#__PURE__*/React.createElement("img", {
     ref: image,
     width: width,
     height: height,
@@ -139,21 +139,21 @@ const ImageUploadable = ({
       width,
       height
     }
-  }) : /*#__PURE__*/React$1.createElement("img", {
+  }) : /*#__PURE__*/React.createElement("img", {
     alt: process.env.NEXT_PUBLIC_SEO_mainTitle,
     width: width,
     height: height,
     src: src
-  }), isEdit && resizeable && /*#__PURE__*/React$1.createElement("div", {
+  }), isEdit && resizeable && /*#__PURE__*/React.createElement("div", {
     onDrag: e => {
       e.preventDefault();
       e.stopPropagation();
     },
     onMouseDown: initDrag,
     className: styles$3.resizer
-  }, /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: styles$3.vertical
-  }), /*#__PURE__*/React$1.createElement("div", {
+  }), /*#__PURE__*/React.createElement("div", {
     className: styles$3.horizontal
   })));
 };
@@ -185,30 +185,30 @@ const ImageUpload = ({
   if (height) {
     styleImage.height = height;
   }
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
     className: styles$2.imgWrapper,
     style: {
       position: 'relative'
     }
-  }, showMenuImage && /*#__PURE__*/React$1.createElement("div", {
+  }, showMenuImage && /*#__PURE__*/React.createElement("div", {
     className: styles$2.menuImage
-  }, /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: styles$2.deleteButton,
     onClick: () => setShowMenuImage(false)
-  }, "x"), /*#__PURE__*/React$1.createElement("label", {
+  }, "x"), /*#__PURE__*/React.createElement("label", {
     className: styles$2.uploadButton
-  }, /*#__PURE__*/React$1.createElement("span", null, "Upload Image"), /*#__PURE__*/React$1.createElement("input", {
+  }, /*#__PURE__*/React.createElement("span", null, "Upload Image"), /*#__PURE__*/React.createElement("input", {
     type: "file",
     onChange: e => {
       setShowMenuImage(false);
       onChange(e);
     }
-  }))), !showMenuImage && /*#__PURE__*/React$1.createElement("div", {
+  }))), !showMenuImage && /*#__PURE__*/React.createElement("div", {
     className: styles$2.editImageBtn,
     onClick: () => setShowMenuImage(true)
-  }, "Edit"), /*#__PURE__*/React$1.createElement("textarea", {
+  }, "Edit"), /*#__PURE__*/React.createElement("textarea", {
     className: styles$2.textarea,
     onMouseOut: onMouseOut,
     disabled: true,
@@ -226,7 +226,7 @@ const AdBanner = () => {
       console.log(err);
     }
   }, []);
-  return /*#__PURE__*/React$1.createElement("ins", {
+  return /*#__PURE__*/React.createElement("ins", {
     className: "adsbygoogle adbanner-customize",
     style: {
       display: "block"
@@ -246,19 +246,19 @@ const PostVideo = ({
   onDragStart = () => {}
 }) => {
   const [showMenuVideo, setShowMenuVideo] = useState(false);
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
     className: styles$2.imgWrapper
-  }, showMenuVideo && /*#__PURE__*/React$1.createElement("div", {
+  }, showMenuVideo && /*#__PURE__*/React.createElement("div", {
     className: styles$2.videoMenu
-  }, /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: styles$2.deleteButton,
     onClick: () => setShowMenuVideo(false)
-  }, "x"), /*#__PURE__*/React$1.createElement("label", null, "Video Id:"), /*#__PURE__*/React$1.createElement("input", {
+  }, "x"), /*#__PURE__*/React.createElement("label", null, "Video Id:"), /*#__PURE__*/React.createElement("input", {
     value: url,
     onChange: e => onChange(e)
-  })), /*#__PURE__*/React$1.createElement("iframe", {
+  })), /*#__PURE__*/React.createElement("iframe", {
     title: text,
     width: "560",
     height: "315",
@@ -266,7 +266,7 @@ const PostVideo = ({
     frameBorder: 0,
     allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
     allowFullScreen: true
-  }), /*#__PURE__*/React$1.createElement("figcaption", {
+  }), /*#__PURE__*/React.createElement("figcaption", {
     suppressContentEditableWarning: true,
     contentEditable: true,
     onBlur: onChangeText,
@@ -274,7 +274,7 @@ const PostVideo = ({
     style: {
       minWidth: 100
     }
-  }, text), !showMenuVideo && /*#__PURE__*/React$1.createElement("div", {
+  }, text), !showMenuVideo && /*#__PURE__*/React.createElement("div", {
     className: styles$2.editImageBtn,
     onClick: () => setShowMenuVideo(true)
   }, "Edit"));
@@ -303,7 +303,7 @@ class YouTubeSubscribe extends Component {
 
   constructor(props) {
     super(props);
-    this.youtubeSubscribeNode = /*#__PURE__*/React$1.createRef();
+    this.youtubeSubscribeNode = /*#__PURE__*/React.createRef();
 
     // To render components economically w/o repetition
     this.state = {
@@ -358,9 +358,9 @@ class YouTubeSubscribe extends Component {
       channelName,
       channelid
     } = this.props;
-    return /*#__PURE__*/React$1.createElement("section", {
+    return /*#__PURE__*/React.createElement("section", {
       className: "youtubeSubscribe"
-    }, /*#__PURE__*/React$1.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       ref: this.youtubeSubscribeNode,
       className: "g-ytsubscribe",
       "data-theme": theme,
@@ -408,11 +408,11 @@ const PatternPreview = ({
     setImageUrl(_imageUrl);
     setPreviewUrl(_previewUrl);
   }, [_imageUrl, _previewUrl]);
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: styles$1.wrapper
-  }, /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: styles$1.image
-  }, /*#__PURE__*/React$1.createElement(ImageUploadable$1, {
+  }, /*#__PURE__*/React.createElement(ImageUploadable$1, {
     width: '100%',
     height: '100%',
     wrapperStyle: {
@@ -424,15 +424,15 @@ const PatternPreview = ({
     isAdmin: isAdmin,
     isEdit: isAdmin,
     src: imageUrl
-  })), /*#__PURE__*/React$1.createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: styles$1.info
-  }, /*#__PURE__*/React$1.createElement("a", {
+  }, /*#__PURE__*/React.createElement("a", {
     rel: "noreferrer",
     href: previewUrl,
     onClick: e => onClickLink(e, 'previewUrl'),
     target: "_blank",
     className: styles$1.previewUrl
-  }, buttonText), /*#__PURE__*/React$1.createElement("div", {
+  }, buttonText), /*#__PURE__*/React.createElement("div", {
     contentEditable: isAdmin ? "true" : "false",
     onBlur: () => {}
   }, message)));
