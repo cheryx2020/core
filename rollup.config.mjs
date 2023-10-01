@@ -3,6 +3,8 @@ import commonjs from "@rollup/plugin-commonjs";
 import sass from 'rollup-plugin-sass';
 import resolve from '@rollup/plugin-node-resolve';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import postcss from 'rollup-plugin-postcss-modules'
+import autoprefixer from 'autoprefixer'
 
 export default {
   input: 'index.js',
@@ -21,6 +23,12 @@ export default {
       presets: ["@babel/preset-react"],
       extensions: [".js"],
     }),
+    postcss({
+			extract: true,  // extracts to `${basename(dest)}.css`
+			plugins: [autoprefixer()],
+			writeDefinitions: true,
+			// modules: { ... }
+		}),
     sass(),
   ],
   output: {
