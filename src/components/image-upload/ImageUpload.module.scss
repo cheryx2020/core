@@ -1,0 +1,76 @@
+@import '../styles/variables.scss';
+@import '../styles/mixin.scss';
+.editImageBtn {
+  position: absolute;
+  top: 0px;
+  right: 30px;
+  cursor: pointer;
+}
+.menuImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  z-index: 1;
+  opacity: 0.8;
+  .uploadButton {
+    padding: 5px;
+    border: solid 1px;
+    border-radius: 4px;
+    cursor: pointer;
+    input {
+      display: none;
+    }
+  }
+}
+.textarea {
+  background-size: cover;
+  width: 374px;
+  height: 561px;
+}
+.imgWrapper {
+  text-align: center;
+  margin-bottom: 47px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  @media (max-width: $mobile-breakpoint) {  
+    margin-bottom: 29px;
+  }
+  .videoMenu {
+    position: absolute;
+    top: 0;
+    background-color: white;
+    padding: 5px;
+    box-shadow: 1px 3px 6px grey;
+    width: 500px;
+    height: 50px;
+    label {
+      margin-right: 5px;
+      margin-top: 3px;
+    }
+    input {
+      width: 400px;
+      outline: none;
+    }
+  }
+}
+.deleteButton {
+  position: absolute;
+  right: 10;
+  top: 10;
+  font-size: 12px;
+  border: solid 1px;
+  padding: 0px 5px;
+  cursor: pointer;
+  border-radius: 50%;
+  display: none;
+  &:hover {
+    background-color: $main-color;
+    color: white;
+  }
+}

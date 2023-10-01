@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { readFile, isBigFile } from '@cheryx2020/utils';
 
-var styles$1 = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
+var styles$2 = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
 
 const SubLink = ({
   data,
@@ -10,19 +10,19 @@ const SubLink = ({
   renderItem = () => {}
 }) => {
   return /*#__PURE__*/React.createElement("div", {
-    className: styles$1.wrapper,
+    className: styles$2.wrapper,
     style: wrapperStyle
   }, Array.isArray(data) && data.length > 0 && data.map((item, i) => {
     return /*#__PURE__*/React.createElement("div", {
-      className: `${styles$1.wrapperLink} ${className}`,
+      className: `${styles$2.wrapperLink} ${className}`,
       key: i
     }, renderItem(item), i < data.length - 1 && /*#__PURE__*/React.createElement("div", {
-      className: styles$1.spliter
+      className: styles$2.spliter
     }, '>'));
   }));
 };
 
-var styles = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
+var styles$1 = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
 
 const ImageUploadable = ({
   width = 500,
@@ -115,13 +115,13 @@ const ImageUploadable = ({
   }
   return /*#__PURE__*/React.createElement("div", {
     ref: imageWap,
-    className: `${styles.image} ${className}`,
+    className: `${styles$1.image} ${className}`,
     style: {
       ...defaultWrapperStyle,
       ...wrapperStyle
     }
   }, isAdmin && isEdit && /*#__PURE__*/React.createElement("div", {
-    className: styles.imageMenu,
+    className: styles$1.imageMenu,
     onClick: e => e.stopPropagation()
   }, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("div", null, "Choose Image"), /*#__PURE__*/React.createElement("input", {
     accept: "image/png, image/jpeg, image/svg+xml",
@@ -148,12 +148,72 @@ const ImageUploadable = ({
       e.stopPropagation();
     },
     onMouseDown: initDrag,
-    className: styles.resizer
+    className: styles$1.resizer
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles.vertical
+    className: styles$1.vertical
   }), /*#__PURE__*/React.createElement("div", {
-    className: styles.horizontal
+    className: styles$1.horizontal
   })));
 };
 
-export { ImageUploadable, SubLink };
+var styles = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
+
+const ImageUpload = ({
+  url,
+  onChange = () => {},
+  caption,
+  onDragStart = () => {},
+  onResize = () => {},
+  width,
+  height
+}) => {
+  const [showMenuImage, setShowMenuImage] = useState(false);
+  const onMouseOut = e => {
+    onResize({
+      width: parseInt(e.target.style.width) || 0,
+      height: parseInt(e.target.style.height) || 0
+    });
+  };
+  const styleImage = {
+    backgroundImage: `url('${url}')`
+  };
+  if (width) {
+    styleImage.width = width;
+  }
+  if (height) {
+    styleImage.height = height;
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    onDragStart: onDragStart,
+    draggable: "true",
+    className: styles.imgWrapper,
+    style: {
+      position: 'relative'
+    }
+  }, showMenuImage && /*#__PURE__*/React.createElement("div", {
+    className: styles.menuImage
+  }, /*#__PURE__*/React.createElement("div", {
+    className: styles.deleteButton,
+    onClick: () => setShowMenuImage(false)
+  }, "x"), /*#__PURE__*/React.createElement("label", {
+    className: styles.uploadButton
+  }, /*#__PURE__*/React.createElement("span", null, "Upload Image"), /*#__PURE__*/React.createElement("input", {
+    type: "file",
+    onChange: e => {
+      setShowMenuImage(false);
+      onChange(e);
+    }
+  }))), !showMenuImage && /*#__PURE__*/React.createElement("div", {
+    className: styles.editImageBtn,
+    onClick: () => setShowMenuImage(true)
+  }, "Edit"), /*#__PURE__*/React.createElement("textarea", {
+    className: styles.textarea,
+    onMouseOut: onMouseOut,
+    disabled: true,
+    style: {
+      ...styleImage
+    }
+  }), caption);
+};
+
+export { ImageUpload, ImageUploadable, SubLink };
