@@ -15,15 +15,11 @@
     "url": "git+https://github.com/cheryx2020/core.git"
   },
   "dependencies": {
-    "next": "12",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0",
     "sass": "^1.66.1"
   },
   "peerDependencies": {
-    "next": "12",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^18.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.23.0",
