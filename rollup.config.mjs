@@ -28,8 +28,7 @@ export default {
 			plugins: [autoprefixer()],
 			writeDefinitions: true,
 			// modules: { ... }
-		}),
-    sass(),
+		})
   ],
   output: {
     dir: 'dist',
