@@ -1,4 +1,5 @@
 // import Link from 'next/link';
+import React from 'react';
 import styles from './Sublink.module.scss';
 const SubLink = ({data, wrapperStyle = {}, className=''}) => {
     return <div className={styles.wrapper} style={wrapperStyle}>
