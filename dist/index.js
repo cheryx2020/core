@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect, Component } from 'react';
+import React$1, { useState, useRef, useEffect, Component } from 'react';
 import { readFile, isBigFile } from '@cheryx2020/utils';
 import PropTypes from 'prop-types';
 import { ImageUploadable as ImageUploadable$1 } from '@cheryx2020/core';
 
-var styles$3 = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
+var styles$4 = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
 
 const SubLink = ({
   data,
@@ -11,20 +11,20 @@ const SubLink = ({
   className = '',
   renderItem = () => {}
 }) => {
-  return /*#__PURE__*/React.createElement("div", {
-    className: styles$3.wrapper,
+  return /*#__PURE__*/React$1.createElement("div", {
+    className: styles$4.wrapper,
     style: wrapperStyle
   }, Array.isArray(data) && data.length > 0 && data.map((item, i) => {
-    return /*#__PURE__*/React.createElement("div", {
-      className: `${styles$3.wrapperLink} ${className}`,
+    return /*#__PURE__*/React$1.createElement("div", {
+      className: `${styles$4.wrapperLink} ${className}`,
       key: i
-    }, renderItem(item), i < data.length - 1 && /*#__PURE__*/React.createElement("div", {
-      className: styles$3.spliter
+    }, renderItem(item), i < data.length - 1 && /*#__PURE__*/React$1.createElement("div", {
+      className: styles$4.spliter
     }, '>'));
   }));
 };
 
-var styles$2 = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
+var styles$3 = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
 
 const ImageUploadable = ({
   width = 500,
@@ -115,22 +115,22 @@ const ImageUploadable = ({
       height: imageWap.current.style.height
     });
   }
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     ref: imageWap,
-    className: `${styles$2.image} ${className}`,
+    className: `${styles$3.image} ${className}`,
     style: {
       ...defaultWrapperStyle,
       ...wrapperStyle
     }
-  }, isAdmin && isEdit && /*#__PURE__*/React.createElement("div", {
-    className: styles$2.imageMenu,
+  }, isAdmin && isEdit && /*#__PURE__*/React$1.createElement("div", {
+    className: styles$3.imageMenu,
     onClick: e => e.stopPropagation()
-  }, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("div", null, "Choose Image"), /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React$1.createElement("label", null, /*#__PURE__*/React$1.createElement("div", null, "Choose Image"), /*#__PURE__*/React$1.createElement("input", {
     accept: "image/png, image/jpeg, image/svg+xml",
     hidden: true,
     type: "file",
     onChange: onChange
-  }))), isEdit ? /*#__PURE__*/React.createElement("img", {
+  }))), isEdit ? /*#__PURE__*/React$1.createElement("img", {
     ref: image,
     width: width,
     height: height,
@@ -139,26 +139,26 @@ const ImageUploadable = ({
       width,
       height
     }
-  }) : /*#__PURE__*/React.createElement("img", {
+  }) : /*#__PURE__*/React$1.createElement("img", {
     alt: process.env.NEXT_PUBLIC_SEO_mainTitle,
     width: width,
     height: height,
     src: src
-  }), isEdit && resizeable && /*#__PURE__*/React.createElement("div", {
+  }), isEdit && resizeable && /*#__PURE__*/React$1.createElement("div", {
     onDrag: e => {
       e.preventDefault();
       e.stopPropagation();
     },
     onMouseDown: initDrag,
-    className: styles$2.resizer
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles$2.vertical
-  }), /*#__PURE__*/React.createElement("div", {
-    className: styles$2.horizontal
+    className: styles$3.resizer
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$3.vertical
+  }), /*#__PURE__*/React$1.createElement("div", {
+    className: styles$3.horizontal
   })));
 };
 
-var styles$1 = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
+var styles$2 = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
 
 const ImageUpload = ({
   url,
@@ -185,31 +185,31 @@ const ImageUpload = ({
   if (height) {
     styleImage.height = height;
   }
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$1.imgWrapper,
+    className: styles$2.imgWrapper,
     style: {
       position: 'relative'
     }
-  }, showMenuImage && /*#__PURE__*/React.createElement("div", {
-    className: styles$1.menuImage
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles$1.deleteButton,
+  }, showMenuImage && /*#__PURE__*/React$1.createElement("div", {
+    className: styles$2.menuImage
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$2.deleteButton,
     onClick: () => setShowMenuImage(false)
-  }, "x"), /*#__PURE__*/React.createElement("label", {
-    className: styles$1.uploadButton
-  }, /*#__PURE__*/React.createElement("span", null, "Upload Image"), /*#__PURE__*/React.createElement("input", {
+  }, "x"), /*#__PURE__*/React$1.createElement("label", {
+    className: styles$2.uploadButton
+  }, /*#__PURE__*/React$1.createElement("span", null, "Upload Image"), /*#__PURE__*/React$1.createElement("input", {
     type: "file",
     onChange: e => {
       setShowMenuImage(false);
       onChange(e);
     }
-  }))), !showMenuImage && /*#__PURE__*/React.createElement("div", {
-    className: styles$1.editImageBtn,
+  }))), !showMenuImage && /*#__PURE__*/React$1.createElement("div", {
+    className: styles$2.editImageBtn,
     onClick: () => setShowMenuImage(true)
-  }, "Edit"), /*#__PURE__*/React.createElement("textarea", {
-    className: styles$1.textarea,
+  }, "Edit"), /*#__PURE__*/React$1.createElement("textarea", {
+    className: styles$2.textarea,
     onMouseOut: onMouseOut,
     disabled: true,
     style: {
@@ -226,7 +226,7 @@ const AdBanner = () => {
       console.log(err);
     }
   }, []);
-  return /*#__PURE__*/React.createElement("ins", {
+  return /*#__PURE__*/React$1.createElement("ins", {
     className: "adsbygoogle adbanner-customize",
     style: {
       display: "block"
@@ -246,19 +246,19 @@ const PostVideo = ({
   onDragStart = () => {}
 }) => {
   const [showMenuVideo, setShowMenuVideo] = useState(false);
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$1.imgWrapper
-  }, showMenuVideo && /*#__PURE__*/React.createElement("div", {
-    className: styles$1.videoMenu
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles$1.deleteButton,
+    className: styles$2.imgWrapper
+  }, showMenuVideo && /*#__PURE__*/React$1.createElement("div", {
+    className: styles$2.videoMenu
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$2.deleteButton,
     onClick: () => setShowMenuVideo(false)
-  }, "x"), /*#__PURE__*/React.createElement("label", null, "Video Id:"), /*#__PURE__*/React.createElement("input", {
+  }, "x"), /*#__PURE__*/React$1.createElement("label", null, "Video Id:"), /*#__PURE__*/React$1.createElement("input", {
     value: url,
     onChange: e => onChange(e)
-  })), /*#__PURE__*/React.createElement("iframe", {
+  })), /*#__PURE__*/React$1.createElement("iframe", {
     title: text,
     width: "560",
     height: "315",
@@ -266,16 +266,16 @@ const PostVideo = ({
     frameBorder: 0,
     allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
     allowFullScreen: true
-  }), /*#__PURE__*/React.createElement("figcaption", {
+  }), /*#__PURE__*/React$1.createElement("figcaption", {
     suppressContentEditableWarning: true,
     contentEditable: true,
     onBlur: onChangeText,
-    className: styles$1.imageDescription,
+    className: styles$2.imageDescription,
     style: {
       minWidth: 100
     }
-  }, text), !showMenuVideo && /*#__PURE__*/React.createElement("div", {
-    className: styles$1.editImageBtn,
+  }, text), !showMenuVideo && /*#__PURE__*/React$1.createElement("div", {
+    className: styles$2.editImageBtn,
     onClick: () => setShowMenuVideo(true)
   }, "Edit"));
 };
@@ -303,7 +303,7 @@ class YouTubeSubscribe extends Component {
 
   constructor(props) {
     super(props);
-    this.youtubeSubscribeNode = /*#__PURE__*/React.createRef();
+    this.youtubeSubscribeNode = /*#__PURE__*/React$1.createRef();
 
     // To render components economically w/o repetition
     this.state = {
@@ -358,9 +358,9 @@ class YouTubeSubscribe extends Component {
       channelName,
       channelid
     } = this.props;
-    return /*#__PURE__*/React.createElement("section", {
+    return /*#__PURE__*/React$1.createElement("section", {
       className: "youtubeSubscribe"
-    }, /*#__PURE__*/React.createElement("div", {
+    }, /*#__PURE__*/React$1.createElement("div", {
       ref: this.youtubeSubscribeNode,
       className: "g-ytsubscribe",
       "data-theme": theme,
@@ -372,7 +372,7 @@ class YouTubeSubscribe extends Component {
   }
 }
 
-var styles = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu"};
+var styles$1 = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu"};
 
 const PatternPreview = ({
   isAdmin,
@@ -408,11 +408,11 @@ const PatternPreview = ({
     setImageUrl(_imageUrl);
     setPreviewUrl(_previewUrl);
   }, [_imageUrl, _previewUrl]);
-  return /*#__PURE__*/React.createElement("div", {
-    className: styles.wrapper
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles.image
-  }, /*#__PURE__*/React.createElement(ImageUploadable$1, {
+  return /*#__PURE__*/React$1.createElement("div", {
+    className: styles$1.wrapper
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$1.image
+  }, /*#__PURE__*/React$1.createElement(ImageUploadable$1, {
     width: '100%',
     height: '100%',
     wrapperStyle: {
@@ -424,18 +424,90 @@ const PatternPreview = ({
     isAdmin: isAdmin,
     isEdit: isAdmin,
     src: imageUrl
-  })), /*#__PURE__*/React.createElement("div", {
-    className: styles.info
-  }, /*#__PURE__*/React.createElement("a", {
+  })), /*#__PURE__*/React$1.createElement("div", {
+    className: styles$1.info
+  }, /*#__PURE__*/React$1.createElement("a", {
     rel: "noreferrer",
     href: previewUrl,
     onClick: e => onClickLink(e, 'previewUrl'),
     target: "_blank",
-    className: styles.previewUrl
-  }, buttonText), /*#__PURE__*/React.createElement("div", {
+    className: styles$1.previewUrl
+  }, buttonText), /*#__PURE__*/React$1.createElement("div", {
     contentEditable: isAdmin ? "true" : "false",
     onBlur: () => {}
   }, message)));
 };
 
-export { AdBanner, ImageUpload, ImageUploadable, PatternPreview, PostVideo, SubLink, YouTubeSubscribe };
+var styles = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
+
+const POST_ITEM_TYPE = {
+  TITLE: 'title',
+  BIG_HEADER: 'big-header',
+  MEDIUM_HEADER: 'medium-header',
+  SMALL_HEADER: 'small-header',
+  PARAGRAPH: 'paragraph',
+  RELATED_TOPIC: 'related-topic',
+  SUBCRIBE_ME: 'subcribe-me',
+  IMAGE: 'image',
+  BUY_ME_A_COFFEE: 'buy-me-a-coffee',
+  VIDEO: 'video',
+  ADS: 'ads',
+  PATTERN: 'pattern',
+  PATTERN_PREVIEW: 'pattern_preview',
+  GROUP: 'group'
+};
+const IMAGE_SUBMENU = {
+  ONE_IMAGE: 'image',
+  TWO_IMAGE: 'two_image',
+  THREE_IMAGE: 'three_image'
+};
+const POST_ITEM_TYPE_SUBMENU = {
+  IMAGE: [IMAGE_SUBMENU.ONE_IMAGE, IMAGE_SUBMENU.TWO_IMAGE, IMAGE_SUBMENU.THREE_IMAGE]
+};
+const MenuAddComponentPost = ({
+  onClickMenuItem = () => {},
+  btnClass = '',
+  menuItems = []
+}) => {
+  const [hoverItem, setHoverItem] = useState('');
+  const [showMenu, setShowMenu] = useState(false);
+  const onMenuMouseOver = item => {
+    setHoverItem(item);
+  };
+  const hasSubMenu = item => {
+    return Array.isArray(POST_ITEM_TYPE_SUBMENU[item]);
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: `${styles.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`,
+    onClick: () => {
+      setShowMenu(!showMenu);
+    }
+  }, showMenu ? 'X' : 'Add', /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'relative'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: styles.adminMenu + ` ${!showMenu ? styles.hidden : ''}`
+  }, Array.isArray(Object.keys(menuItems)) && menuItems.map((item, index) => /*#__PURE__*/React.createElement("div", {
+    onMouseOver: () => onMenuMouseOver(item),
+    className: styles.menuItem,
+    key: index,
+    onClick: e => {
+      e.stopPropagation();
+      !hasSubMenu(item) && onClickMenuItem(POST_ITEM_TYPE[item]);
+      setShowMenu(false);
+    }
+  }, item, hasSubMenu(item) && hoverItem === item && /*#__PURE__*/React.createElement("div", {
+    className: `${styles.adminMenu} ${styles.subMenu}`
+  }, POST_ITEM_TYPE_SUBMENU[item].map((i, idx) => /*#__PURE__*/React.createElement("div", {
+    onClick: e => {
+      e.stopPropagation();
+      onClickMenuItem(i);
+      setShowMenu(false);
+    },
+    className: styles.menuItem,
+    key: idx
+  }, i))))))));
+};
+
+export { AdBanner, IMAGE_SUBMENU, ImageUpload, ImageUploadable, MenuAddComponentPost, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternPreview, PostVideo, SubLink, YouTubeSubscribe };

@@ -243,3 +243,48 @@
     font-size: 20px;
   }
 }
+.MenuAddComponentPost-module_adminMenuBtn__GaIEv {
+  float: right;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 1px gray;
+  z-index: 1;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.MenuAddComponentPost-module_adminMenuBtn__GaIEv:hover {
+  color: white;
+  background-color: #F08C5F;
+  border: none;
+}
+.MenuAddComponentPost-module_adminMenuBtn__GaIEv .MenuAddComponentPost-module_adminMenu__Yw2pt {
+  position: absolute;
+  top: -12px;
+  right: 18px;
+  z-index: 10;
+  border: solid 1px gray;
+  background-color: white;
+  color: black;
+}
+.MenuAddComponentPost-module_adminMenuBtn__GaIEv .MenuAddComponentPost-module_adminMenu__Yw2pt.MenuAddComponentPost-module_hidden__HLj-8 {
+  display: none;
+}
+.MenuAddComponentPost-module_adminMenuBtn__GaIEv .MenuAddComponentPost-module_adminMenu__Yw2pt .MenuAddComponentPost-module_menuItem__gHxYw {
+  position: relative;
+  padding: 5px 5px 5px 5px;
+  display: flex;
+  align-items: center;
+}
+.MenuAddComponentPost-module_adminMenuBtn__GaIEv .MenuAddComponentPost-module_adminMenu__Yw2pt .MenuAddComponentPost-module_menuItem__gHxYw:hover {
+  background-color: gray;
+}
+.MenuAddComponentPost-module_adminMenuBtn__GaIEv .MenuAddComponentPost-module_adminMenu__Yw2pt .MenuAddComponentPost-module_menuItem__gHxYw .MenuAddComponentPost-module_subMenu__oZH07 {
+  top: 0;
+  position: absolute;
+  left: -82px;
+  right: unset;
+}

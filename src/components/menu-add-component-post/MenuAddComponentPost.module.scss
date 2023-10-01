@@ -1,0 +1,45 @@
+.adminMenuBtn {
+    float: right;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 1px gray;
+    z-index: 1;
+    border-radius: 4px;
+    &:hover {
+      color: white;
+      background-color: #F08C5F;
+      border: none;
+    }
+    cursor: pointer;
+    .adminMenu {
+      position: absolute;
+      top: -12px;
+      right: 18px;
+      z-index: 10;
+      border: solid 1px gray;
+      background-color: white;
+      color: black;
+      &.hidden {
+        display: none;
+      }
+      .menuItem {
+        position: relative;
+        padding: 5px 5px 5px 5px;
+        display: flex;
+        align-items: center;
+        &:hover {
+          background-color: gray;
+        }
+        .subMenu {
+            top: 0;
+            position: absolute;
+            left: -82px;
+            right: unset;
+        }
+      }
+    }
+  }
