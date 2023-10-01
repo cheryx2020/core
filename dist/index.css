@@ -178,3 +178,68 @@
   background-color: #F08C5F;
   color: white;
 }
+.PatternPreview-module_wrapper__rtoPF {
+  padding: 16px;
+  background-color: rgba(229, 229, 229, 0.5);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 641px) {
+  .PatternPreview-module_wrapper__rtoPF {
+    padding: 12px 8px;
+  }
+}
+.PatternPreview-module_wrapper__rtoPF .PatternPreview-module_image__jMSHM {
+  width: 209px;
+  height: 293px;
+}
+@media (max-width: 641px) {
+  .PatternPreview-module_wrapper__rtoPF .PatternPreview-module_image__jMSHM {
+    width: 134px;
+    height: 187px;
+  }
+}
+.PatternPreview-module_wrapper__rtoPF .PatternPreview-module_info__pn5aE {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 641px) {
+  .PatternPreview-module_wrapper__rtoPF .PatternPreview-module_info__pn5aE {
+    padding: 10px;
+  }
+}
+.PatternPreview-module_wrapper__rtoPF .PatternPreview-module_info__pn5aE .PatternPreview-module_previewUrl__ulKmu {
+  font-family: "Fredericka the Great";
+  font-size: 22px;
+  line-height: 28px;
+  padding: 6px 16px;
+  border-radius: 10px;
+  background-color: #C4C4C4;
+  cursor: pointer;
+}
+@media (max-width: 641px) {
+  .PatternPreview-module_wrapper__rtoPF .PatternPreview-module_info__pn5aE .PatternPreview-module_previewUrl__ulKmu {
+    padding: 2px 8px;
+    font-size: 15px;
+  }
+}
+.PatternPreview-module_wrapper__rtoPF .PatternPreview-module_info__pn5aE div {
+  font-size: 22px;
+  line-height: 25px;
+  margin-top: 14px;
+  color: #565555;
+  font-family: "Big Shoulders Text";
+  max-width: 222px;
+  text-align: center;
+  font-weight: 300;
+}
+@media (max-width: 641px) {
+  .PatternPreview-module_wrapper__rtoPF .PatternPreview-module_info__pn5aE div {
+    font-size: 20px;
+  }
+}
