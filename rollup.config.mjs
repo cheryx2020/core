@@ -6,7 +6,6 @@ export default {
   plugins: [
     babel({
       babelHelpers: "runtime",
-      exclude: 'node_modules/**', // only transpile our source code
       extensions: [".js"],
     }),
     sass()
