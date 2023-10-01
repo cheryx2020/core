@@ -748,3 +748,64 @@
   border-left: 16px solid #555;
   border-bottom: 8px solid transparent;
 }
+.RelatedToMenu-module_relatedTo__eRHql {
+  font-size: 22px;
+  line-height: 32px;
+  display: flex;
+  margin-bottom: 25px;
+  align-items: center;
+  position: relative;
+}
+.RelatedToMenu-module_relatedTo__eRHql .RelatedToMenu-module_menuLink__8MBUA {
+  position: absolute;
+  width: 400px;
+  background-color: white;
+  z-index: 1;
+  top: 0px;
+  box-shadow: 1px 3px 6px grey;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+}
+.RelatedToMenu-module_relatedTo__eRHql .RelatedToMenu-module_menuLink__8MBUA label {
+  font-size: 16px;
+  line-height: 18px;
+  margin-bottom: 5px;
+}
+.RelatedToMenu-module_relatedTo__eRHql .RelatedToMenu-module_menuLink__8MBUA input {
+  outline: none;
+  margin-bottom: 10px;
+}
+.RelatedToMenu-module_relatedTo__eRHql .RelatedToMenu-module_menuLink__8MBUA .RelatedToMenu-module_deleteButton__Hqq16 {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 12px;
+  border: solid 1px;
+  padding: 0;
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.RelatedToMenu-module_relatedTo__eRHql .RelatedToMenu-module_arrow__njWAs {
+  width: 7px;
+  height: 8px;
+  background-image: url("/images/arrow-right.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.RelatedToMenu-module_relatedTo__eRHql .RelatedToMenu-module_textRelatedTo__n7-3q {
+  font-weight: 600;
+  color: #565555;
+  margin-left: 5px;
+}
+.RelatedToMenu-module_relatedTo__eRHql a {
+  font-weight: 400;
+  padding-left: 5px;
+  color: #12448F;
+  cursor: pointer;
+}

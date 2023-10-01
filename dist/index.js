@@ -3,7 +3,7 @@ import { readFile, isBigFile } from '@cheryx2020/utils';
 import PropTypes from 'prop-types';
 import { ImageUploadable as ImageUploadable$1, gtag as gtag$1 } from '@cheryx2020/core';
 
-var styles$5 = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
+var styles$6 = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
 
 const SubLink = ({
   data,
@@ -12,19 +12,19 @@ const SubLink = ({
   renderItem = () => {}
 }) => {
   return /*#__PURE__*/React.createElement("div", {
-    className: styles$5.wrapper,
+    className: styles$6.wrapper,
     style: wrapperStyle
   }, Array.isArray(data) && data.length > 0 && data.map((item, i) => {
     return /*#__PURE__*/React.createElement("div", {
-      className: `${styles$5.wrapperLink} ${className}`,
+      className: `${styles$6.wrapperLink} ${className}`,
       key: i
     }, renderItem(item), i < data.length - 1 && /*#__PURE__*/React.createElement("div", {
-      className: styles$5.spliter
+      className: styles$6.spliter
     }, '>'));
   }));
 };
 
-var styles$4 = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
+var styles$5 = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
 
 const ImageUploadable = ({
   width = 500,
@@ -117,13 +117,13 @@ const ImageUploadable = ({
   }
   return /*#__PURE__*/React.createElement("div", {
     ref: imageWap,
-    className: `${styles$4.image} ${className}`,
+    className: `${styles$5.image} ${className}`,
     style: {
       ...defaultWrapperStyle,
       ...wrapperStyle
     }
   }, isAdmin && isEdit && /*#__PURE__*/React.createElement("div", {
-    className: styles$4.imageMenu,
+    className: styles$5.imageMenu,
     onClick: e => e.stopPropagation()
   }, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("div", null, "Choose Image"), /*#__PURE__*/React.createElement("input", {
     accept: "image/png, image/jpeg, image/svg+xml",
@@ -150,15 +150,15 @@ const ImageUploadable = ({
       e.stopPropagation();
     },
     onMouseDown: initDrag,
-    className: styles$4.resizer
+    className: styles$5.resizer
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles$4.vertical
+    className: styles$5.vertical
   }), /*#__PURE__*/React.createElement("div", {
-    className: styles$4.horizontal
+    className: styles$5.horizontal
   })));
 };
 
-var styles$3 = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
+var styles$4 = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
 
 const ImageUpload = ({
   url,
@@ -188,17 +188,17 @@ const ImageUpload = ({
   return /*#__PURE__*/React.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$3.imgWrapper,
+    className: styles$4.imgWrapper,
     style: {
       position: 'relative'
     }
   }, showMenuImage && /*#__PURE__*/React.createElement("div", {
-    className: styles$3.menuImage
+    className: styles$4.menuImage
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles$3.deleteButton,
+    className: styles$4.deleteButton,
     onClick: () => setShowMenuImage(false)
   }, "x"), /*#__PURE__*/React.createElement("label", {
-    className: styles$3.uploadButton
+    className: styles$4.uploadButton
   }, /*#__PURE__*/React.createElement("span", null, "Upload Image"), /*#__PURE__*/React.createElement("input", {
     type: "file",
     onChange: e => {
@@ -206,10 +206,10 @@ const ImageUpload = ({
       onChange(e);
     }
   }))), !showMenuImage && /*#__PURE__*/React.createElement("div", {
-    className: styles$3.editImageBtn,
+    className: styles$4.editImageBtn,
     onClick: () => setShowMenuImage(true)
   }, "Edit"), /*#__PURE__*/React.createElement("textarea", {
-    className: styles$3.textarea,
+    className: styles$4.textarea,
     onMouseOut: onMouseOut,
     disabled: true,
     style: {
@@ -249,11 +249,11 @@ const PostVideo = ({
   return /*#__PURE__*/React.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$3.imgWrapper
+    className: styles$4.imgWrapper
   }, showMenuVideo && /*#__PURE__*/React.createElement("div", {
-    className: styles$3.videoMenu
+    className: styles$4.videoMenu
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles$3.deleteButton,
+    className: styles$4.deleteButton,
     onClick: () => setShowMenuVideo(false)
   }, "x"), /*#__PURE__*/React.createElement("label", null, "Video Id:"), /*#__PURE__*/React.createElement("input", {
     value: url,
@@ -270,12 +270,12 @@ const PostVideo = ({
     suppressContentEditableWarning: true,
     contentEditable: true,
     onBlur: onChangeText,
-    className: styles$3.imageDescription,
+    className: styles$4.imageDescription,
     style: {
       minWidth: 100
     }
   }, text), !showMenuVideo && /*#__PURE__*/React.createElement("div", {
-    className: styles$3.editImageBtn,
+    className: styles$4.editImageBtn,
     onClick: () => setShowMenuVideo(true)
   }, "Edit"));
 };
@@ -372,7 +372,7 @@ class YouTubeSubscribe extends Component {
   }
 }
 
-var styles$2 = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu"};
+var styles$3 = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu"};
 
 const PatternPreview = ({
   isAdmin,
@@ -409,9 +409,9 @@ const PatternPreview = ({
     setPreviewUrl(_previewUrl);
   }, [_imageUrl, _previewUrl]);
   return /*#__PURE__*/React.createElement("div", {
-    className: styles$2.wrapper
+    className: styles$3.wrapper
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles$2.image
+    className: styles$3.image
   }, /*#__PURE__*/React.createElement(ImageUploadable$1, {
     width: '100%',
     height: '100%',
@@ -425,20 +425,20 @@ const PatternPreview = ({
     isEdit: isAdmin,
     src: imageUrl
   })), /*#__PURE__*/React.createElement("div", {
-    className: styles$2.info
+    className: styles$3.info
   }, /*#__PURE__*/React.createElement("a", {
     rel: "noreferrer",
     href: previewUrl,
     onClick: e => onClickLink(e, 'previewUrl'),
     target: "_blank",
-    className: styles$2.previewUrl
+    className: styles$3.previewUrl
   }, buttonText), /*#__PURE__*/React.createElement("div", {
     contentEditable: isAdmin ? "true" : "false",
     onBlur: () => {}
   }, message)));
 };
 
-var styles$1 = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
+var styles$2 = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
 
 const POST_ITEM_TYPE = {
   TITLE: 'title',
@@ -478,7 +478,7 @@ const MenuAddComponentPost = ({
     return Array.isArray(POST_ITEM_TYPE_SUBMENU[item]);
   };
   return /*#__PURE__*/React.createElement("div", {
-    className: `${styles$1.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`,
+    className: `${styles$2.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`,
     onClick: () => {
       setShowMenu(!showMenu);
     }
@@ -487,10 +487,10 @@ const MenuAddComponentPost = ({
       position: 'relative'
     }
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles$1.adminMenu + ` ${!showMenu ? styles$1.hidden : ''}`
+    className: styles$2.adminMenu + ` ${!showMenu ? styles$2.hidden : ''}`
   }, Array.isArray(Object.keys(menuItems)) && menuItems.map((item, index) => /*#__PURE__*/React.createElement("div", {
     onMouseOver: () => onMenuMouseOver(item),
-    className: styles$1.menuItem,
+    className: styles$2.menuItem,
     key: index,
     onClick: e => {
       e.stopPropagation();
@@ -498,14 +498,14 @@ const MenuAddComponentPost = ({
       setShowMenu(false);
     }
   }, item, hasSubMenu(item) && hoverItem === item && /*#__PURE__*/React.createElement("div", {
-    className: `${styles$1.adminMenu} ${styles$1.subMenu}`
+    className: `${styles$2.adminMenu} ${styles$2.subMenu}`
   }, POST_ITEM_TYPE_SUBMENU[item].map((i, idx) => /*#__PURE__*/React.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       onClickMenuItem(i);
       setShowMenu(false);
     },
-    className: styles$1.menuItem,
+    className: styles$2.menuItem,
     key: idx
   }, i))))))));
 };
@@ -538,7 +538,7 @@ var gtag = {
   event
 };
 
-var styles = {"wrapper":"PatternDetail-module_wrapper__CFlmD","mainImage":"PatternDetail-module_mainImage__ac-c1","rightInfo":"PatternDetail-module_rightInfo__6J0eO","title":"PatternDetail-module_title__0IjOq","author":"PatternDetail-module_author__Xgx6J","storeInfo":"PatternDetail-module_storeInfo__IwaSl","blackCatWrapper":"PatternDetail-module_blackCatWrapper__cqlld","blackCat":"PatternDetail-module_blackCat__xwKnn","message":"PatternDetail-module_message__Wf-re","text":"PatternDetail-module_text__Whs4v","supperWrapperButton":"PatternDetail-module_supperWrapperButton__KF8fO","buttonWrapper":"PatternDetail-module_buttonWrapper__Z-n6q","priceWrapper":"PatternDetail-module_priceWrapper__7pvJH","price":"PatternDetail-module_price__JsXa9","payPalWrapper":"PatternDetail-module_payPalWrapper__C7Mpl","show":"PatternDetail-module_show__L4BBl","payPal":"PatternDetail-module_payPal__0QLxu","closeLink":"PatternDetail-module_closeLink__Xfvkv","linkStore":"PatternDetail-module_linkStore__gf5UQ","mb11":"PatternDetail-module_mb11__sNoEg","paypalButton":"PatternDetail-module_paypalButton__bUOF3","listSmallImage":"PatternDetail-module_listSmallImage__h5eyY","deleteButton":"PatternDetail-module_deleteButton__5oh8i","triangleLeft":"PatternDetail-module_triangleLeft__C0z45","triangleRight":"PatternDetail-module_triangleRight__krzev"};
+var styles$1 = {"wrapper":"PatternDetail-module_wrapper__CFlmD","mainImage":"PatternDetail-module_mainImage__ac-c1","rightInfo":"PatternDetail-module_rightInfo__6J0eO","title":"PatternDetail-module_title__0IjOq","author":"PatternDetail-module_author__Xgx6J","storeInfo":"PatternDetail-module_storeInfo__IwaSl","blackCatWrapper":"PatternDetail-module_blackCatWrapper__cqlld","blackCat":"PatternDetail-module_blackCat__xwKnn","message":"PatternDetail-module_message__Wf-re","text":"PatternDetail-module_text__Whs4v","supperWrapperButton":"PatternDetail-module_supperWrapperButton__KF8fO","buttonWrapper":"PatternDetail-module_buttonWrapper__Z-n6q","priceWrapper":"PatternDetail-module_priceWrapper__7pvJH","price":"PatternDetail-module_price__JsXa9","payPalWrapper":"PatternDetail-module_payPalWrapper__C7Mpl","show":"PatternDetail-module_show__L4BBl","payPal":"PatternDetail-module_payPal__0QLxu","closeLink":"PatternDetail-module_closeLink__Xfvkv","linkStore":"PatternDetail-module_linkStore__gf5UQ","mb11":"PatternDetail-module_mb11__sNoEg","paypalButton":"PatternDetail-module_paypalButton__bUOF3","listSmallImage":"PatternDetail-module_listSmallImage__h5eyY","deleteButton":"PatternDetail-module_deleteButton__5oh8i","triangleLeft":"PatternDetail-module_triangleLeft__C0z45","triangleRight":"PatternDetail-module_triangleRight__krzev"};
 
 const PatternDetail = ({
   name: _name,
@@ -655,9 +655,9 @@ const PatternDetail = ({
     }
   };
   return /*#__PURE__*/React.createElement("div", {
-    className: styles.wrapper
+    className: styles$1.wrapper
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles.mainImage
+    className: styles$1.mainImage
   }, isAdmin ? /*#__PURE__*/React.createElement(ImageUploadable$1, {
     wrapperStyle: {
       width: '100%',
@@ -670,55 +670,55 @@ const PatternDetail = ({
   }) : /*#__PURE__*/React.createElement("img", {
     src: bigImageUrl
   })), /*#__PURE__*/React.createElement("div", {
-    className: styles.rightInfo
+    className: styles$1.rightInfo
   }, /*#__PURE__*/React.createElement("h1", {
     suppressContentEditableWarning: isAdmin,
     onBlur: e => onChange(e, index, 'name'),
     contenteditable: `${isAdmin ? "true" : "false"}`,
-    className: styles.title
+    className: styles$1.title
   }, name)), /*#__PURE__*/React.createElement("div", {
-    className: styles.storeInfo
+    className: styles$1.storeInfo
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles.blackCatWrapper
+    className: styles$1.blackCatWrapper
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles.blackCat
+    className: styles$1.blackCat
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles.message
+    className: styles$1.message
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles.text
+    className: styles$1.text
   }, "Nh\u1EAFn tin cho m\xECnh \u0111\u1EC3 tham gia l\u1EDBp nh\xE9!")))), /*#__PURE__*/React.createElement("div", {
-    className: styles.supperWrapperButton
+    className: styles$1.supperWrapperButton
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles.buttonWrapper
+    className: styles$1.buttonWrapper
   }, /*#__PURE__*/React.createElement("a", {
     rel: "noreferrer",
     href: ravelryUrl,
     onClick: e => onClickLink(e, 'ravelryUrl'),
     target: "_blank",
-    className: `${styles.linkStore}`
+    className: `${styles$1.linkStore}`
   }, "\u0110\u0103ng k\xED l\u1EDBp \u0111an th\xFA b\xF4ng online"))), /*#__PURE__*/React.createElement("div", {
-    className: styles.priceWrapper
+    className: styles$1.priceWrapper
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles.triangleRight
+    className: styles$1.triangleRight
   }), /*#__PURE__*/React.createElement("div", {
-    className: styles.triangleRight
+    className: styles$1.triangleRight
   }), /*#__PURE__*/React.createElement("div", {
     suppressContentEditableWarning: isAdmin,
     onBlur: e => onChange(e, index, 'price'),
     contenteditable: `${isAdmin ? "true" : "false"}`,
-    className: styles.price
+    className: styles$1.price
   }, price), /*#__PURE__*/React.createElement("div", {
-    className: styles.triangleLeft
+    className: styles$1.triangleLeft
   }), /*#__PURE__*/React.createElement("div", {
-    className: styles.triangleLeft
+    className: styles$1.triangleLeft
   }))), /*#__PURE__*/React.createElement("div", {
-    className: styles.listSmallImage
+    className: styles$1.listSmallImage
   }, Array.isArray(imageList) && imageList.map((img, i) => isAdmin ? /*#__PURE__*/React.createElement("div", {
     style: {
       position: 'relative'
     }
   }, i < imageList.length - 1 && /*#__PURE__*/React.createElement("div", {
-    className: styles.deleteButton,
+    className: styles$1.deleteButton,
     onClick: () => {
       removeImage(i);
     }
@@ -743,4 +743,48 @@ const PatternDetail = ({
   }))));
 };
 
-export { AdBanner, IMAGE_SUBMENU, ImageUpload, ImageUploadable, MenuAddComponentPost, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternPreview, PostVideo, SubLink, YouTubeSubscribe, gtag };
+var styles = {"relatedTo":"RelatedToMenu-module_relatedTo__eRHql","menuLink":"RelatedToMenu-module_menuLink__8MBUA","deleteButton":"RelatedToMenu-module_deleteButton__Hqq16","arrow":"RelatedToMenu-module_arrow__njWAs","textRelatedTo":"RelatedToMenu-module_textRelatedTo__n7-3q"};
+
+const RelatedToMenu = ({
+  url,
+  text,
+  textLink,
+  onChange = () => {},
+  onDragStart = () => {},
+  index
+}) => {
+  const [showMenuUrl, setShowMenuUrl] = useState(false);
+  return /*#__PURE__*/React.createElement("div", {
+    onDragStart: onDragStart,
+    draggable: "true",
+    className: styles.relatedTo
+  }, /*#__PURE__*/React.createElement("div", {
+    className: styles.arrow
+  }), /*#__PURE__*/React.createElement("div", {
+    className: styles.textRelatedTo,
+    onClick: () => {
+      setShowMenuUrl(true);
+    }
+  }, text), /*#__PURE__*/React.createElement("a", {
+    onClick: () => {
+      setShowMenuUrl(true);
+    }
+  }, textLink), showMenuUrl && /*#__PURE__*/React.createElement("div", {
+    className: styles.menuLink
+  }, /*#__PURE__*/React.createElement("div", {
+    className: styles.deleteButton,
+    onClick: () => {
+      setShowMenuUrl(false);
+    }
+  }, "x"), /*#__PURE__*/React.createElement("label", null, "Text:"), /*#__PURE__*/React.createElement("input", {
+    className: styles.text,
+    onChange: e => onChange('textLink', e, index),
+    value: textLink
+  }), /*#__PURE__*/React.createElement("label", null, "Url:"), /*#__PURE__*/React.createElement("input", {
+    className: styles.url,
+    onChange: e => onChange('url', e, index),
+    value: url
+  })));
+};
+
+export { AdBanner, IMAGE_SUBMENU, ImageUpload, ImageUploadable, MenuAddComponentPost, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternPreview, PostVideo, RelatedToMenu, SubLink, YouTubeSubscribe, gtag };

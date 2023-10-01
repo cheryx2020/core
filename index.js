@@ -8,6 +8,7 @@ import PatternPreview from "./src/components/pattern-preview/pattern-preview"
 import MenuAddComponentPost, { POST_ITEM_TYPE, IMAGE_SUBMENU, POST_ITEM_TYPE_SUBMENU } from "./src/components/menu-add-component-post/menu-add-component-post"
 import gtag from "./gtag";
 import PatternDetail from "./src/components/pattern-detail/pattern-detail"
+import RelatedToMenu from "./src/components/related-to-menu/related-to-menu"
 
 export { 
     SubLink, 
@@ -22,5 +23,6 @@ export {
     IMAGE_SUBMENU, 
     POST_ITEM_TYPE_SUBMENU, 
     gtag,
-    PatternDetail
+    PatternDetail,
+    RelatedToMenu
  }
