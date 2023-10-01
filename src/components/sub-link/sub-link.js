@@ -1,10 +1,9 @@
-import Link from 'next/link';
 import styles from './Sublink.module.scss';
-const SubLink = ({data, wrapperStyle = {}, className=''}) => {
+const SubLink = ({data, wrapperStyle = {}, className='', renderItem = () => {}}) => {
     return <div className={styles.wrapper} style={wrapperStyle}>
         {Array.isArray(data) && data.length > 0 && data.map((item,i) => {
             return <div className={`${styles.wrapperLink} ${className}`} key={i}>
-            <Link href={item.url}><a>{item.text}</a></Link>
+            {renderItem(item)}
             {i < data.length - 1 && <div className={styles.spliter}>{'>'}</div>}
             </div>
         })}
