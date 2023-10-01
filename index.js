@@ -7,5 +7,20 @@ import YouTubeSubscribe from "./src/components/subcribe-button/youtube-subcribe"
 import PatternPreview from "./src/components/pattern-preview/pattern-preview"
 import MenuAddComponentPost, { POST_ITEM_TYPE, IMAGE_SUBMENU, POST_ITEM_TYPE_SUBMENU } from "./src/components/menu-add-component-post/menu-add-component-post"
 import gtag from "./gtag";
+import PatternDetail from "./src/components/pattern-detail/pattern-detail"
 
-export { SubLink, ImageUploadable, ImageUpload, AdBanner, PostVideo, YouTubeSubscribe, PatternPreview, MenuAddComponentPost, POST_ITEM_TYPE, IMAGE_SUBMENU, POST_ITEM_TYPE_SUBMENU, gtag }
+export { 
+    SubLink, 
+    ImageUploadable, 
+    ImageUpload, 
+    AdBanner, 
+    PostVideo, 
+    YouTubeSubscribe,
+    PatternPreview, 
+    MenuAddComponentPost, 
+    POST_ITEM_TYPE, 
+    IMAGE_SUBMENU, 
+    POST_ITEM_TYPE_SUBMENU, 
+    gtag,
+    PatternDetail
+ }

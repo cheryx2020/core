@@ -1,0 +1,385 @@
+@import '../styles/variables.scss';
+@import '../styles/mixin.scss';
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 268px);
+  grid-template-rows: repeat(6, 134px);
+  max-height: 819px;
+  min-height: 819px;
+  margin-bottom: 37px;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.4);
+  @include mobile {
+    grid-template-columns: 1fr;
+    grid-template-rows: 96px 100vw 130px auto;
+    max-height: none;
+    min-height: none;
+    margin-bottom: 23px;
+    padding-bottom: 23px;
+  }
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 120px 50vw auto;
+    max-height: none;
+    min-height: none;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+  }
+  @include desktop {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(6, 118px);
+  }
+  .mainImage {
+    grid-column: 1/3;
+    grid-row: 1/5;
+    img {
+      width: 100%;
+      height: 100%;
+      @include tablet {
+        max-width: 501px;
+        height: auto;
+      }
+      @include desktop {
+        max-width: 501px;
+        height: auto;
+      }
+      @include wide-desktop {
+        max-width: 501px;
+        height: auto;
+      }
+    }
+    @include mobile {
+      grid-column: 1/2;
+      grid-row: 2/3;
+    }
+    @include tablet {
+      display: flex;
+      grid-column: 1/2;
+      grid-row: 2/3;
+    }
+    @include desktop {
+      display: flex;
+    }
+    @include wide-desktop {
+      display: flex;
+    }
+  }
+  .rightInfo {
+    grid-column: 3/5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    @include mobile {
+      grid-column: 1/2;
+      grid-row: 1/2;
+      padding-bottom: 10px;
+    }
+    @include tablet {
+      grid-column: 1/3;
+      grid-row: 1/2;
+      padding-bottom: 10px;
+    }
+    .title {
+      font-size: 35px;
+      font-family: "Pacifico";
+      font-weight: 500;
+      margin: 0;
+      @include mobile {
+        font-size: 25px;
+      }
+      @include tablet {
+        font-size: 35px;
+      }
+    }
+    .author {
+      font-size: 20px;
+      color: #ADABAB;
+      @include mobile {
+        font-size: 16px;
+      }
+      @include tablet {
+        font-size: 20px;
+      }
+    }
+  }
+  .storeInfo {
+    grid-column: 3/5;
+    grid-row: 2/5;
+    padding-left: 57px;
+    padding-top: 60px;
+    @include mobile {
+      padding-top: 0px;
+      margin-top: 60px;
+      grid-column: 1/2;
+      grid-row: 4/5;
+      padding-left: 0px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    @include tablet {
+      padding-left: 0px;
+      grid-column: 2/3;
+      grid-row: 2/3;
+      padding-left: 0px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: end;
+    }
+    @include desktop {
+      padding-left: 0px;
+    }
+    @include wide-desktop {
+      padding-left: 0px;
+    }
+    .blackCatWrapper {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      .blackCat {
+        position: relative;
+        width: 234px;
+        height: 186px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-image: url('/images/cat-detail.png');
+        @include mobile {
+          width: 140px;
+          height: 112px;
+        }
+        .message {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          top: -79px;
+          right: -140px;
+          position: absolute;
+          width: 204px;
+          height: 122px;
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-image: url('/images/mess_bg.png');
+          font-size: 1.2rem;
+          @include mobile {
+            width: 145px;
+            height: 80px;
+            top: -36px;
+            right: -97px;
+          }
+          @include tablet {
+            width: calc(231px - 30px);
+            height: calc(152px - 30px);
+            top: -36px;
+            right: -97px;
+          }
+          .text {
+            padding: 30px;
+            @include mobile {
+              font-size: 16px;
+              padding: 13px;
+            }
+          }
+        }
+      }
+    }
+    .supperWrapperButton {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      .buttonWrapper {
+        width: 400px;
+        height: 58px;
+        padding: 5px;
+        border-radius: 10px;
+        background-color: $main-color;
+        @include mobile {
+          width: 293px;
+          height: 45px;
+        }
+        @include tablet {
+          width: 390px;
+          height: 70px;
+        }
+        a {
+          border-radius: 10px;
+          border: solid 1px white;
+          font-family: "Big Shoulders Text";
+        }
+      }
+    }
+    .priceWrapper {
+      margin-top: 20px;
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      .price {
+        color: $title-color;
+        font-size: 22px;
+        line-height: 26px;
+        padding: 0px 10px;
+        @include mobile {
+          font-size: 18px;
+        }
+        @include tablet {
+          font-size: 24px;
+        }
+      }
+    }
+    .payPalWrapper {
+      padding-top: 40px;
+      padding-bottom: 40px;
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1000;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      display: none;
+      &.show {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+        overflow: scroll;
+      }
+      .payPal {
+        width: 401px;
+        @include mobile {
+          width: 282px;
+        }
+      }
+      .closeLink {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      }
+    }
+    .linkStore {
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      background-color: $main-color;
+      font-family: $pattern-name-font;
+      color: white;
+      @include mobile {
+        width: 282px;
+        height: 35px;
+        font-size: 20px;
+      }
+      @include tablet {
+        width: 380px;
+        height: 58px;
+        font-size: 32px;
+      }
+    }
+    .mb11 {
+      margin-bottom: 11px;
+    }
+    .paypalButton {
+      font-size: 18px;
+      background-color: #ffc439;
+      color: #003087;
+      cursor: pointer;
+    }
+    img {
+      width: 314px;
+      @include mobile {
+        width: 289px;
+        height: auto;
+      }
+      @include tablet {
+        width: 389px;
+        height: auto;
+      }
+      @include desktop {
+        width: 356px;
+        height: auto;
+      }
+    }
+  }
+  .listSmallImage {
+    grid-column: 1/5;
+    grid-row: 5/7;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    
+    .deleteButton {
+      display: none;
+      position: absolute; 
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 10px;
+      z-index: 10;
+      top: -10px;
+      right: 0; 
+      width: 20px; 
+      height: 20px; 
+      background: red;
+      color: white;
+      justify-content: center;
+      align-items: center;
+    }
+    &:hover {
+      .deleteButton {
+        display: flex;
+      }
+    }
+    @include mobile {
+      grid-column: 1/2;
+      grid-row: 3/4;
+    }
+    @include tablet {
+      grid-column: 1/3;
+      grid-row: 3/4;
+    }
+    img {
+      width: 243px;
+      height: 243px;
+      margin-right: 15px;
+      @include mobile {
+        width: 118px;
+        height: 118px;
+        margin-right: 5px;
+      }
+      @include tablet {
+        width: 184px;
+        height: 184px;
+        margin-right: 5px;
+      }
+      @include desktop {
+        width: 231px;
+        height: 231px;
+        margin-right: 5px;
+      }
+    }
+  }
+}
+.triangleLeft {
+  margin: 0px 2px;
+	width: 0;
+	height: 0;
+	border-top: 8px solid transparent;
+	border-right: 16px solid #555;
+	border-bottom: 8px solid transparent;
+}
+.triangleRight {
+  margin: 0px 2px;
+	width: 0;
+	height: 0;
+	border-top: 8px solid transparent;
+	border-left: 16px solid #555;
+	border-bottom: 8px solid transparent;
+}

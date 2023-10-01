@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect, Component } from 'react';
 import { readFile, isBigFile } from '@cheryx2020/utils';
 import PropTypes from 'prop-types';
-import { ImageUploadable as ImageUploadable$1 } from '@cheryx2020/core';
+import { ImageUploadable as ImageUploadable$1, gtag as gtag$1 } from '@cheryx2020/core';
 
-var styles$4 = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
+var styles$5 = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
 
 const SubLink = ({
   data,
@@ -12,19 +12,19 @@ const SubLink = ({
   renderItem = () => {}
 }) => {
   return /*#__PURE__*/React.createElement("div", {
-    className: styles$4.wrapper,
+    className: styles$5.wrapper,
     style: wrapperStyle
   }, Array.isArray(data) && data.length > 0 && data.map((item, i) => {
     return /*#__PURE__*/React.createElement("div", {
-      className: `${styles$4.wrapperLink} ${className}`,
+      className: `${styles$5.wrapperLink} ${className}`,
       key: i
     }, renderItem(item), i < data.length - 1 && /*#__PURE__*/React.createElement("div", {
-      className: styles$4.spliter
+      className: styles$5.spliter
     }, '>'));
   }));
 };
 
-var styles$3 = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
+var styles$4 = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
 
 const ImageUploadable = ({
   width = 500,
@@ -117,13 +117,13 @@ const ImageUploadable = ({
   }
   return /*#__PURE__*/React.createElement("div", {
     ref: imageWap,
-    className: `${styles$3.image} ${className}`,
+    className: `${styles$4.image} ${className}`,
     style: {
       ...defaultWrapperStyle,
       ...wrapperStyle
     }
   }, isAdmin && isEdit && /*#__PURE__*/React.createElement("div", {
-    className: styles$3.imageMenu,
+    className: styles$4.imageMenu,
     onClick: e => e.stopPropagation()
   }, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("div", null, "Choose Image"), /*#__PURE__*/React.createElement("input", {
     accept: "image/png, image/jpeg, image/svg+xml",
@@ -150,15 +150,15 @@ const ImageUploadable = ({
       e.stopPropagation();
     },
     onMouseDown: initDrag,
-    className: styles$3.resizer
+    className: styles$4.resizer
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles$3.vertical
+    className: styles$4.vertical
   }), /*#__PURE__*/React.createElement("div", {
-    className: styles$3.horizontal
+    className: styles$4.horizontal
   })));
 };
 
-var styles$2 = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
+var styles$3 = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
 
 const ImageUpload = ({
   url,
@@ -188,17 +188,17 @@ const ImageUpload = ({
   return /*#__PURE__*/React.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$2.imgWrapper,
+    className: styles$3.imgWrapper,
     style: {
       position: 'relative'
     }
   }, showMenuImage && /*#__PURE__*/React.createElement("div", {
-    className: styles$2.menuImage
+    className: styles$3.menuImage
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles$2.deleteButton,
+    className: styles$3.deleteButton,
     onClick: () => setShowMenuImage(false)
   }, "x"), /*#__PURE__*/React.createElement("label", {
-    className: styles$2.uploadButton
+    className: styles$3.uploadButton
   }, /*#__PURE__*/React.createElement("span", null, "Upload Image"), /*#__PURE__*/React.createElement("input", {
     type: "file",
     onChange: e => {
@@ -206,10 +206,10 @@ const ImageUpload = ({
       onChange(e);
     }
   }))), !showMenuImage && /*#__PURE__*/React.createElement("div", {
-    className: styles$2.editImageBtn,
+    className: styles$3.editImageBtn,
     onClick: () => setShowMenuImage(true)
   }, "Edit"), /*#__PURE__*/React.createElement("textarea", {
-    className: styles$2.textarea,
+    className: styles$3.textarea,
     onMouseOut: onMouseOut,
     disabled: true,
     style: {
@@ -249,11 +249,11 @@ const PostVideo = ({
   return /*#__PURE__*/React.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$2.imgWrapper
+    className: styles$3.imgWrapper
   }, showMenuVideo && /*#__PURE__*/React.createElement("div", {
-    className: styles$2.videoMenu
+    className: styles$3.videoMenu
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles$2.deleteButton,
+    className: styles$3.deleteButton,
     onClick: () => setShowMenuVideo(false)
   }, "x"), /*#__PURE__*/React.createElement("label", null, "Video Id:"), /*#__PURE__*/React.createElement("input", {
     value: url,
@@ -270,12 +270,12 @@ const PostVideo = ({
     suppressContentEditableWarning: true,
     contentEditable: true,
     onBlur: onChangeText,
-    className: styles$2.imageDescription,
+    className: styles$3.imageDescription,
     style: {
       minWidth: 100
     }
   }, text), !showMenuVideo && /*#__PURE__*/React.createElement("div", {
-    className: styles$2.editImageBtn,
+    className: styles$3.editImageBtn,
     onClick: () => setShowMenuVideo(true)
   }, "Edit"));
 };
@@ -372,7 +372,7 @@ class YouTubeSubscribe extends Component {
   }
 }
 
-var styles$1 = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu"};
+var styles$2 = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu"};
 
 const PatternPreview = ({
   isAdmin,
@@ -409,9 +409,9 @@ const PatternPreview = ({
     setPreviewUrl(_previewUrl);
   }, [_imageUrl, _previewUrl]);
   return /*#__PURE__*/React.createElement("div", {
-    className: styles$1.wrapper
+    className: styles$2.wrapper
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles$1.image
+    className: styles$2.image
   }, /*#__PURE__*/React.createElement(ImageUploadable$1, {
     width: '100%',
     height: '100%',
@@ -425,20 +425,20 @@ const PatternPreview = ({
     isEdit: isAdmin,
     src: imageUrl
   })), /*#__PURE__*/React.createElement("div", {
-    className: styles$1.info
+    className: styles$2.info
   }, /*#__PURE__*/React.createElement("a", {
     rel: "noreferrer",
     href: previewUrl,
     onClick: e => onClickLink(e, 'previewUrl'),
     target: "_blank",
-    className: styles$1.previewUrl
+    className: styles$2.previewUrl
   }, buttonText), /*#__PURE__*/React.createElement("div", {
     contentEditable: isAdmin ? "true" : "false",
     onBlur: () => {}
   }, message)));
 };
 
-var styles = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
+var styles$1 = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
 
 const POST_ITEM_TYPE = {
   TITLE: 'title',
@@ -478,7 +478,7 @@ const MenuAddComponentPost = ({
     return Array.isArray(POST_ITEM_TYPE_SUBMENU[item]);
   };
   return /*#__PURE__*/React.createElement("div", {
-    className: `${styles.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`,
+    className: `${styles$1.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`,
     onClick: () => {
       setShowMenu(!showMenu);
     }
@@ -487,10 +487,10 @@ const MenuAddComponentPost = ({
       position: 'relative'
     }
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles.adminMenu + ` ${!showMenu ? styles.hidden : ''}`
+    className: styles$1.adminMenu + ` ${!showMenu ? styles$1.hidden : ''}`
   }, Array.isArray(Object.keys(menuItems)) && menuItems.map((item, index) => /*#__PURE__*/React.createElement("div", {
     onMouseOver: () => onMenuMouseOver(item),
-    className: styles.menuItem,
+    className: styles$1.menuItem,
     key: index,
     onClick: e => {
       e.stopPropagation();
@@ -498,14 +498,14 @@ const MenuAddComponentPost = ({
       setShowMenu(false);
     }
   }, item, hasSubMenu(item) && hoverItem === item && /*#__PURE__*/React.createElement("div", {
-    className: `${styles.adminMenu} ${styles.subMenu}`
+    className: `${styles$1.adminMenu} ${styles$1.subMenu}`
   }, POST_ITEM_TYPE_SUBMENU[item].map((i, idx) => /*#__PURE__*/React.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       onClickMenuItem(i);
       setShowMenu(false);
     },
-    className: styles.menuItem,
+    className: styles$1.menuItem,
     key: idx
   }, i))))))));
 };
@@ -538,4 +538,209 @@ var gtag = {
   event
 };
 
-export { AdBanner, IMAGE_SUBMENU, ImageUpload, ImageUploadable, MenuAddComponentPost, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternPreview, PostVideo, SubLink, YouTubeSubscribe, gtag };
+var styles = {"wrapper":"PatternDetail-module_wrapper__CFlmD","mainImage":"PatternDetail-module_mainImage__ac-c1","rightInfo":"PatternDetail-module_rightInfo__6J0eO","title":"PatternDetail-module_title__0IjOq","author":"PatternDetail-module_author__Xgx6J","storeInfo":"PatternDetail-module_storeInfo__IwaSl","blackCatWrapper":"PatternDetail-module_blackCatWrapper__cqlld","blackCat":"PatternDetail-module_blackCat__xwKnn","message":"PatternDetail-module_message__Wf-re","text":"PatternDetail-module_text__Whs4v","supperWrapperButton":"PatternDetail-module_supperWrapperButton__KF8fO","buttonWrapper":"PatternDetail-module_buttonWrapper__Z-n6q","priceWrapper":"PatternDetail-module_priceWrapper__7pvJH","price":"PatternDetail-module_price__JsXa9","payPalWrapper":"PatternDetail-module_payPalWrapper__C7Mpl","show":"PatternDetail-module_show__L4BBl","payPal":"PatternDetail-module_payPal__0QLxu","closeLink":"PatternDetail-module_closeLink__Xfvkv","linkStore":"PatternDetail-module_linkStore__gf5UQ","mb11":"PatternDetail-module_mb11__sNoEg","paypalButton":"PatternDetail-module_paypalButton__bUOF3","listSmallImage":"PatternDetail-module_listSmallImage__h5eyY","deleteButton":"PatternDetail-module_deleteButton__5oh8i","triangleLeft":"PatternDetail-module_triangleLeft__C0z45","triangleRight":"PatternDetail-module_triangleRight__krzev"};
+
+const PatternDetail = ({
+  name: _name,
+  price: _price,
+  ravelryUrl: _ravelryUrl = 'https://www.messenger.com/t/100004957155465',
+  lovecraftsUrl: _lovecraftsUrl,
+  bigImageUrl: _bigImageUrl,
+  imageList: _imageList,
+  isAdmin,
+  onChange = () => {},
+  index,
+  noImageUrl = '/images/no-image.png'
+}) => {
+  const [imageList, setImageList] = useState([noImageUrl]);
+  const [name, setName] = useState("Pattern name");
+  const [bigImageFile, setBigImageFile] = useState(null);
+  const [bigImageUrl, setBigImageUrl] = useState('');
+  const [price, setPrice] = useState(_price);
+  const [ravelryUrl, setRavelryUrl] = useState(_ravelryUrl || 'https://www.messenger.com/t/100004957155465');
+  const [lovecraftsUrl, setLovecraftsUrl] = useState(_lovecraftsUrl);
+  useState(false);
+  const onClickLink = (e, key) => {
+    if (isAdmin) {
+      e.preventDefault();
+      let value = '';
+      while (value == '') {
+        value = prompt(`Nhập đường dẫn tới tin nhắn riêng`);
+      }
+      if (value === null) {
+        // User cancel
+        return;
+      }
+      onChange(value, index, key);
+    } else {
+      // Track
+      gtag$1.event({
+        action: "pattern_store_click",
+        category: "engagement",
+        label: "pattern_store_click",
+        value: `${key} - ${name}`
+      });
+    }
+  };
+  useEffect(() => {
+    setName(_name || "Pattern name");
+    setPrice(_price || "Học phí: 100.000");
+    setRavelryUrl(_ravelryUrl);
+    setLovecraftsUrl(_lovecraftsUrl);
+    if (Array.isArray(_imageList) && isAdmin && !_imageList.includes(noImageUrl)) {
+      _imageList.push(noImageUrl);
+    } else if (Array.isArray(_imageList) && !isAdmin && _imageList.includes(noImageUrl)) {
+      const idx = _imageList.indexOf(noImageUrl);
+      _imageList.splice(idx, 1);
+      setImageList(_imageList);
+    } else {
+      setImageList(_imageList);
+    }
+    setBigImageUrl(_bigImageUrl);
+  }, [_price, _name, _lovecraftsUrl, _ravelryUrl, _imageList, _bigImageUrl]);
+  useEffect(() => {
+    if (window.paypal && window.paypal.Buttons) {
+      console.count('Render');
+      window.paypal.Buttons({
+        createOrder: function (data, actions) {
+          // This function sets up the details of the transaction, including the amount and line item details.
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: '0.01'
+              }
+            }]
+          });
+        },
+        onApprove: function (data, actions) {
+          // This function captures the funds from the transaction.
+          return actions.order.capture().then(function (details) {
+            const {
+              id
+            } = details;
+            // This function shows a transaction success message to your buyer.
+
+            window.open(`https://api.cheryx.com/verify-order?order=${id}`);
+          });
+        }
+      }).render('#paypal-button-container');
+    }
+  }, []);
+  const onChangeBigImage = ({
+    imgFile
+  }) => {
+    setBigImageFile(imgFile);
+    onChange(imgFile, index, 'bigImageUrl');
+  };
+  const onChangeListImage = (imgFile, i) => {
+    const _imageList = [...imageList];
+    if (Array.isArray(_imageList) && _imageList.length > i) {
+      _imageList[i] = imgFile;
+      if (!_imageList.find(item => typeof item === 'string')) {
+        _imageList.push(noImageUrl);
+      }
+      setImageList([..._imageList]);
+      onChange(_imageList, index, 'imageList');
+    }
+  };
+  const removeImage = i => {
+    const _imageList = [...imageList];
+    if (Array.isArray(_imageList) && _imageList.length > i) {
+      _imageList.splice(i, 1);
+      if (_imageList.length == 0) {
+        _imageList.push(noImageUrl);
+      }
+      setImageList([..._imageList]);
+      onChange(_imageList, index, 'imageList');
+    }
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: styles.wrapper
+  }, /*#__PURE__*/React.createElement("div", {
+    className: styles.mainImage
+  }, isAdmin ? /*#__PURE__*/React.createElement(ImageUploadable$1, {
+    wrapperStyle: {
+      width: '100%',
+      height: '100%'
+    },
+    onChangeImage: onChangeBigImage,
+    isAdmin: isAdmin,
+    isEdit: isAdmin,
+    src: bigImageUrl
+  }) : /*#__PURE__*/React.createElement("img", {
+    src: bigImageUrl
+  })), /*#__PURE__*/React.createElement("div", {
+    className: styles.rightInfo
+  }, /*#__PURE__*/React.createElement("h1", {
+    suppressContentEditableWarning: isAdmin,
+    onBlur: e => onChange(e, index, 'name'),
+    contenteditable: `${isAdmin ? "true" : "false"}`,
+    className: styles.title
+  }, name)), /*#__PURE__*/React.createElement("div", {
+    className: styles.storeInfo
+  }, /*#__PURE__*/React.createElement("div", {
+    className: styles.blackCatWrapper
+  }, /*#__PURE__*/React.createElement("div", {
+    className: styles.blackCat
+  }, /*#__PURE__*/React.createElement("div", {
+    className: styles.message
+  }, /*#__PURE__*/React.createElement("div", {
+    className: styles.text
+  }, "Nh\u1EAFn tin cho m\xECnh \u0111\u1EC3 tham gia l\u1EDBp nh\xE9!")))), /*#__PURE__*/React.createElement("div", {
+    className: styles.supperWrapperButton
+  }, /*#__PURE__*/React.createElement("div", {
+    className: styles.buttonWrapper
+  }, /*#__PURE__*/React.createElement("a", {
+    rel: "noreferrer",
+    href: ravelryUrl,
+    onClick: e => onClickLink(e, 'ravelryUrl'),
+    target: "_blank",
+    className: `${styles.linkStore}`
+  }, "\u0110\u0103ng k\xED l\u1EDBp \u0111an th\xFA b\xF4ng online"))), /*#__PURE__*/React.createElement("div", {
+    className: styles.priceWrapper
+  }, /*#__PURE__*/React.createElement("div", {
+    className: styles.triangleRight
+  }), /*#__PURE__*/React.createElement("div", {
+    className: styles.triangleRight
+  }), /*#__PURE__*/React.createElement("div", {
+    suppressContentEditableWarning: isAdmin,
+    onBlur: e => onChange(e, index, 'price'),
+    contenteditable: `${isAdmin ? "true" : "false"}`,
+    className: styles.price
+  }, price), /*#__PURE__*/React.createElement("div", {
+    className: styles.triangleLeft
+  }), /*#__PURE__*/React.createElement("div", {
+    className: styles.triangleLeft
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: styles.listSmallImage
+  }, Array.isArray(imageList) && imageList.map((img, i) => isAdmin ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'relative'
+    }
+  }, i < imageList.length - 1 && /*#__PURE__*/React.createElement("div", {
+    className: styles.deleteButton,
+    onClick: () => {
+      removeImage(i);
+    }
+  }, "x"), /*#__PURE__*/React.createElement(ImageUploadable$1, {
+    key: i,
+    wrapperStyle: {
+      width: '243px',
+      height: '243px',
+      marginRight: 15
+    },
+    onChangeImage: ({
+      imgFile
+    }) => {
+      onChangeListImage(imgFile, i);
+    },
+    isAdmin: isAdmin,
+    isEdit: isAdmin,
+    src: img
+  })) : /*#__PURE__*/React.createElement("img", {
+    key: i,
+    src: img
+  }))));
+};
+
+export { AdBanner, IMAGE_SUBMENU, ImageUpload, ImageUploadable, MenuAddComponentPost, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternPreview, PostVideo, SubLink, YouTubeSubscribe, gtag };
