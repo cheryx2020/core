@@ -1,0 +1,28 @@
+@import '../styles/variables.scss';
+.wrapper {
+    margin-top: 13px;
+    font-size: 18px;
+    line-height: 21px;
+    font-family: "Big Shoulders Text";
+    color: #676565;
+    display: flex;
+    align-self: flex-start;
+    .spliter {
+        padding: 0px 12px;
+        @media (max-width: $mobile-breakpoint) {
+            padding: 0px 3px;
+        }
+    }
+    @media (max-width: $mobile-breakpoint) {
+        font-size: 16px;
+        width: 100%;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        a:first-child {
+            padding-left: 5px;
+        }
+    }
+    .wrapperLink {
+        display: flex;
+    }
+}

@@ -1,0 +1,32 @@
+$mobile-breakpoint: 641px;
+$tablet-breakpoint: 768px;
+$desktop-breakpoint: 1024px;
+$body-max-width: 1162px;
+$body-max-width-value: 1162;
+$title-color: #565555;
+$main-color: #F08C5F;
+$lightblue: #639EBB;
+$pattern-name-font: "Fredericka the Great"; 
+$text-font: "Big Shoulders Text";
+@-webkit-keyframes slideInLeft {
+  0% {
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+  visibility: visible;
+  }
+  100% {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  }
+  }
+  @keyframes slideInLeft {
+  0% {
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+  visibility: visible;
+  }
+  100% {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  }
+  } 

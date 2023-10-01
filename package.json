@@ -1,0 +1,39 @@
+{
+  "name": "@cheryx2020/core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "rollup": "rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cheryx2020/core.git"
+  },
+  "dependencies": {
+    "next": "12",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "sass": "^1.66.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.0",
+    "@babel/plugin-transform-runtime": "^7.22.15",
+    "@babel/preset-env": "^7.22.20",
+    "@babel/preset-react": "^7.22.15",
+    "@rollup/plugin-babel": "^6.0.3",
+    "rollup": "^3.29.3",
+    "rollup-plugin-sass": "^1.12.20"
+  },
+  "type": "module",
+  "author": "Vinh Nguyen",
+  "bugs": {
+    "url": "https://github.com/cheryx2020/core/issues"
+  },
+  "homepage": "https://github.com/cheryx2020/core#readme",
+  "license": "MIT"
+}
