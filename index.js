@@ -6,5 +6,6 @@ import PostVideo from "./src/components/post-video/post-video"
 import YouTubeSubscribe from "./src/components/subcribe-button/youtube-subcribe"
 import PatternPreview from "./src/components/pattern-preview/pattern-preview"
 import MenuAddComponentPost, { POST_ITEM_TYPE, IMAGE_SUBMENU, POST_ITEM_TYPE_SUBMENU } from "./src/components/menu-add-component-post/menu-add-component-post"
+import gtag from "./gtag";
 
-export { SubLink, ImageUploadable, ImageUpload, AdBanner, PostVideo, YouTubeSubscribe, PatternPreview, MenuAddComponentPost, POST_ITEM_TYPE, IMAGE_SUBMENU, POST_ITEM_TYPE_SUBMENU }
+export { SubLink, ImageUploadable, ImageUpload, AdBanner, PostVideo, YouTubeSubscribe, PatternPreview, MenuAddComponentPost, POST_ITEM_TYPE, IMAGE_SUBMENU, POST_ITEM_TYPE_SUBMENU, gtag }
