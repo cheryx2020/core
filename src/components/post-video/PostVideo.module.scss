@@ -1,0 +1,38 @@
+@import '../styles/variables.scss';
+.wrapper {
+  .editBtn {
+    position: absolute;
+    top: 0px;
+    right: 30px;
+    cursor: pointer;
+  }
+}
+.imgWrapper {
+  text-align: center;
+  margin-bottom: 47px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  @media (max-width: $mobile-breakpoint) {  
+    margin-bottom: 29px;
+  }
+  .videoMenu {
+    position: absolute;
+    top: 0;
+    background-color: white;
+    padding: 5px;
+    box-shadow: 1px 3px 6px grey;
+    width: 500px;
+    height: 50px;
+    label {
+      margin-right: 5px;
+      margin-top: 3px;
+    }
+    input {
+      width: 400px;
+      outline: none;
+    }
+  }
+}

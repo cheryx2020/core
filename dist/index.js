@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, Component } from 'react';
 import { readFile, isBigFile } from '@cheryx2020/utils';
+import PropTypes from 'prop-types';
 
 var styles$2 = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
 
@@ -216,4 +217,158 @@ const ImageUpload = ({
   }), caption);
 };
 
-export { ImageUpload, ImageUploadable, SubLink };
+const AdBanner = () => {
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+  return /*#__PURE__*/React.createElement("ins", {
+    className: "adsbygoogle adbanner-customize",
+    style: {
+      display: "block"
+    },
+    "data-ad-layout": "in-article",
+    "data-ad-format": "fluid",
+    "data-ad-client": "ca-pub-4179656549806780",
+    "data-ad-slot": "9675079770"
+  });
+};
+
+const PostVideo = ({
+  text,
+  url = 'vTJdVE_gjI0',
+  onChange = () => {},
+  onChangeText = () => {},
+  onDragStart = () => {}
+}) => {
+  const [showMenuVideo, setShowMenuVideo] = useState(false);
+  return /*#__PURE__*/React.createElement("div", {
+    onDragStart: onDragStart,
+    draggable: "true",
+    className: styles.imgWrapper
+  }, showMenuVideo && /*#__PURE__*/React.createElement("div", {
+    className: styles.videoMenu
+  }, /*#__PURE__*/React.createElement("div", {
+    className: styles.deleteButton,
+    onClick: () => setShowMenuVideo(false)
+  }, "x"), /*#__PURE__*/React.createElement("label", null, "Video Id:"), /*#__PURE__*/React.createElement("input", {
+    value: url,
+    onChange: e => onChange(e)
+  })), /*#__PURE__*/React.createElement("iframe", {
+    title: text,
+    width: "560",
+    height: "315",
+    src: `https://www.youtube.com/embed/${url}`,
+    frameBorder: 0,
+    allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+    allowFullScreen: true
+  }), /*#__PURE__*/React.createElement("figcaption", {
+    suppressContentEditableWarning: true,
+    contentEditable: true,
+    onBlur: onChangeText,
+    className: styles.imageDescription,
+    style: {
+      minWidth: 100
+    }
+  }, text), !showMenuVideo && /*#__PURE__*/React.createElement("div", {
+    className: styles.editImageBtn,
+    onClick: () => setShowMenuVideo(true)
+  }, "Edit"));
+};
+
+class YouTubeSubscribe extends Component {
+  static propTypes = {
+    channelName: PropTypes.string,
+    channelid: PropTypes.string.isRequired,
+    theme: PropTypes.string,
+    layout: PropTypes.string,
+    count: PropTypes.string
+  };
+  static defaultProps = {
+    channelName: "",
+    channelid: "UCaYhcUwRBNscFNUKTjgPFiA",
+    theme: "full",
+    layout: "default",
+    count: "default"
+  };
+
+  /**
+   *  React.createRef to attach script after mount
+   *  Ref) https://reactjs.org/docs/refs-and-the-dom.html
+   */
+
+  constructor(props) {
+    super(props);
+    this.youtubeSubscribeNode = /*#__PURE__*/React.createRef();
+
+    // To render components economically w/o repetition
+    this.state = {
+      initialized: false
+    };
+  }
+  initialized() {
+    this.setState({
+      initialized: true
+    });
+  }
+
+  /**
+   * 1. Script for API doesn't work in index.html.
+   * 2. So You have to make it after components render.
+   * 3. Make a script with JavaScript method to work.
+   * 4. It is a little slow to show component at first.
+   * 5. YouTube API gives you channelId instead channelName
+   *    So You don't have to think about channelName when you
+   *    need its API.
+   */
+
+  componentDidMount() {
+    if (this.state.initialized) {
+      return;
+    }
+
+    // Make <script src="https://apis.google.com/js/platform.js" ></script>
+    const youtubescript = document.createElement("script");
+    youtubescript.src = "https://apis.google.com/js/platform.js";
+    this.youtubeSubscribeNode.current.parentNode.appendChild(youtubescript);
+    this.initialized();
+  }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (this.props.channelName === nextProps.channelName) {
+  //     return false;
+  //   }
+
+  //   if (this.props.channelid === nextProps.channelid) {
+  //     return false;
+  //   }
+
+  //   return true;
+  // }
+
+  render() {
+    const {
+      theme,
+      layout,
+      count,
+      channelName,
+      channelid
+    } = this.props;
+    return /*#__PURE__*/React.createElement("section", {
+      className: "youtubeSubscribe"
+    }, /*#__PURE__*/React.createElement("div", {
+      ref: this.youtubeSubscribeNode,
+      className: "g-ytsubscribe",
+      "data-theme": theme,
+      "data-layout": layout,
+      "data-count": count,
+      "data-channel": channelName,
+      "data-channelid": channelid
+    }));
+  }
+}
+
+export { AdBanner, ImageUpload, ImageUploadable, PostVideo, SubLink, YouTubeSubscribe };
