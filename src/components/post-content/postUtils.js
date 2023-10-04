@@ -289,7 +289,7 @@ const getContentByType = (type, textDefault = 'Edit this text', currentIndex = -
 export const uploadContentImageFiles = _contentData => {
     return new Promise(async resolve => {
         const __contentData = [..._contentData];
-        const listFileUploaded = [];
+        let listFileUploaded = [];
         let patternName = '';
         if (Array.isArray(__contentData)) {
             for (let i = 0; i < __contentData.length; i++) {
