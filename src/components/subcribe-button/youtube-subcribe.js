@@ -1,14 +1,6 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 
 class YouTubeSubscribe extends Component {
-  static propTypes = {
-    channelName: PropTypes.string,
-    channelid: PropTypes.string.isRequired,
-    theme: PropTypes.string,
-    layout: PropTypes.string,
-    count: PropTypes.string
-  };
 
   static defaultProps = {
     channelName: "",
