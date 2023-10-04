@@ -24,7 +24,6 @@ export const PostContent = ({
     isEdit,
     isShowBigMenu = false,
     menuBtnClass = '',
-    linkComponent,
 }) => {
     const [isShowMenu, setIsShowMenu] = useState(false);
     const [_isShowBigMenu, setIsShowBigMenu] = useState(isShowBigMenu);
@@ -63,7 +62,7 @@ export const PostContent = ({
         isMobile,
         _isEdit,
         data,
-        onChangeData, linkComponent))}
+        onChangeData))}
         {_isEdit && (Array.isArray(data) && data.length == 0) && <MenuAddComponentPost
             menuItems={Object.keys(POST_ITEM_TYPE)}
             btnClass={`${menuBtnClass ? ' ' + menuBtnClass : ''}`}
@@ -545,7 +544,7 @@ const renderItemByType = ({ type, text, content, webWidth, webHeight, urlWeb, im
     onAddNewContentItem = () => { },
     isMobile,
     isAdmin,
-    contentData, onChangeContent = () => { }, Link) => {
+    contentData, onChangeContent = () => { }) => {
     let result = <p>{text}</p>,
         editComponent = <p onDragStart={onDragStart} draggable="true" suppressContentEditableWarning={true} contentEditable="true" onBlur={e => onChangeContent(onChangeText(e, index, contentData))} onKeyDown={e => onKeyDownParagraph(e, onAddNewContentItem)} data-index={index}>{text}</p>,
         viewComponent = <Linkify as="p" options={{ target: '_blank' }}>{text}</Linkify>;
@@ -570,9 +569,9 @@ const renderItemByType = ({ type, text, content, webWidth, webHeight, urlWeb, im
             break;
         case POST_ITEM_TYPE.RELATED_TOPIC:
             editComponent = <RelatedToMenu url={url} text={text} textLink={textLink} onDragStart={onDragStart} onChange={(key, e, index) => onChangeContent(onChangeUrl(key, e, index, contentData))} index={index} />;
-            viewComponent = <div className={styles.relatedTo}><div className={styles.arrow}></div><div className={styles.textRelatedTo}>{text}</div><Link href={url}><a onClick={(e) => {
+            viewComponent = <div className={styles.relatedTo}><div className={styles.arrow}></div><div className={styles.textRelatedTo}>{text}</div><a href={url} onClick={(e) => {
                 sendSlackMessage({ channel: SLACK_CHANNELS.FREE_CRAFTPATTERNS, message: `Related To Clicked:\\n*Post*: <${process.env.NEXT_PUBLIC_pageUrl}/tip/${id}|${title}>\\n*Url*: <${process.env.NEXT_PUBLIC_pageUrl}${url}|${textLink}>` })
-            }}>{textLink}</a></Link></div>
+            }}>{textLink}</a></div>
             break;
         case POST_ITEM_TYPE_SUBMENU.IMAGE[0]:
         case POST_ITEM_TYPE_SUBMENU.IMAGE[1]:
