@@ -19,12 +19,14 @@
     "react": "^18.0.0",
     "sass": "^1.66.1",
     "linkify-react": "^4.0.2",
-    "linkifyjs": "^4.0.2"
+    "linkifyjs": "^4.0.2",
+    "public-ip": "^5.0.0"
   },
   "peerDependencies": {
     "react": "^18.0.0",
     "linkify-react": "^4.0.2",
-    "linkifyjs": "^4.0.2"
+    "linkifyjs": "^4.0.2",
+    "public-ip": "^5.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.23.0",
