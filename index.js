@@ -10,21 +10,31 @@ import gtag from "./gtag";
 import PatternDetail from "./src/components/pattern-detail/pattern-detail"
 import RelatedToMenu from "./src/components/related-to-menu/related-to-menu"
 import AdminMenu from "./src/components/admin-menu/admin-menu"
+import {
+    PostContent,
+    noImageUrl,
+    getPostId,
+    uploadContentImageFiles
+} from "./src/components/post-content/postUtils"
 
-export { 
-    SubLink, 
-    ImageUploadable, 
-    ImageUpload, 
-    AdBanner, 
-    PostVideo, 
+export {
+    SubLink,
+    ImageUploadable,
+    ImageUpload,
+    AdBanner,
+    PostVideo,
     YouTubeSubscribe,
-    PatternPreview, 
-    MenuAddComponentPost, 
-    POST_ITEM_TYPE, 
-    IMAGE_SUBMENU, 
-    POST_ITEM_TYPE_SUBMENU, 
+    PatternPreview,
+    MenuAddComponentPost,
+    POST_ITEM_TYPE,
+    IMAGE_SUBMENU,
+    POST_ITEM_TYPE_SUBMENU,
     gtag,
     PatternDetail,
     RelatedToMenu,
-    AdminMenu
- }
+    AdminMenu,
+    PostContent,
+    noImageUrl,
+    getPostId,
+    uploadContentImageFiles
+}
