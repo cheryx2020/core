@@ -289,7 +289,7 @@ const getContentByType = (type, textDefault = 'Edit this text', currentIndex = -
 export const uploadContentImageFiles = _contentData => {
     return new Promise(async resolve => {
         const __contentData = [..._contentData];
-        const listFileUploaded = [];
+        let listFileUploaded = [];
         let patternName = '';
         if (Array.isArray(__contentData)) {
             for (let i = 0; i < __contentData.length; i++) {
@@ -371,7 +371,7 @@ const onDrop = (e, contentData) => {
 const onChangeImageMultiple = ({ imgIndex, data, style }, index, key, contentData) => {
     const currentContent = [...contentData];
     if (index < currentContent.length) {
-        const _data = currentContent[index][key];
+        let _data = currentContent[index][key];
         if (key === 'data' && Array.isArray(_data) && _data.length > 0 && _data.length > imgIndex && data && typeof data === 'object') {
             if (data.imgFile && data.imgSrc) {
                 _data[imgIndex].url = data.imgSrc;

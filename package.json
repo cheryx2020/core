@@ -15,6 +15,7 @@
     "url": "git+https://github.com/cheryx2020/core.git"
   },
   "dependencies": {
+    "@cheryx2020/utils": "^1.3.1",
     "react": "^18.0.0",
     "sass": "^1.66.1",
     "linkify-react": "^4.0.2",
