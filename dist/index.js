@@ -900,7 +900,7 @@ const PostContent = ({
   };
   return /*#__PURE__*/React.createElement("div", {
     className: styles.wrapper
-  }, Array.isArray(data) && data.map((item, i) => renderItemByType(item ? item : {}, i, styles, onDeleteContentItem, addNewContentItem, isMobile, _isEdit, data, onChangeData)), _isEdit && Array.isArray(data) && data.length == 0 && /*#__PURE__*/React.createElement(MenuAddComponentPost$1, {
+  }, Array.isArray(data) && data.map((item, i) => renderItemByType(item ? item : {}, i, styles, onDeleteContentItem, addNewContentItem, isMobile, _isEdit, data, onChangeData, linkComponent)), _isEdit && Array.isArray(data) && data.length == 0 && /*#__PURE__*/React.createElement(MenuAddComponentPost$1, {
     menuItems: Object.keys(POST_ITEM_TYPE$1),
     btnClass: `${menuBtnClass ? ' ' + menuBtnClass : ''}`,
     onClickMenuItem: item => {
@@ -1498,7 +1498,7 @@ const renderItemByType = ({
   data = [],
   style = {},
   expanded
-}, index, styles = {}, onDeleteContentItem = () => {}, onAddNewContentItem = () => {}, isMobile, isAdmin, contentData, onChangeContent = () => {}, linkComponent) => {
+}, index, styles = {}, onDeleteContentItem = () => {}, onAddNewContentItem = () => {}, isMobile, isAdmin, contentData, onChangeContent = () => {}, Link) => {
   let result = /*#__PURE__*/React.createElement("p", null, text),
     editComponent = /*#__PURE__*/React.createElement("p", {
       onDragStart: onDragStart,
@@ -1582,7 +1582,7 @@ const renderItemByType = ({
         className: styles.arrow
       }), /*#__PURE__*/React.createElement("div", {
         className: styles.textRelatedTo
-      }, text), /*#__PURE__*/React.createElement("linkComponent", {
+      }, text), /*#__PURE__*/React.createElement(Link, {
         href: url
       }, /*#__PURE__*/React.createElement("a", {
         onClick: e => {

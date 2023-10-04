@@ -545,7 +545,7 @@ const renderItemByType = ({ type, text, content, webWidth, webHeight, urlWeb, im
     onAddNewContentItem = () => { },
     isMobile,
     isAdmin,
-    contentData, onChangeContent = () => { }, linkComponent) => {
+    contentData, onChangeContent = () => { }, Link) => {
     let result = <p>{text}</p>,
         editComponent = <p onDragStart={onDragStart} draggable="true" suppressContentEditableWarning={true} contentEditable="true" onBlur={e => onChangeContent(onChangeText(e, index, contentData))} onKeyDown={e => onKeyDownParagraph(e, onAddNewContentItem)} data-index={index}>{text}</p>,
         viewComponent = <Linkify as="p" options={{ target: '_blank' }}>{text}</Linkify>;
@@ -570,9 +570,9 @@ const renderItemByType = ({ type, text, content, webWidth, webHeight, urlWeb, im
             break;
         case POST_ITEM_TYPE.RELATED_TOPIC:
             editComponent = <RelatedToMenu url={url} text={text} textLink={textLink} onDragStart={onDragStart} onChange={(key, e, index) => onChangeContent(onChangeUrl(key, e, index, contentData))} index={index} />;
-            viewComponent = <div className={styles.relatedTo}><div className={styles.arrow}></div><div className={styles.textRelatedTo}>{text}</div><linkComponent href={url}><a onClick={(e) => {
+            viewComponent = <div className={styles.relatedTo}><div className={styles.arrow}></div><div className={styles.textRelatedTo}>{text}</div><Link href={url}><a onClick={(e) => {
                 sendSlackMessage({ channel: SLACK_CHANNELS.FREE_CRAFTPATTERNS, message: `Related To Clicked:\\n*Post*: <${process.env.NEXT_PUBLIC_pageUrl}/tip/${id}|${title}>\\n*Url*: <${process.env.NEXT_PUBLIC_pageUrl}${url}|${textLink}>` })
-            }}>{textLink}</a></linkComponent></div>
+            }}>{textLink}</a></Link></div>
             break;
         case POST_ITEM_TYPE_SUBMENU.IMAGE[0]:
         case POST_ITEM_TYPE_SUBMENU.IMAGE[1]:
