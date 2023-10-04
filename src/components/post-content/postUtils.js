@@ -371,7 +371,7 @@ const onDrop = (e, contentData) => {
 const onChangeImageMultiple = ({ imgIndex, data, style }, index, key, contentData) => {
     const currentContent = [...contentData];
     if (index < currentContent.length) {
-        const _data = currentContent[index][key];
+        let _data = currentContent[index][key];
         if (key === 'data' && Array.isArray(_data) && _data.length > 0 && _data.length > imgIndex && data && typeof data === 'object') {
             if (data.imgFile && data.imgSrc) {
                 _data[imgIndex].url = data.imgSrc;
