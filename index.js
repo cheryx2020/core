@@ -9,6 +9,7 @@ import MenuAddComponentPost, { POST_ITEM_TYPE, IMAGE_SUBMENU, POST_ITEM_TYPE_SUB
 import gtag from "./gtag";
 import PatternDetail from "./src/components/pattern-detail/pattern-detail"
 import RelatedToMenu from "./src/components/related-to-menu/related-to-menu"
+import AdminMenu from "./src/components/admin-menu/admin-menu"
 
 export { 
     SubLink, 
@@ -24,5 +25,6 @@ export {
     POST_ITEM_TYPE_SUBMENU, 
     gtag,
     PatternDetail,
-    RelatedToMenu
+    RelatedToMenu,
+    AdminMenu
  }
