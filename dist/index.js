@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, Component } from 'react';
 import { readFile, isBigFile, removeAccents, uploadFile, sendSlackMessage, SLACK_CHANNELS } from '@cheryx2020/utils';
 import PropTypes from 'prop-types';
 import { ImageUploadable as ImageUploadable$1, gtag as gtag$1, MenuAddComponentPost as MenuAddComponentPost$1, POST_ITEM_TYPE as POST_ITEM_TYPE$1, AdminMenu as AdminMenu$1, PatternDetail as PatternDetail$1, YouTubeSubscribe as YouTubeSubscribe$1, POST_ITEM_TYPE_SUBMENU as POST_ITEM_TYPE_SUBMENU$1, ImageUpload as ImageUpload$1, PatternPreview as PatternPreview$1, PostVideo as PostVideo$1, RelatedToMenu as RelatedToMenu$1, AdBanner as AdBanner$1 } from '@cheryx2020/core';
-import Link from 'next/link';
 import Linkify from 'linkify-react';
 
 var styles$8 = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
@@ -868,7 +867,8 @@ const PostContent = ({
   isMobile,
   isEdit,
   isShowBigMenu = false,
-  menuBtnClass = ''
+  menuBtnClass = '',
+  linkComponent
 }) => {
   const [isShowMenu, setIsShowMenu] = useState(false);
   const [_isShowBigMenu, setIsShowBigMenu] = useState(isShowBigMenu);
@@ -1498,7 +1498,7 @@ const renderItemByType = ({
   data = [],
   style = {},
   expanded
-}, index, styles = {}, onDeleteContentItem = () => {}, onAddNewContentItem = () => {}, isMobile, isAdmin, contentData, onChangeContent = () => {}) => {
+}, index, styles = {}, onDeleteContentItem = () => {}, onAddNewContentItem = () => {}, isMobile, isAdmin, contentData, onChangeContent = () => {}, linkComponent) => {
   let result = /*#__PURE__*/React.createElement("p", null, text),
     editComponent = /*#__PURE__*/React.createElement("p", {
       onDragStart: onDragStart,
@@ -1582,7 +1582,7 @@ const renderItemByType = ({
         className: styles.arrow
       }), /*#__PURE__*/React.createElement("div", {
         className: styles.textRelatedTo
-      }, text), /*#__PURE__*/React.createElement(Link, {
+      }, text), /*#__PURE__*/React.createElement("linkComponent", {
         href: url
       }, /*#__PURE__*/React.createElement("a", {
         onClick: e => {
