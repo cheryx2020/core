@@ -81,6 +81,12 @@ jobs:
       - name: Static HTML export with Next.js 🥯
         working-directory: ./example
         run: ${{ steps.detect-package-manager.outputs.runner }} next export
+      - name: Rename files
+        working-directory: ./example/out
+        run: find -type f -exec sed -i 's/_next/next/g' {} +
+      - name: Rename folder
+        working-directory: ./example/out
+        run: mv _next next
       - name: Upload artifact ⛱️
         uses: actions/upload-pages-artifact@v1
         with:
