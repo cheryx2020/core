@@ -43,19 +43,16 @@ jobs:
             exit 1
           fi
       - name: Setup Node 🍉
-        working-directory: ./example
         uses: actions/setup-node@v3
         with:
           cache: ${{ steps.detect-package-manager.outputs.manager }}
           node-version: 18
       - name: Setup Pages 🔧
-        working-directory: ./example
         id: pages
         uses: actions/configure-pages@v1
         with:
           static_site_generator: next
       - name: Restore cache 💾
-        working-directory: ./example
         uses: actions/cache@v3
         with:
           path: |
@@ -76,7 +73,6 @@ jobs:
         working-directory: ./example
         run: ${{ steps.detect-package-manager.outputs.runner }} next export
       - name: Upload artifact ⛱️
-        working-directory: ./example
         uses: actions/upload-pages-artifact@v1
         with:
           path: ./out
