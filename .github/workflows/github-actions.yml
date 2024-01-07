@@ -100,13 +100,17 @@ jobs:
         run: find -type f -exec sed -i 's/_buildManifest/buildManifest/g' {} +
       - name: Rename file _buildManifest.js
         working-directory: ./example/out
-        run: find . -depth -name "*_buildManifest*" -execdir rename 's/_buildManifest/buildManifest/' {} \;
+        run: |
+          find . -depth -name "*_buildManifest*" -execdir rename 's/_buildManifest/buildManifest/' {} \;
+          find . -depth -name "*buildManifest*" -printf "%h/%f\\n"
       - name: Rename _ssgManifest.js
         working-directory: ./example/out
         run: find -type f -exec sed -i 's/_ssgManifest/ssgManifest/g' {} +
       - name: Rename file _ssgManifest.js
         working-directory: ./example/out
-        run: find . -depth -name "*_ssgManifest*" -execdir rename 's/_ssgManifest/ssgManifest/' {} \;
+        run: |
+          find . -depth -name "*_ssgManifest*" -execdir rename 's/_ssgManifest/ssgManifest/' {} \;
+          find . -depth -name "*ssgManifest*" -printf "%h/%f\\n"
       - name: Upload artifact ⛱️
         uses: actions/upload-pages-artifact@v1
         with:
