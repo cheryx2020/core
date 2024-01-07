@@ -22,6 +22,8 @@ jobs:
   document:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Cache node_modules
         id: cache-modules
         uses: actions/cache@v3
@@ -29,11 +31,8 @@ jobs:
           path: node_modules
           key: ${{ runner.OS }}-build-${{ hashFiles('package.json', 'package-lock.json') }}
       - name: Install
-        working-directory: ./
         if: steps.cache-modules.outputs.cache-hit != 'true'
         run: npm install
-      - name: Checkout
-        uses: actions/checkout@v3
       - name: Detect package manager
         working-directory: ./example
         id: detect-package-manager
