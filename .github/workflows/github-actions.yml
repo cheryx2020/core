@@ -77,10 +77,10 @@ jobs:
           steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js 🍄
         working-directory: ./example
-        run: ${{ steps.detect-package-manager.outputs.runner }} next build
+        run: ${{ steps.detect-package-manager.outputs.runner }} rm -rf .next/cache && next build
       - name: Static HTML export with Next.js 🥯
         working-directory: ./example
-        run: ${{ steps.detect-package-manager.outputs.runner }} next export
+        run: ${{ steps.detect-package-manager.outputs.runner }} NO_CACHE=1 next export
       - name: Rename files
         working-directory: ./example/out
         run: find -type f -exec sed -i 's/_next/next/g' {} +
