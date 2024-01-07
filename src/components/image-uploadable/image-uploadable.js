@@ -2,17 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './ImageUploadable.module.scss';
 import { readFile, isBigFile } from "@cheryx2020/utils";
 
-const ImageUploadable = ({ width = 500, height = 333, src, onChangeImage = () => {}, isAdmin, isAddNew, isEdit, wrapperStyle = {}, className='', onChangeStyle = () => {}, resizeable= false }) => {
-  let defaultWrapperStyle = {
-    width: isAddNew ? '100%' : {width}, 
-    height: isAddNew ? '73%' : 'initial'
-  }
-  if (wrapperStyle.width) {
-    width = wrapperStyle.width;
-  }
-  if (wrapperStyle.height) {
-    height = wrapperStyle.height;
-  }
+const ImageUploadable = ({ src, onChangeImage = () => {}, isAdmin, isEdit, wrapperStyle = { width: 500, height: 333 }, className='', onChangeStyle = () => {}, resizeable= false }) => {
+  const { width, height } = wrapperStyle;
   const [imgSrc, setImgSrc] = useState('');
   const imageWap = useRef(null);
   const image = useRef(null);
@@ -63,7 +54,7 @@ const ImageUploadable = ({ width = 500, height = 333, src, onChangeImage = () =>
     document.documentElement.removeEventListener('mousemove', doDrag, false);    document.documentElement.removeEventListener('mouseup', stopDrag, false);
     onChangeStyle({width: imageWap.current.style.width, height: imageWap.current.style.height})
   }
-  return <div ref={imageWap} className={`${styles.image} ${className}`} style={{...defaultWrapperStyle, ...wrapperStyle}}>
+  return <div ref={imageWap} className={`${styles.image} ${className}`} style={wrapperStyle}>
     {isAdmin && isEdit && <div className={styles.imageMenu} onClick={e => e.stopPropagation()}>
       <label><div>Choose Image</div><input accept="image/png, image/jpeg, image/svg+xml" hidden={true} type="file" onChange={onChange}></input></label>
     </div>}
