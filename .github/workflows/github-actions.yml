@@ -87,6 +87,9 @@ jobs:
       - name: Rename files
         working-directory: ./example/out
         run: find -type f -exec sed -i 's/_next/next/g' {} +
+      - name: Create .nojekyll file
+        working-directory: ./example/out
+        run: touch .nojekyll
       - name: Rename folder
         working-directory: ./example/out
         run: mv _next next
