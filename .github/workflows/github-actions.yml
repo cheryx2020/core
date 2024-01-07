@@ -1,21 +1,18 @@
+---
 name: Publish
 run-name: Publish
-on: 
+on:
   push:
-    branches: ["main"]
-
-env:
-  NODE_AUTH_TOKEN = {{ secrets.PAGES_DEPLOYMENT }}
-
+    branches:
+      - main
+env: NODE_AUTH_TOKEN = {{ secrets.PAGES_DEPLOYMENT }}
 permissions:
   contents: read
   pages: write
   id-token: write
-
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: true
-
 jobs:
   publish:
     if: contains(github.event.head_commit.message, 'release')
@@ -25,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Detect package manager
         working-directory: ./example
         id: detect-package-manager
@@ -44,48 +41,44 @@ jobs:
             echo "Unable to determine packager manager"
             exit 1
           fi
-        - name: Setup Node 🍉
-          uses: actions/setup-node@v3
-          working-directory: ./example
-          with:
-            cache: ${{ steps.detect-package-manager.outputs.manager }}
-            node-version: 18
-        - name: Setup Pages 🔧
-          working-directory: ./example
-          id: pages
-          uses: actions/configure-pages@v1
-          with:
-            # Automatically inject basePath in your Next.js configuration file and disable
-            # server side image optimization (https://nextjs.org/docs/api-reference/next/image#unoptimized).
-            #
-            # You may remove this line if you want to manage the configuration yourself.
-            static_site_generator: next
-        - name: Restore cache 💾
-          working-directory: ./example
-          uses: actions/cache@v3
-          with:
-            path: |
-              .next/cache
-            # Generate a new cache whenever packages or source files change.
-            key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-            # If source files changed but packages didn't, rebuild from a prior cache.
-            restore-keys: |
-              ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
-        - name: Install dependencies 🥑
-          working-directory: ./example
-          run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-        - name: Build with Next.js 🍄
-          working-directory: ./example
-          run: ${{ steps.detect-package-manager.outputs.runner }} next build
-        - name: Static HTML export with Next.js 🥯
-          working-directory: ./example
-          run: ${{ steps.detect-package-manager.outputs.runner }} next export
-        - name: Upload artifact ⛱️
-          working-directory: ./example
-          uses: actions/upload-pages-artifact@v1
-          with:
-            path: ./out
-  # Deployment job
+      - name: Setup Node 🍉
+        uses: actions/setup-node@v3
+        working-directory: ./example
+        with:
+          cache: ${{ steps.detect-package-manager.outputs.manager }}
+          node-version: 18
+      - name: Setup Pages 🔧
+        working-directory: ./example
+        id: pages
+        uses: actions/configure-pages@v1
+        with:
+          static_site_generator: next
+      - name: Restore cache 💾
+        working-directory: ./example
+        uses: actions/cache@v3
+        with:
+          path: |
+            .next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json',
+            '**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          restore-keys: >
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json',
+            '**/yarn.lock') }}-
+      - name: Install dependencies 🥑
+        working-directory: ./example
+        run: ${{ steps.detect-package-manager.outputs.manager }} ${{
+          steps.detect-package-manager.outputs.command }}
+      - name: Build with Next.js 🍄
+        working-directory: ./example
+        run: ${{ steps.detect-package-manager.outputs.runner }} next build
+      - name: Static HTML export with Next.js 🥯
+        working-directory: ./example
+        run: ${{ steps.detect-package-manager.outputs.runner }} next export
+      - name: Upload artifact ⛱️
+        working-directory: ./example
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./out
   deploy:
     environment:
       name: github-pages
