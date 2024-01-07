@@ -43,8 +43,8 @@ jobs:
             exit 1
           fi
       - name: Setup Node 🍉
-        uses: actions/setup-node@v3
         working-directory: ./example
+        uses: actions/setup-node@v3
         with:
           cache: ${{ steps.detect-package-manager.outputs.manager }}
           node-version: 18
