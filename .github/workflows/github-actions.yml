@@ -95,6 +95,18 @@ jobs:
       - name: Rename app filemane
         working-directory: ./example/out/next/static/chunks/pages/
         run: rename 's/^_app-/app-/' _app-*
+      - name: Rename _buildManifest.js
+        working-directory: ./example/out
+        run: find -type f -exec sed -i 's/_buildManifest/buildManifest/g' {} +
+      - name: Rename file _buildManifest.js
+        working-directory: ./example/out
+        run: find . -depth -name "*_buildManifest*" -execdir rename 's/_buildManifest/buildManifest/' {} \;
+      - name: Rename _ssgManifest.js
+        working-directory: ./example/out
+        run: find -type f -exec sed -i 's/_ssgManifest/ssgManifest/g' {} +
+      - name: Rename file _ssgManifest.js
+        working-directory: ./example/out
+        run: find . -depth -name "*_ssgManifest*" -execdir rename 's/_ssgManifest/ssgManifest/' {} \;
       - name: Upload artifact ⛱️
         uses: actions/upload-pages-artifact@v1
         with:
