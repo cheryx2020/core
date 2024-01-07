@@ -87,6 +87,12 @@ jobs:
       - name: Rename folder
         working-directory: ./example/out
         run: mv _next next
+      - name: Rename app
+        working-directory: ./example/out
+        run: find -type f -exec sed -i 's/_app-/app-/g' {} +
+      - name: Rename app filemane
+        working-directory: ./example/out/next/static/chunks/pages/
+        run: rename 's/^_app-/app-/' _app-*
       - name: Upload artifact ⛱️
         uses: actions/upload-pages-artifact@v1
         with:
