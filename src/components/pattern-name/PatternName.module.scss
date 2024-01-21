@@ -1,0 +1,59 @@
+@import '../styles/variables.scss';
+@import '../styles/mixin.scss';
+.wrapper {
+  font-family: "Pacifico";
+  font-size: 65px;
+  line-height: 79px;
+  padding: 20px 0px;
+  @include desktop {
+    padding: 2px 0px;
+  }
+  @include wide-desktop {
+    padding: 2px 0px;
+  }
+  @include tablet {
+    padding: 2px 0px;
+  }
+  @include mobile {
+    padding: 8px 0px;
+  }
+  position: relative;
+  div {
+    outline: none;
+  }
+  &.isBottom {
+    font-size: 31px;
+    line-height: 47px;
+    @media (max-width: $mobile-breakpoint) {
+      font-size: 23px;
+      line-height: 36px;
+      padding: 6px 0px;
+    }
+  }
+  @media (max-width: $mobile-breakpoint) {
+      font-size: 24px;
+      line-height: 29px;
+  }
+  .menu {
+    position: relative;
+    display: none;
+    .pickerMenu {
+      position: absolute;
+      right: 0px;
+    }
+  }
+  &:hover {
+    .menu {
+      display: flex !important;
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 10000;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      background-size: contain;
+      background-image: url(/images/picker.png);
+    }
+  }
+}
