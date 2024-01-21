@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders AdBanner component correctly 1`] = `
+<ins
+  className="adsbygoogle adbanner-customize"
+  data-ad-client="ca-pub-4179656549806780"
+  data-ad-format="fluid"
+  data-ad-layout="in-article"
+  data-ad-slot="9675079770"
+  style={
+    {
+      "display": "block",
+    }
+  }
+/>
+`;

@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 
-const AdBanner = () => {
+const AdBanner = ({adLayout = "in-article", adFormat = "fluid", adClient="ca-pub-4179656549806780", adSlot = "9675079770"}) => {
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (err) {
@@ -14,10 +17,10 @@ const AdBanner = () => {
     style={{
       display: "block"
     }}
-    data-ad-layout="in-article"
-    data-ad-format="fluid"
-    data-ad-client="ca-pub-4179656549806780"
-    data-ad-slot="9675079770"
+    data-ad-layout={adLayout}
+    data-ad-format={adFormat}
+    data-ad-client={adClient}
+    data-ad-slot={adSlot}
   />;
 };
 
