@@ -1,11 +1,10 @@
 import styles from './PatternItem.module.scss';
 import ImageUploadable from '../image-uploadable/image-uploadable';
 import { APIService, setShowLoading, handleApiError } from "@cheryx2020/api-service";
-import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import PatternName from '../pattern-name/pattern-name';
 import Select from 'react-select'
-const PatternItem = ({ useRouter = () => {}, imageUrl = '/images/no-image.png', language = 'vi', _id, description, name, nameColor = '#0A7BCA', isMobile, ravelryUrl, patternId = '', order, isAdmin, isAddNew, isEditing, isFree, isBottom, listPatternDetail = [] }) => {
+const PatternItem = ({ useRouter = () => {}, useDispatch = () => {}, imageUrl = '/images/no-image.png', language = 'vi', _id, description, name, nameColor = '#0A7BCA', isMobile, ravelryUrl, patternId = '', order, isAdmin, isAddNew, isEditing, isFree, isBottom, listPatternDetail = [] }) => {
   const [imgSrc, setImgSrc] = useState(imageUrl);
   const [prNameColor, setPrNameColor] = useState(nameColor);
   const [des, setDes] = useState(isAddNew ? 'Description' : description);

@@ -1,9 +1,11 @@
-import React, { useState, useRef, useEffect, Component } from 'react';
+import React$1, { useState, useRef, useEffect, Component } from 'react';
 import publicIp from 'public-ip';
 import { ImageUploadable as ImageUploadable$1, gtag as gtag$1, MenuAddComponentPost as MenuAddComponentPost$1, POST_ITEM_TYPE as POST_ITEM_TYPE$1, AdminMenu as AdminMenu$1, PatternDetail as PatternDetail$1, YouTubeSubscribe as YouTubeSubscribe$1, POST_ITEM_TYPE_SUBMENU as POST_ITEM_TYPE_SUBMENU$1, ImageUpload as ImageUpload$1, PatternPreview as PatternPreview$1, PostVideo as PostVideo$1, RelatedToMenu as RelatedToMenu$1, AdBanner as AdBanner$1 } from '@cheryx2020/core';
+import { SketchPicker } from 'react-color';
+import Select from 'react-select';
 import Linkify from 'linkify-react';
 
-var styles$8 = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
+var styles$a = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
 
 const SubLink = ({
   data,
@@ -11,20 +13,20 @@ const SubLink = ({
   className = '',
   renderItem = () => {}
 }) => {
-  return /*#__PURE__*/React.createElement("div", {
-    className: styles$8.wrapper,
+  return /*#__PURE__*/React$1.createElement("div", {
+    className: styles$a.wrapper,
     style: wrapperStyle
   }, Array.isArray(data) && data.length > 0 && data.map((item, i) => {
-    return /*#__PURE__*/React.createElement("div", {
-      className: `${styles$8.wrapperLink} ${className}`,
+    return /*#__PURE__*/React$1.createElement("div", {
+      className: `${styles$a.wrapperLink} ${className}`,
       key: i
-    }, renderItem(item), i < data.length - 1 && /*#__PURE__*/React.createElement("div", {
-      className: styles$8.spliter
+    }, renderItem(item), i < data.length - 1 && /*#__PURE__*/React$1.createElement("div", {
+      className: styles$a.spliter
     }, '>'));
   }));
 };
 
-var styles$7 = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
+var styles$9 = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
 
 function bind(fn, thisArg) {
   return function wrap() {
@@ -698,7 +700,7 @@ const isAsyncFn = kindOfTest('AsyncFunction');
 const isThenable = (thing) =>
   thing && (isObject(thing) || isFunction(thing)) && isFunction(thing.then) && isFunction(thing.catch);
 
-var utils = {
+var utils$1 = {
   isArray,
   isArrayBuffer,
   isBuffer,
@@ -780,7 +782,7 @@ function AxiosError(message, code, config, request, response) {
   response && (this.response = response);
 }
 
-utils.inherits(AxiosError, Error, {
+utils$1.inherits(AxiosError, Error, {
   toJSON: function toJSON() {
     return {
       // Standard
@@ -795,7 +797,7 @@ utils.inherits(AxiosError, Error, {
       columnNumber: this.columnNumber,
       stack: this.stack,
       // Axios
-      config: utils.toJSONObject(this.config),
+      config: utils$1.toJSONObject(this.config),
       code: this.code,
       status: this.response && this.response.status ? this.response.status : null
     };
@@ -830,7 +832,7 @@ Object.defineProperty(prototype$1, 'isAxiosError', {value: true});
 AxiosError.from = (error, code, config, request, response, customProps) => {
   const axiosError = Object.create(prototype$1);
 
-  utils.toFlatObject(error, axiosError, function filter(obj) {
+  utils$1.toFlatObject(error, axiosError, function filter(obj) {
     return obj !== Error.prototype;
   }, prop => {
     return prop !== 'isAxiosError';
@@ -858,7 +860,7 @@ var httpAdapter = null;
  * @returns {boolean}
  */
 function isVisitable(thing) {
-  return utils.isPlainObject(thing) || utils.isArray(thing);
+  return utils$1.isPlainObject(thing) || utils$1.isArray(thing);
 }
 
 /**
@@ -869,7 +871,7 @@ function isVisitable(thing) {
  * @returns {string} the key without the brackets.
  */
 function removeBrackets(key) {
-  return utils.endsWith(key, '[]') ? key.slice(0, -2) : key;
+  return utils$1.endsWith(key, '[]') ? key.slice(0, -2) : key;
 }
 
 /**
@@ -898,10 +900,10 @@ function renderKey(path, key, dots) {
  * @returns {boolean}
  */
 function isFlatArray(arr) {
-  return utils.isArray(arr) && !arr.some(isVisitable);
+  return utils$1.isArray(arr) && !arr.some(isVisitable);
 }
 
-const predicates = utils.toFlatObject(utils, {}, null, function filter(prop) {
+const predicates = utils$1.toFlatObject(utils$1, {}, null, function filter(prop) {
   return /^is[A-Z]/.test(prop);
 });
 
@@ -929,7 +931,7 @@ const predicates = utils.toFlatObject(utils, {}, null, function filter(prop) {
  * @returns
  */
 function toFormData(obj, formData, options) {
-  if (!utils.isObject(obj)) {
+  if (!utils$1.isObject(obj)) {
     throw new TypeError('target must be an object');
   }
 
@@ -937,13 +939,13 @@ function toFormData(obj, formData, options) {
   formData = formData || new (FormData)();
 
   // eslint-disable-next-line no-param-reassign
-  options = utils.toFlatObject(options, {
+  options = utils$1.toFlatObject(options, {
     metaTokens: true,
     dots: false,
     indexes: false
   }, false, function defined(option, source) {
     // eslint-disable-next-line no-eq-null,eqeqeq
-    return !utils.isUndefined(source[option]);
+    return !utils$1.isUndefined(source[option]);
   });
 
   const metaTokens = options.metaTokens;
@@ -952,24 +954,24 @@ function toFormData(obj, formData, options) {
   const dots = options.dots;
   const indexes = options.indexes;
   const _Blob = options.Blob || typeof Blob !== 'undefined' && Blob;
-  const useBlob = _Blob && utils.isSpecCompliantForm(formData);
+  const useBlob = _Blob && utils$1.isSpecCompliantForm(formData);
 
-  if (!utils.isFunction(visitor)) {
+  if (!utils$1.isFunction(visitor)) {
     throw new TypeError('visitor must be a function');
   }
 
   function convertValue(value) {
     if (value === null) return '';
 
-    if (utils.isDate(value)) {
+    if (utils$1.isDate(value)) {
       return value.toISOString();
     }
 
-    if (!useBlob && utils.isBlob(value)) {
+    if (!useBlob && utils$1.isBlob(value)) {
       throw new AxiosError('Blob is not supported. Use a Buffer instead.');
     }
 
-    if (utils.isArrayBuffer(value) || utils.isTypedArray(value)) {
+    if (utils$1.isArrayBuffer(value) || utils$1.isTypedArray(value)) {
       return useBlob && typeof Blob === 'function' ? new Blob([value]) : Buffer.from(value);
     }
 
@@ -990,20 +992,20 @@ function toFormData(obj, formData, options) {
     let arr = value;
 
     if (value && !path && typeof value === 'object') {
-      if (utils.endsWith(key, '{}')) {
+      if (utils$1.endsWith(key, '{}')) {
         // eslint-disable-next-line no-param-reassign
         key = metaTokens ? key : key.slice(0, -2);
         // eslint-disable-next-line no-param-reassign
         value = JSON.stringify(value);
       } else if (
-        (utils.isArray(value) && isFlatArray(value)) ||
-        ((utils.isFileList(value) || utils.endsWith(key, '[]')) && (arr = utils.toArray(value))
+        (utils$1.isArray(value) && isFlatArray(value)) ||
+        ((utils$1.isFileList(value) || utils$1.endsWith(key, '[]')) && (arr = utils$1.toArray(value))
         )) {
         // eslint-disable-next-line no-param-reassign
         key = removeBrackets(key);
 
         arr.forEach(function each(el, index) {
-          !(utils.isUndefined(el) || el === null) && formData.append(
+          !(utils$1.isUndefined(el) || el === null) && formData.append(
             // eslint-disable-next-line no-nested-ternary
             indexes === true ? renderKey([key], index, dots) : (indexes === null ? key : key + '[]'),
             convertValue(el)
@@ -1031,7 +1033,7 @@ function toFormData(obj, formData, options) {
   });
 
   function build(value, path) {
-    if (utils.isUndefined(value)) return;
+    if (utils$1.isUndefined(value)) return;
 
     if (stack.indexOf(value) !== -1) {
       throw Error('Circular reference detected in ' + path.join('.'));
@@ -1039,9 +1041,9 @@ function toFormData(obj, formData, options) {
 
     stack.push(value);
 
-    utils.forEach(value, function each(el, key) {
-      const result = !(utils.isUndefined(el) || el === null) && visitor.call(
-        formData, el, utils.isString(key) ? key.trim() : key, path, exposedHelpers
+    utils$1.forEach(value, function each(el, key) {
+      const result = !(utils$1.isUndefined(el) || el === null) && visitor.call(
+        formData, el, utils$1.isString(key) ? key.trim() : key, path, exposedHelpers
       );
 
       if (result === true) {
@@ -1052,7 +1054,7 @@ function toFormData(obj, formData, options) {
     stack.pop();
   }
 
-  if (!utils.isObject(obj)) {
+  if (!utils$1.isObject(obj)) {
     throw new TypeError('data must be an object');
   }
 
@@ -1156,7 +1158,7 @@ function buildURL(url, params, options) {
   if (serializeFn) {
     serializedParams = serializeFn(params, options);
   } else {
-    serializedParams = utils.isURLSearchParams(params) ?
+    serializedParams = utils$1.isURLSearchParams(params) ?
       params.toString() :
       new AxiosURLSearchParams(params, options).toString(_encode);
   }
@@ -1231,7 +1233,7 @@ class InterceptorManager {
    * @returns {void}
    */
   forEach(fn) {
-    utils.forEach(this.handlers, function forEachHandler(h) {
+    utils$1.forEach(this.handlers, function forEachHandler(h) {
       if (h !== null) {
         fn(h);
       }
@@ -1253,6 +1255,18 @@ var FormData$1 = typeof FormData !== 'undefined' ? FormData : null;
 
 var Blob$1 = typeof Blob !== 'undefined' ? Blob : null;
 
+var platform$1 = {
+  isBrowser: true,
+  classes: {
+    URLSearchParams: URLSearchParams$1,
+    FormData: FormData$1,
+    Blob: Blob$1
+  },
+  protocols: ['http', 'https', 'file', 'blob', 'url', 'data']
+};
+
+const hasBrowserEnv = typeof window !== 'undefined' && typeof document !== 'undefined';
+
 /**
  * Determine if we're running in a standard browser environment
  *
@@ -1270,18 +1284,10 @@ var Blob$1 = typeof Blob !== 'undefined' ? Blob : null;
  *
  * @returns {boolean}
  */
-const isStandardBrowserEnv = (() => {
-  let product;
-  if (typeof navigator !== 'undefined' && (
-    (product = navigator.product) === 'ReactNative' ||
-    product === 'NativeScript' ||
-    product === 'NS')
-  ) {
-    return false;
-  }
-
-  return typeof window !== 'undefined' && typeof document !== 'undefined';
-})();
+const hasStandardBrowserEnv = (
+  (product) => {
+    return hasBrowserEnv && ['ReactNative', 'NativeScript', 'NS'].indexOf(product) < 0
+  })(typeof navigator !== 'undefined' && navigator.product);
 
 /**
  * Determine if we're running in a standard browser webWorker environment
@@ -1292,7 +1298,7 @@ const isStandardBrowserEnv = (() => {
  * `typeof window !== 'undefined' && typeof document !== 'undefined'`.
  * This leads to a problem when axios post `FormData` in webWorker
  */
- const isStandardBrowserWebWorkerEnv = (() => {
+const hasStandardBrowserWebWorkerEnv = (() => {
   return (
     typeof WorkerGlobalScope !== 'undefined' &&
     // eslint-disable-next-line no-undef
@@ -1301,23 +1307,22 @@ const isStandardBrowserEnv = (() => {
   );
 })();
 
+var utils = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    hasBrowserEnv: hasBrowserEnv,
+    hasStandardBrowserEnv: hasStandardBrowserEnv,
+    hasStandardBrowserWebWorkerEnv: hasStandardBrowserWebWorkerEnv
+});
 
 var platform = {
-  isBrowser: true,
-  classes: {
-    URLSearchParams: URLSearchParams$1,
-    FormData: FormData$1,
-    Blob: Blob$1
-  },
-  isStandardBrowserEnv,
-  isStandardBrowserWebWorkerEnv,
-  protocols: ['http', 'https', 'file', 'blob', 'url', 'data']
+  ...utils,
+  ...platform$1
 };
 
 function toURLEncodedForm(data, options) {
   return toFormData(data, new platform.classes.URLSearchParams(), Object.assign({
     visitor: function(value, key, path, helpers) {
-      if (platform.isNode && utils.isBuffer(value)) {
+      if (platform.isNode && utils$1.isBuffer(value)) {
         this.append(key, value.toString('base64'));
         return false;
       }
@@ -1339,7 +1344,7 @@ function parsePropPath(name) {
   // foo.x.y.z
   // foo-x-y-z
   // foo x y z
-  return utils.matchAll(/\w+|\[(\w*)]/g, name).map(match => {
+  return utils$1.matchAll(/\w+|\[(\w*)]/g, name).map(match => {
     return match[0] === '[]' ? '' : match[1] || match[0];
   });
 }
@@ -1376,10 +1381,10 @@ function formDataToJSON(formData) {
     let name = path[index++];
     const isNumericKey = Number.isFinite(+name);
     const isLast = index >= path.length;
-    name = !name && utils.isArray(target) ? target.length : name;
+    name = !name && utils$1.isArray(target) ? target.length : name;
 
     if (isLast) {
-      if (utils.hasOwnProp(target, name)) {
+      if (utils$1.hasOwnProp(target, name)) {
         target[name] = [target[name], value];
       } else {
         target[name] = value;
@@ -1388,23 +1393,23 @@ function formDataToJSON(formData) {
       return !isNumericKey;
     }
 
-    if (!target[name] || !utils.isObject(target[name])) {
+    if (!target[name] || !utils$1.isObject(target[name])) {
       target[name] = [];
     }
 
     const result = buildPath(path, value, target[name], index);
 
-    if (result && utils.isArray(target[name])) {
+    if (result && utils$1.isArray(target[name])) {
       target[name] = arrayToObject(target[name]);
     }
 
     return !isNumericKey;
   }
 
-  if (utils.isFormData(formData) && utils.isFunction(formData.entries)) {
+  if (utils$1.isFormData(formData) && utils$1.isFunction(formData.entries)) {
     const obj = {};
 
-    utils.forEachEntry(formData, (name, value) => {
+    utils$1.forEachEntry(formData, (name, value) => {
       buildPath(parsePropPath(name), value, obj, 0);
     });
 
@@ -1425,10 +1430,10 @@ function formDataToJSON(formData) {
  * @returns {string} A stringified version of the rawValue.
  */
 function stringifySafely(rawValue, parser, encoder) {
-  if (utils.isString(rawValue)) {
+  if (utils$1.isString(rawValue)) {
     try {
       (parser || JSON.parse)(rawValue);
-      return utils.trim(rawValue);
+      return utils$1.trim(rawValue);
     } catch (e) {
       if (e.name !== 'SyntaxError') {
         throw e;
@@ -1448,13 +1453,13 @@ const defaults = {
   transformRequest: [function transformRequest(data, headers) {
     const contentType = headers.getContentType() || '';
     const hasJSONContentType = contentType.indexOf('application/json') > -1;
-    const isObjectPayload = utils.isObject(data);
+    const isObjectPayload = utils$1.isObject(data);
 
-    if (isObjectPayload && utils.isHTMLForm(data)) {
+    if (isObjectPayload && utils$1.isHTMLForm(data)) {
       data = new FormData(data);
     }
 
-    const isFormData = utils.isFormData(data);
+    const isFormData = utils$1.isFormData(data);
 
     if (isFormData) {
       if (!hasJSONContentType) {
@@ -1463,18 +1468,18 @@ const defaults = {
       return hasJSONContentType ? JSON.stringify(formDataToJSON(data)) : data;
     }
 
-    if (utils.isArrayBuffer(data) ||
-      utils.isBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
+    if (utils$1.isArrayBuffer(data) ||
+      utils$1.isBuffer(data) ||
+      utils$1.isStream(data) ||
+      utils$1.isFile(data) ||
+      utils$1.isBlob(data)
     ) {
       return data;
     }
-    if (utils.isArrayBufferView(data)) {
+    if (utils$1.isArrayBufferView(data)) {
       return data.buffer;
     }
-    if (utils.isURLSearchParams(data)) {
+    if (utils$1.isURLSearchParams(data)) {
       headers.setContentType('application/x-www-form-urlencoded;charset=utf-8', false);
       return data.toString();
     }
@@ -1486,7 +1491,7 @@ const defaults = {
         return toURLEncodedForm(data, this.formSerializer).toString();
       }
 
-      if ((isFileList = utils.isFileList(data)) || contentType.indexOf('multipart/form-data') > -1) {
+      if ((isFileList = utils$1.isFileList(data)) || contentType.indexOf('multipart/form-data') > -1) {
         const _FormData = this.env && this.env.FormData;
 
         return toFormData(
@@ -1510,7 +1515,7 @@ const defaults = {
     const forcedJSONParsing = transitional && transitional.forcedJSONParsing;
     const JSONRequested = this.responseType === 'json';
 
-    if (data && utils.isString(data) && ((forcedJSONParsing && !this.responseType) || JSONRequested)) {
+    if (data && utils$1.isString(data) && ((forcedJSONParsing && !this.responseType) || JSONRequested)) {
       const silentJSONParsing = transitional && transitional.silentJSONParsing;
       const strictJSONParsing = !silentJSONParsing && JSONRequested;
 
@@ -1558,7 +1563,7 @@ const defaults = {
   }
 };
 
-utils.forEach(['delete', 'get', 'head', 'post', 'put', 'patch'], (method) => {
+utils$1.forEach(['delete', 'get', 'head', 'post', 'put', 'patch'], (method) => {
   defaults.headers[method] = {};
 });
 
@@ -1566,7 +1571,7 @@ var defaults$1 = defaults;
 
 // RawAxiosHeaders whose duplicates are ignored by node
 // c.f. https://nodejs.org/api/http.html#http_message_headers
-const ignoreDuplicateOf = utils.toObjectSet([
+const ignoreDuplicateOf = utils$1.toObjectSet([
   'age', 'authorization', 'content-length', 'content-type', 'etag',
   'expires', 'from', 'host', 'if-modified-since', 'if-unmodified-since',
   'last-modified', 'location', 'max-forwards', 'proxy-authorization',
@@ -1627,7 +1632,7 @@ function normalizeValue(value) {
     return value;
   }
 
-  return utils.isArray(value) ? value.map(normalizeValue) : String(value);
+  return utils$1.isArray(value) ? value.map(normalizeValue) : String(value);
 }
 
 function parseTokens(str) {
@@ -1645,7 +1650,7 @@ function parseTokens(str) {
 const isValidHeaderName = (str) => /^[-_a-zA-Z0-9^`|~,!#$%&'*+.]+$/.test(str.trim());
 
 function matchHeaderValue(context, value, header, filter, isHeaderNameFilter) {
-  if (utils.isFunction(filter)) {
+  if (utils$1.isFunction(filter)) {
     return filter.call(this, value, header);
   }
 
@@ -1653,13 +1658,13 @@ function matchHeaderValue(context, value, header, filter, isHeaderNameFilter) {
     value = header;
   }
 
-  if (!utils.isString(value)) return;
+  if (!utils$1.isString(value)) return;
 
-  if (utils.isString(filter)) {
+  if (utils$1.isString(filter)) {
     return value.indexOf(filter) !== -1;
   }
 
-  if (utils.isRegExp(filter)) {
+  if (utils$1.isRegExp(filter)) {
     return filter.test(value);
   }
 }
@@ -1672,7 +1677,7 @@ function formatHeader(header) {
 }
 
 function buildAccessors(obj, header) {
-  const accessorName = utils.toCamelCase(' ' + header);
+  const accessorName = utils$1.toCamelCase(' ' + header);
 
   ['get', 'set', 'has'].forEach(methodName => {
     Object.defineProperty(obj, methodName + accessorName, {
@@ -1699,7 +1704,7 @@ class AxiosHeaders {
         throw new Error('header name must be a non-empty string');
       }
 
-      const key = utils.findKey(self, lHeader);
+      const key = utils$1.findKey(self, lHeader);
 
       if(!key || self[key] === undefined || _rewrite === true || (_rewrite === undefined && self[key] !== false)) {
         self[key || _header] = normalizeValue(_value);
@@ -1707,11 +1712,11 @@ class AxiosHeaders {
     }
 
     const setHeaders = (headers, _rewrite) =>
-      utils.forEach(headers, (_value, _header) => setHeader(_value, _header, _rewrite));
+      utils$1.forEach(headers, (_value, _header) => setHeader(_value, _header, _rewrite));
 
-    if (utils.isPlainObject(header) || header instanceof this.constructor) {
+    if (utils$1.isPlainObject(header) || header instanceof this.constructor) {
       setHeaders(header, valueOrRewrite);
-    } else if(utils.isString(header) && (header = header.trim()) && !isValidHeaderName(header)) {
+    } else if(utils$1.isString(header) && (header = header.trim()) && !isValidHeaderName(header)) {
       setHeaders(parseHeaders(header), valueOrRewrite);
     } else {
       header != null && setHeader(valueOrRewrite, header, rewrite);
@@ -1724,7 +1729,7 @@ class AxiosHeaders {
     header = normalizeHeader(header);
 
     if (header) {
-      const key = utils.findKey(this, header);
+      const key = utils$1.findKey(this, header);
 
       if (key) {
         const value = this[key];
@@ -1737,11 +1742,11 @@ class AxiosHeaders {
           return parseTokens(value);
         }
 
-        if (utils.isFunction(parser)) {
+        if (utils$1.isFunction(parser)) {
           return parser.call(this, value, key);
         }
 
-        if (utils.isRegExp(parser)) {
+        if (utils$1.isRegExp(parser)) {
           return parser.exec(value);
         }
 
@@ -1754,7 +1759,7 @@ class AxiosHeaders {
     header = normalizeHeader(header);
 
     if (header) {
-      const key = utils.findKey(this, header);
+      const key = utils$1.findKey(this, header);
 
       return !!(key && this[key] !== undefined && (!matcher || matchHeaderValue(this, this[key], key, matcher)));
     }
@@ -1770,7 +1775,7 @@ class AxiosHeaders {
       _header = normalizeHeader(_header);
 
       if (_header) {
-        const key = utils.findKey(self, _header);
+        const key = utils$1.findKey(self, _header);
 
         if (key && (!matcher || matchHeaderValue(self, self[key], key, matcher))) {
           delete self[key];
@@ -1780,7 +1785,7 @@ class AxiosHeaders {
       }
     }
 
-    if (utils.isArray(header)) {
+    if (utils$1.isArray(header)) {
       header.forEach(deleteHeader);
     } else {
       deleteHeader(header);
@@ -1809,8 +1814,8 @@ class AxiosHeaders {
     const self = this;
     const headers = {};
 
-    utils.forEach(this, (value, header) => {
-      const key = utils.findKey(headers, header);
+    utils$1.forEach(this, (value, header) => {
+      const key = utils$1.findKey(headers, header);
 
       if (key) {
         self[key] = normalizeValue(value);
@@ -1839,8 +1844,8 @@ class AxiosHeaders {
   toJSON(asStrings) {
     const obj = Object.create(null);
 
-    utils.forEach(this, (value, header) => {
-      value != null && value !== false && (obj[header] = asStrings && utils.isArray(value) ? value.join(', ') : value);
+    utils$1.forEach(this, (value, header) => {
+      value != null && value !== false && (obj[header] = asStrings && utils$1.isArray(value) ? value.join(', ') : value);
     });
 
     return obj;
@@ -1887,7 +1892,7 @@ class AxiosHeaders {
       }
     }
 
-    utils.isArray(header) ? header.forEach(defineAccessor) : defineAccessor(header);
+    utils$1.isArray(header) ? header.forEach(defineAccessor) : defineAccessor(header);
 
     return this;
   }
@@ -1896,7 +1901,7 @@ class AxiosHeaders {
 AxiosHeaders.accessor(['Content-Type', 'Content-Length', 'Accept', 'Accept-Encoding', 'User-Agent', 'Authorization']);
 
 // reserved names hotfix
-utils.reduceDescriptors(AxiosHeaders.prototype, ({value}, key) => {
+utils$1.reduceDescriptors(AxiosHeaders.prototype, ({value}, key) => {
   let mapped = key[0].toUpperCase() + key.slice(1); // map `set` => `Set`
   return {
     get: () => value,
@@ -1906,7 +1911,7 @@ utils.reduceDescriptors(AxiosHeaders.prototype, ({value}, key) => {
   }
 });
 
-utils.freezeMethods(AxiosHeaders);
+utils$1.freezeMethods(AxiosHeaders);
 
 var AxiosHeaders$1 = AxiosHeaders;
 
@@ -1924,7 +1929,7 @@ function transformData(fns, response) {
   const headers = AxiosHeaders$1.from(context.headers);
   let data = context.data;
 
-  utils.forEach(fns, function transform(fn) {
+  utils$1.forEach(fns, function transform(fn) {
     data = fn.call(config, data, headers.normalize(), response ? response.status : undefined);
   });
 
@@ -1952,7 +1957,7 @@ function CanceledError(message, config, request) {
   this.name = 'CanceledError';
 }
 
-utils.inherits(CanceledError, AxiosError, {
+utils$1.inherits(CanceledError, AxiosError, {
   __CANCEL__: true
 });
 
@@ -1980,53 +1985,44 @@ function settle(resolve, reject, response) {
   }
 }
 
-var cookies = platform.isStandardBrowserEnv ?
+var cookies = platform.hasStandardBrowserEnv ?
 
-// Standard browser envs support document.cookie
-  (function standardBrowserEnv() {
-    return {
-      write: function write(name, value, expires, path, domain, secure) {
-        const cookie = [];
-        cookie.push(name + '=' + encodeURIComponent(value));
+  // Standard browser envs support document.cookie
+  {
+    write(name, value, expires, path, domain, secure) {
+      const cookie = [name + '=' + encodeURIComponent(value)];
 
-        if (utils.isNumber(expires)) {
-          cookie.push('expires=' + new Date(expires).toGMTString());
-        }
+      utils$1.isNumber(expires) && cookie.push('expires=' + new Date(expires).toGMTString());
 
-        if (utils.isString(path)) {
-          cookie.push('path=' + path);
-        }
+      utils$1.isString(path) && cookie.push('path=' + path);
 
-        if (utils.isString(domain)) {
-          cookie.push('domain=' + domain);
-        }
+      utils$1.isString(domain) && cookie.push('domain=' + domain);
 
-        if (secure === true) {
-          cookie.push('secure');
-        }
+      secure === true && cookie.push('secure');
 
-        document.cookie = cookie.join('; ');
-      },
+      document.cookie = cookie.join('; ');
+    },
 
-      read: function read(name) {
-        const match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
-        return (match ? decodeURIComponent(match[3]) : null);
-      },
+    read(name) {
+      const match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+      return (match ? decodeURIComponent(match[3]) : null);
+    },
 
-      remove: function remove(name) {
-        this.write(name, '', Date.now() - 86400000);
-      }
-    };
-  })() :
+    remove(name) {
+      this.write(name, '', Date.now() - 86400000);
+    }
+  }
 
-// Non standard browser env (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return {
-      write: function write() {},
-      read: function read() { return null; },
-      remove: function remove() {}
-    };
-  })();
+  :
+
+  // Non-standard browser env (web workers, react-native) lack needed support.
+  {
+    write() {},
+    read() {
+      return null;
+    },
+    remove() {}
+  };
 
 /**
  * Determines whether the specified URL is absolute
@@ -2073,7 +2069,7 @@ function buildFullPath(baseURL, requestedURL) {
   return requestedURL;
 }
 
-var isURLSameOrigin = platform.isStandardBrowserEnv ?
+var isURLSameOrigin = platform.hasStandardBrowserEnv ?
 
 // Standard browser envs have full support of the APIs needed to test
 // whether the request URL is of the same origin as current location.
@@ -2083,7 +2079,7 @@ var isURLSameOrigin = platform.isStandardBrowserEnv ?
     let originURL;
 
     /**
-    * Parse a URL to discover it's components
+    * Parse a URL to discover its components
     *
     * @param {String} url The URL to be parsed
     * @returns {Object}
@@ -2123,7 +2119,7 @@ var isURLSameOrigin = platform.isStandardBrowserEnv ?
     * @returns {boolean} True if URL shares the same origin, otherwise false
     */
     return function isURLSameOrigin(requestURL) {
-      const parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+      const parsed = (utils$1.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
       return (parsed.protocol === originURL.protocol &&
           parsed.host === originURL.host);
     };
@@ -2228,7 +2224,7 @@ var xhrAdapter = isXHRAdapterSupported && function (config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
     let requestData = config.data;
     const requestHeaders = AxiosHeaders$1.from(config.headers).normalize();
-    const responseType = config.responseType;
+    let {responseType, withXSRFToken} = config;
     let onCanceled;
     function done() {
       if (config.cancelToken) {
@@ -2242,14 +2238,13 @@ var xhrAdapter = isXHRAdapterSupported && function (config) {
 
     let contentType;
 
-    if (utils.isFormData(requestData)) {
-      if (platform.isStandardBrowserEnv || platform.isStandardBrowserWebWorkerEnv) {
+    if (utils$1.isFormData(requestData)) {
+      if (platform.hasStandardBrowserEnv || platform.hasStandardBrowserWebWorkerEnv) {
         requestHeaders.setContentType(false); // Let the browser set it
-      } else if(!requestHeaders.getContentType(/^\s*multipart\/form-data/)){
-        requestHeaders.setContentType('multipart/form-data'); // mobile/desktop app frameworks
-      } else if(utils.isString(contentType = requestHeaders.getContentType())){
+      } else if ((contentType = requestHeaders.getContentType()) !== false) {
         // fix semicolon duplication issue for ReactNative FormData implementation
-        requestHeaders.setContentType(contentType.replace(/^\s*(multipart\/form-data);+/, '$1'));
+        const [type, ...tokens] = contentType ? contentType.split(';').map(token => token.trim()).filter(Boolean) : [];
+        requestHeaders.setContentType([type || 'multipart/form-data', ...tokens].join('; '));
       }
     }
 
@@ -2365,13 +2360,16 @@ var xhrAdapter = isXHRAdapterSupported && function (config) {
     // Add xsrf header
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
-    if (platform.isStandardBrowserEnv) {
-      // Add xsrf header
-      const xsrfValue = (config.withCredentials || isURLSameOrigin(fullPath))
-        && config.xsrfCookieName && cookies.read(config.xsrfCookieName);
+    if(platform.hasStandardBrowserEnv) {
+      withXSRFToken && utils$1.isFunction(withXSRFToken) && (withXSRFToken = withXSRFToken(config));
 
-      if (xsrfValue) {
-        requestHeaders.set(config.xsrfHeaderName, xsrfValue);
+      if (withXSRFToken || (withXSRFToken !== false && isURLSameOrigin(fullPath))) {
+        // Add xsrf header
+        const xsrfValue = config.xsrfHeaderName && config.xsrfCookieName && cookies.read(config.xsrfCookieName);
+
+        if (xsrfValue) {
+          requestHeaders.set(config.xsrfHeaderName, xsrfValue);
+        }
       }
     }
 
@@ -2380,13 +2378,13 @@ var xhrAdapter = isXHRAdapterSupported && function (config) {
 
     // Add headers to the request
     if ('setRequestHeader' in request) {
-      utils.forEach(requestHeaders.toJSON(), function setRequestHeader(val, key) {
+      utils$1.forEach(requestHeaders.toJSON(), function setRequestHeader(val, key) {
         request.setRequestHeader(key, val);
       });
     }
 
     // Add withCredentials to request if needed
-    if (!utils.isUndefined(config.withCredentials)) {
+    if (!utils$1.isUndefined(config.withCredentials)) {
       request.withCredentials = !!config.withCredentials;
     }
 
@@ -2441,7 +2439,7 @@ const knownAdapters = {
   xhr: xhrAdapter
 };
 
-utils.forEach(knownAdapters, (fn, value) => {
+utils$1.forEach(knownAdapters, (fn, value) => {
   if (fn) {
     try {
       Object.defineProperty(fn, 'name', {value});
@@ -2454,11 +2452,11 @@ utils.forEach(knownAdapters, (fn, value) => {
 
 const renderReason = (reason) => `- ${reason}`;
 
-const isResolvedHandle = (adapter) => utils.isFunction(adapter) || adapter === null || adapter === false;
+const isResolvedHandle = (adapter) => utils$1.isFunction(adapter) || adapter === null || adapter === false;
 
 var adapters = {
   getAdapter: (adapters) => {
-    adapters = utils.isArray(adapters) ? adapters : [adapters];
+    adapters = utils$1.isArray(adapters) ? adapters : [adapters];
 
     const {length} = adapters;
     let nameOrAdapter;
@@ -2599,11 +2597,11 @@ function mergeConfig(config1, config2) {
   const config = {};
 
   function getMergedValue(target, source, caseless) {
-    if (utils.isPlainObject(target) && utils.isPlainObject(source)) {
-      return utils.merge.call({caseless}, target, source);
-    } else if (utils.isPlainObject(source)) {
-      return utils.merge({}, source);
-    } else if (utils.isArray(source)) {
+    if (utils$1.isPlainObject(target) && utils$1.isPlainObject(source)) {
+      return utils$1.merge.call({caseless}, target, source);
+    } else if (utils$1.isPlainObject(source)) {
+      return utils$1.merge({}, source);
+    } else if (utils$1.isArray(source)) {
       return source.slice();
     }
     return source;
@@ -2611,25 +2609,25 @@ function mergeConfig(config1, config2) {
 
   // eslint-disable-next-line consistent-return
   function mergeDeepProperties(a, b, caseless) {
-    if (!utils.isUndefined(b)) {
+    if (!utils$1.isUndefined(b)) {
       return getMergedValue(a, b, caseless);
-    } else if (!utils.isUndefined(a)) {
+    } else if (!utils$1.isUndefined(a)) {
       return getMergedValue(undefined, a, caseless);
     }
   }
 
   // eslint-disable-next-line consistent-return
   function valueFromConfig2(a, b) {
-    if (!utils.isUndefined(b)) {
+    if (!utils$1.isUndefined(b)) {
       return getMergedValue(undefined, b);
     }
   }
 
   // eslint-disable-next-line consistent-return
   function defaultToConfig2(a, b) {
-    if (!utils.isUndefined(b)) {
+    if (!utils$1.isUndefined(b)) {
       return getMergedValue(undefined, b);
-    } else if (!utils.isUndefined(a)) {
+    } else if (!utils$1.isUndefined(a)) {
       return getMergedValue(undefined, a);
     }
   }
@@ -2654,6 +2652,7 @@ function mergeConfig(config1, config2) {
     timeout: defaultToConfig2,
     timeoutMessage: defaultToConfig2,
     withCredentials: defaultToConfig2,
+    withXSRFToken: defaultToConfig2,
     adapter: defaultToConfig2,
     responseType: defaultToConfig2,
     xsrfCookieName: defaultToConfig2,
@@ -2674,16 +2673,16 @@ function mergeConfig(config1, config2) {
     headers: (a, b) => mergeDeepProperties(headersToObject(a), headersToObject(b), true)
   };
 
-  utils.forEach(Object.keys(Object.assign({}, config1, config2)), function computeConfigValue(prop) {
+  utils$1.forEach(Object.keys(Object.assign({}, config1, config2)), function computeConfigValue(prop) {
     const merge = mergeMap[prop] || mergeDeepProperties;
     const configValue = merge(config1[prop], config2[prop], prop);
-    (utils.isUndefined(configValue) && merge !== mergeDirectKeys) || (config[prop] = configValue);
+    (utils$1.isUndefined(configValue) && merge !== mergeDirectKeys) || (config[prop] = configValue);
   });
 
   return config;
 }
 
-const VERSION = "1.5.1";
+const VERSION = "1.6.2";
 
 const validators$1 = {};
 
@@ -2821,7 +2820,7 @@ class Axios {
     }
 
     if (paramsSerializer != null) {
-      if (utils.isFunction(paramsSerializer)) {
+      if (utils$1.isFunction(paramsSerializer)) {
         config.paramsSerializer = {
           serialize: paramsSerializer
         };
@@ -2837,12 +2836,12 @@ class Axios {
     config.method = (config.method || this.defaults.method || 'get').toLowerCase();
 
     // Flatten headers
-    let contextHeaders = headers && utils.merge(
+    let contextHeaders = headers && utils$1.merge(
       headers.common,
       headers[config.method]
     );
 
-    headers && utils.forEach(
+    headers && utils$1.forEach(
       ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
       (method) => {
         delete headers[method];
@@ -2929,7 +2928,7 @@ class Axios {
 }
 
 // Provide aliases for supported request methods
-utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
+utils$1.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
   /*eslint func-names:0*/
   Axios.prototype[method] = function(url, config) {
     return this.request(mergeConfig(config || {}, {
@@ -2940,7 +2939,7 @@ utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData
   };
 });
 
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+utils$1.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
   /*eslint func-names:0*/
 
   function generateHTTPMethod(isForm) {
@@ -3116,7 +3115,7 @@ function spread(callback) {
  * @returns {boolean} True if the payload is an error thrown by Axios, otherwise false
  */
 function isAxiosError(payload) {
-  return utils.isObject(payload) && (payload.isAxiosError === true);
+  return utils$1.isObject(payload) && (payload.isAxiosError === true);
 }
 
 const HttpStatusCode = {
@@ -3203,10 +3202,10 @@ function createInstance(defaultConfig) {
   const instance = bind(Axios$1.prototype.request, context);
 
   // Copy axios.prototype to instance
-  utils.extend(instance, Axios$1.prototype, context, {allOwnKeys: true});
+  utils$1.extend(instance, Axios$1.prototype, context, {allOwnKeys: true});
 
   // Copy context to instance
-  utils.extend(instance, context, null, {allOwnKeys: true});
+  utils$1.extend(instance, context, null, {allOwnKeys: true});
 
   // Factory for creating new instances
   instance.create = function create(instanceConfig) {
@@ -3250,7 +3249,7 @@ axios.mergeConfig = mergeConfig;
 
 axios.AxiosHeaders = AxiosHeaders$1;
 
-axios.formToJSON = thing => formDataToJSON(utils.isHTMLForm(thing) ? new FormData(thing) : thing);
+axios.formToJSON = thing => formDataToJSON(utils$1.isHTMLForm(thing) ? new FormData(thing) : thing);
 
 axios.getAdapter = adapters.getAdapter;
 
@@ -3306,6 +3305,16 @@ const handleApiError = (err, { callBackStatusCode, showAlert = true, callBackErr
 
   if (showAlert) {
     alert(message);
+  }
+};
+/**
+ * Show/hide loader for app
+ * @param {*} dispatch 
+ * @param {*} isLoading 
+ */
+const setShowLoading = (dispatch, isLoading) => {
+  if (typeof dispatch === 'function') {
+    dispatch({type: 'LOADING', payload: isLoading});
   }
 };
 
@@ -3413,30 +3422,22 @@ const sendSlackMessage = async ({ channel = 'FREE_CRAFTPATTERNS', message = 'Tex
 };
 
 const ImageUploadable = ({
-  width = 500,
-  height = 333,
   src,
   onChangeImage = () => {},
   isAdmin,
-  isAddNew,
   isEdit,
-  wrapperStyle = {},
+  wrapperStyle = {
+    width: 500,
+    height: 333
+  },
   className = '',
   onChangeStyle = () => {},
   resizeable = false
 }) => {
-  let defaultWrapperStyle = {
-    width: isAddNew ? '100%' : {
-      width
-    },
-    height: isAddNew ? '73%' : 'initial'
-  };
-  if (wrapperStyle.width) {
-    width = wrapperStyle.width;
-  }
-  if (wrapperStyle.height) {
-    height = wrapperStyle.height;
-  }
+  const {
+    width,
+    height
+  } = wrapperStyle;
   const [imgSrc, setImgSrc] = useState('');
   const imageWap = useRef(null);
   const image = useRef(null);
@@ -3501,22 +3502,19 @@ const ImageUploadable = ({
       height: imageWap.current.style.height
     });
   }
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     ref: imageWap,
-    className: `${styles$7.image} ${className}`,
-    style: {
-      ...defaultWrapperStyle,
-      ...wrapperStyle
-    }
-  }, isAdmin && isEdit && /*#__PURE__*/React.createElement("div", {
-    className: styles$7.imageMenu,
+    className: `${styles$9.image} ${className}`,
+    style: wrapperStyle
+  }, isAdmin && isEdit && /*#__PURE__*/React$1.createElement("div", {
+    className: styles$9.imageMenu,
     onClick: e => e.stopPropagation()
-  }, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("div", null, "Choose Image"), /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React$1.createElement("label", null, /*#__PURE__*/React$1.createElement("div", null, "Choose Image"), /*#__PURE__*/React$1.createElement("input", {
     accept: "image/png, image/jpeg, image/svg+xml",
     hidden: true,
     type: "file",
     onChange: onChange
-  }))), isEdit ? /*#__PURE__*/React.createElement("img", {
+  }))), isEdit ? /*#__PURE__*/React$1.createElement("img", {
     ref: image,
     width: width,
     height: height,
@@ -3525,26 +3523,26 @@ const ImageUploadable = ({
       width,
       height
     }
-  }) : /*#__PURE__*/React.createElement("img", {
+  }) : /*#__PURE__*/React$1.createElement("img", {
     alt: process.env.NEXT_PUBLIC_SEO_mainTitle,
     width: width,
     height: height,
     src: src
-  }), isEdit && resizeable && /*#__PURE__*/React.createElement("div", {
+  }), isEdit && resizeable && /*#__PURE__*/React$1.createElement("div", {
     onDrag: e => {
       e.preventDefault();
       e.stopPropagation();
     },
     onMouseDown: initDrag,
-    className: styles$7.resizer
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles$7.vertical
-  }), /*#__PURE__*/React.createElement("div", {
-    className: styles$7.horizontal
+    className: styles$9.resizer
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$9.vertical
+  }), /*#__PURE__*/React$1.createElement("div", {
+    className: styles$9.horizontal
   })));
 };
 
-var styles$6 = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
+var styles$8 = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
 
 const ImageUpload = ({
   url,
@@ -3571,31 +3569,31 @@ const ImageUpload = ({
   if (height) {
     styleImage.height = height;
   }
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$6.imgWrapper,
+    className: styles$8.imgWrapper,
     style: {
       position: 'relative'
     }
-  }, showMenuImage && /*#__PURE__*/React.createElement("div", {
-    className: styles$6.menuImage
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles$6.deleteButton,
+  }, showMenuImage && /*#__PURE__*/React$1.createElement("div", {
+    className: styles$8.menuImage
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$8.deleteButton,
     onClick: () => setShowMenuImage(false)
-  }, "x"), /*#__PURE__*/React.createElement("label", {
-    className: styles$6.uploadButton
-  }, /*#__PURE__*/React.createElement("span", null, "Upload Image"), /*#__PURE__*/React.createElement("input", {
+  }, "x"), /*#__PURE__*/React$1.createElement("label", {
+    className: styles$8.uploadButton
+  }, /*#__PURE__*/React$1.createElement("span", null, "Upload Image"), /*#__PURE__*/React$1.createElement("input", {
     type: "file",
     onChange: e => {
       setShowMenuImage(false);
       onChange(e);
     }
-  }))), !showMenuImage && /*#__PURE__*/React.createElement("div", {
-    className: styles$6.editImageBtn,
+  }))), !showMenuImage && /*#__PURE__*/React$1.createElement("div", {
+    className: styles$8.editImageBtn,
     onClick: () => setShowMenuImage(true)
-  }, "Edit"), /*#__PURE__*/React.createElement("textarea", {
-    className: styles$6.textarea,
+  }, "Edit"), /*#__PURE__*/React$1.createElement("textarea", {
+    className: styles$8.textarea,
     onMouseOut: onMouseOut,
     disabled: true,
     style: {
@@ -3604,23 +3602,31 @@ const ImageUpload = ({
   }), caption);
 };
 
-const AdBanner = () => {
+const AdBanner = ({
+  adLayout = "in-article",
+  adFormat = "fluid",
+  adClient = "ca-pub-4179656549806780",
+  adSlot = "9675079770"
+}) => {
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (err) {
       console.log(err);
     }
   }, []);
-  return /*#__PURE__*/React.createElement("ins", {
+  return /*#__PURE__*/React$1.createElement("ins", {
     className: "adsbygoogle adbanner-customize",
     style: {
       display: "block"
     },
-    "data-ad-layout": "in-article",
-    "data-ad-format": "fluid",
-    "data-ad-client": "ca-pub-4179656549806780",
-    "data-ad-slot": "9675079770"
+    "data-ad-layout": adLayout,
+    "data-ad-format": adFormat,
+    "data-ad-client": adClient,
+    "data-ad-slot": adSlot
   });
 };
 
@@ -3632,19 +3638,19 @@ const PostVideo = ({
   onDragStart = () => {}
 }) => {
   const [showMenuVideo, setShowMenuVideo] = useState(false);
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$6.imgWrapper
-  }, showMenuVideo && /*#__PURE__*/React.createElement("div", {
-    className: styles$6.videoMenu
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles$6.deleteButton,
+    className: styles$8.imgWrapper
+  }, showMenuVideo && /*#__PURE__*/React$1.createElement("div", {
+    className: styles$8.videoMenu
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$8.deleteButton,
     onClick: () => setShowMenuVideo(false)
-  }, "x"), /*#__PURE__*/React.createElement("label", null, "Video Id:"), /*#__PURE__*/React.createElement("input", {
+  }, "x"), /*#__PURE__*/React$1.createElement("label", null, "Video Id:"), /*#__PURE__*/React$1.createElement("input", {
     value: url,
     onChange: e => onChange(e)
-  })), /*#__PURE__*/React.createElement("iframe", {
+  })), /*#__PURE__*/React$1.createElement("iframe", {
     title: text,
     width: "560",
     height: "315",
@@ -3652,16 +3658,16 @@ const PostVideo = ({
     frameBorder: 0,
     allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
     allowFullScreen: true
-  }), /*#__PURE__*/React.createElement("figcaption", {
+  }), /*#__PURE__*/React$1.createElement("figcaption", {
     suppressContentEditableWarning: true,
     contentEditable: true,
     onBlur: onChangeText,
-    className: styles$6.imageDescription,
+    className: styles$8.imageDescription,
     style: {
       minWidth: 100
     }
-  }, text), !showMenuVideo && /*#__PURE__*/React.createElement("div", {
-    className: styles$6.editImageBtn,
+  }, text), !showMenuVideo && /*#__PURE__*/React$1.createElement("div", {
+    className: styles$8.editImageBtn,
     onClick: () => setShowMenuVideo(true)
   }, "Edit"));
 };
@@ -3682,7 +3688,7 @@ class YouTubeSubscribe extends Component {
 
   constructor(props) {
     super(props);
-    this.youtubeSubscribeNode = /*#__PURE__*/React.createRef();
+    this.youtubeSubscribeNode = /*#__PURE__*/React$1.createRef();
 
     // To render components economically w/o repetition
     this.state = {
@@ -3737,9 +3743,9 @@ class YouTubeSubscribe extends Component {
       channelName,
       channelid
     } = this.props;
-    return /*#__PURE__*/React.createElement("section", {
+    return /*#__PURE__*/React$1.createElement("section", {
       className: "youtubeSubscribe"
-    }, /*#__PURE__*/React.createElement("div", {
+    }, /*#__PURE__*/React$1.createElement("div", {
       ref: this.youtubeSubscribeNode,
       className: "g-ytsubscribe",
       "data-theme": theme,
@@ -3751,7 +3757,7 @@ class YouTubeSubscribe extends Component {
   }
 }
 
-var styles$5 = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu"};
+var styles$7 = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu"};
 
 const PatternPreview = ({
   isAdmin,
@@ -3787,11 +3793,11 @@ const PatternPreview = ({
     setImageUrl(_imageUrl);
     setPreviewUrl(_previewUrl);
   }, [_imageUrl, _previewUrl]);
-  return /*#__PURE__*/React.createElement("div", {
-    className: styles$5.wrapper
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles$5.image
-  }, /*#__PURE__*/React.createElement(ImageUploadable$1, {
+  return /*#__PURE__*/React$1.createElement("div", {
+    className: styles$7.wrapper
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$7.image
+  }, /*#__PURE__*/React$1.createElement(ImageUploadable$1, {
     width: '100%',
     height: '100%',
     wrapperStyle: {
@@ -3803,21 +3809,21 @@ const PatternPreview = ({
     isAdmin: isAdmin,
     isEdit: isAdmin,
     src: imageUrl
-  })), /*#__PURE__*/React.createElement("div", {
-    className: styles$5.info
-  }, /*#__PURE__*/React.createElement("a", {
+  })), /*#__PURE__*/React$1.createElement("div", {
+    className: styles$7.info
+  }, /*#__PURE__*/React$1.createElement("a", {
     rel: "noreferrer",
     href: previewUrl,
     onClick: e => onClickLink(e, 'previewUrl'),
     target: "_blank",
-    className: styles$5.previewUrl
-  }, buttonText), /*#__PURE__*/React.createElement("div", {
+    className: styles$7.previewUrl
+  }, buttonText), /*#__PURE__*/React$1.createElement("div", {
     contentEditable: isAdmin ? "true" : "false",
     onBlur: () => {}
   }, message)));
 };
 
-var styles$4 = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
+var styles$6 = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
 
 const POST_ITEM_TYPE = {
   TITLE: 'title',
@@ -3856,35 +3862,35 @@ const MenuAddComponentPost = ({
   const hasSubMenu = item => {
     return Array.isArray(POST_ITEM_TYPE_SUBMENU[item]);
   };
-  return /*#__PURE__*/React.createElement("div", {
-    className: `${styles$4.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`,
+  return /*#__PURE__*/React$1.createElement("div", {
+    className: `${styles$6.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`,
     onClick: () => {
       setShowMenu(!showMenu);
     }
-  }, showMenu ? 'X' : 'Add', /*#__PURE__*/React.createElement("div", {
+  }, showMenu ? 'X' : 'Add', /*#__PURE__*/React$1.createElement("div", {
     style: {
       position: 'relative'
     }
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles$4.adminMenu + ` ${!showMenu ? styles$4.hidden : ''}`
-  }, Array.isArray(Object.keys(menuItems)) && menuItems.map((item, index) => /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$6.adminMenu + ` ${!showMenu ? styles$6.hidden : ''}`
+  }, Array.isArray(Object.keys(menuItems)) && menuItems.map((item, index) => /*#__PURE__*/React$1.createElement("div", {
     onMouseOver: () => onMenuMouseOver(item),
-    className: styles$4.menuItem,
+    className: styles$6.menuItem,
     key: index,
     onClick: e => {
       e.stopPropagation();
       !hasSubMenu(item) && onClickMenuItem(POST_ITEM_TYPE[item]);
       setShowMenu(false);
     }
-  }, item, hasSubMenu(item) && hoverItem === item && /*#__PURE__*/React.createElement("div", {
-    className: `${styles$4.adminMenu} ${styles$4.subMenu}`
-  }, POST_ITEM_TYPE_SUBMENU[item].map((i, idx) => /*#__PURE__*/React.createElement("div", {
+  }, item, hasSubMenu(item) && hoverItem === item && /*#__PURE__*/React$1.createElement("div", {
+    className: `${styles$6.adminMenu} ${styles$6.subMenu}`
+  }, POST_ITEM_TYPE_SUBMENU[item].map((i, idx) => /*#__PURE__*/React$1.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       onClickMenuItem(i);
       setShowMenu(false);
     },
-    className: styles$4.menuItem,
+    className: styles$6.menuItem,
     key: idx
   }, i))))))));
 };
@@ -3917,7 +3923,7 @@ var gtag = {
   event
 };
 
-var styles$3 = {"wrapper":"PatternDetail-module_wrapper__CFlmD","mainImage":"PatternDetail-module_mainImage__ac-c1","rightInfo":"PatternDetail-module_rightInfo__6J0eO","title":"PatternDetail-module_title__0IjOq","author":"PatternDetail-module_author__Xgx6J","storeInfo":"PatternDetail-module_storeInfo__IwaSl","blackCatWrapper":"PatternDetail-module_blackCatWrapper__cqlld","blackCat":"PatternDetail-module_blackCat__xwKnn","message":"PatternDetail-module_message__Wf-re","text":"PatternDetail-module_text__Whs4v","supperWrapperButton":"PatternDetail-module_supperWrapperButton__KF8fO","buttonWrapper":"PatternDetail-module_buttonWrapper__Z-n6q","priceWrapper":"PatternDetail-module_priceWrapper__7pvJH","price":"PatternDetail-module_price__JsXa9","payPalWrapper":"PatternDetail-module_payPalWrapper__C7Mpl","show":"PatternDetail-module_show__L4BBl","payPal":"PatternDetail-module_payPal__0QLxu","closeLink":"PatternDetail-module_closeLink__Xfvkv","linkStore":"PatternDetail-module_linkStore__gf5UQ","mb11":"PatternDetail-module_mb11__sNoEg","paypalButton":"PatternDetail-module_paypalButton__bUOF3","listSmallImage":"PatternDetail-module_listSmallImage__h5eyY","deleteButton":"PatternDetail-module_deleteButton__5oh8i","triangleLeft":"PatternDetail-module_triangleLeft__C0z45","triangleRight":"PatternDetail-module_triangleRight__krzev"};
+var styles$5 = {"wrapper":"PatternDetail-module_wrapper__CFlmD","mainImage":"PatternDetail-module_mainImage__ac-c1","rightInfo":"PatternDetail-module_rightInfo__6J0eO","title":"PatternDetail-module_title__0IjOq","author":"PatternDetail-module_author__Xgx6J","storeInfo":"PatternDetail-module_storeInfo__IwaSl","blackCatWrapper":"PatternDetail-module_blackCatWrapper__cqlld","blackCat":"PatternDetail-module_blackCat__xwKnn","message":"PatternDetail-module_message__Wf-re","text":"PatternDetail-module_text__Whs4v","supperWrapperButton":"PatternDetail-module_supperWrapperButton__KF8fO","buttonWrapper":"PatternDetail-module_buttonWrapper__Z-n6q","priceWrapper":"PatternDetail-module_priceWrapper__7pvJH","price":"PatternDetail-module_price__JsXa9","payPalWrapper":"PatternDetail-module_payPalWrapper__C7Mpl","show":"PatternDetail-module_show__L4BBl","payPal":"PatternDetail-module_payPal__0QLxu","closeLink":"PatternDetail-module_closeLink__Xfvkv","linkStore":"PatternDetail-module_linkStore__gf5UQ","mb11":"PatternDetail-module_mb11__sNoEg","paypalButton":"PatternDetail-module_paypalButton__bUOF3","listSmallImage":"PatternDetail-module_listSmallImage__h5eyY","deleteButton":"PatternDetail-module_deleteButton__5oh8i","triangleLeft":"PatternDetail-module_triangleLeft__C0z45","triangleRight":"PatternDetail-module_triangleRight__krzev"};
 
 const PatternDetail = ({
   name: _name,
@@ -4033,11 +4039,11 @@ const PatternDetail = ({
       onChange(_imageList, index, 'imageList');
     }
   };
-  return /*#__PURE__*/React.createElement("div", {
-    className: styles$3.wrapper
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles$3.mainImage
-  }, isAdmin ? /*#__PURE__*/React.createElement(ImageUploadable$1, {
+  return /*#__PURE__*/React$1.createElement("div", {
+    className: styles$5.wrapper
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$5.mainImage
+  }, isAdmin ? /*#__PURE__*/React$1.createElement(ImageUploadable$1, {
     wrapperStyle: {
       width: '100%',
       height: '100%'
@@ -4046,62 +4052,62 @@ const PatternDetail = ({
     isAdmin: isAdmin,
     isEdit: isAdmin,
     src: bigImageUrl
-  }) : /*#__PURE__*/React.createElement("img", {
+  }) : /*#__PURE__*/React$1.createElement("img", {
     src: bigImageUrl
-  })), /*#__PURE__*/React.createElement("div", {
-    className: styles$3.rightInfo
-  }, /*#__PURE__*/React.createElement("h1", {
+  })), /*#__PURE__*/React$1.createElement("div", {
+    className: styles$5.rightInfo
+  }, /*#__PURE__*/React$1.createElement("h1", {
     suppressContentEditableWarning: isAdmin,
     onBlur: e => onChange(e, index, 'name'),
     contenteditable: `${isAdmin ? "true" : "false"}`,
-    className: styles$3.title
-  }, name)), /*#__PURE__*/React.createElement("div", {
-    className: styles$3.storeInfo
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles$3.blackCatWrapper
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles$3.blackCat
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles$3.message
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles$3.text
-  }, "Nh\u1EAFn tin cho m\xECnh \u0111\u1EC3 tham gia l\u1EDBp nh\xE9!")))), /*#__PURE__*/React.createElement("div", {
-    className: styles$3.supperWrapperButton
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles$3.buttonWrapper
-  }, /*#__PURE__*/React.createElement("a", {
+    className: styles$5.title
+  }, name)), /*#__PURE__*/React$1.createElement("div", {
+    className: styles$5.storeInfo
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$5.blackCatWrapper
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$5.blackCat
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$5.message
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$5.text
+  }, "Nh\u1EAFn tin cho m\xECnh \u0111\u1EC3 tham gia l\u1EDBp nh\xE9!")))), /*#__PURE__*/React$1.createElement("div", {
+    className: styles$5.supperWrapperButton
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$5.buttonWrapper
+  }, /*#__PURE__*/React$1.createElement("a", {
     rel: "noreferrer",
     href: ravelryUrl,
     onClick: e => onClickLink(e, 'ravelryUrl'),
     target: "_blank",
-    className: `${styles$3.linkStore}`
-  }, "\u0110\u0103ng k\xED l\u1EDBp \u0111an th\xFA b\xF4ng online"))), /*#__PURE__*/React.createElement("div", {
-    className: styles$3.priceWrapper
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles$3.triangleRight
-  }), /*#__PURE__*/React.createElement("div", {
-    className: styles$3.triangleRight
-  }), /*#__PURE__*/React.createElement("div", {
+    className: `${styles$5.linkStore}`
+  }, "\u0110\u0103ng k\xED l\u1EDBp \u0111an th\xFA b\xF4ng online"))), /*#__PURE__*/React$1.createElement("div", {
+    className: styles$5.priceWrapper
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$5.triangleRight
+  }), /*#__PURE__*/React$1.createElement("div", {
+    className: styles$5.triangleRight
+  }), /*#__PURE__*/React$1.createElement("div", {
     suppressContentEditableWarning: isAdmin,
     onBlur: e => onChange(e, index, 'price'),
     contenteditable: `${isAdmin ? "true" : "false"}`,
-    className: styles$3.price
-  }, price), /*#__PURE__*/React.createElement("div", {
-    className: styles$3.triangleLeft
-  }), /*#__PURE__*/React.createElement("div", {
-    className: styles$3.triangleLeft
-  }))), /*#__PURE__*/React.createElement("div", {
-    className: styles$3.listSmallImage
-  }, Array.isArray(imageList) && imageList.map((img, i) => isAdmin ? /*#__PURE__*/React.createElement("div", {
+    className: styles$5.price
+  }, price), /*#__PURE__*/React$1.createElement("div", {
+    className: styles$5.triangleLeft
+  }), /*#__PURE__*/React$1.createElement("div", {
+    className: styles$5.triangleLeft
+  }))), /*#__PURE__*/React$1.createElement("div", {
+    className: styles$5.listSmallImage
+  }, Array.isArray(imageList) && imageList.map((img, i) => isAdmin ? /*#__PURE__*/React$1.createElement("div", {
     style: {
       position: 'relative'
     }
-  }, i < imageList.length - 1 && /*#__PURE__*/React.createElement("div", {
-    className: styles$3.deleteButton,
+  }, i < imageList.length - 1 && /*#__PURE__*/React$1.createElement("div", {
+    className: styles$5.deleteButton,
     onClick: () => {
       removeImage(i);
     }
-  }, "x"), /*#__PURE__*/React.createElement(ImageUploadable$1, {
+  }, "x"), /*#__PURE__*/React$1.createElement(ImageUploadable$1, {
     key: i,
     wrapperStyle: {
       width: '243px',
@@ -4116,13 +4122,13 @@ const PatternDetail = ({
     isAdmin: isAdmin,
     isEdit: isAdmin,
     src: img
-  })) : /*#__PURE__*/React.createElement("img", {
+  })) : /*#__PURE__*/React$1.createElement("img", {
     key: i,
     src: img
   }))));
 };
 
-var styles$2 = {"relatedTo":"RelatedToMenu-module_relatedTo__eRHql","menuLink":"RelatedToMenu-module_menuLink__8MBUA","deleteButton":"RelatedToMenu-module_deleteButton__Hqq16","arrow":"RelatedToMenu-module_arrow__njWAs","textRelatedTo":"RelatedToMenu-module_textRelatedTo__n7-3q"};
+var styles$4 = {"relatedTo":"RelatedToMenu-module_relatedTo__eRHql","menuLink":"RelatedToMenu-module_menuLink__8MBUA","deleteButton":"RelatedToMenu-module_deleteButton__Hqq16","arrow":"RelatedToMenu-module_arrow__njWAs","textRelatedTo":"RelatedToMenu-module_textRelatedTo__n7-3q"};
 
 const RelatedToMenu = ({
   url,
@@ -4133,40 +4139,40 @@ const RelatedToMenu = ({
   index
 }) => {
   const [showMenuUrl, setShowMenuUrl] = useState(false);
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$2.relatedTo
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles$2.arrow
-  }), /*#__PURE__*/React.createElement("div", {
-    className: styles$2.textRelatedTo,
+    className: styles$4.relatedTo
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$4.arrow
+  }), /*#__PURE__*/React$1.createElement("div", {
+    className: styles$4.textRelatedTo,
     onClick: () => {
       setShowMenuUrl(true);
     }
-  }, text), /*#__PURE__*/React.createElement("a", {
+  }, text), /*#__PURE__*/React$1.createElement("a", {
     onClick: () => {
       setShowMenuUrl(true);
     }
-  }, textLink), showMenuUrl && /*#__PURE__*/React.createElement("div", {
-    className: styles$2.menuLink
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles$2.deleteButton,
+  }, textLink), showMenuUrl && /*#__PURE__*/React$1.createElement("div", {
+    className: styles$4.menuLink
+  }, /*#__PURE__*/React$1.createElement("div", {
+    className: styles$4.deleteButton,
     onClick: () => {
       setShowMenuUrl(false);
     }
-  }, "x"), /*#__PURE__*/React.createElement("label", null, "Text:"), /*#__PURE__*/React.createElement("input", {
-    className: styles$2.text,
+  }, "x"), /*#__PURE__*/React$1.createElement("label", null, "Text:"), /*#__PURE__*/React$1.createElement("input", {
+    className: styles$4.text,
     onChange: e => onChange('textLink', e, index),
     value: textLink
-  }), /*#__PURE__*/React.createElement("label", null, "Url:"), /*#__PURE__*/React.createElement("input", {
-    className: styles$2.url,
+  }), /*#__PURE__*/React$1.createElement("label", null, "Url:"), /*#__PURE__*/React$1.createElement("input", {
+    className: styles$4.url,
     onChange: e => onChange('url', e, index),
     value: url
   })));
 };
 
-var styles$1 = {"btnCommon":"AdminMenu-module_btnCommon__zAFca","bigMenu":"AdminMenu-module_bigMenu__9UUTu","btn":"AdminMenu-module_btn__JqVGf","menuActive":"AdminMenu-module_menuActive__8EWvI","bottom":"AdminMenu-module_bottom__6oYnv","top":"AdminMenu-module_top__U0RCz","left":"AdminMenu-module_left__A-mrQ","show":"AdminMenu-module_show__Ie-bf"};
+var styles$3 = {"btnCommon":"AdminMenu-module_btnCommon__zAFca","bigMenu":"AdminMenu-module_bigMenu__9UUTu","btn":"AdminMenu-module_btn__JqVGf","menuActive":"AdminMenu-module_menuActive__8EWvI","bottom":"AdminMenu-module_bottom__6oYnv","top":"AdminMenu-module_top__U0RCz","left":"AdminMenu-module_left__A-mrQ","show":"AdminMenu-module_show__Ie-bf"};
 
 const AdminMenu = ({
   isEdit,
@@ -4182,32 +4188,371 @@ const AdminMenu = ({
   useEffect(() => {
     setIsEdit(isEdit);
   }, [isEdit]);
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     onClick: () => {
       setIsShowMenu(!isShowMenu);
     },
-    className: `${styles$1.bigMenu}${isShowMenu ? ' ' + styles$1.menuActive : ''}`
-  }, /*#__PURE__*/React.createElement("span", null, text), !hideButtons.includes('edit-save') && /*#__PURE__*/React.createElement("div", {
+    className: `${styles$3.bigMenu}${isShowMenu ? ' ' + styles$3.menuActive : ''}`
+  }, /*#__PURE__*/React$1.createElement("span", null, text), !hideButtons.includes('edit-save') && /*#__PURE__*/React$1.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       setIsShowMenu(!isShowMenu);
       _isEdit ? onSaveClick() : onEditClick();
     },
-    className: `${styles$1.btn}${isShowMenu ? ` ${styles$1.top} ` + styles$1.show : ''}`
-  }, _isEdit ? 'Save' : 'Edit'), _isEdit && /*#__PURE__*/React.createElement("div", {
+    className: `${styles$3.btn}${isShowMenu ? ` ${styles$3.top} ` + styles$3.show : ''}`
+  }, _isEdit ? 'Save' : 'Edit'), _isEdit && /*#__PURE__*/React$1.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       setIsShowMenu(!isShowMenu);
       onCancelClick();
     },
-    className: `${styles$1.btn}${isShowMenu ? ` ${styles$1.bottom} ` + styles$1.show : ''}`
-  }, 'Cancel'), _isEdit && !hideButtons.includes('preview') && /*#__PURE__*/React.createElement("div", {
+    className: `${styles$3.btn}${isShowMenu ? ` ${styles$3.bottom} ` + styles$3.show : ''}`
+  }, 'Cancel'), _isEdit && !hideButtons.includes('preview') && /*#__PURE__*/React$1.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       onPreviewClick();
     },
-    className: `${styles$1.btn}${isShowMenu ? ` ${styles$1.left} ` + styles$1.show : ''}`
+    className: `${styles$3.btn}${isShowMenu ? ` ${styles$3.left} ` + styles$3.show : ''}`
   }, '👁'));
+};
+
+var styles$2 = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","mobileContent":"PatternItem-module_mobileContent__wcZfW","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
+
+var styles$1 = {"wrapper":"PatternName-module_wrapper__KDcd8","isBottom":"PatternName-module_isBottom__j2DCd","menu":"PatternName-module_menu__OOslt","pickerMenu":"PatternName-module_pickerMenu__HtlsW"};
+
+const PatternName = ({
+  onBlur = () => {},
+  nameColor,
+  isEdit,
+  text,
+  onChangeColor = () => {},
+  isBottom
+}) => {
+  const [colorInstance, setColorInstance] = useState({
+    r: '241',
+    g: '112',
+    b: '19',
+    a: '1'
+  });
+  const [showPicker, setShowPicker] = useState(false);
+  return /*#__PURE__*/React$1.createElement("div", {
+    className: `${styles$1.wrapper} ${isBottom ? styles$1.isBottom : ''}`,
+    style: {
+      color: nameColor
+    }
+  }, /*#__PURE__*/React$1.createElement("div", {
+    suppressContentEditableWarning: true,
+    contentEditable: isEdit ? 'true' : 'false',
+    onBlur: onBlur
+  }, text), isEdit && /*#__PURE__*/React$1.createElement("div", {
+    onClick: () => setShowPicker(true),
+    suppressContentEditableWarning: true,
+    contentEditable: "false",
+    className: styles$1.menu
+  }, showPicker && /*#__PURE__*/React$1.createElement("div", {
+    className: styles$1.pickerMenu,
+    onMouseLeave: () => setShowPicker(false)
+  }, /*#__PURE__*/React$1.createElement(SketchPicker, {
+    color: colorInstance,
+    onChangeComplete: color => {
+      onChangeColor(`rgb(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`);
+      setColorInstance(color.rgb);
+    }
+  }))));
+};
+
+const PatternItem = ({
+  useRouter = () => {},
+  useDispatch = () => {},
+  imageUrl = '/images/no-image.png',
+  language = 'vi',
+  _id,
+  description,
+  name,
+  nameColor = '#0A7BCA',
+  isMobile,
+  ravelryUrl,
+  patternId = '',
+  order,
+  isAdmin,
+  isAddNew,
+  isEditing,
+  isFree,
+  isBottom,
+  listPatternDetail = []
+}) => {
+  const [imgSrc, setImgSrc] = useState(imageUrl);
+  const [prNameColor, setPrNameColor] = useState(nameColor);
+  const [des, setDes] = useState(isAddNew ? 'Description' : description);
+  const [prName, setPrName] = useState(isAddNew ? 'Pattern Name' : name);
+  const [patternFile, setPatternFile] = useState(null);
+  const [imgFile, setImgFile] = useState(null);
+  const [isEdit, setIsEdit] = useState(isEditing);
+  const [_isFree, setIsFree] = useState(isFree);
+  const [prRavelryUrl, setPrRavelryUrl] = useState(ravelryUrl);
+  const [prPatternId, setPrPatternId] = useState(patternId);
+  const [selectedPatternDetail, setSelectedPatternDetail] = useState(null);
+  const [isShowUrl, setIsShowUrl] = useState(true);
+  const [prOrder, setPrOrder] = useState(order);
+  const router = useRouter();
+  const listVariable = {
+    prNameColor,
+    des,
+    prName,
+    prRavelryUrl,
+    prPatternId,
+    nameColor,
+    description,
+    name,
+    ravelryUrl,
+    _isFree,
+    prOrder
+  };
+  useEffect(() => {
+    if (patternId && Array.isArray(listPatternDetail) && listPatternDetail.length > 0) {
+      setSelectedPatternDetail(listPatternDetail.find(item => item.value === patternId));
+    }
+  }, [patternId, listPatternDetail]);
+  const onChangeIsFree = e => {
+    setIsFree(!_isFree);
+  };
+  const content = /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    onBlur: e => {
+      setDes(e.target.innerText);
+    },
+    className: styles$2.description,
+    suppressContentEditableWarning: true,
+    contentEditable: isEdit ? 'true' : 'false'
+  }, des), /*#__PURE__*/React.createElement(PatternName, {
+    isBottom: isBottom,
+    onBlur: e => {
+      setPrName(e.target.innerText);
+    },
+    nameColor: prNameColor,
+    onChangeColor: color => setPrNameColor(color),
+    isEdit: isEdit,
+    text: prName
+  }));
+  const makeUrl = () => {
+    let url = ravelryUrl;
+    try {
+      if (url.includes(process.env.NEXT_PUBLIC_pageUrl) || patternId) {
+        const split = url.split('/'),
+          patternDetailPath = 'pattern-detail';
+        let path = 'tip';
+        if (url.includes(patternDetailPath) || patternId) {
+          path = patternDetailPath;
+        }
+        url = `/${path}/${patternId ? patternId : split[split.length - 1]}`;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    return url;
+  };
+  const onClickPatternItem = () => {
+    let url = ravelryUrl;
+    if (!isAdmin) {
+      if (url.includes(process.env.NEXT_PUBLIC_pageUrl) || patternId) {
+        const split = url.split('/'),
+          patternDetailPath = 'pattern-detail';
+        let path = 'tip';
+        if (url.includes(patternDetailPath) || patternId) {
+          path = patternDetailPath;
+        }
+        router.push(`/${path}/${patternId ? patternId : split[split.length - 1]}`).then(() => window.scrollTo(0, 0));
+      } else {
+        window.open(ravelryUrl);
+      }
+    } else {
+      // Handle is admin
+      if (isFree && url.includes(process.env.NEXT_PUBLIC_pageUrl)) ;
+    }
+  };
+  const onClickPatternDetail = () => {
+    if (patternId) {
+      router.push(`edit-pattern-detail/${patternId}`);
+    }
+  };
+  const dispatch = useDispatch();
+  const onClickEdit = e => {
+    e.stopPropagation();
+    if (!isEdit) {
+      setIsEdit(true);
+    } else {
+      const bodyFormData = new FormData();
+      let data = {};
+      const mapKeys = {
+        des: 'description',
+        prName: 'name',
+        prNameColor: 'nameColor',
+        prRavelryUrl: 'ravelryUrl',
+        _isFree: 'isFree',
+        prOrder: 'order'
+      };
+      for (const [key, value] of Object.entries(mapKeys)) {
+        if (listVariable[key] != listVariable[value]) {
+          data[value] = listVariable[key];
+        }
+      }
+      for (const [key1, value1] of Object.entries(data)) {
+        bodyFormData.set(key1, value1);
+      }
+      if (selectedPatternDetail && selectedPatternDetail.value) {
+        bodyFormData.set('patternId', selectedPatternDetail.value);
+        data.patternId = selectedPatternDetail.value;
+      }
+      // Handle on save
+      if (!isAddNew) {
+        if (!_id) {
+          alert('Không tìm thấy id');
+          return;
+        }
+        if (imgFile) {
+          bodyFormData.set('file', imgFile);
+          bodyFormData.set('requestAbsoluteUrlResponse', true);
+        }
+        if (patternFile) {
+          bodyFormData.set('patternFile', patternFile);
+        }
+        setShowLoading(dispatch, true);
+        APIService.put(`edit-pattern?id=${_id}`, imgFile || patternFile ? bodyFormData : data, imgFile ? {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        } : {}).then(res => {
+          // Handle create post success
+          alert('Cập nhật pattern thành công');
+          setShowLoading(dispatch, false);
+          window.location.reload();
+        }).catch(err => {
+          setShowLoading(dispatch, false);
+          handleApiError(err);
+        });
+        return;
+      }
+      if (!imgFile) {
+        alert('Vui lòng chọn hình của mẫu');
+        return;
+      }
+      setShowLoading(dispatch, true);
+      bodyFormData.set('requestAbsoluteUrlResponse', true);
+      bodyFormData.set('file', imgFile);
+      bodyFormData.set('name', prName);
+      bodyFormData.set('description', des);
+      bodyFormData.set('nameColor', prNameColor);
+      bodyFormData.set('ravelryUrl', prRavelryUrl);
+      bodyFormData.set('language', language);
+      if (patternFile) {
+        bodyFormData.set('patternFile', patternFile);
+      }
+      APIService.post(`add-pattern`, bodyFormData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(res => {
+        // Handle create post success
+        alert('Thêm pattern thành công');
+        setShowLoading(dispatch, false);
+        window.location.reload();
+      }).catch(err => {
+        setShowLoading(dispatch, false);
+        handleApiError(err);
+      });
+    }
+  };
+  const onClickDelete = () => {
+    if (confirm('Bạn có chắc muốn xoá mẫu này không?')) {
+      if (_id) {
+        setShowLoading(dispatch, true);
+        APIService.delete(`remove-pattern?id=${_id}`).then(res => {
+          setShowLoading(dispatch, false);
+          alert('Xoá mẫu thành công');
+          window.location.reload();
+        }).catch(err => {
+          setShowLoading(dispatch, false);
+          handleApiError(err);
+        });
+      } else {
+        alert('Not found pattern id');
+      }
+    }
+  };
+  const onClickCancel = () => {
+    setIsEdit(false);
+  };
+  const onChangeImage = async ({
+    imgSrc,
+    imgFile
+  }) => {
+    setImgSrc(imgSrc);
+    setImgFile(imgFile);
+  };
+  // const { isAdmin : _isAdmin } = router.query || {};
+  // if (_isAdmin) {
+  //     isAdmin = true;
+  // }
+  return /*#__PURE__*/React.createElement("div", {
+    href: makeUrl(),
+    className: `${styles$2.wrapper} ${isBottom ? styles$2.isBottom : ''}`,
+    style: {
+      width: isAddNew ? '100%' : 'initial',
+      height: isAddNew ? '100%' : 'initial',
+      backgroundColor: isAddNew ? 'inherit' : 'inherit',
+      padding: isAddNew ? 5 : 0
+    },
+    onClick: onClickPatternItem
+  }, isAdmin && /*#__PURE__*/React.createElement("div", {
+    className: styles$2.editMenu
+  }, isEdit && /*#__PURE__*/React.createElement("label", {
+    className: styles$2.isFree
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    onChange: onChangeIsFree,
+    checked: _isFree
+  }), " Is Free"), isEdit && !isAddNew && /*#__PURE__*/React.createElement("div", {
+    className: styles$2.button,
+    onClick: onClickCancel
+  }, "Cancel"), /*#__PURE__*/React.createElement("div", {
+    onClick: onClickEdit,
+    className: styles$2.button
+  }, isEdit ? 'Save' : 'Edit'), !isAddNew && !isEdit && /*#__PURE__*/React.createElement("div", {
+    onClick: onClickDelete,
+    className: styles$2.button
+  }, "Delete"), !isAddNew && !isEdit && /*#__PURE__*/React.createElement("div", {
+    onClick: onClickPatternDetail,
+    className: styles$2.button
+  }, "Detail")), _isFree && /*#__PURE__*/React.createElement("div", {
+    className: `${styles$2.freeTag} ${isBottom ? styles$2.isBottom : ''}`
+  }), /*#__PURE__*/React.createElement(ImageUploadable, {
+    isEdit: isEdit,
+    isAddNew: isAddNew,
+    isAdmin: isAdmin,
+    width: isBottom ? 468 / 2 : 468,
+    height: isBottom ? 333 / 2 : 333,
+    src: isEdit ? imgSrc : imageUrl,
+    onChangeImage: onChangeImage
+  }), isMobile ? /*#__PURE__*/React.createElement("div", {
+    className: styles$2.mobileContent
+  }, content) : content, isEdit && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 5
+    }
+  }, /*#__PURE__*/React.createElement(Select, {
+    placeholder: "Ch\u1ECDn b\xE0i vi\u1EBFt",
+    classNamePrefix: 'muti-select',
+    value: selectedPatternDetail,
+    options: listPatternDetail,
+    onChange: item => {
+      setSelectedPatternDetail(item);
+      setIsShowUrl(false);
+    },
+    isMulti: false
+  })), isEdit && /*#__PURE__*/React.createElement("input", {
+    placeholder: "Th\u1EE9 t\u1EF1",
+    value: prOrder,
+    onChange: e => setPrOrder(e.target.value)
+  }));
 };
 
 function _extends() {
@@ -4275,15 +4620,15 @@ const PostContent = ({
       onChangeData([...currentContent]);
     }
   };
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     className: styles.wrapper
-  }, Array.isArray(data) && data.map((item, i) => renderItemByType(item ? item : {}, i, styles, onDeleteContentItem, addNewContentItem, isMobile, _isEdit, data, onChangeData)), _isEdit && Array.isArray(data) && data.length == 0 && /*#__PURE__*/React.createElement(MenuAddComponentPost$1, {
+  }, Array.isArray(data) && data.map((item, i) => renderItemByType(item ? item : {}, i, styles, onDeleteContentItem, addNewContentItem, isMobile, _isEdit, data, onChangeData)), _isEdit && Array.isArray(data) && data.length == 0 && /*#__PURE__*/React$1.createElement(MenuAddComponentPost$1, {
     menuItems: Object.keys(POST_ITEM_TYPE$1),
     btnClass: `${menuBtnClass ? ' ' + menuBtnClass : ''}`,
     onClickMenuItem: item => {
       addNewContentItem(item);
     }
-  }), _isShowBigMenu && /*#__PURE__*/React.createElement(AdminMenu$1, {
+  }), _isShowBigMenu && /*#__PURE__*/React$1.createElement(AdminMenu$1, {
     isEdit: _isEdit,
     text: isShowMenu ? 'X' : 'Menu',
     onSaveClick: onSaveClick,
@@ -4311,9 +4656,9 @@ const GroupContent = ({
   useEffect(() => {
     setExpanded(expanded);
   }, [expanded]);
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     className: styles.wrapperGroupContent
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement("div", {
     onClick: () => {
       !isEdit && onChange(!_expanded, 'expanded');
     },
@@ -4321,9 +4666,9 @@ const GroupContent = ({
     onBlur: e => onChange(e, 'text'),
     contentEditable: `${isEdit ? "true" : "false"}`,
     className: styles.header
-  }, title), /*#__PURE__*/React.createElement("div", {
+  }, title), /*#__PURE__*/React$1.createElement("div", {
     className: `${styles.contentZone}${_expanded || isEdit ? ` ${styles.edit} ` + styles.show : ''}`
-  }, /*#__PURE__*/React.createElement(PostContent, {
+  }, /*#__PURE__*/React$1.createElement(PostContent, {
     isShowBigMenu: false,
     menuBtnClass: styles.btnMenu,
     onChangeData: c => {
@@ -4340,18 +4685,18 @@ const ImageConfig = ({
   value,
   onChange = () => {}
 }) => {
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     style: {
       display: 'flex',
       alignItems: 'center',
       marginBottom: 5
     }
-  }, /*#__PURE__*/React.createElement("label", {
+  }, /*#__PURE__*/React$1.createElement("label", {
     style: {
       marginRight: 5,
       minWidth: 50
     }
-  }, title, ": "), /*#__PURE__*/React.createElement("input", {
+  }, title, ": "), /*#__PURE__*/React$1.createElement("input", {
     type: "number",
     value: value,
     onChange: e => {
@@ -4364,18 +4709,18 @@ const MultiImageConfig = ({
   onChange = () => {}
 }) => {
   const [isLinkWidthHeight, setIsLinkWidthHeight] = useState(true);
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     style: {
       display: 'flex',
       flexDirection: 'column'
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement("div", {
     style: {
       display: 'flex',
       flexDirection: 'column',
       position: 'relative'
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement("div", {
     style: {
       position: 'absolute',
       left: -10,
@@ -4386,25 +4731,25 @@ const MultiImageConfig = ({
     onClick: () => {
       setIsLinkWidthHeight(!isLinkWidthHeight);
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement("div", {
     style: {
       height: 1,
       width: 5,
       backgroundColor: isLinkWidthHeight ? 'black' : 'lightgray'
     }
-  }), /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React$1.createElement("div", {
     style: {
       height: 28,
       width: 1,
       backgroundColor: isLinkWidthHeight ? 'black' : 'lightgray'
     }
-  }), /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React$1.createElement("div", {
     style: {
       height: 1,
       width: 5,
       backgroundColor: isLinkWidthHeight ? 'black' : 'lightgray'
     }
-  })), /*#__PURE__*/React.createElement(ImageConfig, {
+  })), /*#__PURE__*/React$1.createElement(ImageConfig, {
     title: "Width",
     value: parseInt(data.width),
     onChange: value => {
@@ -4414,7 +4759,7 @@ const MultiImageConfig = ({
         height: isLinkWidthHeight ? value : data.height
       });
     }
-  }), /*#__PURE__*/React.createElement(ImageConfig, {
+  }), /*#__PURE__*/React$1.createElement(ImageConfig, {
     title: "Height",
     value: parseInt(data.height),
     onChange: value => {
@@ -4424,7 +4769,7 @@ const MultiImageConfig = ({
         width: isLinkWidthHeight ? value : data.width
       });
     }
-  })), /*#__PURE__*/React.createElement(ImageConfig, {
+  })), /*#__PURE__*/React$1.createElement(ImageConfig, {
     title: "Gap",
     value: data.marginLeft * 2,
     onChange: value => {
@@ -4658,14 +5003,14 @@ const uploadContentImageFiles = _contentData => {
   });
 };
 const wrapperActionAdmin = (item, index, styles = {}, onDeleteContentItem = () => {}, onAddNewContentItem = () => {}) => {
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     className: styles.wrapperAction
-  }, item, /*#__PURE__*/React.createElement("div", {
+  }, item, /*#__PURE__*/React$1.createElement("div", {
     onClick: () => onDeleteContentItem(index),
     className: styles.deleteButton
-  }, "X"), /*#__PURE__*/React.createElement("div", {
+  }, "X"), /*#__PURE__*/React$1.createElement("div", {
     className: styles.addButton
-  }, /*#__PURE__*/React.createElement(MenuAddComponentPost$1, {
+  }, /*#__PURE__*/React$1.createElement(MenuAddComponentPost$1, {
     menuItems: Object.keys(POST_ITEM_TYPE$1),
     btnClass: styles.button,
     onClickMenuItem: item => {
@@ -4876,8 +5221,8 @@ const renderItemByType = ({
   style = {},
   expanded
 }, index, styles = {}, onDeleteContentItem = () => {}, onAddNewContentItem = () => {}, isMobile, isAdmin, contentData, onChangeContent = () => {}) => {
-  let result = /*#__PURE__*/React.createElement("p", null, text),
-    editComponent = /*#__PURE__*/React.createElement("p", {
+  let result = /*#__PURE__*/React$1.createElement("p", null, text),
+    editComponent = /*#__PURE__*/React$1.createElement("p", {
       onDragStart: onDragStart,
       draggable: "true",
       suppressContentEditableWarning: true,
@@ -4886,14 +5231,14 @@ const renderItemByType = ({
       onKeyDown: e => onKeyDownParagraph(e, onAddNewContentItem),
       "data-index": index
     }, text),
-    viewComponent = /*#__PURE__*/React.createElement(Linkify, {
+    viewComponent = /*#__PURE__*/React$1.createElement(Linkify, {
       as: "p",
       options: {
         target: '_blank'
       }
     }, text);
-  let subContent = /*#__PURE__*/React.createElement("div", null);
-  const dropZoneDiv = /*#__PURE__*/React.createElement("div", {
+  let subContent = /*#__PURE__*/React$1.createElement("div", null);
+  const dropZoneDiv = /*#__PURE__*/React$1.createElement("div", {
     id: index,
     onDragLeave: onDragLeave,
     onDragOver: onDragOver,
@@ -4902,7 +5247,7 @@ const renderItemByType = ({
   });
   switch (type) {
     case POST_ITEM_TYPE$1.TITLE:
-      editComponent = /*#__PURE__*/React.createElement("div", {
+      editComponent = /*#__PURE__*/React$1.createElement("div", {
         className: styles.bigTitle,
         onDragStart: onDragStart,
         draggable: "true",
@@ -4910,42 +5255,42 @@ const renderItemByType = ({
         contentEditable: "true",
         onBlur: e => onChangeContent(onChangeText(e, index, contentData))
       }, text);
-      viewComponent = /*#__PURE__*/React.createElement("div", {
+      viewComponent = /*#__PURE__*/React$1.createElement("div", {
         className: styles.bigTitle
       }, text);
       break;
     case POST_ITEM_TYPE$1.BIG_HEADER:
-      editComponent = /*#__PURE__*/React.createElement("h2", {
+      editComponent = /*#__PURE__*/React$1.createElement("h2", {
         onDragStart: onDragStart,
         draggable: "true",
         suppressContentEditableWarning: true,
         contentEditable: "true",
         onBlur: e => onChangeContent(onChangeText(e, index, contentData))
       }, text);
-      viewComponent = /*#__PURE__*/React.createElement("h2", null, text);
+      viewComponent = /*#__PURE__*/React$1.createElement("h2", null, text);
       break;
     case POST_ITEM_TYPE$1.MEDIUM_HEADER:
-      editComponent = /*#__PURE__*/React.createElement("h3", {
+      editComponent = /*#__PURE__*/React$1.createElement("h3", {
         onDragStart: onDragStart,
         draggable: "true",
         suppressContentEditableWarning: true,
         contentEditable: "true",
         onBlur: e => onChangeContent(onChangeText(e, index, contentData))
       }, text);
-      viewComponent = /*#__PURE__*/React.createElement("h3", null, text);
+      viewComponent = /*#__PURE__*/React$1.createElement("h3", null, text);
       break;
     case POST_ITEM_TYPE$1.SMALL_HEADER:
-      editComponent = /*#__PURE__*/React.createElement("h4", {
+      editComponent = /*#__PURE__*/React$1.createElement("h4", {
         onDragStart: onDragStart,
         draggable: "true",
         suppressContentEditableWarning: true,
         contentEditable: "true",
         onBlur: e => onChangeContent(onChangeText(e, index, contentData))
       }, text);
-      viewComponent = /*#__PURE__*/React.createElement("h4", null, text);
+      viewComponent = /*#__PURE__*/React$1.createElement("h4", null, text);
       break;
     case POST_ITEM_TYPE$1.RELATED_TOPIC:
-      editComponent = /*#__PURE__*/React.createElement(RelatedToMenu$1, {
+      editComponent = /*#__PURE__*/React$1.createElement(RelatedToMenu$1, {
         url: url,
         text: text,
         textLink: textLink,
@@ -4953,13 +5298,13 @@ const renderItemByType = ({
         onChange: (key, e, index) => onChangeContent(onChangeUrl(key, e, index, contentData)),
         index: index
       });
-      viewComponent = /*#__PURE__*/React.createElement("div", {
+      viewComponent = /*#__PURE__*/React$1.createElement("div", {
         className: styles.relatedTo
-      }, /*#__PURE__*/React.createElement("div", {
+      }, /*#__PURE__*/React$1.createElement("div", {
         className: styles.arrow
-      }), /*#__PURE__*/React.createElement("div", {
+      }), /*#__PURE__*/React$1.createElement("div", {
         className: styles.textRelatedTo
-      }, text), /*#__PURE__*/React.createElement("a", {
+      }, text), /*#__PURE__*/React$1.createElement("a", {
         href: url,
         onClick: e => {
           sendSlackMessage({
@@ -4973,7 +5318,7 @@ const renderItemByType = ({
     case POST_ITEM_TYPE_SUBMENU$1.IMAGE[1]:
     case POST_ITEM_TYPE_SUBMENU$1.IMAGE[2]:
       if (Array.isArray(data)) {
-        editComponent = /*#__PURE__*/React.createElement("div", {
+        editComponent = /*#__PURE__*/React$1.createElement("div", {
           onDragStart: onDragStart,
           onMouseDown: e => {
             e.currentTarget.draggable = true;
@@ -4986,19 +5331,19 @@ const renderItemByType = ({
             display: 'flex',
             flexDirection: 'column'
           }
-        }, /*#__PURE__*/React.createElement("div", {
+        }, /*#__PURE__*/React$1.createElement("div", {
           className: styles.imageWrapper,
           style: {
             display: 'flex',
             justifyContent: 'center'
           }
-        }, data.map((img, idx) => /*#__PURE__*/React.createElement("div", {
+        }, data.map((img, idx) => /*#__PURE__*/React$1.createElement("div", {
           style: {
             ...style,
             width: 'unset',
             height: 'unset'
           }
-        }, /*#__PURE__*/React.createElement(ImageUploadable$1, {
+        }, /*#__PURE__*/React$1.createElement(ImageUploadable$1, {
           resizeable: true,
           key: idx,
           wrapperStyle: {
@@ -5028,7 +5373,7 @@ const renderItemByType = ({
           isAdmin: true,
           isEdit: true,
           src: img.url
-        }), /*#__PURE__*/React.createElement("figcaption", {
+        }), /*#__PURE__*/React$1.createElement("figcaption", {
           onBlur: e => onChangeContent(onChangeImageMultiple({
             imgIndex: idx,
             data: {
@@ -5038,7 +5383,7 @@ const renderItemByType = ({
           suppressContentEditableWarning: true,
           contentEditable: "true",
           className: styles.imageDescription
-        }, img.description)))), /*#__PURE__*/React.createElement(MultiImageConfig, {
+        }, img.description)))), /*#__PURE__*/React$1.createElement(MultiImageConfig, {
           data: style,
           onChange: data => {
             onChangeContent(onChangeImageMultiple({
@@ -5048,21 +5393,21 @@ const renderItemByType = ({
             }, index, 'style', contentData));
           }
         }));
-        viewComponent = /*#__PURE__*/React.createElement("div", {
+        viewComponent = /*#__PURE__*/React$1.createElement("div", {
           style: {
             display: 'flex',
             flexDirection: 'column',
             marginBottom: 20
           }
-        }, /*#__PURE__*/React.createElement("div", {
+        }, /*#__PURE__*/React$1.createElement("div", {
           className: styles.imageWrapper
-        }, data.map((img, idx) => /*#__PURE__*/React.createElement("div", {
+        }, data.map((img, idx) => /*#__PURE__*/React$1.createElement("div", {
           style: {
             ...style,
             width: 'unset',
             height: 'unset'
           }
-        }, /*#__PURE__*/React.createElement(ImageUploadable$1, {
+        }, /*#__PURE__*/React$1.createElement(ImageUploadable$1, {
           className: styles.imageUpload,
           key: idx,
           wrapperStyle: {
@@ -5070,7 +5415,7 @@ const renderItemByType = ({
             height: style.height
           },
           src: img.url
-        }), /*#__PURE__*/React.createElement("figcaption", {
+        }), /*#__PURE__*/React$1.createElement("figcaption", {
           className: styles.imageDescription
         }, img.description)))));
       }
@@ -5078,12 +5423,12 @@ const renderItemByType = ({
        * Support old image component with urlWeb
        */
       if (urlWeb) {
-        editComponent = /*#__PURE__*/React.createElement(ImageUpload$1, {
+        editComponent = /*#__PURE__*/React$1.createElement(ImageUpload$1, {
           width: webWidth,
           height: webHeight,
           onResize: size => onChangeContent(onImageResize(size, index, contentData)),
           onDragStart: onDragStart,
-          caption: /*#__PURE__*/React.createElement("figcaption", {
+          caption: /*#__PURE__*/React$1.createElement("figcaption", {
             onBlur: e => onChangeContent(onCaptionChange(e, index, contentData)),
             suppressContentEditableWarning: true,
             contentEditable: "true",
@@ -5092,56 +5437,56 @@ const renderItemByType = ({
           onChange: async e => onChangeContent(await onChangeImage(e, index, contentData)),
           url: urlWeb
         });
-        viewComponent = /*#__PURE__*/React.createElement("div", {
+        viewComponent = /*#__PURE__*/React$1.createElement("div", {
           className: styles.imgWrapper
-        }, /*#__PURE__*/React.createElement("img", {
+        }, /*#__PURE__*/React$1.createElement("img", {
           alt: imageDescription || 'Image with no description',
           src: urlWeb,
           width: isMobile ? '100%' : webWidth,
           height: isMobile ? 'auto' : webHeight
-        }), /*#__PURE__*/React.createElement("figcaption", {
+        }), /*#__PURE__*/React$1.createElement("figcaption", {
           className: styles.imageDescription
         }, imageDescription));
       }
       /** */
       break;
     case POST_ITEM_TYPE$1.ADS:
-      editComponent = /*#__PURE__*/React.createElement("div", {
+      editComponent = /*#__PURE__*/React$1.createElement("div", {
         onDragStart: onDragStart,
         draggable: "true",
         className: styles.ads
       }, "ADS HERE");
-      viewComponent = /*#__PURE__*/React.createElement(AdBanner$1, null);
+      viewComponent = /*#__PURE__*/React$1.createElement(AdBanner$1, null);
       break;
     case POST_ITEM_TYPE$1.VIDEO:
-      editComponent = /*#__PURE__*/React.createElement(PostVideo$1, {
+      editComponent = /*#__PURE__*/React$1.createElement(PostVideo$1, {
         onDragStart: onDragStart,
         url: url,
         onChange: e => onChangeContent(onChangeUrl('url', e, index, contentData)),
         onChangeText: e => onChangeContent(onChangeText(e, index, contentData)),
         text: text
       });
-      viewComponent = /*#__PURE__*/React.createElement("div", {
+      viewComponent = /*#__PURE__*/React$1.createElement("div", {
         className: styles.imgWrapper
-      }, url && /*#__PURE__*/React.createElement("iframe", {
+      }, url && /*#__PURE__*/React$1.createElement("iframe", {
         title: text,
         src: `https://www.youtube.com/embed/${url}`,
         frameborder: "0",
         allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
         allowFullScreen: true
-      }), /*#__PURE__*/React.createElement("figcaption", {
+      }), /*#__PURE__*/React$1.createElement("figcaption", {
         className: styles.imageDescription
       }, text));
       break;
     case POST_ITEM_TYPE$1.SUBCRIBE_ME:
-      subContent = /*#__PURE__*/React.createElement("div", {
+      subContent = /*#__PURE__*/React$1.createElement("div", {
         className: styles.subcribeMe
-      }, /*#__PURE__*/React.createElement(YouTubeSubscribe$1, {
+      }, /*#__PURE__*/React$1.createElement(YouTubeSubscribe$1, {
         channelid: 'UCf0jCxiSGh_pBExFN3k1CIA',
         theme: "default",
         layout: "full",
         count: "hidden"
-      }), /*#__PURE__*/React.createElement("img", {
+      }), /*#__PURE__*/React$1.createElement("img", {
         alt: "Subcribe me",
         src: "/images/subcribe-me.png"
       }));
@@ -5149,12 +5494,12 @@ const renderItemByType = ({
       viewComponent = subContent;
       break;
     case POST_ITEM_TYPE$1.BUY_ME_A_COFFEE:
-      subContent = /*#__PURE__*/React.createElement("div", {
+      subContent = /*#__PURE__*/React$1.createElement("div", {
         style: {
           display: 'flex',
           justifyContent: 'center'
         }
-      }, /*#__PURE__*/React.createElement("a", {
+      }, /*#__PURE__*/React$1.createElement("a", {
         onClick: () => {
           sendSlackMessage({
             channel: SLACK_CHANNELS.FREE_CRAFTPATTERNS,
@@ -5163,7 +5508,7 @@ const renderItemByType = ({
         },
         href: "https://www.buymeacoffee.com/cheryx",
         target: "_blank"
-      }, /*#__PURE__*/React.createElement("img", {
+      }, /*#__PURE__*/React$1.createElement("img", {
         src: "https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png",
         alt: "Buy Me A Coffee",
         style: {
@@ -5171,27 +5516,27 @@ const renderItemByType = ({
           width: 217
         }
       })));
-      editComponent = /*#__PURE__*/React.createElement("div", {
+      editComponent = /*#__PURE__*/React$1.createElement("div", {
         onDragStart: onDragStart,
         draggable: "true"
       }, subContent);
       viewComponent = subContent;
       break;
     case POST_ITEM_TYPE$1.PATTERN:
-      subContent = /*#__PURE__*/React.createElement(PatternDetail$1, _extends({
+      subContent = /*#__PURE__*/React$1.createElement(PatternDetail$1, _extends({
         onChange: (e, index, key) => onChangeContent(onChangePatternDetail(e, index, key, contentData))
       }, patternDetail, {
         index: index,
         isAdmin: isAdmin
       }));
-      editComponent = /*#__PURE__*/React.createElement("div", {
+      editComponent = /*#__PURE__*/React$1.createElement("div", {
         onDragStart: onDragStart,
         draggable: "true"
       }, subContent);
       viewComponent = subContent;
       break;
     case POST_ITEM_TYPE$1.PATTERN_PREVIEW:
-      subContent = /*#__PURE__*/React.createElement(PatternPreview$1, {
+      subContent = /*#__PURE__*/React$1.createElement(PatternPreview$1, {
         buttonText: buttonText,
         message: message,
         previewUrl: previewUrl,
@@ -5200,14 +5545,14 @@ const renderItemByType = ({
         index: index,
         isAdmin: isAdmin
       });
-      editComponent = /*#__PURE__*/React.createElement("div", {
+      editComponent = /*#__PURE__*/React$1.createElement("div", {
         onDragStart: onDragStart,
         draggable: "true"
       }, subContent);
       viewComponent = subContent;
       break;
     case POST_ITEM_TYPE$1.GROUP:
-      subContent = /*#__PURE__*/React.createElement(GroupContent, {
+      subContent = /*#__PURE__*/React$1.createElement(GroupContent, {
         expanded: expanded,
         isEdit: isAdmin,
         isMobile: isMobile,
@@ -5215,7 +5560,7 @@ const renderItemByType = ({
         content: content,
         onChange: (e, key) => onChangeContent(onChangeGroupDetail(e, index, key, contentData))
       });
-      editComponent = /*#__PURE__*/React.createElement("div", {
+      editComponent = /*#__PURE__*/React$1.createElement("div", {
         onDragStart: onDragStart,
         draggable: "true"
       }, subContent);
@@ -5223,11 +5568,11 @@ const renderItemByType = ({
       break;
   }
   if (isAdmin) {
-    result = wrapperActionAdmin( /*#__PURE__*/React.createElement(React.Fragment, null, dropZoneDiv, " ", editComponent), index, styles, onDeleteContentItem, onAddNewContentItem);
+    result = wrapperActionAdmin( /*#__PURE__*/React$1.createElement(React$1.Fragment, null, dropZoneDiv, " ", editComponent), index, styles, onDeleteContentItem, onAddNewContentItem);
   } else {
     result = viewComponent;
   }
   return result;
 };
 
-export { AdBanner, AdminMenu, IMAGE_SUBMENU, ImageUpload, ImageUploadable, MenuAddComponentPost, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles };
+export { AdBanner, AdminMenu, IMAGE_SUBMENU, ImageUpload, ImageUploadable, MenuAddComponentPost, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternItem, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles };
