@@ -71,6 +71,9 @@ jobs:
           restore-keys: >
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json',
             '**/yarn.lock') }}-
+      - name: Remove build cache
+        working-directory: ./example
+        run: rm -rf .next/cache
       - name: Install dependencies 🥑
         working-directory: ./example
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{
@@ -84,6 +87,9 @@ jobs:
       - name: Rename files
         working-directory: ./example/out
         run: find -type f -exec sed -i 's/_next/next/g' {} +
+      - name: Create .nojekyll file
+        working-directory: ./example/out
+        run: touch .nojekyll
       - name: Rename folder
         working-directory: ./example/out
         run: mv _next next
