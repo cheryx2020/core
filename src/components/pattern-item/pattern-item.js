@@ -4,7 +4,7 @@ import { APIService, setShowLoading, handleApiError } from "@cheryx2020/api-serv
 import React, { useEffect, useState } from 'react';
 import PatternName from '../pattern-name/pattern-name';
 import Select from 'react-select'
-const PatternItem = ({ useRouter = () => {}, useDispatch = () => {}, imageUrl = '/images/no-image.png', language = 'vi', _id, description, name, nameColor = '#0A7BCA', isMobile, ravelryUrl, patternId = '', order, isAdmin, isAddNew, isEditing, isFree, isBottom, listPatternDetail = [] }) => {
+const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl = '/images/no-image.png', language = 'vi', _id, description, name, nameColor = '#0A7BCA', isMobile, ravelryUrl, patternId = '', order, isAdmin, isAddNew, isEditing, isFree, isBottom, listPatternDetail = [] }) => {
   const [imgSrc, setImgSrc] = useState(imageUrl);
   const [prNameColor, setPrNameColor] = useState(nameColor);
   const [des, setDes] = useState(isAddNew ? 'Description' : description);
@@ -46,8 +46,8 @@ const PatternItem = ({ useRouter = () => {}, useDispatch = () => {}, imageUrl = 
     <PatternName
       isBottom={isBottom}
       onBlur={(e) => {
-      setPrName(e.target.innerText);
-    }} nameColor={prNameColor} onChangeColor={(color) => setPrNameColor(color)} isEdit={isEdit} text={prName} />
+        setPrName(e.target.innerText);
+      }} nameColor={prNameColor} onChangeColor={(color) => setPrNameColor(color)} isEdit={isEdit} text={prName} />
   </>;
   const makeUrl = () => {
     let url = ravelryUrl;
@@ -60,7 +60,7 @@ const PatternItem = ({ useRouter = () => {}, useDispatch = () => {}, imageUrl = 
         }
         url = `/${path}/${patternId ? patternId : split[split.length - 1]}`;
       }
-    } catch(e) {
+    } catch (e) {
       console.log(e);
     }
     return url;
@@ -199,7 +199,7 @@ const PatternItem = ({ useRouter = () => {}, useDispatch = () => {}, imageUrl = 
   const onClickCancel = () => {
     setIsEdit(false);
   }
-  const onChangeImage = async ({imgSrc, imgFile}) => {
+  const onChangeImage = async ({ imgSrc, imgFile }) => {
     setImgSrc(imgSrc);
     setImgFile(imgFile);
   }
@@ -207,7 +207,7 @@ const PatternItem = ({ useRouter = () => {}, useDispatch = () => {}, imageUrl = 
   const onChangeFile = (e) => {
     try {
       setPatternFile(e.target.files[0]);
-    } catch(e) {
+    } catch (e) {
       console.log(e);
     }
   }
@@ -222,25 +222,28 @@ const PatternItem = ({ useRouter = () => {}, useDispatch = () => {}, imageUrl = 
     padding: isAddNew ? 5 : 0,
   }} onClick={onClickPatternItem}>
     {isAdmin && <div className={styles.editMenu}>
-      {isEdit && <label className={styles.isFree}><input type="checkbox" onChange={onChangeIsFree} checked={_isFree}/> Is Free</label>}
+      {isEdit && <label className={styles.isFree}><input type="checkbox" onChange={onChangeIsFree} checked={_isFree} /> Is Free</label>}
       {isEdit && !isAddNew && <div className={styles.button} onClick={onClickCancel}>Cancel</div>}
       <div onClick={onClickEdit} className={styles.button}>{isEdit ? 'Save' : 'Edit'}</div>
       {!isAddNew && !isEdit && <div onClick={onClickDelete} className={styles.button}>Delete</div>}
       {!isAddNew && !isEdit && <div onClick={onClickPatternDetail} className={styles.button}>Detail</div>}
     </div>}
     {_isFree && <div className={`${styles.freeTag} ${isBottom ? styles.isBottom : ''}`}></div>}
-    <ImageUploadable isEdit={isEdit} isAddNew={isAddNew} isAdmin={isAdmin} width={isBottom ? 468/2 : 468} height={isBottom ? 333/2 : 333} src={isEdit ? imgSrc : imageUrl} onChangeImage={onChangeImage} />
+    <ImageUploadable isEdit={isEdit} isAddNew={isAddNew} isAdmin={isAdmin} wrapperStyle={{
+      width: isBottom ? 468 / 2 : 468
+      , height: isBottom ? 333 / 2 : 333
+    }} src={isEdit ? imgSrc : imageUrl} onChangeImage={onChangeImage} />
     {isMobile ? <div className={styles.mobileContent}>{content}</div> : content}
     {/* {isEdit && isShowUrl && <input placeholder="Link nhóm" value={prRavelryUrl} onChange={e => { setPrRavelryUrl(e.target.value); selectedPatternDetail != null && setSelectedPatternDetail(null)}} />} */}
     {/* {isEdit && <input placeholder="Id mẫu" value={prPatternId} onChange={e => setPrPatternId(e.target.value)} />} */}
-    {isEdit && <div style={{marginBottom: 5}}><Select
-                    placeholder="Chọn bài viết"
-                    classNamePrefix={'muti-select'}
-                    value={selectedPatternDetail}
-                    options={listPatternDetail} 
-                    onChange={item => {setSelectedPatternDetail(item); setIsShowUrl(false)}}
-                    isMulti={false}
-                    /></div>}
+    {isEdit && <div style={{ marginBottom: 5 }}><Select
+      placeholder="Chọn bài viết"
+      classNamePrefix={'muti-select'}
+      value={selectedPatternDetail}
+      options={listPatternDetail}
+      onChange={item => { setSelectedPatternDetail(item); setIsShowUrl(false) }}
+      isMulti={false}
+    /></div>}
     {isEdit && <input placeholder="Thứ tự" value={prOrder} onChange={e => setPrOrder(e.target.value)} />}
     {/* {isEdit && <div className={styles.patternUpload}><div className={styles.label}>Upload Pattern File: </div><input type="file" onChange={onChangeFile} /></div>} */}
     {/* {isAdmin && googleDriveFileId && <Link href={`https://drive.google.com/uc?export=view&id=${googleDriveFileId}`}><a target="_blank">Pattern File: {googleDriveFileId}</a></Link>} */}

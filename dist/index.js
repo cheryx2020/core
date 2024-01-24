@@ -20468,8 +20468,10 @@ const PatternItem = ({
     isEdit: isEdit,
     isAddNew: isAddNew,
     isAdmin: isAdmin,
-    width: isBottom ? 468 / 2 : 468,
-    height: isBottom ? 333 / 2 : 333,
+    wrapperStyle: {
+      width: isBottom ? 468 / 2 : 468,
+      height: isBottom ? 333 / 2 : 333
+    },
     src: isEdit ? imgSrc : imageUrl,
     onChangeImage: onChangeImage
   }), isMobile ? /*#__PURE__*/React.createElement("div", {
