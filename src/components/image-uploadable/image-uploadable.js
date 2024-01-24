@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './ImageUploadable.module.scss';
 import { readFile, isBigFile } from "@cheryx2020/utils";
 
-const ImageUploadable = ({ src, onChangeImage = () => {}, isAdmin, isEdit, wrapperStyle = { width: 500, height: 333 }, className='', onChangeStyle = () => {}, resizeable= false }) => {
+const ImageUploadable = ({ src, onChangeImage = () => { }, isAdmin, isEdit, wrapperStyle = {}, className = '', onChangeStyle = () => { }, resizeable = false }) => {
   const { width, height } = wrapperStyle;
   const [imgSrc, setImgSrc] = useState('');
   const imageWap = useRef(null);
@@ -13,7 +13,7 @@ const ImageUploadable = ({ src, onChangeImage = () => {}, isAdmin, isEdit, wrapp
     } else {
       setImgSrc(src);
     }
-  },[src]);
+  }, [src]);
   const onChange = async (e) => {
     // Check file size
     if (isBigFile(e?.target?.files[0])) {
@@ -23,14 +23,14 @@ const ImageUploadable = ({ src, onChangeImage = () => {}, isAdmin, isEdit, wrapp
     const { imgSrc, imgFile } = await new Promise(resolve => {
       var reader = new FileReader();
       reader.addEventListener("load", function () {
-        resolve({imgSrc: reader.result, imgFile: e.target.files[0]})
+        resolve({ imgSrc: reader.result, imgFile: e.target.files[0] })
       }, false);
       if (e.target.files[0]) {
         reader.readAsDataURL(e.target.files[0]);
       }
     })
     setImgSrc(imgSrc);
-    onChangeImage({imgSrc, imgFile})
+    onChangeImage({ imgSrc, imgFile })
     return;
   }
   let startX, startY, startWidth, startHeight;
@@ -42,7 +42,7 @@ const ImageUploadable = ({ src, onChangeImage = () => {}, isAdmin, isEdit, wrapp
     startHeight = parseInt(document.defaultView.getComputedStyle(imageWap.current).height, 10);
     document.documentElement.addEventListener('mousemove', doDrag, false);
     document.documentElement.addEventListener('mouseup', stopDrag, false);
- }
+  }
   function doDrag(e) {
     imageWap.current.style.width = (startWidth + e.clientX - startX) + 'px';
     imageWap.current.style.height = (startHeight + e.clientY - startY) + 'px';
@@ -51,15 +51,15 @@ const ImageUploadable = ({ src, onChangeImage = () => {}, isAdmin, isEdit, wrapp
   }
 
   function stopDrag(e) {
-    document.documentElement.removeEventListener('mousemove', doDrag, false);    document.documentElement.removeEventListener('mouseup', stopDrag, false);
-    onChangeStyle({width: imageWap.current.style.width, height: imageWap.current.style.height})
+    document.documentElement.removeEventListener('mousemove', doDrag, false); document.documentElement.removeEventListener('mouseup', stopDrag, false);
+    onChangeStyle({ width: imageWap.current.style.width, height: imageWap.current.style.height })
   }
   return <div ref={imageWap} className={`${styles.image} ${className}`} style={wrapperStyle}>
     {isAdmin && isEdit && <div className={styles.imageMenu} onClick={e => e.stopPropagation()}>
       <label><div>Choose Image</div><input accept="image/png, image/jpeg, image/svg+xml" hidden={true} type="file" onChange={onChange}></input></label>
     </div>}
-    {isEdit ? <img ref={image} width={width} height={height} src={imgSrc != '' ? imgSrc : src} style={{width, height}}/> : <img alt={process.env.NEXT_PUBLIC_SEO_mainTitle} width={width} height={height} src={src} />}
-    {isEdit && resizeable && <div onDrag={(e) => {e.preventDefault(); e.stopPropagation()}} onMouseDown={initDrag} className={styles.resizer}>
+    {isEdit ? <img ref={image} width={width} height={height} src={imgSrc != '' ? imgSrc : src} style={{ width, height }} /> : <img alt={process.env.NEXT_PUBLIC_SEO_mainTitle} width={width} height={height} src={src} />}
+    {isEdit && resizeable && <div onDrag={(e) => { e.preventDefault(); e.stopPropagation() }} onMouseDown={initDrag} className={styles.resizer}>
       <div className={styles.vertical}></div>
       <div className={styles.horizontal}></div>
     </div>}

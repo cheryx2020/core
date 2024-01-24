@@ -3427,10 +3427,7 @@ const ImageUploadable = ({
   onChangeImage = () => {},
   isAdmin,
   isEdit,
-  wrapperStyle = {
-    width: 500,
-    height: 333
-  },
+  wrapperStyle = {},
   className = '',
   onChangeStyle = () => {},
   resizeable = false
