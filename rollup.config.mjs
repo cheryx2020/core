@@ -13,7 +13,10 @@ export default {
       browser: true
     }),
     commonjs({
-      include: '/node_modules/'
+      include: [
+        "node_modules",
+        "node_modules/**",
+        "node_modules/**/*",]
     }),
     babel({
       babelrc: true,
