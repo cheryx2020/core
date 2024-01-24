@@ -1,5 +1,15 @@
 import { sendSlackMessage, SLACK_CHANNELS, removeAccents, uploadFile, isBigFile } from "@cheryx2020/utils";
-import { ImageUploadable, RelatedToMenu, AdminMenu, PatternDetail, ImageUpload, AdBanner, PostVideo, YouTubeSubscribe, PatternPreview, MenuAddComponentPost, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU } from "@cheryx2020/core";
+import ImageUploadable from '../image-uploadable/image-uploadable';
+import RelatedToMenu from '../related-to-menu/related-to-menu';
+import AdminMenu from "../admin-menu/admin-menu";
+import PatternDetail from "../pattern-detail/pattern-detail";
+import ImageUpload from "../image-upload/image-upload";
+import AdBanner from "../ad-banner/ad-banner";
+import PostVideo from "../post-video/post-video";
+import YouTubeSubscribe from "../subcribe-button/youtube-subcribe";
+import PatternPreview from "../pattern-preview/pattern-preview";
+import MenuAddComponentPost from "../menu-add-component-post/menu-add-component-post";
+import { POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU } from "../menu-add-component-post/menu-add-component-post";
 import Linkify from "linkify-react";
 import styles from "./PostContent.module.scss";
 import React, { useEffect, useState } from "react";

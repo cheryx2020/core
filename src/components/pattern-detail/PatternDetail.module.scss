@@ -126,7 +126,7 @@
       display: flex;
       align-items: center;
       flex-direction: column;
-      justify-content: end;
+      justify-content: flex-end;
     }
     @include desktop {
       padding-left: 0px;

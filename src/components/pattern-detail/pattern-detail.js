@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { ImageUploadable, gtag } from '@cheryx2020/core';
+import ImageUploadable from '../image-uploadable/image-uploadable';
+import gtag from '../../../gtag';
 import styles from './PatternDetail.module.scss';
 const PatternDetail = ({name: _name, price: _price, ravelryUrl: _ravelryUrl = 'https://www.messenger.com/t/100004957155465', lovecraftsUrl: _lovecraftsUrl, bigImageUrl: _bigImageUrl, imageList: _imageList,  isAdmin, onChange = () => {}, index, noImageUrl = '/images/no-image.png'}) => {
   const [imageList,setImageList] = useState([noImageUrl]);

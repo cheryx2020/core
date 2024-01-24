@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './PatternPreview.module.scss';
-import { ImageUploadable } from '@cheryx2020/core';
+import ImageUploadable from '../image-uploadable/image-uploadable';
 const PatternPreview = ({isAdmin, onChange = () => {}, index, imageUrl: _imageUrl, previewUrl: _previewUrl, buttonText="Look inside the pattern", message='You can preview 3 pages of the knitting pattern!'}) => {
   const [imageUrl, setImageUrl] = useState(_imageUrl);
   const [previewUrl, setPreviewUrl] = useState(_previewUrl);

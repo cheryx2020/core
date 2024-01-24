@@ -451,7 +451,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: end;
+    justify-content: flex-end;
   }
 }
 @media (min-width: 769px) and (max-width: 1024px) {
