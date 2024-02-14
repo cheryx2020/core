@@ -10,7 +10,7 @@ const PatternName = ({ onBlur = () => { }, nameColor, isEdit, text, onChangeColo
   });
   const [showPicker, setShowPicker] = useState(false);
   return <div className={`${styles.wrapper} ${isBottom ? styles.isBottom : ''}`} style={{ color: nameColor }}><div suppressContentEditableWarning={true} contentEditable={isEdit ? 'true' : 'false'} onBlur={onBlur}>{text}</div>
-    {isEdit && <div onClick={() => setShowPicker(true)} suppressContentEditableWarning={true} contentEditable='false' className={styles.menu}>
+    {isEdit && <div onClick={(e) => {setShowPicker(true); e.stopPropagation();}} suppressContentEditableWarning={true} contentEditable='false' className={styles.menu}>
       {showPicker && <div className={styles.pickerMenu} onMouseLeave={() => setShowPicker(false)}>
         <SketchPicker color={colorInstance} onChangeComplete={color => { onChangeColor(`rgb(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`); setColorInstance(color.rgb)}} />
       </div>

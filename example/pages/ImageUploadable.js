@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import ImageUploadable from "../../src/components/image-uploadable/image-uploadable";
 import Property, { Properties } from "../components/Property";
+import { defaultImageUrl } from "../constant";
 
 const Index = () => {
     const [isEdit, setEdit] = useState(true);
     const [resizeable, setResizeable] = useState(true);
-    const [src, setSrc] = useState("https://avatars.githubusercontent.com/u/9473156?v=4");
+    const [src, setSrc] = useState(defaultImageUrl);
     const [className, setClassName] = useState("");
     const [wrapperStyle, setWrapperStyle] = useState(`{"width": 300, "height": 300}`);
     let _wrapperStyle = {};

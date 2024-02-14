@@ -32,6 +32,18 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
     prOrder
   }
   useEffect(() => {
+    setPrName(name);
+  }, [name]);
+  useEffect(() => {
+    setDes(description);
+  }, [description]);
+  useEffect(() => {
+    setPrNameColor(nameColor);
+  }, [nameColor]);
+  useEffect(() => {
+    setIsEdit(isEditing);
+  }, [isEditing]);
+  useEffect(() => {
     if (patternId && Array.isArray(listPatternDetail) && listPatternDetail.length > 0) {
       setSelectedPatternDetail(listPatternDetail.find(item => item.value === patternId));
     }
@@ -67,7 +79,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
   const onClickPatternItem = () => {
     let url = ravelryUrl;
     if (!isAdmin) {
-      if (url.includes(process.env.NEXT_PUBLIC_pageUrl) || patternId) {
+      if (url?.includes(process.env.NEXT_PUBLIC_pageUrl) || patternId) {
         const split = url.split('/'), patternDetailPath = 'pattern-detail';
         let path = 'tip';
         if (url.includes(patternDetailPath) || patternId) {
