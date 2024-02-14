@@ -8,7 +8,7 @@
 
     &.isBottom {
         width: 234px !important;
-
+        flex: none;
         @media (max-width: $mobile-breakpoint) {
             width: 100% !important;
         }

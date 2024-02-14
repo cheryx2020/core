@@ -869,6 +869,7 @@
 }
 .PatternItem-module_wrapper__daTgU.PatternItem-module_isBottom__HSWIq {
   width: 234px !important;
+  flex: none;
 }
 @media (max-width: 641px) {
   .PatternItem-module_wrapper__daTgU.PatternItem-module_isBottom__HSWIq {
