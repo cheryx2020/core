@@ -224,7 +224,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
       {!isAddNew && !isEdit && <div onClick={onClickPatternDetail} className={styles.button}>Detail</div>}
     </div>}
     {_isFree && <div className={`${styles.freeTag} ${isBottom ? styles.isBottom : ''}`}></div>}
-    <ImageUploadable isEdit={isEdit} isAddNew={isAddNew} isAdmin={isAdmin} wrapperStyle={{
+    <ImageUploadable className={styles.image} isEdit={isEdit} wrapperStyle={{
       width: isBottom ? 468 / 2 : 468
       , height: isBottom ? 333 / 2 : 333
     }} src={isEdit ? imgSrc : imageUrl} onChangeImage={onChangeImage} />

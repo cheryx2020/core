@@ -3431,10 +3431,6 @@ const ImageUploadable = ({
   onChangeStyle = () => {},
   resizeable = false
 }) => {
-  const {
-    width,
-    height
-  } = wrapperStyle;
   const [imgSrc, setImgSrc] = useState('');
   const imageWap = useRef(null);
   const image = useRef(null);
@@ -3513,17 +3509,9 @@ const ImageUploadable = ({
     onChange: onChange
   }))), isEdit ? /*#__PURE__*/React.createElement("img", {
     ref: image,
-    width: width,
-    height: height,
-    src: imgSrc != '' ? imgSrc : src,
-    style: {
-      width,
-      height
-    }
+    src: imgSrc != '' ? imgSrc : src
   }) : /*#__PURE__*/React.createElement("img", {
     alt: process.env.NEXT_PUBLIC_SEO_mainTitle,
-    width: width,
-    height: height,
     src: src
   }), isEdit && resizeable && /*#__PURE__*/React.createElement("div", {
     onDrag: e => {
@@ -4213,7 +4201,7 @@ const AdminMenu = ({
   }, '👁'));
 };
 
-var styles$2 = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","mobileContent":"PatternItem-module_mobileContent__wcZfW","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
+var styles$2 = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","image":"PatternItem-module_image__ar-yf","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","mobileContent":"PatternItem-module_mobileContent__wcZfW","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -20456,9 +20444,8 @@ const PatternItem = ({
   }, "Detail")), _isFree && /*#__PURE__*/React.createElement("div", {
     className: `${styles$2.freeTag} ${isBottom ? styles$2.isBottom : ''}`
   }), /*#__PURE__*/React.createElement(ImageUploadable, {
+    className: styles$2.image,
     isEdit: isEdit,
-    isAddNew: isAddNew,
-    isAdmin: isAdmin,
     wrapperStyle: {
       width: isBottom ? 468 / 2 : 468,
       height: isBottom ? 333 / 2 : 333

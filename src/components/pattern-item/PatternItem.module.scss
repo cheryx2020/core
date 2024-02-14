@@ -1,34 +1,53 @@
 @import '../styles/variables.scss';
 @import '../styles/mixin.scss';
+
 .wrapper {
     display: flex;
     flex-direction: column;
     position: relative;
+
     &.isBottom {
         width: 234px !important;
+
         @media (max-width: $mobile-breakpoint) {
             width: 100% !important;
         }
     }
+
+    .image {
+        @media (max-width: $mobile-breakpoint) {
+            width: 45vw;
+            min-width: 45vw;
+
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
+
     .freeTag {
         width: 231px;
         height: 63px;
-        background-image: url('/images/free.png');
+        background-image: url('./images/free.png');
         background-size: cover;
         background-repeat: no-repeat;
         position: absolute;
         right: 0px;
         top: 19px;
         z-index: 12;
+
         &.isBottom {
             width: 102.5px;
             height: 31.5px;
             background-size: contain;
             right: -26px;
+
             @media (max-width: $mobile-breakpoint) {
                 width: 73.5px;
             }
         }
+
         @media (max-width: $mobile-breakpoint) {
             width: 77px;
             height: 21px;
@@ -37,17 +56,21 @@
             top: 10px;
         }
     }
+
     .editMenu {
         display: none;
+
         .isFree {
             cursor: pointer;
             margin-top: 6px;
             width: 70px;
+
             input {
                 width: 20px;
             }
         }
     }
+
     .button {
         width: 60px;
         height: 30px;
@@ -56,11 +79,13 @@
         align-items: center;
         display: flex;
         cursor: pointer;
+
         &:hover {
             background-color: gray;
             color: white;
         }
     }
+
     &:hover {
         .editMenu {
             display: flex !important;
@@ -70,6 +95,7 @@
             right: 0px;
         }
     }
+
     .img {
         @media (max-width: $mobile-breakpoint) {
             width: 170px;
@@ -78,50 +104,60 @@
             background-repeat: no-repeat;
         }
     }
+
     .description {
         outline: none;
         margin-top: 10px;
         font-size: 25px;
         line-height: 29px;
         color: #565555;
+
         @media (max-width: $mobile-breakpoint) {
             font-size: 17px;
             line-height: 21px;
         }
     }
+
     .name {
         font-family: "Fredericka the Great";
         font-size: 65px;
         line-height: 79px;
+
         @media (max-width: $mobile-breakpoint) {
             font-size: 24px;
             line-height: 29px;
         }
     }
+
     .mobileContent {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         padding-left: 9px;
+
         @include mobile {
             padding-left: 20px;
             justify-content: center;
         }
     }
+
     input {
         width: 100%;
         padding: 5px;
         margin-bottom: 5px;
         outline: none;
     }
+
     .patternUpload {
         display: flex;
         align-items: center;
+
         .label {
             white-space: nowrap;
             margin-right: 5px;
         }
     }
+
     @media (max-width: $mobile-breakpoint) {
         display: flex;
         flex-direction: row;
