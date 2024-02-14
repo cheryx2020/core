@@ -888,7 +888,7 @@
 .PatternItem-module_wrapper__daTgU .PatternItem-module_freeTag__HCPV8 {
   width: 231px;
   height: 63px;
-  background-image: url("./images/free.png");
+  background-image: url("https://cheryx.com/images/free.png");
   background-size: cover;
   background-repeat: no-repeat;
   position: absolute;
@@ -1077,7 +1077,7 @@
   height: 30px;
   cursor: pointer;
   background-size: contain;
-  background-image: url(./images/picker.png);
+  background-image: url("https://cheryx.com/images/picker.png");
 }
 .PostContent-module_wrapperGroupContent__yFH1p {
   display: flex;
