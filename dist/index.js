@@ -58560,6 +58560,9 @@ const PatternItem = ({
     setPrName(name);
   }, [name]);
   useEffect(() => {
+    setIsFree(isFree);
+  }, [isFree]);
+  useEffect(() => {
     setDes(description);
   }, [description]);
   useEffect(() => {
@@ -58783,10 +58786,6 @@ const PatternItem = ({
   }), /*#__PURE__*/React__default.createElement(ImageUploadable, {
     className: styles$2.image,
     isEdit: isEdit,
-    wrapperStyle: {
-      width: isBottom ? 468 / 2 : 468,
-      height: isBottom ? 333 / 2 : 333
-    },
     src: isEdit ? imgSrc : imageUrl,
     onChangeImage: onChangeImage
   }), isMobile ? /*#__PURE__*/React__default.createElement("div", {

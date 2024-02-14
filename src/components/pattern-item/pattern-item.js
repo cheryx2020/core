@@ -35,6 +35,9 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
     setPrName(name);
   }, [name]);
   useEffect(() => {
+    setIsFree(isFree);
+  }, [isFree]);
+  useEffect(() => {
     setDes(description);
   }, [description]);
   useEffect(() => {
@@ -236,10 +239,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
       {!isAddNew && !isEdit && <div onClick={onClickPatternDetail} className={styles.button}>Detail</div>}
     </div>}
     {_isFree && <div className={`${styles.freeTag} ${isBottom ? styles.isBottom : ''}`}></div>}
-    <ImageUploadable className={styles.image} isEdit={isEdit} wrapperStyle={{
-      width: isBottom ? 468 / 2 : 468
-      , height: isBottom ? 333 / 2 : 333
-    }} src={isEdit ? imgSrc : imageUrl} onChangeImage={onChangeImage} />
+    <ImageUploadable className={styles.image} isEdit={isEdit} src={isEdit ? imgSrc : imageUrl} onChangeImage={onChangeImage} />
     {isMobile ? <div className={styles.mobileContent}>{content}</div> : content}
     {isEdit && <div style={{ marginBottom: 5 }}><Select
       placeholder="Chọn bài viết"

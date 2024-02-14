@@ -11,12 +11,14 @@ const Index = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const [listPatternDetail, setListPatternDetail] = useState(`[{"value": 1, "label": "Option 1"}]`);
+    const [isMobile, setIsMobile] = useState(false);
+    const [isFree, setIsFree] = useState(false);
     let _listPatternDetail = [];
     try {
         _listPatternDetail = JSON.parse(listPatternDetail);
     } catch(e) {}
     return <div>
-        <PatternItem imageUrl={imageUrl} name={name} description={description} nameColor={nameColor} isEditing={isEditing} isAdmin={isAdmin} listPatternDetail={_listPatternDetail}/>
+        <PatternItem imageUrl={imageUrl} name={name} description={description} nameColor={nameColor} isEditing={isEditing} isAdmin={isAdmin} isMobile={isMobile} isFree={isFree} listPatternDetail={_listPatternDetail}/>
         <Properties>
             <Property text="imageUrl" type="input" value={imageUrl} onChange={(e) => { setImageUrl(e.target.value) }} description="" />
             <Property text="name" type="input" value={name} onChange={(e) => { setName(e.target.value) }} description="" />
@@ -24,6 +26,8 @@ const Index = () => {
             <Property text="nameColor" type="input" value={nameColor} onChange={(e) => { setNameColor(e.target.value) }} description="" />
             <Property text="isEditing" value={isEditing} onChange={() => { setIsEditing(!isEditing) }} description="to make sure the component can editable or not" />
             <Property text="isAdmin" value={isAdmin} onChange={() => { setIsAdmin(!isAdmin) }} description="to show admin menu" />
+            <Property text="isMobile" value={isMobile} onChange={() => { setIsMobile(!isMobile) }} description="mobile view" />
+            <Property text="isFree" value={isFree} onChange={() => { setIsFree(!isFree) }} description="is free" />
             <Property text="listPatternDetail" type="input" value={listPatternDetail} onChange={(e) => { setListPatternDetail(e.target.value) }} description="" />
         </Properties>
     </div>
