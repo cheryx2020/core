@@ -595,7 +595,7 @@ const renderItemByType = ({ type, text, content, webWidth, webHeight, urlWeb, im
                             onChangeStyle={s => {
                                 onChangeContent(onChangeImageMultiple({ style: { ...style, ...s } }, index, 'style', contentData));
                             }}
-                            isAdmin={true} isEdit={true} src={img.url} />
+                            isEdit={true} src={img.url} />
                         <figcaption onBlur={e => onChangeContent(onChangeImageMultiple({ imgIndex: idx, data: { description: e.target.innerText } }, index, 'data', contentData))} suppressContentEditableWarning={true} contentEditable="true" className={styles.imageDescription}>{img.description}</figcaption>
                     </div>)}</div>
                     <MultiImageConfig

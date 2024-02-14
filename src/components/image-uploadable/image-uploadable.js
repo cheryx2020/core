@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './ImageUploadable.module.scss';
 import { readFile, isBigFile } from "@cheryx2020/utils";
 
-const ImageUploadable = ({ src, onChangeImage = () => { }, isAdmin, isEdit, wrapperStyle = {}, className = '', onChangeStyle = () => { }, resizeable = false }) => {
+const ImageUploadable = ({ src, onChangeImage = () => { }, isEdit, wrapperStyle = {}, className = '', onChangeStyle = () => { }, resizeable = false }) => {
   const { width, height } = wrapperStyle;
   const [imgSrc, setImgSrc] = useState('');
   const imageWap = useRef(null);
@@ -55,7 +55,7 @@ const ImageUploadable = ({ src, onChangeImage = () => { }, isAdmin, isEdit, wrap
     onChangeStyle({ width: imageWap.current.style.width, height: imageWap.current.style.height })
   }
   return <div ref={imageWap} className={`${styles.image} ${className}`} style={wrapperStyle}>
-    {isAdmin && isEdit && <div className={styles.imageMenu} onClick={e => e.stopPropagation()}>
+    {isEdit && <div className={styles.imageMenu} onClick={e => e.stopPropagation()}>
       <label><div>Choose Image</div><input accept="image/png, image/jpeg, image/svg+xml" hidden={true} type="file" onChange={onChange}></input></label>
     </div>}
     {isEdit ? <img ref={image} width={width} height={height} src={imgSrc != '' ? imgSrc : src} style={{ width, height }} /> : <img alt={process.env.NEXT_PUBLIC_SEO_mainTitle} width={width} height={height} src={src} />}

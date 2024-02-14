@@ -16,7 +16,6 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
   const [prRavelryUrl, setPrRavelryUrl] = useState(ravelryUrl);
   const [prPatternId, setPrPatternId] = useState(patternId);
   const [selectedPatternDetail, setSelectedPatternDetail] = useState(null);
-  const [isShowUrl, setIsShowUrl] = useState(true);
   const [prOrder, setPrOrder] = useState(order);
   const router = useRouter();
   const listVariable = {
@@ -211,10 +210,6 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
       console.log(e);
     }
   }
-  // const { isAdmin : _isAdmin } = router.query || {};
-  // if (_isAdmin) {
-  //     isAdmin = true;
-  // }
   return <div href={makeUrl()} className={`${styles.wrapper} ${isBottom ? styles.isBottom : ''}`} style={{
     width: isAddNew ? '100%' : 'initial',
     height: isAddNew ? '100%' : 'initial',
@@ -234,19 +229,15 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
       , height: isBottom ? 333 / 2 : 333
     }} src={isEdit ? imgSrc : imageUrl} onChangeImage={onChangeImage} />
     {isMobile ? <div className={styles.mobileContent}>{content}</div> : content}
-    {/* {isEdit && isShowUrl && <input placeholder="Link nhóm" value={prRavelryUrl} onChange={e => { setPrRavelryUrl(e.target.value); selectedPatternDetail != null && setSelectedPatternDetail(null)}} />} */}
-    {/* {isEdit && <input placeholder="Id mẫu" value={prPatternId} onChange={e => setPrPatternId(e.target.value)} />} */}
     {isEdit && <div style={{ marginBottom: 5 }}><Select
       placeholder="Chọn bài viết"
       classNamePrefix={'muti-select'}
       value={selectedPatternDetail}
       options={listPatternDetail}
-      onChange={item => { setSelectedPatternDetail(item); setIsShowUrl(false) }}
+      onChange={item => { setSelectedPatternDetail(item); }}
       isMulti={false}
     /></div>}
     {isEdit && <input placeholder="Thứ tự" value={prOrder} onChange={e => setPrOrder(e.target.value)} />}
-    {/* {isEdit && <div className={styles.patternUpload}><div className={styles.label}>Upload Pattern File: </div><input type="file" onChange={onChangeFile} /></div>} */}
-    {/* {isAdmin && googleDriveFileId && <Link href={`https://drive.google.com/uc?export=view&id=${googleDriveFileId}`}><a target="_blank">Pattern File: {googleDriveFileId}</a></Link>} */}
   </div>
 }
 export default PatternItem

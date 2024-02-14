@@ -3425,7 +3425,6 @@ const sendSlackMessage = async ({ channel = 'FREE_CRAFTPATTERNS', message = 'Tex
 const ImageUploadable = ({
   src,
   onChangeImage = () => {},
-  isAdmin,
   isEdit,
   wrapperStyle = {},
   className = '',
@@ -3504,7 +3503,7 @@ const ImageUploadable = ({
     ref: imageWap,
     className: `${styles$9.image} ${className}`,
     style: wrapperStyle
-  }, isAdmin && isEdit && /*#__PURE__*/React.createElement("div", {
+  }, isEdit && /*#__PURE__*/React.createElement("div", {
     className: styles$9.imageMenu,
     onClick: e => e.stopPropagation()
   }, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("div", null, "Choose Image"), /*#__PURE__*/React.createElement("input", {
@@ -20229,7 +20228,6 @@ const PatternItem = ({
   const [prRavelryUrl, setPrRavelryUrl] = useState(ravelryUrl);
   const [prPatternId, setPrPatternId] = useState(patternId);
   const [selectedPatternDetail, setSelectedPatternDetail] = useState(null);
-  const [isShowUrl, setIsShowUrl] = useState(true);
   const [prOrder, setPrOrder] = useState(order);
   const router = useRouter();
   const listVariable = {
@@ -20425,10 +20423,6 @@ const PatternItem = ({
     setImgSrc(imgSrc);
     setImgFile(imgFile);
   };
-  // const { isAdmin : _isAdmin } = router.query || {};
-  // if (_isAdmin) {
-  //     isAdmin = true;
-  // }
   return /*#__PURE__*/React.createElement("div", {
     href: makeUrl(),
     className: `${styles$2.wrapper} ${isBottom ? styles$2.isBottom : ''}`,
@@ -20484,7 +20478,6 @@ const PatternItem = ({
     options: listPatternDetail,
     onChange: item => {
       setSelectedPatternDetail(item);
-      setIsShowUrl(false);
     },
     isMulti: false
   })), isEdit && /*#__PURE__*/React.createElement("input", {
@@ -21309,7 +21302,6 @@ const renderItemByType = ({
               }
             }, index, 'style', contentData));
           },
-          isAdmin: true,
           isEdit: true,
           src: img.url
         }), /*#__PURE__*/React.createElement("figcaption", {
