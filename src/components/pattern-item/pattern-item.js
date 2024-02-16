@@ -14,7 +14,6 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
   const [isEdit, setIsEdit] = useState(isEditing);
   const [_isFree, setIsFree] = useState(isFree);
   const [prRavelryUrl, setPrRavelryUrl] = useState(ravelryUrl);
-  const [prPatternId, setPrPatternId] = useState(patternId);
   const [selectedPatternDetail, setSelectedPatternDetail] = useState(null);
   const [prOrder, setPrOrder] = useState(order);
   const router = useRouter();
@@ -23,7 +22,6 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
     des,
     prName,
     prRavelryUrl,
-    prPatternId,
     nameColor,
     description,
     name,
@@ -33,19 +31,11 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
   }
   useEffect(() => {
     setPrName(name);
-  }, [name]);
-  useEffect(() => {
     setIsFree(isFree);
-  }, [isFree]);
-  useEffect(() => {
     setDes(description);
-  }, [description]);
-  useEffect(() => {
     setPrNameColor(nameColor);
-  }, [nameColor]);
-  useEffect(() => {
     setIsEdit(isEditing);
-  }, [isEditing]);
+    }, [name, isFree, description, nameColor, isEditing]);
   useEffect(() => {
     if (patternId && Array.isArray(listPatternDetail) && listPatternDetail.length > 0) {
       setSelectedPatternDetail(listPatternDetail.find(item => item.value === patternId));
@@ -91,17 +81,6 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
         router.push(`/${path}/${patternId ? patternId : split[split.length - 1]}`).then(() => window.scrollTo(0, 0));
       } else {
         ravelryUrl && window.open(ravelryUrl);
-      }
-    } else {
-      // Handle is admin
-      if (isFree && url?.includes(process.env.NEXT_PUBLIC_pageUrl)) {
-        // Handle click to free pattern
-        // const split = url.split('/');
-        // router.push(`/edit-post/${split[split.length - 1]}`);
-      } else {
-        // if (patternId) {
-        //   router.push(`/pattern-detail/${patternId}?isAdmin=true`);
-        // }
       }
     }
   }
@@ -154,8 +133,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
         setShowLoading(dispatch, true);
         APIService.put(`edit-pattern?id=${_id}`, (imgFile || patternFile) ? bodyFormData : data, imgFile ? {
           headers: { 'Content-Type': 'multipart/form-data' }
-        } : {}).then(res => {
-          // Handle create post success
+        } : {}).then(() => {
           alert('Cập nhật pattern thành công');
           setShowLoading(dispatch, false);
           window.location.reload();
@@ -218,13 +196,6 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
     setImgFile(imgFile);
   }
 
-  const onChangeFile = (e) => {
-    try {
-      setPatternFile(e.target.files[0]);
-    } catch (e) {
-      console.log(e);
-    }
-  }
   return <div href={makeUrl()} className={`${styles.wrapper} ${isBottom ? styles.isBottom : ''}`} style={{
     width: isAddNew ? '100%' : 'initial',
     height: isAddNew ? '100%' : 'initial',

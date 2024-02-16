@@ -1,5 +1,5 @@
 module.exports = {
-    reactStrictMode: true,
+    reactStrictMode: false,
     images: {
         domains: ['assets.vercel.com', 'i.pinimg.com', 'drive.google.com', 'api.cheryx.com', 'localhost'],
     },
