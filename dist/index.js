@@ -58539,7 +58539,6 @@ const PatternItem = ({
   const [isEdit, setIsEdit] = useState(isEditing);
   const [_isFree, setIsFree] = useState(isFree);
   const [prRavelryUrl, setPrRavelryUrl] = useState(ravelryUrl);
-  const [prPatternId, setPrPatternId] = useState(patternId);
   const [selectedPatternDetail, setSelectedPatternDetail] = useState(null);
   const [prOrder, setPrOrder] = useState(order);
   const router = useRouter();
@@ -58548,7 +58547,6 @@ const PatternItem = ({
     des,
     prName,
     prRavelryUrl,
-    prPatternId,
     nameColor,
     description,
     name,
@@ -58558,19 +58556,11 @@ const PatternItem = ({
   };
   useEffect(() => {
     setPrName(name);
-  }, [name]);
-  useEffect(() => {
     setIsFree(isFree);
-  }, [isFree]);
-  useEffect(() => {
     setDes(description);
-  }, [description]);
-  useEffect(() => {
     setPrNameColor(nameColor);
-  }, [nameColor]);
-  useEffect(() => {
     setIsEdit(isEditing);
-  }, [isEditing]);
+  }, [name, isFree, description, nameColor, isEditing]);
   useEffect(() => {
     if (patternId && Array.isArray(listPatternDetail) && listPatternDetail.length > 0) {
       setSelectedPatternDetail(listPatternDetail.find(item => item.value === patternId));
@@ -58627,9 +58617,6 @@ const PatternItem = ({
       } else {
         ravelryUrl && window.open(ravelryUrl);
       }
-    } else {
-      // Handle is admin
-      if (isFree && url?.includes(process.env.NEXT_PUBLIC_pageUrl)) ;
     }
   };
   const onClickPatternDetail = () => {
@@ -58683,8 +58670,7 @@ const PatternItem = ({
           headers: {
             'Content-Type': 'multipart/form-data'
           }
-        } : {}).then(res => {
-          // Handle create post success
+        } : {}).then(() => {
           alert('Cập nhật pattern thành công');
           setShowLoading(dispatch, false);
           window.location.reload();
