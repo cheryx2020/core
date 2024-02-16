@@ -66,7 +66,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
   const makeUrl = () => {
     let url = ravelryUrl;
     try {
-      if (url.includes(process.env.NEXT_PUBLIC_pageUrl) || patternId) {
+      if (url?.includes(process.env.NEXT_PUBLIC_pageUrl) || patternId) {
         const split = url.split('/'), patternDetailPath = 'pattern-detail';
         let path = 'tip';
         if (url.includes(patternDetailPath) || patternId) {
@@ -90,11 +90,11 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
         }
         router.push(`/${path}/${patternId ? patternId : split[split.length - 1]}`).then(() => window.scrollTo(0, 0));
       } else {
-        window.open(ravelryUrl);
+        ravelryUrl && window.open(ravelryUrl);
       }
     } else {
       // Handle is admin
-      if (isFree && url.includes(process.env.NEXT_PUBLIC_pageUrl)) {
+      if (isFree && url?.includes(process.env.NEXT_PUBLIC_pageUrl)) {
         // Handle click to free pattern
         // const split = url.split('/');
         // router.push(`/edit-post/${split[split.length - 1]}`);

@@ -16,9 +16,11 @@ const Index = () => {
     let _listPatternDetail = [];
     try {
         _listPatternDetail = JSON.parse(listPatternDetail);
-    } catch(e) {}
+    } catch (e) { }
     return <div>
-        <PatternItem imageUrl={imageUrl} name={name} description={description} nameColor={nameColor} isEditing={isEditing} isAdmin={isAdmin} isMobile={isMobile} isFree={isFree} listPatternDetail={_listPatternDetail}/>
+        <div style={{ width: 400, height: 'auto' }}>
+            <PatternItem imageUrl={imageUrl} name={name} description={description} nameColor={nameColor} isEditing={isEditing} isAdmin={isAdmin} isMobile={isMobile} isFree={isFree} listPatternDetail={_listPatternDetail} />
+        </div>
         <Properties>
             <Property text="imageUrl" type="input" value={imageUrl} onChange={(e) => { setImageUrl(e.target.value) }} description="" />
             <Property text="name" type="input" value={name} onChange={(e) => { setName(e.target.value) }} description="" />
