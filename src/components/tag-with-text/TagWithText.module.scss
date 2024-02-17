@@ -1,0 +1,58 @@
+@import '../styles/variables.scss';
+@import '../styles/mixin.scss';
+.linebase {
+    background-color: $main-color;
+    border-radius: 20px;
+    width: 6px;
+    position: absolute;
+}
+.line {
+    @extend .linebase;
+    height: 34px;
+    top: -15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    .circle {
+        width: 8px;
+        height: 8px;
+        background-color: white;
+        border-radius: 50%;
+        position: relative;
+        .middle {
+            @extend .linebase;
+            height: 6px;
+            bottom: 3px;
+            left: 1px;
+        }
+    }
+}
+.wrapper {
+    background-color: $main-color;
+    padding: 5px;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0px 4px 10px 7px #00000040;
+    .inner {
+        padding: 20px 40px;
+        border: solid 1px white;
+        border-radius: 10px;
+        color: white;
+        font-size: 22px;
+        @include mobile {
+            padding: 10px;
+            font-size: 16px;
+            text-align: center;
+            padding-top: 15px;
+        }
+    }
+    .line1 {
+        @extend .line;
+        left: 300px;
+    }
+    .line2 {
+        @extend .line;
+        right: 300px;
+    }
+}
