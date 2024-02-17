@@ -6,7 +6,7 @@ import PatternName from '../pattern-name/pattern-name';
 import Select from 'react-select'
 
 const NoImage = 'https://cheryx.com/images/no-image.png';
-const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl = NoImage, language = 'vi', _id, description, name, nameColor = '#0A7BCA', isMobile, ravelryUrl, patternId = '', order, isAdmin, isAddNew, isEditing, isFree, isBottom, listPatternDetail = [] }) => {
+const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl = NoImage, language = 'vi', _id, description, name, nameColor = '#0A7BCA', isMobile, ravelryUrl, patternId = '', order, isAdmin, isAddNew, isEditing, isFree, isBottom, listPatternDetail = [], apiDelete = 'remove-pattern', apiEdit = 'edit-pattern', apiAdd = 'add-pattern', onClickUrl = 'edit-pattern-detail' }) => {
   const [imgSrc, setImgSrc] = useState(imageUrl);
   const [prNameColor, setPrNameColor] = useState(nameColor);
   const [des, setDes] = useState(isAddNew ? 'Description' : description);
@@ -89,7 +89,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
   }
   const onClickPatternDetail = () => {
     if (patternId) {
-      router.push(`edit-pattern-detail/${patternId}`);
+      router.push(`${onClickUrl}/${patternId}`);
     }
   }
   const dispatch = useDispatch();
@@ -134,10 +134,10 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
           bodyFormData.set('patternFile', patternFile);
         }
         setShowLoading(dispatch, true);
-        APIService.put(`edit-pattern?id=${_id}`, (imgFile || patternFile) ? bodyFormData : data, imgFile ? {
+        APIService.put(`${apiEdit}?id=${_id}`, (imgFile || patternFile) ? bodyFormData : data, imgFile ? {
           headers: { 'Content-Type': 'multipart/form-data' }
         } : {}).then(() => {
-          alert('Cập nhật pattern thành công');
+          alert('Cập nhật thành công');
           setShowLoading(dispatch, false);
           window.location.reload();
         }).catch(err => {
@@ -147,7 +147,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
         return;
       }
       if (!imgFile) {
-        alert('Vui lòng chọn hình của mẫu');
+        alert('Vui lòng chọn hình');
         return;
       }
       setShowLoading(dispatch, true);
@@ -161,11 +161,11 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
       if (patternFile) {
         bodyFormData.set('patternFile', patternFile);
       }
-      APIService.post(`add-pattern`, bodyFormData, {
+      APIService.post(apiAdd, bodyFormData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       }).then(res => {
         // Handle create post success
-        alert('Thêm pattern thành công');
+        alert('Thêm thành công');
         setShowLoading(dispatch, false);
         window.location.reload();
       }).catch(err => {
@@ -175,12 +175,12 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
     }
   }
   const onClickDelete = () => {
-    if (confirm('Bạn có chắc muốn xoá mẫu này không?')) {
+    if (confirm('Bạn có chắc muốn xoá không?')) {
       if (_id) {
         setShowLoading(dispatch, true);
-        APIService.delete(`remove-pattern?id=${_id}`).then(res => {
+        APIService.delete(`${apiDelete}?id=${_id}`).then(res => {
           setShowLoading(dispatch, false);
-          alert('Xoá mẫu thành công');
+          alert('Xoá thành công');
           window.location.reload();
         }).catch(err => {
           setShowLoading(dispatch, false);

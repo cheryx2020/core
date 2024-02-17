@@ -58510,10 +58510,11 @@ var StateManagedSelect = /*#__PURE__*/forwardRef(function (props, ref) {
 });
 var StateManagedSelect$1 = StateManagedSelect;
 
+const NoImage = 'https://cheryx.com/images/no-image.png';
 const PatternItem = ({
   useRouter = () => {},
   useDispatch = () => {},
-  imageUrl = '/images/no-image.png',
+  imageUrl = NoImage,
   language = 'vi',
   _id,
   description,
@@ -58528,7 +58529,11 @@ const PatternItem = ({
   isEditing,
   isFree,
   isBottom,
-  listPatternDetail = []
+  listPatternDetail = [],
+  apiDelete = 'remove-pattern',
+  apiEdit = 'edit-pattern',
+  apiAdd = 'add-pattern',
+  onClickUrl = 'edit-pattern-detail'
 }) => {
   const [imgSrc, setImgSrc] = useState(imageUrl);
   const [prNameColor, setPrNameColor] = useState(nameColor);
@@ -58560,7 +58565,8 @@ const PatternItem = ({
     setDes(description);
     setPrNameColor(nameColor);
     setIsEdit(isEditing);
-  }, [name, isFree, description, nameColor, isEditing]);
+    setImgSrc(imageUrl || NoImage);
+  }, [name, isFree, description, nameColor, isEditing, imageUrl]);
   useEffect(() => {
     if (patternId && Array.isArray(listPatternDetail) && listPatternDetail.length > 0) {
       setSelectedPatternDetail(listPatternDetail.find(item => item.value === patternId));
@@ -58586,8 +58592,8 @@ const PatternItem = ({
     isEdit: isEdit,
     text: prName
   }));
-  const makeUrl = () => {
-    let url = ravelryUrl;
+  const makeUrl = baseUrl => {
+    let url = baseUrl;
     try {
       if (url?.includes(process.env.NEXT_PUBLIC_pageUrl) || patternId) {
         const split = url.split('/'),
@@ -58621,7 +58627,7 @@ const PatternItem = ({
   };
   const onClickPatternDetail = () => {
     if (patternId) {
-      router.push(`edit-pattern-detail/${patternId}`);
+      router.push(`${onClickUrl}/${patternId}`);
     }
   };
   const dispatch = useDispatch();
@@ -58666,12 +58672,12 @@ const PatternItem = ({
           bodyFormData.set('patternFile', patternFile);
         }
         setShowLoading(dispatch, true);
-        APIService.put(`edit-pattern?id=${_id}`, imgFile || patternFile ? bodyFormData : data, imgFile ? {
+        APIService.put(`${apiEdit}?id=${_id}`, imgFile || patternFile ? bodyFormData : data, imgFile ? {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         } : {}).then(() => {
-          alert('Cập nhật pattern thành công');
+          alert('Cập nhật thành công');
           setShowLoading(dispatch, false);
           window.location.reload();
         }).catch(err => {
@@ -58681,7 +58687,7 @@ const PatternItem = ({
         return;
       }
       if (!imgFile) {
-        alert('Vui lòng chọn hình của mẫu');
+        alert('Vui lòng chọn hình');
         return;
       }
       setShowLoading(dispatch, true);
@@ -58695,13 +58701,13 @@ const PatternItem = ({
       if (patternFile) {
         bodyFormData.set('patternFile', patternFile);
       }
-      APIService.post(`add-pattern`, bodyFormData, {
+      APIService.post(apiAdd, bodyFormData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       }).then(res => {
         // Handle create post success
-        alert('Thêm pattern thành công');
+        alert('Thêm thành công');
         setShowLoading(dispatch, false);
         window.location.reload();
       }).catch(err => {
@@ -58711,12 +58717,12 @@ const PatternItem = ({
     }
   };
   const onClickDelete = () => {
-    if (confirm('Bạn có chắc muốn xoá mẫu này không?')) {
+    if (confirm('Bạn có chắc muốn xoá không?')) {
       if (_id) {
         setShowLoading(dispatch, true);
-        APIService.delete(`remove-pattern?id=${_id}`).then(res => {
+        APIService.delete(`${apiDelete}?id=${_id}`).then(res => {
           setShowLoading(dispatch, false);
-          alert('Xoá mẫu thành công');
+          alert('Xoá thành công');
           window.location.reload();
         }).catch(err => {
           setShowLoading(dispatch, false);
@@ -58738,7 +58744,7 @@ const PatternItem = ({
     setImgFile(imgFile);
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    href: makeUrl(),
+    href: makeUrl(ravelryUrl),
     className: `${styles$2.wrapper} ${isBottom ? styles$2.isBottom : ''}`,
     style: {
       width: isAddNew ? '100%' : 'initial',
@@ -58772,7 +58778,7 @@ const PatternItem = ({
   }), /*#__PURE__*/React__default.createElement(ImageUploadable, {
     className: styles$2.image,
     isEdit: isEdit,
-    src: isEdit ? imgSrc : imageUrl,
+    src: imgSrc,
     onChangeImage: onChangeImage
   }), isMobile ? /*#__PURE__*/React__default.createElement("div", {
     className: styles$2.mobileContent
