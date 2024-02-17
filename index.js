@@ -25,6 +25,7 @@ import HeaderCheryx from "./src/components/header-cheryx/header-cheryx"
 import Footer from "./src/components/footer"
 import ContentWithTitle from "./src/components/content-with-title/content-with-title"
 import LeftMenu from "./src/components/left-menu/left-menu"
+import BestSeller from "./src/components/best-seller/best-seller"
 
 export {
     SubLink,
@@ -54,5 +55,6 @@ export {
     HeaderCheryx,
     Footer,
     ContentWithTitle,
-    LeftMenu
+    LeftMenu,
+    BestSeller
 }

@@ -3,7 +3,7 @@ import React__default, { useState, useRef, useEffect, Component, isValidElement,
 import publicIp from 'public-ip';
 import Linkify from 'linkify-react';
 
-var styles$k = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
+var styles$l = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
 
 const SubLink = ({
   data,
@@ -12,19 +12,19 @@ const SubLink = ({
   renderItem = () => {}
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$k.wrapper,
+    className: styles$l.wrapper,
     style: wrapperStyle
   }, Array.isArray(data) && data.length > 0 && data.map((item, i) => {
     return /*#__PURE__*/React__default.createElement("div", {
-      className: `${styles$k.wrapperLink} ${className}`,
+      className: `${styles$l.wrapperLink} ${className}`,
       key: i
     }, renderItem(item), i < data.length - 1 && /*#__PURE__*/React__default.createElement("div", {
-      className: styles$k.spliter
+      className: styles$l.spliter
     }, '>'));
   }));
 };
 
-var styles$j = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
+var styles$k = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
 
 function bind(fn, thisArg) {
   return function wrap() {
@@ -3553,10 +3553,10 @@ const ImageUploadable = ({
   }
   return /*#__PURE__*/React__default.createElement("div", {
     ref: imageWap,
-    className: `${styles$j.image} ${className}`,
+    className: `${styles$k.image} ${className}`,
     style: wrapperStyle
   }, isEdit && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$j.imageMenu,
+    className: styles$k.imageMenu,
     onClick: e => e.stopPropagation()
   }, /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement("div", null, "Choose Image"), /*#__PURE__*/React__default.createElement("input", {
     accept: "image/png, image/jpeg, image/svg+xml",
@@ -3575,15 +3575,15 @@ const ImageUploadable = ({
       e.stopPropagation();
     },
     onMouseDown: initDrag,
-    className: styles$j.resizer
+    className: styles$k.resizer
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$j.vertical
+    className: styles$k.vertical
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$j.horizontal
+    className: styles$k.horizontal
   })));
 };
 
-var styles$i = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
+var styles$j = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
 
 const ImageUpload = ({
   url,
@@ -3613,17 +3613,17 @@ const ImageUpload = ({
   return /*#__PURE__*/React__default.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$i.imgWrapper,
+    className: styles$j.imgWrapper,
     style: {
       position: 'relative'
     }
   }, showMenuImage && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$i.menuImage
+    className: styles$j.menuImage
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$i.deleteButton,
+    className: styles$j.deleteButton,
     onClick: () => setShowMenuImage(false)
   }, "x"), /*#__PURE__*/React__default.createElement("label", {
-    className: styles$i.uploadButton
+    className: styles$j.uploadButton
   }, /*#__PURE__*/React__default.createElement("span", null, "Upload Image"), /*#__PURE__*/React__default.createElement("input", {
     type: "file",
     onChange: e => {
@@ -3631,10 +3631,10 @@ const ImageUpload = ({
       onChange(e);
     }
   }))), !showMenuImage && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$i.editImageBtn,
+    className: styles$j.editImageBtn,
     onClick: () => setShowMenuImage(true)
   }, "Edit"), /*#__PURE__*/React__default.createElement("textarea", {
-    className: styles$i.textarea,
+    className: styles$j.textarea,
     onMouseOut: onMouseOut,
     disabled: true,
     style: {
@@ -3682,11 +3682,11 @@ const PostVideo = ({
   return /*#__PURE__*/React__default.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$i.imgWrapper
+    className: styles$j.imgWrapper
   }, showMenuVideo && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$i.videoMenu
+    className: styles$j.videoMenu
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$i.deleteButton,
+    className: styles$j.deleteButton,
     onClick: () => setShowMenuVideo(false)
   }, "x"), /*#__PURE__*/React__default.createElement("label", null, "Video Id:"), /*#__PURE__*/React__default.createElement("input", {
     value: url,
@@ -3703,12 +3703,12 @@ const PostVideo = ({
     suppressContentEditableWarning: true,
     contentEditable: true,
     onBlur: onChangeText,
-    className: styles$i.imageDescription,
+    className: styles$j.imageDescription,
     style: {
       minWidth: 100
     }
   }, text), !showMenuVideo && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$i.editImageBtn,
+    className: styles$j.editImageBtn,
     onClick: () => setShowMenuVideo(true)
   }, "Edit"));
 };
@@ -3798,7 +3798,7 @@ class YouTubeSubscribe extends Component {
   }
 }
 
-var styles$h = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu"};
+var styles$i = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu"};
 
 const PatternPreview = ({
   isAdmin,
@@ -3835,9 +3835,9 @@ const PatternPreview = ({
     setPreviewUrl(_previewUrl);
   }, [_imageUrl, _previewUrl]);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$h.wrapper
+    className: styles$i.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$h.image
+    className: styles$i.image
   }, /*#__PURE__*/React__default.createElement(ImageUploadable, {
     width: '100%',
     height: '100%',
@@ -3851,20 +3851,20 @@ const PatternPreview = ({
     isEdit: isAdmin,
     src: imageUrl
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$h.info
+    className: styles$i.info
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
     href: previewUrl,
     onClick: e => onClickLink(e, 'previewUrl'),
     target: "_blank",
-    className: styles$h.previewUrl
+    className: styles$i.previewUrl
   }, buttonText), /*#__PURE__*/React__default.createElement("div", {
     contentEditable: isAdmin ? "true" : "false",
     onBlur: () => {}
   }, message)));
 };
 
-var styles$g = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
+var styles$h = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
 
 const POST_ITEM_TYPE = {
   TITLE: 'title',
@@ -3904,7 +3904,7 @@ const MenuAddComponentPost = ({
     return Array.isArray(POST_ITEM_TYPE_SUBMENU[item]);
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$g.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`,
+    className: `${styles$h.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`,
     onClick: () => {
       setShowMenu(!showMenu);
     }
@@ -3913,10 +3913,10 @@ const MenuAddComponentPost = ({
       position: 'relative'
     }
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$g.adminMenu + ` ${!showMenu ? styles$g.hidden : ''}`
+    className: styles$h.adminMenu + ` ${!showMenu ? styles$h.hidden : ''}`
   }, Array.isArray(Object.keys(menuItems)) && menuItems.map((item, index) => /*#__PURE__*/React__default.createElement("div", {
     onMouseOver: () => onMenuMouseOver(item),
-    className: styles$g.menuItem,
+    className: styles$h.menuItem,
     key: index,
     onClick: e => {
       e.stopPropagation();
@@ -3924,14 +3924,14 @@ const MenuAddComponentPost = ({
       setShowMenu(false);
     }
   }, item, hasSubMenu(item) && hoverItem === item && /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$g.adminMenu} ${styles$g.subMenu}`
+    className: `${styles$h.adminMenu} ${styles$h.subMenu}`
   }, POST_ITEM_TYPE_SUBMENU[item].map((i, idx) => /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       onClickMenuItem(i);
       setShowMenu(false);
     },
-    className: styles$g.menuItem,
+    className: styles$h.menuItem,
     key: idx
   }, i))))))));
 };
@@ -3964,7 +3964,7 @@ var gtag = {
   event
 };
 
-var styles$f = {"wrapper":"PatternDetail-module_wrapper__CFlmD","mainImage":"PatternDetail-module_mainImage__ac-c1","rightInfo":"PatternDetail-module_rightInfo__6J0eO","title":"PatternDetail-module_title__0IjOq","author":"PatternDetail-module_author__Xgx6J","storeInfo":"PatternDetail-module_storeInfo__IwaSl","blackCatWrapper":"PatternDetail-module_blackCatWrapper__cqlld","blackCat":"PatternDetail-module_blackCat__xwKnn","message":"PatternDetail-module_message__Wf-re","text":"PatternDetail-module_text__Whs4v","supperWrapperButton":"PatternDetail-module_supperWrapperButton__KF8fO","buttonWrapper":"PatternDetail-module_buttonWrapper__Z-n6q","priceWrapper":"PatternDetail-module_priceWrapper__7pvJH","price":"PatternDetail-module_price__JsXa9","payPalWrapper":"PatternDetail-module_payPalWrapper__C7Mpl","show":"PatternDetail-module_show__L4BBl","payPal":"PatternDetail-module_payPal__0QLxu","closeLink":"PatternDetail-module_closeLink__Xfvkv","linkStore":"PatternDetail-module_linkStore__gf5UQ","mb11":"PatternDetail-module_mb11__sNoEg","paypalButton":"PatternDetail-module_paypalButton__bUOF3","listSmallImage":"PatternDetail-module_listSmallImage__h5eyY","deleteButton":"PatternDetail-module_deleteButton__5oh8i","triangleLeft":"PatternDetail-module_triangleLeft__C0z45","triangleRight":"PatternDetail-module_triangleRight__krzev"};
+var styles$g = {"wrapper":"PatternDetail-module_wrapper__CFlmD","mainImage":"PatternDetail-module_mainImage__ac-c1","rightInfo":"PatternDetail-module_rightInfo__6J0eO","title":"PatternDetail-module_title__0IjOq","author":"PatternDetail-module_author__Xgx6J","storeInfo":"PatternDetail-module_storeInfo__IwaSl","blackCatWrapper":"PatternDetail-module_blackCatWrapper__cqlld","blackCat":"PatternDetail-module_blackCat__xwKnn","message":"PatternDetail-module_message__Wf-re","text":"PatternDetail-module_text__Whs4v","supperWrapperButton":"PatternDetail-module_supperWrapperButton__KF8fO","buttonWrapper":"PatternDetail-module_buttonWrapper__Z-n6q","priceWrapper":"PatternDetail-module_priceWrapper__7pvJH","price":"PatternDetail-module_price__JsXa9","payPalWrapper":"PatternDetail-module_payPalWrapper__C7Mpl","show":"PatternDetail-module_show__L4BBl","payPal":"PatternDetail-module_payPal__0QLxu","closeLink":"PatternDetail-module_closeLink__Xfvkv","linkStore":"PatternDetail-module_linkStore__gf5UQ","mb11":"PatternDetail-module_mb11__sNoEg","paypalButton":"PatternDetail-module_paypalButton__bUOF3","listSmallImage":"PatternDetail-module_listSmallImage__h5eyY","deleteButton":"PatternDetail-module_deleteButton__5oh8i","triangleLeft":"PatternDetail-module_triangleLeft__C0z45","triangleRight":"PatternDetail-module_triangleRight__krzev"};
 
 const PatternDetail = ({
   name: _name,
@@ -4081,9 +4081,9 @@ const PatternDetail = ({
     }
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.wrapper
+    className: styles$g.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.mainImage
+    className: styles$g.mainImage
   }, isAdmin ? /*#__PURE__*/React__default.createElement(ImageUploadable, {
     wrapperStyle: {
       width: '100%',
@@ -4096,55 +4096,55 @@ const PatternDetail = ({
   }) : /*#__PURE__*/React__default.createElement("img", {
     src: bigImageUrl
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.rightInfo
+    className: styles$g.rightInfo
   }, /*#__PURE__*/React__default.createElement("h1", {
     suppressContentEditableWarning: isAdmin,
     onBlur: e => onChange(e, index, 'name'),
     contenteditable: `${isAdmin ? "true" : "false"}`,
-    className: styles$f.title
+    className: styles$g.title
   }, name)), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.storeInfo
+    className: styles$g.storeInfo
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.blackCatWrapper
+    className: styles$g.blackCatWrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.blackCat
+    className: styles$g.blackCat
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.message
+    className: styles$g.message
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.text
+    className: styles$g.text
   }, "Nh\u1EAFn tin cho m\xECnh \u0111\u1EC3 tham gia l\u1EDBp nh\xE9!")))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.supperWrapperButton
+    className: styles$g.supperWrapperButton
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.buttonWrapper
+    className: styles$g.buttonWrapper
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
     href: ravelryUrl,
     onClick: e => onClickLink(e, 'ravelryUrl'),
     target: "_blank",
-    className: `${styles$f.linkStore}`
+    className: `${styles$g.linkStore}`
   }, "\u0110\u0103ng k\xED l\u1EDBp \u0111an th\xFA b\xF4ng online"))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.priceWrapper
+    className: styles$g.priceWrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.triangleRight
+    className: styles$g.triangleRight
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.triangleRight
+    className: styles$g.triangleRight
   }), /*#__PURE__*/React__default.createElement("div", {
     suppressContentEditableWarning: isAdmin,
     onBlur: e => onChange(e, index, 'price'),
     contenteditable: `${isAdmin ? "true" : "false"}`,
-    className: styles$f.price
+    className: styles$g.price
   }, price), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.triangleLeft
+    className: styles$g.triangleLeft
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.triangleLeft
+    className: styles$g.triangleLeft
   }))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.listSmallImage
+    className: styles$g.listSmallImage
   }, Array.isArray(imageList) && imageList.map((img, i) => isAdmin ? /*#__PURE__*/React__default.createElement("div", {
     style: {
       position: 'relative'
     }
   }, i < imageList.length - 1 && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.deleteButton,
+    className: styles$g.deleteButton,
     onClick: () => {
       removeImage(i);
     }
@@ -4169,7 +4169,7 @@ const PatternDetail = ({
   }))));
 };
 
-var styles$e = {"relatedTo":"RelatedToMenu-module_relatedTo__eRHql","menuLink":"RelatedToMenu-module_menuLink__8MBUA","deleteButton":"RelatedToMenu-module_deleteButton__Hqq16","arrow":"RelatedToMenu-module_arrow__njWAs","textRelatedTo":"RelatedToMenu-module_textRelatedTo__n7-3q"};
+var styles$f = {"relatedTo":"RelatedToMenu-module_relatedTo__eRHql","menuLink":"RelatedToMenu-module_menuLink__8MBUA","deleteButton":"RelatedToMenu-module_deleteButton__Hqq16","arrow":"RelatedToMenu-module_arrow__njWAs","textRelatedTo":"RelatedToMenu-module_textRelatedTo__n7-3q"};
 
 const RelatedToMenu = ({
   url,
@@ -4183,11 +4183,11 @@ const RelatedToMenu = ({
   return /*#__PURE__*/React__default.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$e.relatedTo
+    className: styles$f.relatedTo
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$e.arrow
+    className: styles$f.arrow
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$e.textRelatedTo,
+    className: styles$f.textRelatedTo,
     onClick: () => {
       setShowMenuUrl(true);
     }
@@ -4196,24 +4196,24 @@ const RelatedToMenu = ({
       setShowMenuUrl(true);
     }
   }, textLink), showMenuUrl && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$e.menuLink
+    className: styles$f.menuLink
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$e.deleteButton,
+    className: styles$f.deleteButton,
     onClick: () => {
       setShowMenuUrl(false);
     }
   }, "x"), /*#__PURE__*/React__default.createElement("label", null, "Text:"), /*#__PURE__*/React__default.createElement("input", {
-    className: styles$e.text,
+    className: styles$f.text,
     onChange: e => onChange('textLink', e, index),
     value: textLink
   }), /*#__PURE__*/React__default.createElement("label", null, "Url:"), /*#__PURE__*/React__default.createElement("input", {
-    className: styles$e.url,
+    className: styles$f.url,
     onChange: e => onChange('url', e, index),
     value: url
   })));
 };
 
-var styles$d = {"btnCommon":"AdminMenu-module_btnCommon__zAFca","bigMenu":"AdminMenu-module_bigMenu__9UUTu","btn":"AdminMenu-module_btn__JqVGf","menuActive":"AdminMenu-module_menuActive__8EWvI","bottom":"AdminMenu-module_bottom__6oYnv","top":"AdminMenu-module_top__U0RCz","left":"AdminMenu-module_left__A-mrQ","show":"AdminMenu-module_show__Ie-bf"};
+var styles$e = {"btnCommon":"AdminMenu-module_btnCommon__zAFca","bigMenu":"AdminMenu-module_bigMenu__9UUTu","btn":"AdminMenu-module_btn__JqVGf","menuActive":"AdminMenu-module_menuActive__8EWvI","bottom":"AdminMenu-module_bottom__6oYnv","top":"AdminMenu-module_top__U0RCz","left":"AdminMenu-module_left__A-mrQ","show":"AdminMenu-module_show__Ie-bf"};
 
 const AdminMenu = ({
   isEdit,
@@ -4233,31 +4233,31 @@ const AdminMenu = ({
     onClick: () => {
       setIsShowMenu(!isShowMenu);
     },
-    className: `${styles$d.bigMenu}${isShowMenu ? ' ' + styles$d.menuActive : ''}`
+    className: `${styles$e.bigMenu}${isShowMenu ? ' ' + styles$e.menuActive : ''}`
   }, /*#__PURE__*/React__default.createElement("span", null, text), !hideButtons.includes('edit-save') && /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       setIsShowMenu(!isShowMenu);
       _isEdit ? onSaveClick() : onEditClick();
     },
-    className: `${styles$d.btn}${isShowMenu ? ` ${styles$d.top} ` + styles$d.show : ''}`
+    className: `${styles$e.btn}${isShowMenu ? ` ${styles$e.top} ` + styles$e.show : ''}`
   }, _isEdit ? 'Save' : 'Edit'), _isEdit && /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       setIsShowMenu(!isShowMenu);
       onCancelClick();
     },
-    className: `${styles$d.btn}${isShowMenu ? ` ${styles$d.bottom} ` + styles$d.show : ''}`
+    className: `${styles$e.btn}${isShowMenu ? ` ${styles$e.bottom} ` + styles$e.show : ''}`
   }, 'Cancel'), _isEdit && !hideButtons.includes('preview') && /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       onPreviewClick();
     },
-    className: `${styles$d.btn}${isShowMenu ? ` ${styles$d.left} ` + styles$d.show : ''}`
+    className: `${styles$e.btn}${isShowMenu ? ` ${styles$e.left} ` + styles$e.show : ''}`
   }, '👁'));
 };
 
-var styles$c = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","image":"PatternItem-module_image__ar-yf","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","mobileContent":"PatternItem-module_mobileContent__wcZfW","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
+var styles$d = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","image":"PatternItem-module_image__ar-yf","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","mobileContent":"PatternItem-module_mobileContent__wcZfW","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -20198,7 +20198,7 @@ Google.defaultProps = {
 
 ColorWrap(Google);
 
-var styles$b = {"wrapper":"PatternName-module_wrapper__KDcd8","isBottom":"PatternName-module_isBottom__j2DCd","menu":"PatternName-module_menu__OOslt","pickerMenu":"PatternName-module_pickerMenu__HtlsW"};
+var styles$c = {"wrapper":"PatternName-module_wrapper__KDcd8","isBottom":"PatternName-module_isBottom__j2DCd","menu":"PatternName-module_menu__OOslt","pickerMenu":"PatternName-module_pickerMenu__HtlsW"};
 
 const PatternName = ({
   onBlur = () => {},
@@ -20217,7 +20217,7 @@ const PatternName = ({
   });
   const [showPicker, setShowPicker] = useState(false);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$b.wrapper} ${isBottom ? styles$b.isBottom : ''}`,
+    className: `${styles$c.wrapper} ${isBottom ? styles$c.isBottom : ''}`,
     style: {
       color: nameColor,
       fontFamily: nameFontFamily
@@ -20233,9 +20233,9 @@ const PatternName = ({
     },
     suppressContentEditableWarning: true,
     contentEditable: "false",
-    className: styles$b.menu
+    className: styles$c.menu
   }, showPicker && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$b.pickerMenu,
+    className: styles$c.pickerMenu,
     onMouseLeave: () => setShowPicker(false)
   }, /*#__PURE__*/React__default.createElement(SketchPicker, {
     color: colorInstance,
@@ -58638,7 +58638,7 @@ const PatternItem = ({
     onBlur: e => {
       setDes(e.target.innerText);
     },
-    className: styles$c.description,
+    className: styles$d.description,
     suppressContentEditableWarning: true,
     contentEditable: isEdit ? 'true' : 'false'
   }, des), /*#__PURE__*/React__default.createElement(PatternName, {
@@ -58805,7 +58805,7 @@ const PatternItem = ({
   };
   return /*#__PURE__*/React__default.createElement("div", {
     href: makeUrl(ravelryUrl),
-    className: `${styles$c.wrapper} ${isBottom ? styles$c.isBottom : ''}`,
+    className: `${styles$d.wrapper} ${isBottom ? styles$d.isBottom : ''}`,
     style: {
       width: isAddNew ? '100%' : 'initial',
       height: isAddNew ? '100%' : 'initial',
@@ -58814,34 +58814,34 @@ const PatternItem = ({
     },
     onClick: onClickPatternItem
   }, isAdmin && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$c.editMenu
+    className: styles$d.editMenu
   }, isEdit && /*#__PURE__*/React__default.createElement("label", {
-    className: styles$c.isFree
+    className: styles$d.isFree
   }, /*#__PURE__*/React__default.createElement("input", {
     type: "checkbox",
     onChange: onChangeIsFree,
     checked: _isFree
   }), " Is Free"), isEdit && !isAddNew && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$c.button,
+    className: styles$d.button,
     onClick: onClickCancel
   }, "Cancel"), /*#__PURE__*/React__default.createElement("div", {
     onClick: onClickEdit,
-    className: styles$c.button
+    className: styles$d.button
   }, isEdit ? 'Save' : 'Edit'), !isAddNew && !isEdit && /*#__PURE__*/React__default.createElement("div", {
     onClick: onClickDelete,
-    className: styles$c.button
+    className: styles$d.button
   }, "Delete"), !isAddNew && !isEdit && /*#__PURE__*/React__default.createElement("div", {
     onClick: onClickPatternDetail,
-    className: styles$c.button
+    className: styles$d.button
   }, "Detail")), _isFree && /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$c.freeTag} ${isBottom ? styles$c.isBottom : ''}`
+    className: `${styles$d.freeTag} ${isBottom ? styles$d.isBottom : ''}`
   }), /*#__PURE__*/React__default.createElement(ImageUploadable, {
-    className: styles$c.image,
+    className: styles$d.image,
     isEdit: isEdit,
     src: imgSrc,
     onChangeImage: onChangeImage
   }), isMobile ? /*#__PURE__*/React__default.createElement("div", {
-    className: styles$c.mobileContent
+    className: styles$d.mobileContent
   }, content) : content, isEdit && /*#__PURE__*/React__default.createElement("div", {
     style: {
       marginBottom: 5
@@ -58862,7 +58862,7 @@ const PatternItem = ({
   }));
 };
 
-var styles$a = {"wrapperGroupContent":"PostContent-module_wrapperGroupContent__yFH1p","header":"PostContent-module_header__PsWMK","contentZone":"PostContent-module_contentZone__HUhpk","show":"PostContent-module_show__ZMf2A","edit":"PostContent-module_edit__Qe59Q","btnMenu":"PostContent-module_btnMenu__-mGU-","imageWrapper":"PostContent-module_imageWrapper__2Fk0j","bigTitle":"PostContent-module_bigTitle__iLoUj","wrapperAction":"PostContent-module_wrapperAction__-kVIX","deleteButton":"PostContent-module_deleteButton__iDrEN","addButton":"PostContent-module_addButton__sb98L","button":"PostContent-module_button__FKbWL","imageUpload":"PostContent-module_imageUpload__qkS0y","wrapper":"PostContent-module_wrapper__ahlNi","adminTopHeader":"PostContent-module_adminTopHeader__aIDLA","actionButtons":"PostContent-module_actionButtons__KUzyc","checkBox":"PostContent-module_checkBox__edKrx","ads":"PostContent-module_ads__vHBWo","shareZone":"PostContent-module_shareZone__gri02","shareBtn":"PostContent-module_shareBtn__hl-WI","adminMenuBtn":"PostContent-module_adminMenuBtn__dISi1","adminMenu":"PostContent-module_adminMenu__-hGkg","hidden":"PostContent-module_hidden__GQw-G","menuItem":"PostContent-module_menuItem__HomeL","adminMenuBtnSave":"PostContent-module_adminMenuBtnSave__t-FUr","listPost":"PostContent-module_listPost__cjbZ5","adminMenuInputPostId":"PostContent-module_adminMenuInputPostId__my03L","relatedTo":"PostContent-module_relatedTo__NKbLQ","menuLink":"PostContent-module_menuLink__kQC0Q","arrow":"PostContent-module_arrow__ms8AO","textRelatedTo":"PostContent-module_textRelatedTo__IHBxX","dropZone":"PostContent-module_dropZone__8WDHC","subcribeMe":"PostContent-module_subcribeMe__3y1K-","imgWrapper":"PostContent-module_imgWrapper__4YZaL","videoMenu":"PostContent-module_videoMenu__lxwk3","imageDescription":"PostContent-module_imageDescription__19QTz"};
+var styles$b = {"wrapperGroupContent":"PostContent-module_wrapperGroupContent__yFH1p","header":"PostContent-module_header__PsWMK","contentZone":"PostContent-module_contentZone__HUhpk","show":"PostContent-module_show__ZMf2A","edit":"PostContent-module_edit__Qe59Q","btnMenu":"PostContent-module_btnMenu__-mGU-","imageWrapper":"PostContent-module_imageWrapper__2Fk0j","bigTitle":"PostContent-module_bigTitle__iLoUj","wrapperAction":"PostContent-module_wrapperAction__-kVIX","deleteButton":"PostContent-module_deleteButton__iDrEN","addButton":"PostContent-module_addButton__sb98L","button":"PostContent-module_button__FKbWL","imageUpload":"PostContent-module_imageUpload__qkS0y","wrapper":"PostContent-module_wrapper__ahlNi","adminTopHeader":"PostContent-module_adminTopHeader__aIDLA","actionButtons":"PostContent-module_actionButtons__KUzyc","checkBox":"PostContent-module_checkBox__edKrx","ads":"PostContent-module_ads__vHBWo","shareZone":"PostContent-module_shareZone__gri02","shareBtn":"PostContent-module_shareBtn__hl-WI","adminMenuBtn":"PostContent-module_adminMenuBtn__dISi1","adminMenu":"PostContent-module_adminMenu__-hGkg","hidden":"PostContent-module_hidden__GQw-G","menuItem":"PostContent-module_menuItem__HomeL","adminMenuBtnSave":"PostContent-module_adminMenuBtnSave__t-FUr","listPost":"PostContent-module_listPost__cjbZ5","adminMenuInputPostId":"PostContent-module_adminMenuInputPostId__my03L","relatedTo":"PostContent-module_relatedTo__NKbLQ","menuLink":"PostContent-module_menuLink__kQC0Q","arrow":"PostContent-module_arrow__ms8AO","textRelatedTo":"PostContent-module_textRelatedTo__IHBxX","dropZone":"PostContent-module_dropZone__8WDHC","subcribeMe":"PostContent-module_subcribeMe__3y1K-","imgWrapper":"PostContent-module_imgWrapper__4YZaL","videoMenu":"PostContent-module_videoMenu__lxwk3","imageDescription":"PostContent-module_imageDescription__19QTz"};
 
 const getSelectionText = () => {
   var text = "";
@@ -58913,8 +58913,8 @@ const PostContent = ({
     }
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$a.wrapper
-  }, Array.isArray(data) && data.map((item, i) => renderItemByType(item ? item : {}, i, styles$a, onDeleteContentItem, addNewContentItem, isMobile, _isEdit, data, onChangeData)), _isEdit && Array.isArray(data) && data.length == 0 && /*#__PURE__*/React__default.createElement(MenuAddComponentPost, {
+    className: styles$b.wrapper
+  }, Array.isArray(data) && data.map((item, i) => renderItemByType(item ? item : {}, i, styles$b, onDeleteContentItem, addNewContentItem, isMobile, _isEdit, data, onChangeData)), _isEdit && Array.isArray(data) && data.length == 0 && /*#__PURE__*/React__default.createElement(MenuAddComponentPost, {
     menuItems: Object.keys(POST_ITEM_TYPE),
     btnClass: `${menuBtnClass ? ' ' + menuBtnClass : ''}`,
     onClickMenuItem: item => {
@@ -58949,7 +58949,7 @@ const GroupContent = ({
     setExpanded(expanded);
   }, [expanded]);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$a.wrapperGroupContent
+    className: styles$b.wrapperGroupContent
   }, /*#__PURE__*/React__default.createElement("div", {
     onClick: () => {
       !isEdit && onChange(!_expanded, 'expanded');
@@ -58957,12 +58957,12 @@ const GroupContent = ({
     suppressContentEditableWarning: isEdit,
     onBlur: e => onChange(e, 'text'),
     contentEditable: `${isEdit ? "true" : "false"}`,
-    className: styles$a.header
+    className: styles$b.header
   }, title), /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$a.contentZone}${_expanded || isEdit ? ` ${styles$a.edit} ` + styles$a.show : ''}`
+    className: `${styles$b.contentZone}${_expanded || isEdit ? ` ${styles$b.edit} ` + styles$b.show : ''}`
   }, /*#__PURE__*/React__default.createElement(PostContent, {
     isShowBigMenu: false,
-    menuBtnClass: styles$a.btnMenu,
+    menuBtnClass: styles$b.btnMenu,
     onChangeData: c => {
       setContentData(c);
       onChange(c, 'content');
@@ -60279,7 +60279,7 @@ var TwitterShareButton = createShareButton('twitter', twitterLink, function (pro
 });
 var TwitterShareButton$1 = TwitterShareButton;
 
-var styles$9 = {"imageWrapper":"TipDetail-module_imageWrapper__7ob-p","wrapperAction":"TipDetail-module_wrapperAction__fjIyB","deleteButton":"TipDetail-module_deleteButton__qEVWw","addButton":"TipDetail-module_addButton__1234H","button":"TipDetail-module_button__LgFX0","imageUpload":"TipDetail-module_imageUpload__1WBls","wrapper":"TipDetail-module_wrapper__v037r","adminTopHeader":"TipDetail-module_adminTopHeader__IAsnm","actionButtons":"TipDetail-module_actionButtons__HcIOT","checkBox":"TipDetail-module_checkBox__2iiOx","ads":"TipDetail-module_ads__0ycvb","shareZone":"TipDetail-module_shareZone__aJ7c4","shareBtn":"TipDetail-module_shareBtn__p4n9m","adminMenuBtn":"TipDetail-module_adminMenuBtn__NHrLd","adminMenu":"TipDetail-module_adminMenu__aDEnw","hidden":"TipDetail-module_hidden__A2u8V","menuItem":"TipDetail-module_menuItem__xdArV","adminMenuBtnSave":"TipDetail-module_adminMenuBtnSave__UZSjP","listPost":"TipDetail-module_listPost__DAxSM","adminMenuInputPostId":"TipDetail-module_adminMenuInputPostId__e2XnG","relatedTo":"TipDetail-module_relatedTo__Sw1Dt","menuLink":"TipDetail-module_menuLink__9UcOp","arrow":"TipDetail-module_arrow__51LOc","textRelatedTo":"TipDetail-module_textRelatedTo__U1jTE","dropZone":"TipDetail-module_dropZone__KmtOr","subcribeMe":"TipDetail-module_subcribeMe__K0Bcd","imgWrapper":"TipDetail-module_imgWrapper__Q2mx8","videoMenu":"TipDetail-module_videoMenu__pioTv","imageDescription":"TipDetail-module_imageDescription__O0dp9"};
+var styles$a = {"imageWrapper":"TipDetail-module_imageWrapper__7ob-p","wrapperAction":"TipDetail-module_wrapperAction__fjIyB","deleteButton":"TipDetail-module_deleteButton__qEVWw","addButton":"TipDetail-module_addButton__1234H","button":"TipDetail-module_button__LgFX0","imageUpload":"TipDetail-module_imageUpload__1WBls","wrapper":"TipDetail-module_wrapper__v037r","adminTopHeader":"TipDetail-module_adminTopHeader__IAsnm","actionButtons":"TipDetail-module_actionButtons__HcIOT","checkBox":"TipDetail-module_checkBox__2iiOx","ads":"TipDetail-module_ads__0ycvb","shareZone":"TipDetail-module_shareZone__aJ7c4","shareBtn":"TipDetail-module_shareBtn__p4n9m","adminMenuBtn":"TipDetail-module_adminMenuBtn__NHrLd","adminMenu":"TipDetail-module_adminMenu__aDEnw","hidden":"TipDetail-module_hidden__A2u8V","menuItem":"TipDetail-module_menuItem__xdArV","adminMenuBtnSave":"TipDetail-module_adminMenuBtnSave__UZSjP","listPost":"TipDetail-module_listPost__DAxSM","adminMenuInputPostId":"TipDetail-module_adminMenuInputPostId__e2XnG","relatedTo":"TipDetail-module_relatedTo__Sw1Dt","menuLink":"TipDetail-module_menuLink__9UcOp","arrow":"TipDetail-module_arrow__51LOc","textRelatedTo":"TipDetail-module_textRelatedTo__U1jTE","dropZone":"TipDetail-module_dropZone__KmtOr","subcribeMe":"TipDetail-module_subcribeMe__K0Bcd","imgWrapper":"TipDetail-module_imgWrapper__Q2mx8","videoMenu":"TipDetail-module_videoMenu__pioTv","imageDescription":"TipDetail-module_imageDescription__O0dp9"};
 
 const TipDetail = ({
   ProductJsonLd,
@@ -60397,23 +60397,23 @@ const TipDetail = ({
   };
   const siteName = process?.env?.NEXT_PUBLIC_SEO_pageName || 'Cheryx';
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("article", {
-    className: styles$9.wrapper
+    className: styles$a.wrapper
   }, isAdmin && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.adminTopHeader
+    className: styles$a.adminTopHeader
   }, !isPatternDetail && /*#__PURE__*/React__default.createElement("input", {
     value: getPostId(titleData),
     disabled: true,
-    className: styles$9.adminMenuInputPostId
+    className: styles$a.adminMenuInputPostId
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.actionButtons
+    className: styles$a.actionButtons
   }, !isPatternDetail && _isPattern && /*#__PURE__*/React__default.createElement("label", {
-    className: styles$9.checkBox
+    className: styles$a.checkBox
   }, /*#__PURE__*/React__default.createElement("span", null, "Is Free"), /*#__PURE__*/React__default.createElement("input", {
     checked: _isFree,
     type: "checkbox",
     onChange: () => setIsFree(!_isFree)
   })), !isPatternDetail && /*#__PURE__*/React__default.createElement("label", {
-    className: styles$9.checkBox
+    className: styles$a.checkBox
   }, /*#__PURE__*/React__default.createElement("span", null, "Is Pattern"), /*#__PURE__*/React__default.createElement("input", {
     checked: _isPattern,
     type: "checkbox",
@@ -60439,11 +60439,11 @@ const TipDetail = ({
     onCancelClick: onClickCancel,
     linkComponent: Link
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.shareZone
+    className: styles$a.shareZone
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.text
+    className: styles$a.text
   }, "Share:"), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.shareBtn
+    className: styles$a.shareBtn
   }, /*#__PURE__*/React__default.createElement(FacebookShareButton$1, {
     url: `${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`,
     quote: title,
@@ -60452,7 +60452,7 @@ const TipDetail = ({
     size: 32,
     round: true
   }))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.shareBtn
+    className: styles$a.shareBtn
   }, /*#__PURE__*/React__default.createElement(TwitterShareButton$1, {
     url: `${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`,
     quote: title,
@@ -60512,33 +60512,33 @@ const TipDetail = ({
   }));
 };
 
-var styles$8 = {"wrapper":"Note-module_wrapper__dSD4k","noteTitle":"Note-module_noteTitle__Ar-iC","p":"Note-module_p__bkiX8","dot":"Note-module_dot__9Xgz3"};
+var styles$9 = {"wrapper":"Note-module_wrapper__dSD4k","noteTitle":"Note-module_noteTitle__Ar-iC","p":"Note-module_p__bkiX8","dot":"Note-module_dot__9Xgz3"};
 
 const Note = () => {
   const text = ["Mình không làm file PDF, các lớp hướng dẫn đan là dạng Nhóm (Group) trên Facebook gồm công thức đan, video chi tiết hướng dẫn các công đoạn đan, cách khâu ráp, nhồi gòn tạo hình và các mẹo để tạo nên sản phẩm hoàn thiện.", "Chỉ cần biết đan cơ bản, có thể tham gia lớp và hoàn thành sản phẩm", "Nếu bạn chưa biết đan, ghé qua mục “Tự học đan len cơ bản” để bắt đầu tập đan thử nhé!"];
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$8.wrapper
+    className: styles$9.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$8.noteTitle
+    className: styles$9.noteTitle
   }, "L\u01B0u \xFD"), Array.isArray(text) && text.map((item, i) => /*#__PURE__*/React__default.createElement("div", {
-    className: styles$8.p,
+    className: styles$9.p,
     key: i
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$8.dot
+    className: styles$9.dot
   }), " ", item)));
 };
 
-var styles$7 = {"ldsHourglass":"Loader-module_ldsHourglass__duhaK","lds-hourglass-animation":"Loader-module_lds-hourglass-animation__edjXk","loadingWrapper":"Loader-module_loadingWrapper__GIkhp","ldsHourglassAnimation":"Loader-module_lds-hourglass-animation__edjXk"};
+var styles$8 = {"ldsHourglass":"Loader-module_ldsHourglass__duhaK","lds-hourglass-animation":"Loader-module_lds-hourglass-animation__edjXk","loadingWrapper":"Loader-module_loadingWrapper__GIkhp","ldsHourglassAnimation":"Loader-module_lds-hourglass-animation__edjXk"};
 
 const Loader = () => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$7.loadingWrapper
+    className: styles$8.loadingWrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$7.ldsHourglass
+    className: styles$8.ldsHourglass
   }));
 };
 
-var styles$6 = {"header":"HeaderCherxy-module_header__p1wdm","leftSide":"HeaderCherxy-module_leftSide__EBweP","hambuger":"HeaderCherxy-module_hambuger__Umqrn","overlay":"HeaderCherxy-module_overlay__-X7Sq","menu":"HeaderCherxy-module_menu__aaThr","slideInLeft":"HeaderCherxy-module_slideInLeft__cBezf","searchInput":"HeaderCherxy-module_searchInput__l-5mX","search":"HeaderCherxy-module_search__yA6bt","searchIcon":"HeaderCherxy-module_searchIcon__GfXiv","links":"HeaderCherxy-module_links__3M4Ma","items":"HeaderCherxy-module_items__E8rxt","rightSide":"HeaderCherxy-module_rightSide__ADpXM","logo":"HeaderCherxy-module_logo__E0Zou","cheryx":"HeaderCherxy-module_cheryx__WT3B-","slogan":"HeaderCherxy-module_slogan__MyVr1","nav":"HeaderCherxy-module_nav__xeK49","selectedLink":"HeaderCherxy-module_selectedLink__NJDtu"};
+var styles$7 = {"header":"HeaderCherxy-module_header__p1wdm","leftSide":"HeaderCherxy-module_leftSide__EBweP","hambuger":"HeaderCherxy-module_hambuger__Umqrn","overlay":"HeaderCherxy-module_overlay__-X7Sq","menu":"HeaderCherxy-module_menu__aaThr","slideInLeft":"HeaderCherxy-module_slideInLeft__cBezf","searchInput":"HeaderCherxy-module_searchInput__l-5mX","search":"HeaderCherxy-module_search__yA6bt","searchIcon":"HeaderCherxy-module_searchIcon__GfXiv","links":"HeaderCherxy-module_links__3M4Ma","items":"HeaderCherxy-module_items__E8rxt","rightSide":"HeaderCherxy-module_rightSide__ADpXM","logo":"HeaderCherxy-module_logo__E0Zou","cheryx":"HeaderCherxy-module_cheryx__WT3B-","slogan":"HeaderCherxy-module_slogan__MyVr1","nav":"HeaderCherxy-module_nav__xeK49","selectedLink":"HeaderCherxy-module_selectedLink__NJDtu"};
 
 const LinksIcon = ({
   url,
@@ -60561,7 +60561,7 @@ const LinksIcon = ({
   }));
 };
 
-var styles$5 = {"hambuger":"LeftSideMenu-module_hambuger__yYPB4","overlay":"LeftSideMenu-module_overlay__8lrgX","menu":"LeftSideMenu-module_menu__ptqh0","slideInLeft":"LeftSideMenu-module_slideInLeft__yNIM5","searchInput":"LeftSideMenu-module_searchInput__KcMQt","search":"LeftSideMenu-module_search__-KQb9","searchIcon":"LeftSideMenu-module_searchIcon__bkFlv","links":"LeftSideMenu-module_links__36Vv-","items":"LeftSideMenu-module_items__2XpnR"};
+var styles$6 = {"hambuger":"LeftSideMenu-module_hambuger__yYPB4","overlay":"LeftSideMenu-module_overlay__8lrgX","menu":"LeftSideMenu-module_menu__ptqh0","slideInLeft":"LeftSideMenu-module_slideInLeft__yNIM5","searchInput":"LeftSideMenu-module_searchInput__KcMQt","search":"LeftSideMenu-module_search__-KQb9","searchIcon":"LeftSideMenu-module_searchIcon__bkFlv","links":"LeftSideMenu-module_links__36Vv-","items":"LeftSideMenu-module_items__2XpnR"};
 
 const LeftSideMenu = ({
   menuText = 'Menu',
@@ -60575,7 +60575,7 @@ const LeftSideMenu = ({
       setIsShowMenu(true);
       document.body.style.overflowY = 'hidden';
     },
-    className: styles$5.hambuger
+    className: styles$6.hambuger
   }, /*#__PURE__*/React__default.createElement("img", {
     width: "22px",
     height: "24px",
@@ -60585,26 +60585,26 @@ const LeftSideMenu = ({
     onTouchStart: () => {
       setTimeout(() => setIsShowMenu(false), 100);
     },
-    className: styles$5.overlay
+    className: styles$6.overlay
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.menu,
+    className: styles$6.menu,
     onTouchStart: e => {
       e.stopPropagation();
     }
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.searchInput
+    className: styles$6.searchInput
   }, /*#__PURE__*/React__default.createElement("input", {
-    className: styles$5.search
+    className: styles$6.search
   }), /*#__PURE__*/React__default.createElement("img", {
     alt: "Search",
-    className: styles$5.searchIcon,
+    className: styles$6.searchIcon,
     src: "/images/search.svg"
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.links
+    className: styles$6.links
   }, links.map((item, index) => /*#__PURE__*/React__default.createElement(LinksIcon, _extends({
     key: index
   }, item)))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.items
+    className: styles$6.items
   }, menuData.map((item, index) => /*#__PURE__*/React__default.createElement(Link, {
     key: index,
     href: item.url
@@ -60701,9 +60701,9 @@ const HeaderCherxy = ({
       width: '100%'
     }
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$6.header
+    className: styles$7.header
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$6.leftSide
+    className: styles$7.leftSide
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
     target: "_blank",
@@ -60763,7 +60763,7 @@ const HeaderCherxy = ({
     links: links,
     menuData: MenuData
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$6.rightSide
+    className: styles$7.rightSide
   }, /*#__PURE__*/React__default.createElement(Link, {
     href: verified ? '/dashboard' : '/login'
   }, /*#__PURE__*/React__default.createElement("a", {
@@ -60776,43 +60776,43 @@ const HeaderCherxy = ({
     alt: "user",
     src: "/images/user.png"
   }))))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$6.logo
+    className: styles$7.logo
   }, /*#__PURE__*/React__default.createElement(Link, {
     href: '/'
   }, /*#__PURE__*/React__default.createElement("a", null, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$6.cheryx
+    className: styles$7.cheryx
   })))), showNavigator && /*#__PURE__*/React__default.createElement("nav", {
-    className: styles$6.nav
+    className: styles$7.nav
   }, MenuData.map((item, index) => /*#__PURE__*/React__default.createElement(Link, {
     key: index,
     href: item.url + `${isAdmin ? '?isAdmin=true' : ''}`
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
-    className: url === item.url ? styles$6.selectedLink : ''
+    className: url === item.url ? styles$7.selectedLink : ''
   }, item.text)))));
 };
 
-var styles$4 = {"homeFreePatternList":"Home-module_homeFreePatternList__BycET","mb30":"Home-module_mb30__gyYi3","imageHeaderHome":"Home-module_imageHeaderHome__MZu5H","mt55":"Home-module_mt55__-08as","main":"Home-module_main__bI9na","freePattern":"Home-module_freePattern__uCele","container":"Home-module_container__mEFCr","footer":"Home-module_footer__XGpF4","imageFooter":"Home-module_imageFooter__ZINru","dcma":"Home-module_dcma__4GW8-","title":"Home-module_title__txGd6","description":"Home-module_description__E20Wj","code":"Home-module_code__31aBI","grid":"Home-module_grid__EUFcv","card":"Home-module_card__601Yy","logo":"Home-module_logo__lK-7J","myPatterns":"Home-module_myPatterns__ftfzg","labby":"Home-module_labby__n6j7Y","images":"Home-module_images__poqmB","pumpkin":"Home-module_pumpkin__k5z5Z","reindeer":"Home-module_reindeer__Ah1XJ","lucy":"Home-module_lucy__hzRoe","alan":"Home-module_alan__i6oMq","mason":"Home-module_mason__RY-fc","jacky":"Home-module_jacky__L8AG5","jane":"Home-module_jane__a5v6P","bunny":"Home-module_bunny__uVy5m","seeMore":"Home-module_seeMore__7NlKP","iconSeeMore":"Home-module_iconSeeMore__eQYok","freePatterns":"Home-module_freePatterns__yiv-E","freeText":"Home-module_freeText__fPF5-","listPattern":"Home-module_listPattern__EWsic","pattern":"Home-module_pattern__YNovi","tips":"Home-module_tips__l5XMZ","mainLogo":"Home-module_mainLogo__N6oJC"};
+var styles$5 = {"homeFreePatternList":"Home-module_homeFreePatternList__BycET","mb30":"Home-module_mb30__gyYi3","imageHeaderHome":"Home-module_imageHeaderHome__MZu5H","mt55":"Home-module_mt55__-08as","main":"Home-module_main__bI9na","freePattern":"Home-module_freePattern__uCele","container":"Home-module_container__mEFCr","footer":"Home-module_footer__XGpF4","imageFooter":"Home-module_imageFooter__ZINru","dcma":"Home-module_dcma__4GW8-","title":"Home-module_title__txGd6","description":"Home-module_description__E20Wj","code":"Home-module_code__31aBI","grid":"Home-module_grid__EUFcv","card":"Home-module_card__601Yy","logo":"Home-module_logo__lK-7J","myPatterns":"Home-module_myPatterns__ftfzg","labby":"Home-module_labby__n6j7Y","images":"Home-module_images__poqmB","pumpkin":"Home-module_pumpkin__k5z5Z","reindeer":"Home-module_reindeer__Ah1XJ","lucy":"Home-module_lucy__hzRoe","alan":"Home-module_alan__i6oMq","mason":"Home-module_mason__RY-fc","jacky":"Home-module_jacky__L8AG5","jane":"Home-module_jane__a5v6P","bunny":"Home-module_bunny__uVy5m","seeMore":"Home-module_seeMore__7NlKP","iconSeeMore":"Home-module_iconSeeMore__eQYok","freePatterns":"Home-module_freePatterns__yiv-E","freeText":"Home-module_freeText__fPF5-","listPattern":"Home-module_listPattern__EWsic","pattern":"Home-module_pattern__YNovi","tips":"Home-module_tips__l5XMZ","mainLogo":"Home-module_mainLogo__N6oJC"};
 
-var styles$3 = {"wrapper":"TitleCheryx2-module_wrapper__qmGmO","line":"TitleCheryx2-module_line__EPyjc","text":"TitleCheryx2-module_text__9xtyl"};
+var styles$4 = {"wrapper":"TitleCheryx2-module_wrapper__qmGmO","line":"TitleCheryx2-module_line__EPyjc","text":"TitleCheryx2-module_text__9xtyl"};
 
 const TitleCheryx2 = ({
   text,
   wrapperStyle = {}
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$3.wrapper,
+    className: styles$4.wrapper,
     style: wrapperStyle
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$3.line
+    className: styles$4.line
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$3.text
+    className: styles$4.text
   }, text), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$3.line
+    className: styles$4.line
   }));
 };
 
-var styles$2 = {"wrapper":"ContentWithTitle-module_wrapper__p-sG2"};
+var styles$3 = {"wrapper":"ContentWithTitle-module_wrapper__p-sG2"};
 
 const ContentWithTitle = ({
   content,
@@ -60820,13 +60820,13 @@ const ContentWithTitle = ({
   className = ''
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$2.wrapper} ${className}`
+    className: `${styles$3.wrapper} ${className}`
   }, /*#__PURE__*/React__default.createElement(TitleCheryx2, {
     text: title
   }), content);
 };
 
-var styles$1 = {"items":"MySocialLink-module_items__129Nf","ravelry":"MySocialLink-module_ravelry__-2Y9f","lovescraft":"MySocialLink-module_lovescraft__2KkVr","fb":"MySocialLink-module_fb__jm-Lg","in":"MySocialLink-module_in__AUJht","yo":"MySocialLink-module_yo__rI64f","pi":"MySocialLink-module_pi__37U9a","$in$":"MySocialLink-module_in__AUJht"};
+var styles$2 = {"items":"MySocialLink-module_items__129Nf","ravelry":"MySocialLink-module_ravelry__-2Y9f","lovescraft":"MySocialLink-module_lovescraft__2KkVr","fb":"MySocialLink-module_fb__jm-Lg","in":"MySocialLink-module_in__AUJht","yo":"MySocialLink-module_yo__rI64f","pi":"MySocialLink-module_pi__37U9a","$in$":"MySocialLink-module_in__AUJht"};
 
 const MySocialLink = ({
   isMobile
@@ -60834,7 +60834,7 @@ const MySocialLink = ({
   return /*#__PURE__*/React__default.createElement(ContentWithTitle, {
     title: "T\xE0i kho\u1EA3n c\xE1 nh\xE2n",
     content: /*#__PURE__*/React__default.createElement("div", {
-      className: styles$1.items
+      className: styles$2.items
     }, /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
       target: "_blank",
@@ -60843,7 +60843,7 @@ const MySocialLink = ({
       alt: "Facebook",
       width: isMobile ? '10px' : '15px',
       height: isMobile ? '21px' : '30px',
-      className: styles$1.fb,
+      className: styles$2.fb,
       src: "/images/fb1.png"
     })), /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
@@ -60853,7 +60853,7 @@ const MySocialLink = ({
       alt: "Ravelry",
       width: isMobile ? '87px' : '154px',
       height: isMobile ? '27px' : '49px',
-      className: styles$1.ravelry,
+      className: styles$2.ravelry,
       src: "/images/rv.svg"
     })), /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
@@ -60863,7 +60863,7 @@ const MySocialLink = ({
       alt: "Instagram",
       width: isMobile ? '21px' : '32px',
       height: isMobile ? '21px' : '34px',
-      className: styles$1.in,
+      className: styles$2.in,
       src: "/images/in1.png"
     })), /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
@@ -60871,7 +60871,7 @@ const MySocialLink = ({
       href: "https://www.youtube.com/channel/UCf0jCxiSGh_pBExFN3k1CIA"
     }, /*#__PURE__*/React__default.createElement("img", {
       alt: "Youtube",
-      className: styles$1.yo,
+      className: styles$2.yo,
       width: isMobile ? '23px' : '44px',
       height: isMobile ? '30px' : '34px',
       src: "/images/yo1.png"
@@ -60883,7 +60883,7 @@ const MySocialLink = ({
       alt: "Pinterest",
       width: isMobile ? '22px' : '34px',
       height: isMobile ? '22px' : '34px',
-      className: styles$1.pi,
+      className: styles$2.pi,
       src: "/images/pi.png"
     })))
   });
@@ -60894,18 +60894,18 @@ const Footer = ({
   className
 }) => {
   return /*#__PURE__*/React__default.createElement("footer", {
-    className: `${styles$4.footer} ${className}`
+    className: `${styles$5.footer} ${className}`
   }, /*#__PURE__*/React__default.createElement(MySocialLink, {
     isMobile: isMobile
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$4.imageFooter
+    className: styles$5.imageFooter
   }, /*#__PURE__*/React__default.createElement("img", {
     width: "100%",
     height: "100%",
     alt: process?.env?.NEXT_PUBLIC_SEO_mainTitle,
     src: `/images/footer.webp`
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$4.dcma
+    className: styles$5.dcma
   }, /*#__PURE__*/React__default.createElement("a", {
     href: "//www.dmca.com/Protection/Status.aspx?ID=dbcbbc0c-5007-4d0c-aeff-b4ed3e017556",
     title: "DMCA.com Protection Status",
@@ -60918,7 +60918,7 @@ const Footer = ({
   }, " "))));
 };
 
-var styles = {"leftMenu":"LeftMenu-module_leftMenu__6Umri","item":"LeftMenu-module_item__0YVyd","selected":"LeftMenu-module_selected__fNM9r","icon":"LeftMenu-module_icon__nn0rc"};
+var styles$1 = {"leftMenu":"LeftMenu-module_leftMenu__6Umri","item":"LeftMenu-module_item__0YVyd","selected":"LeftMenu-module_selected__fNM9r","icon":"LeftMenu-module_icon__nn0rc"};
 
 const LeftMenu = ({
   data = [],
@@ -60928,28 +60928,62 @@ const LeftMenu = ({
 }) => {
   const makeItem = item => {
     return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("div", {
-      className: styles.icon,
+      className: styles$1.icon,
       style: {
         backgroundImage: `url('${item.icon}')`
       }
     }), /*#__PURE__*/React__default.createElement("div", null, item.title));
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles.leftMenu
+    className: styles$1.leftMenu
   }, data.map((item, index) => {
     if (isAdmin) {
       return /*#__PURE__*/React__default.createElement("div", {
         key: index,
         onClick: () => onSelectedItem(item.key),
-        className: styles.item + ` ${item.key === selected ? styles.selected : ''}`
+        className: styles$1.item + ` ${item.key === selected ? styles$1.selected : ''}`
       }, makeItem(item));
     }
     return /*#__PURE__*/React__default.createElement("a", {
       key: index,
       href: item.url,
-      className: styles.item + ` ${item.key === selected ? styles.selected : ''}`
+      className: styles$1.item + ` ${item.key === selected ? styles$1.selected : ''}`
     }, makeItem(item));
   }));
 };
 
-export { AdBanner, AdminMenu, ContentWithTitle, Footer, HeaderCherxy as HeaderCheryx, IMAGE_SUBMENU, ImageUpload, ImageUploadable, LeftMenu, Loader, MenuAddComponentPost, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternItem, PatternName, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, TipDetail, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles };
+var styles = {"wrapper":"BestSeller-module_wrapper__DcZ-X","left":"BestSeller-module_left__48g-A","right":"BestSeller-module_right__yVRHM","image":"BestSeller-module_image__D8YrF","message":"BestSeller-module_message__RQ83C","description":"BestSeller-module_description__By2Bn","name":"BestSeller-module_name__K4Haa"};
+
+const BestSeller = ({
+  useRouter = () => {},
+  useDispatch = () => {},
+  listPatternDetail,
+  isAdmin,
+  isMobile,
+  data
+}) => {
+  const onClickPatternItem = () => {
+    // data && data.ravelryUrl && !isAdmin && window.open(data.ravelryUrl);
+  };
+  return /*#__PURE__*/React__default.createElement("div", {
+    className: styles.wrapper,
+    onClick: onClickPatternItem
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: styles.left
+  }, /*#__PURE__*/React__default.createElement(PatternItem, _extends({
+    useDispatch: useDispatch,
+    useRouter: useRouter,
+    listPatternDetail: listPatternDetail,
+    isAdmin: isAdmin,
+    isMobile: isMobile,
+    key: data.id
+  }, data))), /*#__PURE__*/React__default.createElement("div", {
+    className: styles.right
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: styles.image
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: styles.message
+  }, "\u0110\xE2y l\xE0 c\xE1c l\u1EDBp h\u01B0\u1EDBng d\u1EABn \u0111an th\xFA c\u1EE7a m\xECnh!"))));
+};
+
+export { AdBanner, AdminMenu, BestSeller, ContentWithTitle, Footer, HeaderCherxy as HeaderCheryx, IMAGE_SUBMENU, ImageUpload, ImageUploadable, LeftMenu, Loader, MenuAddComponentPost, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternItem, PatternName, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, TipDetail, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles };

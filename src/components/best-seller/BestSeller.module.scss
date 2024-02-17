@@ -1,0 +1,76 @@
+@import '../styles/variables.scss';
+@import '../styles/mixin.scss';
+.wrapper {
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    @include mobile {
+        display: grid;
+        grid-template-columns: 1fr;
+        padding: 10px 7px;
+        margin-bottom: 0px;
+    }
+    .left {
+        @media (max-width: $mobile-breakpoint) {
+            width: 100%;
+        }
+    }
+    .right {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        padding-left: 20px;
+        @include mobile {
+            display: none;
+        }
+        .image {
+            background-image: url('/images/my-patterns.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 441px;
+            height: 227px;
+            position: relative;
+            margin-bottom: 126px;
+            margin-left: 61px;
+
+            .message {
+                position: absolute;
+                background-image: url('/images/mess_bg.png');
+                background-size: contain;
+                background-repeat: no-repeat;
+                width: 195px;
+                height: 105px;
+                top: -106px;
+                right: -27px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 26px;
+                font-size: 1.2rem;         
+            }
+        }
+        .description {
+            margin-top: 10px;
+            font-size: 25px;
+            line-height: 29px;
+            color: #565555;
+            @media (max-width: $mobile-breakpoint) {
+                font-size: 16px;
+                line-height: 18px;
+            }
+        }
+        .name {
+            font-family: "Fredericka the Great";
+            font-size: 65px;
+            line-height: 79px;
+            color: #0A7BCA;
+            @media (max-width: $mobile-breakpoint) {
+                font-size: 24px;
+                line-height: 29px;
+            }
+        }
+    }
+}
