@@ -4,7 +4,9 @@ import { APIService, setShowLoading, handleApiError } from "@cheryx2020/api-serv
 import React, { useEffect, useState } from 'react';
 import PatternName from '../pattern-name/pattern-name';
 import Select from 'react-select'
-const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl = '/images/no-image.png', language = 'vi', _id, description, name, nameColor = '#0A7BCA', isMobile, ravelryUrl, patternId = '', order, isAdmin, isAddNew, isEditing, isFree, isBottom, listPatternDetail = [] }) => {
+
+const NoImage = 'https://cheryx.com/images/no-image.png';
+const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl = NoImage, language = 'vi', _id, description, name, nameColor = '#0A7BCA', isMobile, ravelryUrl, patternId = '', order, isAdmin, isAddNew, isEditing, isFree, isBottom, listPatternDetail = [] }) => {
   const [imgSrc, setImgSrc] = useState(imageUrl);
   const [prNameColor, setPrNameColor] = useState(nameColor);
   const [des, setDes] = useState(isAddNew ? 'Description' : description);
@@ -35,7 +37,8 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
     setDes(description);
     setPrNameColor(nameColor);
     setIsEdit(isEditing);
-    }, [name, isFree, description, nameColor, isEditing]);
+    setImgSrc(imageUrl || NoImage);
+    }, [name, isFree, description, nameColor, isEditing, imageUrl]);
   useEffect(() => {
     if (patternId && Array.isArray(listPatternDetail) && listPatternDetail.length > 0) {
       setSelectedPatternDetail(listPatternDetail.find(item => item.value === patternId));
@@ -210,7 +213,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
       {!isAddNew && !isEdit && <div onClick={onClickPatternDetail} className={styles.button}>Detail</div>}
     </div>}
     {_isFree && <div className={`${styles.freeTag} ${isBottom ? styles.isBottom : ''}`}></div>}
-    <ImageUploadable className={styles.image} isEdit={isEdit} src={isEdit ? imgSrc : imageUrl} onChangeImage={onChangeImage} />
+    <ImageUploadable className={styles.image} isEdit={isEdit} src={imgSrc} onChangeImage={onChangeImage} />
     {isMobile ? <div className={styles.mobileContent}>{content}</div> : content}
     {isEdit && <div style={{ marginBottom: 5 }}><Select
       placeholder="Chọn bài viết"
