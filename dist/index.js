@@ -61129,4 +61129,35 @@ const ListArticle = ({
   }, item.title)))))));
 };
 
-export { AdBanner, AdminMenu, BestSeller, CheryxLogo, ContentWithTitle, Footer, HeaderCherxy as HeaderCheryx, HeaderWithImage, IMAGE_SUBMENU, ImageUpload, ImageUploadable, LeftMenu, ListArticle, Loader, MenuAddComponentPost, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternItem, PatternName, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, TipDetail, TitleCheryx, TitleLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles };
+const HeaderPage = ({
+  title,
+  url,
+  seoConfig,
+  Head,
+  NextSeo
+}) => {
+  const mainTitle = process?.env?.NEXT_PUBLIC_SEO_mainTitle;
+  let titlePage = `${mainTitle}${title ? ` - ${title}` : ''}`;
+  if (titlePage.length > 60) {
+    titlePage = mainTitle;
+  }
+  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Head, null, /*#__PURE__*/React__default.createElement("title", null, titlePage), /*#__PURE__*/React__default.createElement("link", {
+    rel: "icon",
+    href: "/favicon.ico"
+  })), seoConfig ? seoConfig : /*#__PURE__*/React__default.createElement(NextSeo, {
+    title: titlePage,
+    description: title,
+    openGraph: {
+      url: `${process?.env?.NEXT_PUBLIC_pageUrl}/${url}`,
+      title: titlePage,
+      description: title,
+      images: [{
+        url: 'https://gocnhacolen.com/images/footer.webp',
+        alt: titlePage
+      }],
+      site_name: process?.env?.NEXT_PUBLIC_SEO_pageName
+    }
+  }));
+};
+
+export { AdBanner, AdminMenu, BestSeller, CheryxLogo, ContentWithTitle, Footer, HeaderCherxy as HeaderCheryx, HeaderPage, HeaderWithImage, IMAGE_SUBMENU, ImageUpload, ImageUploadable, LeftMenu, ListArticle, Loader, MenuAddComponentPost, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternItem, PatternName, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, TipDetail, TitleCheryx, TitleLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles };

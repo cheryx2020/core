@@ -31,6 +31,7 @@ import HeaderWithImage from "./src/components/header-with-image/header-with-imag
 import TitleCheryx from "./src/components/title/title"
 import TitleLink from "./src/components/title-link/title-link"
 import ListArticle from "./src/components/list-article/list-article"
+import HeaderPage from "./src/components/header-page"
 
 export {
     SubLink,
@@ -66,5 +67,6 @@ export {
     HeaderWithImage,
     TitleCheryx,
     TitleLink,
-    ListArticle
+    ListArticle,
+    HeaderPage
 }
