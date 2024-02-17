@@ -20,6 +20,7 @@ import {
 } from "./src/components/post-content/postUtils"
 import TipDetail from "./src/components/tip-details/tip-detail";
 import Note from "./src/components/note/note"
+import Loader from "./src/components/loader/loader"
 
 export {
     SubLink,
@@ -44,5 +45,6 @@ export {
     getPostId,
     uploadContentImageFiles,
     TipDetail,
-    Note
+    Note,
+    Loader
 }
