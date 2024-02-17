@@ -3394,6 +3394,7 @@
 .ListArticle-module_wrapper__fmN-H .ListArticle-module_right__a5X7m .ListArticle-module_items__KGSu6 .ListArticle-module_item__NnD6I .ListArticle-module_img__94M5t {
   position: relative;
   width: 149px;
+  min-width: 149px;
   height: 149px;
   background-size: cover;
 }
