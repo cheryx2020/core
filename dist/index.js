@@ -61160,4 +61160,54 @@ const HeaderPage = ({
   }));
 };
 
-export { AdBanner, AdminMenu, BestSeller, CheryxLogo, ContentWithTitle, Footer, HeaderCherxy as HeaderCheryx, HeaderPage, HeaderWithImage, IMAGE_SUBMENU, ImageUpload, ImageUploadable, LeftMenu, ListArticle, Loader, MenuAddComponentPost, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternItem, PatternName, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, TipDetail, TitleCheryx, TitleLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles };
+const Form = ({
+  errorMessage,
+  onSubmit
+}) => /*#__PURE__*/React__default.createElement("form", {
+  onSubmit: onSubmit
+}, errorMessage && /*#__PURE__*/React__default.createElement("p", {
+  className: "error"
+}, errorMessage), /*#__PURE__*/React__default.createElement("style", {
+  jsx: true
+}, `
+      form,
+      label {
+        display: flex;
+        flex-flow: column;
+      }
+      label > span {
+        font-weight: 600;
+      }
+      input {
+        font-size: 16px;
+        padding: 8px;
+        margin: 0.3rem 0 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .submit {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .submit > a {
+        text-decoration: none;
+      }
+      .submit > button {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .submit > button:hover {
+        border-color: #888;
+      }
+      .error {
+        color: brown;
+        margin: 1rem 0 0;
+      }
+    `));
+
+export { AdBanner, AdminMenu, BestSeller, CheryxLogo, ContentWithTitle, Footer, Form, HeaderCherxy as HeaderCheryx, HeaderPage, HeaderWithImage, IMAGE_SUBMENU, ImageUpload, ImageUploadable, LeftMenu, ListArticle, Loader, MenuAddComponentPost, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternItem, PatternName, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, TipDetail, TitleCheryx, TitleLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles };
