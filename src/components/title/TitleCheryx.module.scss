@@ -1,0 +1,53 @@
+@import '../styles/variables.scss';
+.section {
+  width: 100%;
+  max-width: 1110px;
+  height: 92px;
+  background-image: url('/images/title-bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  position: relative;
+  margin: auto;
+  header {
+    position: absolute;
+    bottom: 0;
+    // @media (max-width: 1210px) {
+    //   font-size: 26px;
+    //   padding-bottom: 8px;
+    // }
+    // @media (max-width: 1110px) {
+    //   font-size: 25px;
+    //   padding-bottom: 13px;
+    // }
+    // @media (max-width: 1047px) {
+    //   font-size: 24px;
+    //   padding-bottom: 18px;
+    // }
+    // @media (max-width: 972px) {
+    //   font-size: 23px;
+    //   padding-bottom: 23px;
+    // }
+    // @media (max-width: 910px) {
+    //   font-size: 22px;
+    //   padding-bottom: 27px;
+    // }
+    @media (max-width: $mobile-breakpoint) {
+      font-size: 20px;
+    }
+    font-family: "Big Shoulders Text";
+    color: white;
+    font-size: 28px;
+    font-weight: 500;
+    // padding-bottom: 3px;
+  }
+  @media (max-width: $mobile-breakpoint) {
+    background-image: url('/images/title-bg-mb.png');
+    background-size: cover;
+    height: 57px;
+    width: 100%;
+  }
+}

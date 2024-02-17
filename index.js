@@ -28,6 +28,8 @@ import LeftMenu from "./src/components/left-menu/left-menu"
 import BestSeller from "./src/components/best-seller/best-seller"
 import CheryxLogo from "./src/components/cheryx-logo/cheryx-logo"
 import HeaderWithImage from "./src/components/header-with-image/header-with-image"
+import TitleCheryx from "./src/components/title/title"
+import TitleLink from "./src/components/title-link/title-link"
 
 export {
     SubLink,
@@ -60,5 +62,7 @@ export {
     LeftMenu,
     BestSeller,
     CheryxLogo,
-    HeaderWithImage
+    HeaderWithImage,
+    TitleCheryx,
+    TitleLink
 }

@@ -1,0 +1,39 @@
+@import '../styles/variables.scss';
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 43px;
+  background-color: #F08C5F;
+  padding-left: 15px;
+  padding-right: 10px;
+  @media (max-width: $mobile-breakpoint) {
+    height: auto;
+    padding: 5px;
+  }
+  .text {
+    font-size: 20px;
+    line-height: 33px;
+    font-weight: 500;
+    font-family: "Big Shoulders Text";
+    color: #FFFFFF;
+    @media (max-width: $mobile-breakpoint) {
+      font-size: 20px;
+      line-height: 23px;
+    }
+  }
+  a {
+    font-family: 'Big Shoulders Text';
+    color: #FFFFFF !important;
+    font-size: 20px;
+    line-height: 24px;
+    &:hover {
+      text-decoration: none !important;
+    }
+    @media (max-width: $mobile-breakpoint) {
+      font-size: 16px;
+      line-height: 17px;
+    }
+  }
+}
