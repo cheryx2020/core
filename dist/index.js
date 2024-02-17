@@ -3,7 +3,7 @@ import React__default, { useState, useRef, useEffect, Component, isValidElement,
 import publicIp from 'public-ip';
 import Linkify from 'linkify-react';
 
-var styles$q = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
+var styles$r = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
 
 const SubLink = ({
   data,
@@ -12,19 +12,19 @@ const SubLink = ({
   renderItem = () => {}
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.wrapper,
+    className: styles$r.wrapper,
     style: wrapperStyle
   }, Array.isArray(data) && data.length > 0 && data.map((item, i) => {
     return /*#__PURE__*/React__default.createElement("div", {
-      className: `${styles$q.wrapperLink} ${className}`,
+      className: `${styles$r.wrapperLink} ${className}`,
       key: i
     }, renderItem(item), i < data.length - 1 && /*#__PURE__*/React__default.createElement("div", {
-      className: styles$q.spliter
+      className: styles$r.spliter
     }, '>'));
   }));
 };
 
-var styles$p = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
+var styles$q = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
 
 function bind(fn, thisArg) {
   return function wrap() {
@@ -3478,6 +3478,16 @@ const verifyToken = () => {
   });
 };
 
+const transformImageSrc = imgUrl => {
+  let result = imgUrl;
+  try {
+    result = imgUrl.includes('//') && !imgUrl.includes('https://') ? `https:` + imgUrl : imgUrl;
+  } catch (e) {
+    console.log(e);
+  }
+  return result;
+};
+
 const ImageUploadable = ({
   src,
   onChangeImage = () => {},
@@ -3553,10 +3563,10 @@ const ImageUploadable = ({
   }
   return /*#__PURE__*/React__default.createElement("div", {
     ref: imageWap,
-    className: `${styles$p.image} ${className}`,
+    className: `${styles$q.image} ${className}`,
     style: wrapperStyle
   }, isEdit && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$p.imageMenu,
+    className: styles$q.imageMenu,
     onClick: e => e.stopPropagation()
   }, /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement("div", null, "Choose Image"), /*#__PURE__*/React__default.createElement("input", {
     accept: "image/png, image/jpeg, image/svg+xml",
@@ -3575,15 +3585,15 @@ const ImageUploadable = ({
       e.stopPropagation();
     },
     onMouseDown: initDrag,
-    className: styles$p.resizer
+    className: styles$q.resizer
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$p.vertical
+    className: styles$q.vertical
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$p.horizontal
+    className: styles$q.horizontal
   })));
 };
 
-var styles$o = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
+var styles$p = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
 
 const ImageUpload = ({
   url,
@@ -3613,17 +3623,17 @@ const ImageUpload = ({
   return /*#__PURE__*/React__default.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$o.imgWrapper,
+    className: styles$p.imgWrapper,
     style: {
       position: 'relative'
     }
   }, showMenuImage && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$o.menuImage
+    className: styles$p.menuImage
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$o.deleteButton,
+    className: styles$p.deleteButton,
     onClick: () => setShowMenuImage(false)
   }, "x"), /*#__PURE__*/React__default.createElement("label", {
-    className: styles$o.uploadButton
+    className: styles$p.uploadButton
   }, /*#__PURE__*/React__default.createElement("span", null, "Upload Image"), /*#__PURE__*/React__default.createElement("input", {
     type: "file",
     onChange: e => {
@@ -3631,10 +3641,10 @@ const ImageUpload = ({
       onChange(e);
     }
   }))), !showMenuImage && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$o.editImageBtn,
+    className: styles$p.editImageBtn,
     onClick: () => setShowMenuImage(true)
   }, "Edit"), /*#__PURE__*/React__default.createElement("textarea", {
-    className: styles$o.textarea,
+    className: styles$p.textarea,
     onMouseOut: onMouseOut,
     disabled: true,
     style: {
@@ -3682,11 +3692,11 @@ const PostVideo = ({
   return /*#__PURE__*/React__default.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$o.imgWrapper
+    className: styles$p.imgWrapper
   }, showMenuVideo && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$o.videoMenu
+    className: styles$p.videoMenu
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$o.deleteButton,
+    className: styles$p.deleteButton,
     onClick: () => setShowMenuVideo(false)
   }, "x"), /*#__PURE__*/React__default.createElement("label", null, "Video Id:"), /*#__PURE__*/React__default.createElement("input", {
     value: url,
@@ -3703,12 +3713,12 @@ const PostVideo = ({
     suppressContentEditableWarning: true,
     contentEditable: true,
     onBlur: onChangeText,
-    className: styles$o.imageDescription,
+    className: styles$p.imageDescription,
     style: {
       minWidth: 100
     }
   }, text), !showMenuVideo && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$o.editImageBtn,
+    className: styles$p.editImageBtn,
     onClick: () => setShowMenuVideo(true)
   }, "Edit"));
 };
@@ -3798,7 +3808,7 @@ class YouTubeSubscribe extends Component {
   }
 }
 
-var styles$n = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu"};
+var styles$o = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu"};
 
 const PatternPreview = ({
   isAdmin,
@@ -3835,9 +3845,9 @@ const PatternPreview = ({
     setPreviewUrl(_previewUrl);
   }, [_imageUrl, _previewUrl]);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.wrapper
+    className: styles$o.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.image
+    className: styles$o.image
   }, /*#__PURE__*/React__default.createElement(ImageUploadable, {
     width: '100%',
     height: '100%',
@@ -3851,20 +3861,20 @@ const PatternPreview = ({
     isEdit: isAdmin,
     src: imageUrl
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.info
+    className: styles$o.info
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
     href: previewUrl,
     onClick: e => onClickLink(e, 'previewUrl'),
     target: "_blank",
-    className: styles$n.previewUrl
+    className: styles$o.previewUrl
   }, buttonText), /*#__PURE__*/React__default.createElement("div", {
     contentEditable: isAdmin ? "true" : "false",
     onBlur: () => {}
   }, message)));
 };
 
-var styles$m = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
+var styles$n = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
 
 const POST_ITEM_TYPE = {
   TITLE: 'title',
@@ -3904,7 +3914,7 @@ const MenuAddComponentPost = ({
     return Array.isArray(POST_ITEM_TYPE_SUBMENU[item]);
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$m.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`,
+    className: `${styles$n.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`,
     onClick: () => {
       setShowMenu(!showMenu);
     }
@@ -3913,10 +3923,10 @@ const MenuAddComponentPost = ({
       position: 'relative'
     }
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$m.adminMenu + ` ${!showMenu ? styles$m.hidden : ''}`
+    className: styles$n.adminMenu + ` ${!showMenu ? styles$n.hidden : ''}`
   }, Array.isArray(Object.keys(menuItems)) && menuItems.map((item, index) => /*#__PURE__*/React__default.createElement("div", {
     onMouseOver: () => onMenuMouseOver(item),
-    className: styles$m.menuItem,
+    className: styles$n.menuItem,
     key: index,
     onClick: e => {
       e.stopPropagation();
@@ -3924,14 +3934,14 @@ const MenuAddComponentPost = ({
       setShowMenu(false);
     }
   }, item, hasSubMenu(item) && hoverItem === item && /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$m.adminMenu} ${styles$m.subMenu}`
+    className: `${styles$n.adminMenu} ${styles$n.subMenu}`
   }, POST_ITEM_TYPE_SUBMENU[item].map((i, idx) => /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       onClickMenuItem(i);
       setShowMenu(false);
     },
-    className: styles$m.menuItem,
+    className: styles$n.menuItem,
     key: idx
   }, i))))))));
 };
@@ -3964,7 +3974,7 @@ var gtag = {
   event
 };
 
-var styles$l = {"wrapper":"PatternDetail-module_wrapper__CFlmD","mainImage":"PatternDetail-module_mainImage__ac-c1","rightInfo":"PatternDetail-module_rightInfo__6J0eO","title":"PatternDetail-module_title__0IjOq","author":"PatternDetail-module_author__Xgx6J","storeInfo":"PatternDetail-module_storeInfo__IwaSl","blackCatWrapper":"PatternDetail-module_blackCatWrapper__cqlld","blackCat":"PatternDetail-module_blackCat__xwKnn","message":"PatternDetail-module_message__Wf-re","text":"PatternDetail-module_text__Whs4v","supperWrapperButton":"PatternDetail-module_supperWrapperButton__KF8fO","buttonWrapper":"PatternDetail-module_buttonWrapper__Z-n6q","priceWrapper":"PatternDetail-module_priceWrapper__7pvJH","price":"PatternDetail-module_price__JsXa9","payPalWrapper":"PatternDetail-module_payPalWrapper__C7Mpl","show":"PatternDetail-module_show__L4BBl","payPal":"PatternDetail-module_payPal__0QLxu","closeLink":"PatternDetail-module_closeLink__Xfvkv","linkStore":"PatternDetail-module_linkStore__gf5UQ","mb11":"PatternDetail-module_mb11__sNoEg","paypalButton":"PatternDetail-module_paypalButton__bUOF3","listSmallImage":"PatternDetail-module_listSmallImage__h5eyY","deleteButton":"PatternDetail-module_deleteButton__5oh8i","triangleLeft":"PatternDetail-module_triangleLeft__C0z45","triangleRight":"PatternDetail-module_triangleRight__krzev"};
+var styles$m = {"wrapper":"PatternDetail-module_wrapper__CFlmD","mainImage":"PatternDetail-module_mainImage__ac-c1","rightInfo":"PatternDetail-module_rightInfo__6J0eO","title":"PatternDetail-module_title__0IjOq","author":"PatternDetail-module_author__Xgx6J","storeInfo":"PatternDetail-module_storeInfo__IwaSl","blackCatWrapper":"PatternDetail-module_blackCatWrapper__cqlld","blackCat":"PatternDetail-module_blackCat__xwKnn","message":"PatternDetail-module_message__Wf-re","text":"PatternDetail-module_text__Whs4v","supperWrapperButton":"PatternDetail-module_supperWrapperButton__KF8fO","buttonWrapper":"PatternDetail-module_buttonWrapper__Z-n6q","priceWrapper":"PatternDetail-module_priceWrapper__7pvJH","price":"PatternDetail-module_price__JsXa9","payPalWrapper":"PatternDetail-module_payPalWrapper__C7Mpl","show":"PatternDetail-module_show__L4BBl","payPal":"PatternDetail-module_payPal__0QLxu","closeLink":"PatternDetail-module_closeLink__Xfvkv","linkStore":"PatternDetail-module_linkStore__gf5UQ","mb11":"PatternDetail-module_mb11__sNoEg","paypalButton":"PatternDetail-module_paypalButton__bUOF3","listSmallImage":"PatternDetail-module_listSmallImage__h5eyY","deleteButton":"PatternDetail-module_deleteButton__5oh8i","triangleLeft":"PatternDetail-module_triangleLeft__C0z45","triangleRight":"PatternDetail-module_triangleRight__krzev"};
 
 const PatternDetail = ({
   name: _name,
@@ -4081,9 +4091,9 @@ const PatternDetail = ({
     }
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.wrapper
+    className: styles$m.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.mainImage
+    className: styles$m.mainImage
   }, isAdmin ? /*#__PURE__*/React__default.createElement(ImageUploadable, {
     wrapperStyle: {
       width: '100%',
@@ -4096,55 +4106,55 @@ const PatternDetail = ({
   }) : /*#__PURE__*/React__default.createElement("img", {
     src: bigImageUrl
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.rightInfo
+    className: styles$m.rightInfo
   }, /*#__PURE__*/React__default.createElement("h1", {
     suppressContentEditableWarning: isAdmin,
     onBlur: e => onChange(e, index, 'name'),
     contenteditable: `${isAdmin ? "true" : "false"}`,
-    className: styles$l.title
+    className: styles$m.title
   }, name)), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.storeInfo
+    className: styles$m.storeInfo
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.blackCatWrapper
+    className: styles$m.blackCatWrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.blackCat
+    className: styles$m.blackCat
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.message
+    className: styles$m.message
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.text
+    className: styles$m.text
   }, "Nh\u1EAFn tin cho m\xECnh \u0111\u1EC3 tham gia l\u1EDBp nh\xE9!")))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.supperWrapperButton
+    className: styles$m.supperWrapperButton
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.buttonWrapper
+    className: styles$m.buttonWrapper
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
     href: ravelryUrl,
     onClick: e => onClickLink(e, 'ravelryUrl'),
     target: "_blank",
-    className: `${styles$l.linkStore}`
+    className: `${styles$m.linkStore}`
   }, "\u0110\u0103ng k\xED l\u1EDBp \u0111an th\xFA b\xF4ng online"))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.priceWrapper
+    className: styles$m.priceWrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.triangleRight
+    className: styles$m.triangleRight
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.triangleRight
+    className: styles$m.triangleRight
   }), /*#__PURE__*/React__default.createElement("div", {
     suppressContentEditableWarning: isAdmin,
     onBlur: e => onChange(e, index, 'price'),
     contenteditable: `${isAdmin ? "true" : "false"}`,
-    className: styles$l.price
+    className: styles$m.price
   }, price), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.triangleLeft
+    className: styles$m.triangleLeft
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.triangleLeft
+    className: styles$m.triangleLeft
   }))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.listSmallImage
+    className: styles$m.listSmallImage
   }, Array.isArray(imageList) && imageList.map((img, i) => isAdmin ? /*#__PURE__*/React__default.createElement("div", {
     style: {
       position: 'relative'
     }
   }, i < imageList.length - 1 && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.deleteButton,
+    className: styles$m.deleteButton,
     onClick: () => {
       removeImage(i);
     }
@@ -4169,7 +4179,7 @@ const PatternDetail = ({
   }))));
 };
 
-var styles$k = {"relatedTo":"RelatedToMenu-module_relatedTo__eRHql","menuLink":"RelatedToMenu-module_menuLink__8MBUA","deleteButton":"RelatedToMenu-module_deleteButton__Hqq16","arrow":"RelatedToMenu-module_arrow__njWAs","textRelatedTo":"RelatedToMenu-module_textRelatedTo__n7-3q"};
+var styles$l = {"relatedTo":"RelatedToMenu-module_relatedTo__eRHql","menuLink":"RelatedToMenu-module_menuLink__8MBUA","deleteButton":"RelatedToMenu-module_deleteButton__Hqq16","arrow":"RelatedToMenu-module_arrow__njWAs","textRelatedTo":"RelatedToMenu-module_textRelatedTo__n7-3q"};
 
 const RelatedToMenu = ({
   url,
@@ -4183,11 +4193,11 @@ const RelatedToMenu = ({
   return /*#__PURE__*/React__default.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$k.relatedTo
+    className: styles$l.relatedTo
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$k.arrow
+    className: styles$l.arrow
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$k.textRelatedTo,
+    className: styles$l.textRelatedTo,
     onClick: () => {
       setShowMenuUrl(true);
     }
@@ -4196,24 +4206,24 @@ const RelatedToMenu = ({
       setShowMenuUrl(true);
     }
   }, textLink), showMenuUrl && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$k.menuLink
+    className: styles$l.menuLink
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$k.deleteButton,
+    className: styles$l.deleteButton,
     onClick: () => {
       setShowMenuUrl(false);
     }
   }, "x"), /*#__PURE__*/React__default.createElement("label", null, "Text:"), /*#__PURE__*/React__default.createElement("input", {
-    className: styles$k.text,
+    className: styles$l.text,
     onChange: e => onChange('textLink', e, index),
     value: textLink
   }), /*#__PURE__*/React__default.createElement("label", null, "Url:"), /*#__PURE__*/React__default.createElement("input", {
-    className: styles$k.url,
+    className: styles$l.url,
     onChange: e => onChange('url', e, index),
     value: url
   })));
 };
 
-var styles$j = {"btnCommon":"AdminMenu-module_btnCommon__zAFca","bigMenu":"AdminMenu-module_bigMenu__9UUTu","btn":"AdminMenu-module_btn__JqVGf","menuActive":"AdminMenu-module_menuActive__8EWvI","bottom":"AdminMenu-module_bottom__6oYnv","top":"AdminMenu-module_top__U0RCz","left":"AdminMenu-module_left__A-mrQ","show":"AdminMenu-module_show__Ie-bf"};
+var styles$k = {"btnCommon":"AdminMenu-module_btnCommon__zAFca","bigMenu":"AdminMenu-module_bigMenu__9UUTu","btn":"AdminMenu-module_btn__JqVGf","menuActive":"AdminMenu-module_menuActive__8EWvI","bottom":"AdminMenu-module_bottom__6oYnv","top":"AdminMenu-module_top__U0RCz","left":"AdminMenu-module_left__A-mrQ","show":"AdminMenu-module_show__Ie-bf"};
 
 const AdminMenu = ({
   isEdit,
@@ -4233,31 +4243,31 @@ const AdminMenu = ({
     onClick: () => {
       setIsShowMenu(!isShowMenu);
     },
-    className: `${styles$j.bigMenu}${isShowMenu ? ' ' + styles$j.menuActive : ''}`
+    className: `${styles$k.bigMenu}${isShowMenu ? ' ' + styles$k.menuActive : ''}`
   }, /*#__PURE__*/React__default.createElement("span", null, text), !hideButtons.includes('edit-save') && /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       setIsShowMenu(!isShowMenu);
       _isEdit ? onSaveClick() : onEditClick();
     },
-    className: `${styles$j.btn}${isShowMenu ? ` ${styles$j.top} ` + styles$j.show : ''}`
+    className: `${styles$k.btn}${isShowMenu ? ` ${styles$k.top} ` + styles$k.show : ''}`
   }, _isEdit ? 'Save' : 'Edit'), _isEdit && /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       setIsShowMenu(!isShowMenu);
       onCancelClick();
     },
-    className: `${styles$j.btn}${isShowMenu ? ` ${styles$j.bottom} ` + styles$j.show : ''}`
+    className: `${styles$k.btn}${isShowMenu ? ` ${styles$k.bottom} ` + styles$k.show : ''}`
   }, 'Cancel'), _isEdit && !hideButtons.includes('preview') && /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       onPreviewClick();
     },
-    className: `${styles$j.btn}${isShowMenu ? ` ${styles$j.left} ` + styles$j.show : ''}`
+    className: `${styles$k.btn}${isShowMenu ? ` ${styles$k.left} ` + styles$k.show : ''}`
   }, '👁'));
 };
 
-var styles$i = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","image":"PatternItem-module_image__ar-yf","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","mobileContent":"PatternItem-module_mobileContent__wcZfW","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
+var styles$j = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","image":"PatternItem-module_image__ar-yf","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","mobileContent":"PatternItem-module_mobileContent__wcZfW","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -20198,7 +20208,7 @@ Google.defaultProps = {
 
 ColorWrap(Google);
 
-var styles$h = {"wrapper":"PatternName-module_wrapper__KDcd8","isBottom":"PatternName-module_isBottom__j2DCd","menu":"PatternName-module_menu__OOslt","pickerMenu":"PatternName-module_pickerMenu__HtlsW"};
+var styles$i = {"wrapper":"PatternName-module_wrapper__KDcd8","isBottom":"PatternName-module_isBottom__j2DCd","menu":"PatternName-module_menu__OOslt","pickerMenu":"PatternName-module_pickerMenu__HtlsW"};
 
 const PatternName = ({
   onBlur = () => {},
@@ -20217,7 +20227,7 @@ const PatternName = ({
   });
   const [showPicker, setShowPicker] = useState(false);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$h.wrapper} ${isBottom ? styles$h.isBottom : ''}`,
+    className: `${styles$i.wrapper} ${isBottom ? styles$i.isBottom : ''}`,
     style: {
       color: nameColor,
       fontFamily: nameFontFamily
@@ -20233,9 +20243,9 @@ const PatternName = ({
     },
     suppressContentEditableWarning: true,
     contentEditable: "false",
-    className: styles$h.menu
+    className: styles$i.menu
   }, showPicker && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$h.pickerMenu,
+    className: styles$i.pickerMenu,
     onMouseLeave: () => setShowPicker(false)
   }, /*#__PURE__*/React__default.createElement(SketchPicker, {
     color: colorInstance,
@@ -58638,7 +58648,7 @@ const PatternItem = ({
     onBlur: e => {
       setDes(e.target.innerText);
     },
-    className: styles$i.description,
+    className: styles$j.description,
     suppressContentEditableWarning: true,
     contentEditable: isEdit ? 'true' : 'false'
   }, des), /*#__PURE__*/React__default.createElement(PatternName, {
@@ -58805,7 +58815,7 @@ const PatternItem = ({
   };
   return /*#__PURE__*/React__default.createElement("div", {
     href: makeUrl(ravelryUrl),
-    className: `${styles$i.wrapper} ${isBottom ? styles$i.isBottom : ''}`,
+    className: `${styles$j.wrapper} ${isBottom ? styles$j.isBottom : ''}`,
     style: {
       width: isAddNew ? '100%' : 'initial',
       height: isAddNew ? '100%' : 'initial',
@@ -58814,34 +58824,34 @@ const PatternItem = ({
     },
     onClick: onClickPatternItem
   }, isAdmin && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$i.editMenu
+    className: styles$j.editMenu
   }, isEdit && /*#__PURE__*/React__default.createElement("label", {
-    className: styles$i.isFree
+    className: styles$j.isFree
   }, /*#__PURE__*/React__default.createElement("input", {
     type: "checkbox",
     onChange: onChangeIsFree,
     checked: _isFree
   }), " Is Free"), isEdit && !isAddNew && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$i.button,
+    className: styles$j.button,
     onClick: onClickCancel
   }, "Cancel"), /*#__PURE__*/React__default.createElement("div", {
     onClick: onClickEdit,
-    className: styles$i.button
+    className: styles$j.button
   }, isEdit ? 'Save' : 'Edit'), !isAddNew && !isEdit && /*#__PURE__*/React__default.createElement("div", {
     onClick: onClickDelete,
-    className: styles$i.button
+    className: styles$j.button
   }, "Delete"), !isAddNew && !isEdit && /*#__PURE__*/React__default.createElement("div", {
     onClick: onClickPatternDetail,
-    className: styles$i.button
+    className: styles$j.button
   }, "Detail")), _isFree && /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$i.freeTag} ${isBottom ? styles$i.isBottom : ''}`
+    className: `${styles$j.freeTag} ${isBottom ? styles$j.isBottom : ''}`
   }), /*#__PURE__*/React__default.createElement(ImageUploadable, {
-    className: styles$i.image,
+    className: styles$j.image,
     isEdit: isEdit,
     src: imgSrc,
     onChangeImage: onChangeImage
   }), isMobile ? /*#__PURE__*/React__default.createElement("div", {
-    className: styles$i.mobileContent
+    className: styles$j.mobileContent
   }, content) : content, isEdit && /*#__PURE__*/React__default.createElement("div", {
     style: {
       marginBottom: 5
@@ -58862,7 +58872,7 @@ const PatternItem = ({
   }));
 };
 
-var styles$g = {"wrapperGroupContent":"PostContent-module_wrapperGroupContent__yFH1p","header":"PostContent-module_header__PsWMK","contentZone":"PostContent-module_contentZone__HUhpk","show":"PostContent-module_show__ZMf2A","edit":"PostContent-module_edit__Qe59Q","btnMenu":"PostContent-module_btnMenu__-mGU-","imageWrapper":"PostContent-module_imageWrapper__2Fk0j","bigTitle":"PostContent-module_bigTitle__iLoUj","wrapperAction":"PostContent-module_wrapperAction__-kVIX","deleteButton":"PostContent-module_deleteButton__iDrEN","addButton":"PostContent-module_addButton__sb98L","button":"PostContent-module_button__FKbWL","imageUpload":"PostContent-module_imageUpload__qkS0y","wrapper":"PostContent-module_wrapper__ahlNi","adminTopHeader":"PostContent-module_adminTopHeader__aIDLA","actionButtons":"PostContent-module_actionButtons__KUzyc","checkBox":"PostContent-module_checkBox__edKrx","ads":"PostContent-module_ads__vHBWo","shareZone":"PostContent-module_shareZone__gri02","shareBtn":"PostContent-module_shareBtn__hl-WI","adminMenuBtn":"PostContent-module_adminMenuBtn__dISi1","adminMenu":"PostContent-module_adminMenu__-hGkg","hidden":"PostContent-module_hidden__GQw-G","menuItem":"PostContent-module_menuItem__HomeL","adminMenuBtnSave":"PostContent-module_adminMenuBtnSave__t-FUr","listPost":"PostContent-module_listPost__cjbZ5","adminMenuInputPostId":"PostContent-module_adminMenuInputPostId__my03L","relatedTo":"PostContent-module_relatedTo__NKbLQ","menuLink":"PostContent-module_menuLink__kQC0Q","arrow":"PostContent-module_arrow__ms8AO","textRelatedTo":"PostContent-module_textRelatedTo__IHBxX","dropZone":"PostContent-module_dropZone__8WDHC","subcribeMe":"PostContent-module_subcribeMe__3y1K-","imgWrapper":"PostContent-module_imgWrapper__4YZaL","videoMenu":"PostContent-module_videoMenu__lxwk3","imageDescription":"PostContent-module_imageDescription__19QTz"};
+var styles$h = {"wrapperGroupContent":"PostContent-module_wrapperGroupContent__yFH1p","header":"PostContent-module_header__PsWMK","contentZone":"PostContent-module_contentZone__HUhpk","show":"PostContent-module_show__ZMf2A","edit":"PostContent-module_edit__Qe59Q","btnMenu":"PostContent-module_btnMenu__-mGU-","imageWrapper":"PostContent-module_imageWrapper__2Fk0j","bigTitle":"PostContent-module_bigTitle__iLoUj","wrapperAction":"PostContent-module_wrapperAction__-kVIX","deleteButton":"PostContent-module_deleteButton__iDrEN","addButton":"PostContent-module_addButton__sb98L","button":"PostContent-module_button__FKbWL","imageUpload":"PostContent-module_imageUpload__qkS0y","wrapper":"PostContent-module_wrapper__ahlNi","adminTopHeader":"PostContent-module_adminTopHeader__aIDLA","actionButtons":"PostContent-module_actionButtons__KUzyc","checkBox":"PostContent-module_checkBox__edKrx","ads":"PostContent-module_ads__vHBWo","shareZone":"PostContent-module_shareZone__gri02","shareBtn":"PostContent-module_shareBtn__hl-WI","adminMenuBtn":"PostContent-module_adminMenuBtn__dISi1","adminMenu":"PostContent-module_adminMenu__-hGkg","hidden":"PostContent-module_hidden__GQw-G","menuItem":"PostContent-module_menuItem__HomeL","adminMenuBtnSave":"PostContent-module_adminMenuBtnSave__t-FUr","listPost":"PostContent-module_listPost__cjbZ5","adminMenuInputPostId":"PostContent-module_adminMenuInputPostId__my03L","relatedTo":"PostContent-module_relatedTo__NKbLQ","menuLink":"PostContent-module_menuLink__kQC0Q","arrow":"PostContent-module_arrow__ms8AO","textRelatedTo":"PostContent-module_textRelatedTo__IHBxX","dropZone":"PostContent-module_dropZone__8WDHC","subcribeMe":"PostContent-module_subcribeMe__3y1K-","imgWrapper":"PostContent-module_imgWrapper__4YZaL","videoMenu":"PostContent-module_videoMenu__lxwk3","imageDescription":"PostContent-module_imageDescription__19QTz"};
 
 const getSelectionText = () => {
   var text = "";
@@ -58913,8 +58923,8 @@ const PostContent = ({
     }
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$g.wrapper
-  }, Array.isArray(data) && data.map((item, i) => renderItemByType(item ? item : {}, i, styles$g, onDeleteContentItem, addNewContentItem, isMobile, _isEdit, data, onChangeData)), _isEdit && Array.isArray(data) && data.length == 0 && /*#__PURE__*/React__default.createElement(MenuAddComponentPost, {
+    className: styles$h.wrapper
+  }, Array.isArray(data) && data.map((item, i) => renderItemByType(item ? item : {}, i, styles$h, onDeleteContentItem, addNewContentItem, isMobile, _isEdit, data, onChangeData)), _isEdit && Array.isArray(data) && data.length == 0 && /*#__PURE__*/React__default.createElement(MenuAddComponentPost, {
     menuItems: Object.keys(POST_ITEM_TYPE),
     btnClass: `${menuBtnClass ? ' ' + menuBtnClass : ''}`,
     onClickMenuItem: item => {
@@ -58949,7 +58959,7 @@ const GroupContent = ({
     setExpanded(expanded);
   }, [expanded]);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$g.wrapperGroupContent
+    className: styles$h.wrapperGroupContent
   }, /*#__PURE__*/React__default.createElement("div", {
     onClick: () => {
       !isEdit && onChange(!_expanded, 'expanded');
@@ -58957,12 +58967,12 @@ const GroupContent = ({
     suppressContentEditableWarning: isEdit,
     onBlur: e => onChange(e, 'text'),
     contentEditable: `${isEdit ? "true" : "false"}`,
-    className: styles$g.header
+    className: styles$h.header
   }, title), /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$g.contentZone}${_expanded || isEdit ? ` ${styles$g.edit} ` + styles$g.show : ''}`
+    className: `${styles$h.contentZone}${_expanded || isEdit ? ` ${styles$h.edit} ` + styles$h.show : ''}`
   }, /*#__PURE__*/React__default.createElement(PostContent, {
     isShowBigMenu: false,
-    menuBtnClass: styles$g.btnMenu,
+    menuBtnClass: styles$h.btnMenu,
     onChangeData: c => {
       setContentData(c);
       onChange(c, 'content');
@@ -60279,7 +60289,7 @@ var TwitterShareButton = createShareButton('twitter', twitterLink, function (pro
 });
 var TwitterShareButton$1 = TwitterShareButton;
 
-var styles$f = {"imageWrapper":"TipDetail-module_imageWrapper__7ob-p","wrapperAction":"TipDetail-module_wrapperAction__fjIyB","deleteButton":"TipDetail-module_deleteButton__qEVWw","addButton":"TipDetail-module_addButton__1234H","button":"TipDetail-module_button__LgFX0","imageUpload":"TipDetail-module_imageUpload__1WBls","wrapper":"TipDetail-module_wrapper__v037r","adminTopHeader":"TipDetail-module_adminTopHeader__IAsnm","actionButtons":"TipDetail-module_actionButtons__HcIOT","checkBox":"TipDetail-module_checkBox__2iiOx","ads":"TipDetail-module_ads__0ycvb","shareZone":"TipDetail-module_shareZone__aJ7c4","shareBtn":"TipDetail-module_shareBtn__p4n9m","adminMenuBtn":"TipDetail-module_adminMenuBtn__NHrLd","adminMenu":"TipDetail-module_adminMenu__aDEnw","hidden":"TipDetail-module_hidden__A2u8V","menuItem":"TipDetail-module_menuItem__xdArV","adminMenuBtnSave":"TipDetail-module_adminMenuBtnSave__UZSjP","listPost":"TipDetail-module_listPost__DAxSM","adminMenuInputPostId":"TipDetail-module_adminMenuInputPostId__e2XnG","relatedTo":"TipDetail-module_relatedTo__Sw1Dt","menuLink":"TipDetail-module_menuLink__9UcOp","arrow":"TipDetail-module_arrow__51LOc","textRelatedTo":"TipDetail-module_textRelatedTo__U1jTE","dropZone":"TipDetail-module_dropZone__KmtOr","subcribeMe":"TipDetail-module_subcribeMe__K0Bcd","imgWrapper":"TipDetail-module_imgWrapper__Q2mx8","videoMenu":"TipDetail-module_videoMenu__pioTv","imageDescription":"TipDetail-module_imageDescription__O0dp9"};
+var styles$g = {"imageWrapper":"TipDetail-module_imageWrapper__7ob-p","wrapperAction":"TipDetail-module_wrapperAction__fjIyB","deleteButton":"TipDetail-module_deleteButton__qEVWw","addButton":"TipDetail-module_addButton__1234H","button":"TipDetail-module_button__LgFX0","imageUpload":"TipDetail-module_imageUpload__1WBls","wrapper":"TipDetail-module_wrapper__v037r","adminTopHeader":"TipDetail-module_adminTopHeader__IAsnm","actionButtons":"TipDetail-module_actionButtons__HcIOT","checkBox":"TipDetail-module_checkBox__2iiOx","ads":"TipDetail-module_ads__0ycvb","shareZone":"TipDetail-module_shareZone__aJ7c4","shareBtn":"TipDetail-module_shareBtn__p4n9m","adminMenuBtn":"TipDetail-module_adminMenuBtn__NHrLd","adminMenu":"TipDetail-module_adminMenu__aDEnw","hidden":"TipDetail-module_hidden__A2u8V","menuItem":"TipDetail-module_menuItem__xdArV","adminMenuBtnSave":"TipDetail-module_adminMenuBtnSave__UZSjP","listPost":"TipDetail-module_listPost__DAxSM","adminMenuInputPostId":"TipDetail-module_adminMenuInputPostId__e2XnG","relatedTo":"TipDetail-module_relatedTo__Sw1Dt","menuLink":"TipDetail-module_menuLink__9UcOp","arrow":"TipDetail-module_arrow__51LOc","textRelatedTo":"TipDetail-module_textRelatedTo__U1jTE","dropZone":"TipDetail-module_dropZone__KmtOr","subcribeMe":"TipDetail-module_subcribeMe__K0Bcd","imgWrapper":"TipDetail-module_imgWrapper__Q2mx8","videoMenu":"TipDetail-module_videoMenu__pioTv","imageDescription":"TipDetail-module_imageDescription__O0dp9"};
 
 const TipDetail = ({
   ProductJsonLd,
@@ -60397,23 +60407,23 @@ const TipDetail = ({
   };
   const siteName = process?.env?.NEXT_PUBLIC_SEO_pageName || 'Cheryx';
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("article", {
-    className: styles$f.wrapper
+    className: styles$g.wrapper
   }, isAdmin && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.adminTopHeader
+    className: styles$g.adminTopHeader
   }, !isPatternDetail && /*#__PURE__*/React__default.createElement("input", {
     value: getPostId(titleData),
     disabled: true,
-    className: styles$f.adminMenuInputPostId
+    className: styles$g.adminMenuInputPostId
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.actionButtons
+    className: styles$g.actionButtons
   }, !isPatternDetail && _isPattern && /*#__PURE__*/React__default.createElement("label", {
-    className: styles$f.checkBox
+    className: styles$g.checkBox
   }, /*#__PURE__*/React__default.createElement("span", null, "Is Free"), /*#__PURE__*/React__default.createElement("input", {
     checked: _isFree,
     type: "checkbox",
     onChange: () => setIsFree(!_isFree)
   })), !isPatternDetail && /*#__PURE__*/React__default.createElement("label", {
-    className: styles$f.checkBox
+    className: styles$g.checkBox
   }, /*#__PURE__*/React__default.createElement("span", null, "Is Pattern"), /*#__PURE__*/React__default.createElement("input", {
     checked: _isPattern,
     type: "checkbox",
@@ -60439,11 +60449,11 @@ const TipDetail = ({
     onCancelClick: onClickCancel,
     linkComponent: Link
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.shareZone
+    className: styles$g.shareZone
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.text
+    className: styles$g.text
   }, "Share:"), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.shareBtn
+    className: styles$g.shareBtn
   }, /*#__PURE__*/React__default.createElement(FacebookShareButton$1, {
     url: `${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`,
     quote: title,
@@ -60452,7 +60462,7 @@ const TipDetail = ({
     size: 32,
     round: true
   }))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.shareBtn
+    className: styles$g.shareBtn
   }, /*#__PURE__*/React__default.createElement(TwitterShareButton$1, {
     url: `${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`,
     quote: title,
@@ -60512,33 +60522,33 @@ const TipDetail = ({
   }));
 };
 
-var styles$e = {"wrapper":"Note-module_wrapper__dSD4k","noteTitle":"Note-module_noteTitle__Ar-iC","p":"Note-module_p__bkiX8","dot":"Note-module_dot__9Xgz3"};
+var styles$f = {"wrapper":"Note-module_wrapper__dSD4k","noteTitle":"Note-module_noteTitle__Ar-iC","p":"Note-module_p__bkiX8","dot":"Note-module_dot__9Xgz3"};
 
 const Note = () => {
   const text = ["Mình không làm file PDF, các lớp hướng dẫn đan là dạng Nhóm (Group) trên Facebook gồm công thức đan, video chi tiết hướng dẫn các công đoạn đan, cách khâu ráp, nhồi gòn tạo hình và các mẹo để tạo nên sản phẩm hoàn thiện.", "Chỉ cần biết đan cơ bản, có thể tham gia lớp và hoàn thành sản phẩm", "Nếu bạn chưa biết đan, ghé qua mục “Tự học đan len cơ bản” để bắt đầu tập đan thử nhé!"];
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$e.wrapper
+    className: styles$f.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$e.noteTitle
+    className: styles$f.noteTitle
   }, "L\u01B0u \xFD"), Array.isArray(text) && text.map((item, i) => /*#__PURE__*/React__default.createElement("div", {
-    className: styles$e.p,
+    className: styles$f.p,
     key: i
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$e.dot
+    className: styles$f.dot
   }), " ", item)));
 };
 
-var styles$d = {"ldsHourglass":"Loader-module_ldsHourglass__duhaK","lds-hourglass-animation":"Loader-module_lds-hourglass-animation__edjXk","loadingWrapper":"Loader-module_loadingWrapper__GIkhp","ldsHourglassAnimation":"Loader-module_lds-hourglass-animation__edjXk"};
+var styles$e = {"ldsHourglass":"Loader-module_ldsHourglass__duhaK","lds-hourglass-animation":"Loader-module_lds-hourglass-animation__edjXk","loadingWrapper":"Loader-module_loadingWrapper__GIkhp","ldsHourglassAnimation":"Loader-module_lds-hourglass-animation__edjXk"};
 
 const Loader = () => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$d.loadingWrapper
+    className: styles$e.loadingWrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$d.ldsHourglass
+    className: styles$e.ldsHourglass
   }));
 };
 
-var styles$c = {"header":"HeaderCherxy-module_header__p1wdm","leftSide":"HeaderCherxy-module_leftSide__EBweP","hambuger":"HeaderCherxy-module_hambuger__Umqrn","overlay":"HeaderCherxy-module_overlay__-X7Sq","menu":"HeaderCherxy-module_menu__aaThr","slideInLeft":"HeaderCherxy-module_slideInLeft__cBezf","searchInput":"HeaderCherxy-module_searchInput__l-5mX","search":"HeaderCherxy-module_search__yA6bt","searchIcon":"HeaderCherxy-module_searchIcon__GfXiv","links":"HeaderCherxy-module_links__3M4Ma","items":"HeaderCherxy-module_items__E8rxt","rightSide":"HeaderCherxy-module_rightSide__ADpXM","logo":"HeaderCherxy-module_logo__E0Zou","cheryx":"HeaderCherxy-module_cheryx__WT3B-","slogan":"HeaderCherxy-module_slogan__MyVr1","nav":"HeaderCherxy-module_nav__xeK49","selectedLink":"HeaderCherxy-module_selectedLink__NJDtu"};
+var styles$d = {"header":"HeaderCherxy-module_header__p1wdm","leftSide":"HeaderCherxy-module_leftSide__EBweP","hambuger":"HeaderCherxy-module_hambuger__Umqrn","overlay":"HeaderCherxy-module_overlay__-X7Sq","menu":"HeaderCherxy-module_menu__aaThr","slideInLeft":"HeaderCherxy-module_slideInLeft__cBezf","searchInput":"HeaderCherxy-module_searchInput__l-5mX","search":"HeaderCherxy-module_search__yA6bt","searchIcon":"HeaderCherxy-module_searchIcon__GfXiv","links":"HeaderCherxy-module_links__3M4Ma","items":"HeaderCherxy-module_items__E8rxt","rightSide":"HeaderCherxy-module_rightSide__ADpXM","logo":"HeaderCherxy-module_logo__E0Zou","cheryx":"HeaderCherxy-module_cheryx__WT3B-","slogan":"HeaderCherxy-module_slogan__MyVr1","nav":"HeaderCherxy-module_nav__xeK49","selectedLink":"HeaderCherxy-module_selectedLink__NJDtu"};
 
 const LinksIcon = ({
   url,
@@ -60561,7 +60571,7 @@ const LinksIcon = ({
   }));
 };
 
-var styles$b = {"hambuger":"LeftSideMenu-module_hambuger__yYPB4","overlay":"LeftSideMenu-module_overlay__8lrgX","menu":"LeftSideMenu-module_menu__ptqh0","slideInLeft":"LeftSideMenu-module_slideInLeft__yNIM5","searchInput":"LeftSideMenu-module_searchInput__KcMQt","search":"LeftSideMenu-module_search__-KQb9","searchIcon":"LeftSideMenu-module_searchIcon__bkFlv","links":"LeftSideMenu-module_links__36Vv-","items":"LeftSideMenu-module_items__2XpnR"};
+var styles$c = {"hambuger":"LeftSideMenu-module_hambuger__yYPB4","overlay":"LeftSideMenu-module_overlay__8lrgX","menu":"LeftSideMenu-module_menu__ptqh0","slideInLeft":"LeftSideMenu-module_slideInLeft__yNIM5","searchInput":"LeftSideMenu-module_searchInput__KcMQt","search":"LeftSideMenu-module_search__-KQb9","searchIcon":"LeftSideMenu-module_searchIcon__bkFlv","links":"LeftSideMenu-module_links__36Vv-","items":"LeftSideMenu-module_items__2XpnR"};
 
 const LeftSideMenu = ({
   menuText = 'Menu',
@@ -60575,7 +60585,7 @@ const LeftSideMenu = ({
       setIsShowMenu(true);
       document.body.style.overflowY = 'hidden';
     },
-    className: styles$b.hambuger
+    className: styles$c.hambuger
   }, /*#__PURE__*/React__default.createElement("img", {
     width: "22px",
     height: "24px",
@@ -60585,26 +60595,26 @@ const LeftSideMenu = ({
     onTouchStart: () => {
       setTimeout(() => setIsShowMenu(false), 100);
     },
-    className: styles$b.overlay
+    className: styles$c.overlay
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$b.menu,
+    className: styles$c.menu,
     onTouchStart: e => {
       e.stopPropagation();
     }
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$b.searchInput
+    className: styles$c.searchInput
   }, /*#__PURE__*/React__default.createElement("input", {
-    className: styles$b.search
+    className: styles$c.search
   }), /*#__PURE__*/React__default.createElement("img", {
     alt: "Search",
-    className: styles$b.searchIcon,
+    className: styles$c.searchIcon,
     src: "/images/search.svg"
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$b.links
+    className: styles$c.links
   }, links.map((item, index) => /*#__PURE__*/React__default.createElement(LinksIcon, _extends({
     key: index
   }, item)))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$b.items
+    className: styles$c.items
   }, menuData.map((item, index) => /*#__PURE__*/React__default.createElement(Link, {
     key: index,
     href: item.url
@@ -60701,9 +60711,9 @@ const HeaderCherxy = ({
       width: '100%'
     }
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$c.header
+    className: styles$d.header
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$c.leftSide
+    className: styles$d.leftSide
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
     target: "_blank",
@@ -60763,7 +60773,7 @@ const HeaderCherxy = ({
     links: links,
     menuData: MenuData
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$c.rightSide
+    className: styles$d.rightSide
   }, /*#__PURE__*/React__default.createElement(Link, {
     href: verified ? '/dashboard' : '/login'
   }, /*#__PURE__*/React__default.createElement("a", {
@@ -60776,43 +60786,43 @@ const HeaderCherxy = ({
     alt: "user",
     src: "/images/user.png"
   }))))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$c.logo
+    className: styles$d.logo
   }, /*#__PURE__*/React__default.createElement(Link, {
     href: '/'
   }, /*#__PURE__*/React__default.createElement("a", null, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$c.cheryx
+    className: styles$d.cheryx
   })))), showNavigator && /*#__PURE__*/React__default.createElement("nav", {
-    className: styles$c.nav
+    className: styles$d.nav
   }, MenuData.map((item, index) => /*#__PURE__*/React__default.createElement(Link, {
     key: index,
     href: item.url + `${isAdmin ? '?isAdmin=true' : ''}`
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
-    className: url === item.url ? styles$c.selectedLink : ''
+    className: url === item.url ? styles$d.selectedLink : ''
   }, item.text)))));
 };
 
-var styles$a = {"homeFreePatternList":"Home-module_homeFreePatternList__BycET","mb30":"Home-module_mb30__gyYi3","imageHeaderHome":"Home-module_imageHeaderHome__MZu5H","mt55":"Home-module_mt55__-08as","main":"Home-module_main__bI9na","freePattern":"Home-module_freePattern__uCele","container":"Home-module_container__mEFCr","footer":"Home-module_footer__XGpF4","imageFooter":"Home-module_imageFooter__ZINru","dcma":"Home-module_dcma__4GW8-","title":"Home-module_title__txGd6","description":"Home-module_description__E20Wj","code":"Home-module_code__31aBI","grid":"Home-module_grid__EUFcv","card":"Home-module_card__601Yy","logo":"Home-module_logo__lK-7J","myPatterns":"Home-module_myPatterns__ftfzg","labby":"Home-module_labby__n6j7Y","images":"Home-module_images__poqmB","pumpkin":"Home-module_pumpkin__k5z5Z","reindeer":"Home-module_reindeer__Ah1XJ","lucy":"Home-module_lucy__hzRoe","alan":"Home-module_alan__i6oMq","mason":"Home-module_mason__RY-fc","jacky":"Home-module_jacky__L8AG5","jane":"Home-module_jane__a5v6P","bunny":"Home-module_bunny__uVy5m","seeMore":"Home-module_seeMore__7NlKP","iconSeeMore":"Home-module_iconSeeMore__eQYok","freePatterns":"Home-module_freePatterns__yiv-E","freeText":"Home-module_freeText__fPF5-","listPattern":"Home-module_listPattern__EWsic","pattern":"Home-module_pattern__YNovi","tips":"Home-module_tips__l5XMZ","mainLogo":"Home-module_mainLogo__N6oJC"};
+var styles$b = {"homeFreePatternList":"Home-module_homeFreePatternList__BycET","mb30":"Home-module_mb30__gyYi3","imageHeaderHome":"Home-module_imageHeaderHome__MZu5H","mt55":"Home-module_mt55__-08as","main":"Home-module_main__bI9na","freePattern":"Home-module_freePattern__uCele","container":"Home-module_container__mEFCr","footer":"Home-module_footer__XGpF4","imageFooter":"Home-module_imageFooter__ZINru","dcma":"Home-module_dcma__4GW8-","title":"Home-module_title__txGd6","description":"Home-module_description__E20Wj","code":"Home-module_code__31aBI","grid":"Home-module_grid__EUFcv","card":"Home-module_card__601Yy","logo":"Home-module_logo__lK-7J","myPatterns":"Home-module_myPatterns__ftfzg","labby":"Home-module_labby__n6j7Y","images":"Home-module_images__poqmB","pumpkin":"Home-module_pumpkin__k5z5Z","reindeer":"Home-module_reindeer__Ah1XJ","lucy":"Home-module_lucy__hzRoe","alan":"Home-module_alan__i6oMq","mason":"Home-module_mason__RY-fc","jacky":"Home-module_jacky__L8AG5","jane":"Home-module_jane__a5v6P","bunny":"Home-module_bunny__uVy5m","seeMore":"Home-module_seeMore__7NlKP","iconSeeMore":"Home-module_iconSeeMore__eQYok","freePatterns":"Home-module_freePatterns__yiv-E","freeText":"Home-module_freeText__fPF5-","listPattern":"Home-module_listPattern__EWsic","pattern":"Home-module_pattern__YNovi","tips":"Home-module_tips__l5XMZ","mainLogo":"Home-module_mainLogo__N6oJC"};
 
-var styles$9 = {"wrapper":"TitleCheryx2-module_wrapper__qmGmO","line":"TitleCheryx2-module_line__EPyjc","text":"TitleCheryx2-module_text__9xtyl"};
+var styles$a = {"wrapper":"TitleCheryx2-module_wrapper__qmGmO","line":"TitleCheryx2-module_line__EPyjc","text":"TitleCheryx2-module_text__9xtyl"};
 
 const TitleCheryx2 = ({
   text,
   wrapperStyle = {}
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.wrapper,
+    className: styles$a.wrapper,
     style: wrapperStyle
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.line
+    className: styles$a.line
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.text
+    className: styles$a.text
   }, text), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.line
+    className: styles$a.line
   }));
 };
 
-var styles$8 = {"wrapper":"ContentWithTitle-module_wrapper__p-sG2"};
+var styles$9 = {"wrapper":"ContentWithTitle-module_wrapper__p-sG2"};
 
 const ContentWithTitle = ({
   content,
@@ -60820,13 +60830,13 @@ const ContentWithTitle = ({
   className = ''
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$8.wrapper} ${className}`
+    className: `${styles$9.wrapper} ${className}`
   }, /*#__PURE__*/React__default.createElement(TitleCheryx2, {
     text: title
   }), content);
 };
 
-var styles$7 = {"items":"MySocialLink-module_items__129Nf","ravelry":"MySocialLink-module_ravelry__-2Y9f","lovescraft":"MySocialLink-module_lovescraft__2KkVr","fb":"MySocialLink-module_fb__jm-Lg","in":"MySocialLink-module_in__AUJht","yo":"MySocialLink-module_yo__rI64f","pi":"MySocialLink-module_pi__37U9a","$in$":"MySocialLink-module_in__AUJht"};
+var styles$8 = {"items":"MySocialLink-module_items__129Nf","ravelry":"MySocialLink-module_ravelry__-2Y9f","lovescraft":"MySocialLink-module_lovescraft__2KkVr","fb":"MySocialLink-module_fb__jm-Lg","in":"MySocialLink-module_in__AUJht","yo":"MySocialLink-module_yo__rI64f","pi":"MySocialLink-module_pi__37U9a","$in$":"MySocialLink-module_in__AUJht"};
 
 const MySocialLink = ({
   isMobile
@@ -60834,7 +60844,7 @@ const MySocialLink = ({
   return /*#__PURE__*/React__default.createElement(ContentWithTitle, {
     title: "T\xE0i kho\u1EA3n c\xE1 nh\xE2n",
     content: /*#__PURE__*/React__default.createElement("div", {
-      className: styles$7.items
+      className: styles$8.items
     }, /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
       target: "_blank",
@@ -60843,7 +60853,7 @@ const MySocialLink = ({
       alt: "Facebook",
       width: isMobile ? '10px' : '15px',
       height: isMobile ? '21px' : '30px',
-      className: styles$7.fb,
+      className: styles$8.fb,
       src: "/images/fb1.png"
     })), /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
@@ -60853,7 +60863,7 @@ const MySocialLink = ({
       alt: "Ravelry",
       width: isMobile ? '87px' : '154px',
       height: isMobile ? '27px' : '49px',
-      className: styles$7.ravelry,
+      className: styles$8.ravelry,
       src: "/images/rv.svg"
     })), /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
@@ -60863,7 +60873,7 @@ const MySocialLink = ({
       alt: "Instagram",
       width: isMobile ? '21px' : '32px',
       height: isMobile ? '21px' : '34px',
-      className: styles$7.in,
+      className: styles$8.in,
       src: "/images/in1.png"
     })), /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
@@ -60871,7 +60881,7 @@ const MySocialLink = ({
       href: "https://www.youtube.com/channel/UCf0jCxiSGh_pBExFN3k1CIA"
     }, /*#__PURE__*/React__default.createElement("img", {
       alt: "Youtube",
-      className: styles$7.yo,
+      className: styles$8.yo,
       width: isMobile ? '23px' : '44px',
       height: isMobile ? '30px' : '34px',
       src: "/images/yo1.png"
@@ -60883,7 +60893,7 @@ const MySocialLink = ({
       alt: "Pinterest",
       width: isMobile ? '22px' : '34px',
       height: isMobile ? '22px' : '34px',
-      className: styles$7.pi,
+      className: styles$8.pi,
       src: "/images/pi.png"
     })))
   });
@@ -60894,18 +60904,18 @@ const Footer = ({
   className
 }) => {
   return /*#__PURE__*/React__default.createElement("footer", {
-    className: `${styles$a.footer} ${className}`
+    className: `${styles$b.footer} ${className}`
   }, /*#__PURE__*/React__default.createElement(MySocialLink, {
     isMobile: isMobile
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$a.imageFooter
+    className: styles$b.imageFooter
   }, /*#__PURE__*/React__default.createElement("img", {
     width: "100%",
     height: "100%",
     alt: process?.env?.NEXT_PUBLIC_SEO_mainTitle,
     src: `/images/footer.webp`
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$a.dcma
+    className: styles$b.dcma
   }, /*#__PURE__*/React__default.createElement("a", {
     href: "//www.dmca.com/Protection/Status.aspx?ID=dbcbbc0c-5007-4d0c-aeff-b4ed3e017556",
     title: "DMCA.com Protection Status",
@@ -60918,7 +60928,7 @@ const Footer = ({
   }, " "))));
 };
 
-var styles$6 = {"leftMenu":"LeftMenu-module_leftMenu__6Umri","item":"LeftMenu-module_item__0YVyd","selected":"LeftMenu-module_selected__fNM9r","icon":"LeftMenu-module_icon__nn0rc"};
+var styles$7 = {"leftMenu":"LeftMenu-module_leftMenu__6Umri","item":"LeftMenu-module_item__0YVyd","selected":"LeftMenu-module_selected__fNM9r","icon":"LeftMenu-module_icon__nn0rc"};
 
 const LeftMenu = ({
   data = [],
@@ -60928,31 +60938,31 @@ const LeftMenu = ({
 }) => {
   const makeItem = item => {
     return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("div", {
-      className: styles$6.icon,
+      className: styles$7.icon,
       style: {
         backgroundImage: `url('${item.icon}')`
       }
     }), /*#__PURE__*/React__default.createElement("div", null, item.title));
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$6.leftMenu
+    className: styles$7.leftMenu
   }, data.map((item, index) => {
     if (isAdmin) {
       return /*#__PURE__*/React__default.createElement("div", {
         key: index,
         onClick: () => onSelectedItem(item.key),
-        className: styles$6.item + ` ${item.key === selected ? styles$6.selected : ''}`
+        className: styles$7.item + ` ${item.key === selected ? styles$7.selected : ''}`
       }, makeItem(item));
     }
     return /*#__PURE__*/React__default.createElement("a", {
       key: index,
       href: item.url,
-      className: styles$6.item + ` ${item.key === selected ? styles$6.selected : ''}`
+      className: styles$7.item + ` ${item.key === selected ? styles$7.selected : ''}`
     }, makeItem(item));
   }));
 };
 
-var styles$5 = {"wrapper":"BestSeller-module_wrapper__DcZ-X","left":"BestSeller-module_left__48g-A","right":"BestSeller-module_right__yVRHM","image":"BestSeller-module_image__D8YrF","message":"BestSeller-module_message__RQ83C","description":"BestSeller-module_description__By2Bn","name":"BestSeller-module_name__K4Haa"};
+var styles$6 = {"wrapper":"BestSeller-module_wrapper__DcZ-X","left":"BestSeller-module_left__48g-A","right":"BestSeller-module_right__yVRHM","image":"BestSeller-module_image__D8YrF","message":"BestSeller-module_message__RQ83C","description":"BestSeller-module_description__By2Bn","name":"BestSeller-module_name__K4Haa"};
 
 const BestSeller = ({
   useRouter = () => {},
@@ -60966,10 +60976,10 @@ const BestSeller = ({
     // data && data.ravelryUrl && !isAdmin && window.open(data.ravelryUrl);
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.wrapper,
+    className: styles$6.wrapper,
     onClick: onClickPatternItem
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.left
+    className: styles$6.left
   }, /*#__PURE__*/React__default.createElement(PatternItem, _extends({
     useDispatch: useDispatch,
     useRouter: useRouter,
@@ -60978,63 +60988,63 @@ const BestSeller = ({
     isMobile: isMobile,
     key: data.id
   }, data))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.right
+    className: styles$6.right
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.image
+    className: styles$6.image
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.message
+    className: styles$6.message
   }, "\u0110\xE2y l\xE0 c\xE1c l\u1EDBp h\u01B0\u1EDBng d\u1EABn \u0111an th\xFA c\u1EE7a m\xECnh!"))));
 };
 
-var styles$4 = {"logo":"CheryxLogo-module_logo__Ik2QT","cheryx":"CheryxLogo-module_cheryx__0-ARk","slogan":"CheryxLogo-module_slogan__jkJ4I"};
+var styles$5 = {"logo":"CheryxLogo-module_logo__Ik2QT","cheryx":"CheryxLogo-module_cheryx__0-ARk","slogan":"CheryxLogo-module_slogan__jkJ4I"};
 
 const CheryxLogo = () => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$4.logo
+    className: styles$5.logo
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$4.cheryx
+    className: styles$5.cheryx
   }), /*#__PURE__*/React__default.createElement("img", {
     width: "143px",
     height: "18px",
     alt: process?.env?.NEXT_PUBLIC_SEO_mainTitle,
-    className: styles$4.slogan,
+    className: styles$5.slogan,
     src: "/images/cheryx-slogan.webp"
   }));
 };
 
-var styles$3 = {"linebase":"TagWithText-module_linebase__1fgWE","line":"TagWithText-module_line__jtXig","circle":"TagWithText-module_circle__DkgeV","middle":"TagWithText-module_middle__knogk","wrapper":"TagWithText-module_wrapper__J8uOx","line2":"TagWithText-module_line2__oJBu6","line1":"TagWithText-module_line1__mC6e3","inner":"TagWithText-module_inner__uzFrz"};
+var styles$4 = {"linebase":"TagWithText-module_linebase__1fgWE","line":"TagWithText-module_line__jtXig","circle":"TagWithText-module_circle__DkgeV","middle":"TagWithText-module_middle__knogk","wrapper":"TagWithText-module_wrapper__J8uOx","line2":"TagWithText-module_line2__oJBu6","line1":"TagWithText-module_line1__mC6e3","inner":"TagWithText-module_inner__uzFrz"};
 
 const TagWithText = ({
   text
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$3.wrapper
+    className: styles$4.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$3.inner
+    className: styles$4.inner
   }, text), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$3.line1
+    className: styles$4.line1
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$3.circle
+    className: styles$4.circle
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$3.middle
+    className: styles$4.middle
   }))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$3.line2
+    className: styles$4.line2
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$3.circle
+    className: styles$4.circle
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$3.middle
+    className: styles$4.middle
   }))));
 };
 
-var styles$2 = {"wrapper":"HeaderWithImage-module_wrapper__OoGTf","tag":"HeaderWithImage-module_tag__Io2Ux"};
+var styles$3 = {"wrapper":"HeaderWithImage-module_wrapper__OoGTf","tag":"HeaderWithImage-module_tag__Io2Ux"};
 
 const HeaderWithImage = ({
   className
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$2.wrapper} ${className}`
+    className: `${styles$3.wrapper} ${className}`
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$2.tag
+    className: styles$3.tag
   }, /*#__PURE__*/React__default.createElement(TagWithText, {
     text: "\u1EDE \u0111\xE2y c\xF3 h\u01B0\u1EDBng d\u1EABn \u0111an len cho ng\u01B0\u1EDDi m\u1EDBi b\u1EAFt \u0111\u1EA7u!"
   })), /*#__PURE__*/React__default.createElement("img", {
@@ -61042,7 +61052,7 @@ const HeaderWithImage = ({
   }));
 };
 
-var styles$1 = {"section":"TitleCheryx-module_section__7ySU8"};
+var styles$2 = {"section":"TitleCheryx-module_section__7ySU8"};
 
 const TitleCheryx = ({
   text,
@@ -61050,11 +61060,11 @@ const TitleCheryx = ({
 }) => {
   return /*#__PURE__*/React__default.createElement("section", {
     style: wrapperStyle,
-    className: styles$1.section
+    className: styles$2.section
   }, /*#__PURE__*/React__default.createElement("header", null, text));
 };
 
-var styles = {"wrapper":"TitleLink-module_wrapper__1aGkJ","text":"TitleLink-module_text__MXsWL"};
+var styles$1 = {"wrapper":"TitleLink-module_wrapper__1aGkJ","text":"TitleLink-module_text__MXsWL"};
 
 const TitleLink = ({
   text,
@@ -61063,12 +61073,60 @@ const TitleLink = ({
   Link
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles.wrapper} ${className}`
+    className: `${styles$1.wrapper} ${className}`
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles.text
+    className: styles$1.text
   }, text), url && /*#__PURE__*/React__default.createElement(Link, {
     href: url
   }, /*#__PURE__*/React__default.createElement("a", null, 'Xem thêm >>')));
 };
 
-export { AdBanner, AdminMenu, BestSeller, CheryxLogo, ContentWithTitle, Footer, HeaderCherxy as HeaderCheryx, HeaderWithImage, IMAGE_SUBMENU, ImageUpload, ImageUploadable, LeftMenu, Loader, MenuAddComponentPost, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternItem, PatternName, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, TipDetail, TitleCheryx, TitleLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles };
+var styles = {"wrapper":"ListArticle-module_wrapper__fmN-H","left":"ListArticle-module_left__nerkw","bigImage":"ListArticle-module_bigImage__LUfHZ","title":"ListArticle-module_title__Rs6-W","right":"ListArticle-module_right__a5X7m","items":"ListArticle-module_items__KGSu6","item":"ListArticle-module_item__NnD6I","img":"ListArticle-module_img__94M5t","bigItem":"ListArticle-module_bigItem__iDH3C"};
+
+const ListArticle = ({
+  data = [],
+  isMobile,
+  Image,
+  Link
+}) => {
+  const bigItem = data.find(item => item.isBig === true);
+  const listItems = data.filter(item => item.isBig !== true);
+  return /*#__PURE__*/React__default.createElement("div", {
+    className: styles.wrapper
+  }, !isMobile && bigItem && /*#__PURE__*/React__default.createElement(Link, {
+    href: `/tip/${bigItem.id}`
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: styles.left
+  }, /*#__PURE__*/React__default.createElement("a", {
+    href: `/tip/${bigItem.id}`,
+    className: styles.bigImage
+  }, bigItem && /*#__PURE__*/React__default.createElement(Image, {
+    layout: "fill",
+    alt: bigItem.title,
+    src: transformImageSrc(bigItem.imgUrl)
+  })), bigItem && /*#__PURE__*/React__default.createElement("div", {
+    className: styles.title,
+    style: {
+      textAlign: 'center'
+    }
+  }, bigItem.title))), /*#__PURE__*/React__default.createElement("div", {
+    className: styles.right
+  }, listItems.map((item, index) => /*#__PURE__*/React__default.createElement("div", {
+    key: index,
+    className: styles.items
+  }, /*#__PURE__*/React__default.createElement(Link, {
+    href: `/tip/${item.id}`
+  }, /*#__PURE__*/React__default.createElement("a", {
+    className: styles.item
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: styles.img
+  }, /*#__PURE__*/React__default.createElement(Image, {
+    layout: "fill",
+    alt: item.title,
+    src: transformImageSrc(item.imgUrl)
+  })), /*#__PURE__*/React__default.createElement("div", {
+    className: styles.title
+  }, item.title)))))));
+};
+
+export { AdBanner, AdminMenu, BestSeller, CheryxLogo, ContentWithTitle, Footer, HeaderCherxy as HeaderCheryx, HeaderWithImage, IMAGE_SUBMENU, ImageUpload, ImageUploadable, LeftMenu, ListArticle, Loader, MenuAddComponentPost, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternItem, PatternName, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, TipDetail, TitleCheryx, TitleLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles };

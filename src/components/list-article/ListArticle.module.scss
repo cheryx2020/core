@@ -1,0 +1,135 @@
+@import '../styles/variables.scss';
+@import '../styles/mixin.scss';
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-top: 40px;
+  overflow-y: overlay;
+  @include mobile {
+    margin-top: 0px;
+  }
+  .left {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 3.44%;
+    border-right: solid 1px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    @include tablet {
+      min-width: 50%;
+    }
+    .bigImage {
+      position: relative;
+      width: 466px;
+      height: 466px;
+      @include mobile {
+        height: 186px;
+        width: 100%;
+        margin-left: 0px;
+        margin-right: 7px;
+      }
+      @include tablet {
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+    .title {
+      margin-top: 24px;
+      font-size: 24px;
+      line-height: 34px;
+      font-weight: 400;
+      color: #565555;
+    }
+  }
+  .right {
+    width: 100%;
+    height: 100%;
+    overflow: overlay;
+    @include desktop {
+      overflow: hidden;
+    }
+    @include wide-desktop {
+      overflow: hidden;
+    }
+    @include tablet {
+      overflow: hidden;
+    }
+    padding-left: 3.44%;
+    display: flex;
+    flex-direction: column;
+    max-height: 550px;
+    @include mobile {
+      padding-left: 7px;
+      padding-right: 10px;
+      padding-top: 0px;
+      overflow-y: overlay;
+      max-height: 390px;
+      border-left: none;
+    }
+    .items {
+      display: flex;
+      flex-direction: column;
+      &:first-child {
+        padding-top: 0px;
+      }
+      padding-top: 12px;
+      @include mobile {
+        padding-top: 0px;
+      }
+      &:last-child {
+        .item { 
+          border-bottom: none;
+        }
+      }
+      .item {
+        cursor: pointer;
+        border-bottom: solid 1px rgba(0, 0, 0, 0.2);
+        display: flex;
+        width: 100%;
+        padding-bottom: 12px;
+        &:first-child {
+          padding-top: 0px;
+        }
+        @include mobile {
+          margin-top: 0px;
+          padding-bottom: 0px;
+        }
+        .img {
+          position: relative;
+          width: 149px;
+          height: 149px;
+          background-size: cover;
+          @include mobile {
+            width: 105px;
+            min-width: 105px;
+            height: 101px;
+            margin-bottom: 13px;
+            margin-top: 13px;
+            margin-right: 15px;
+          }
+        }
+        .title {
+          font-size: 24px;
+          line-height: 34px;
+          padding: 10px 19px;
+          color: #565555;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          &.bigItem {
+            text-align: center;
+          }
+          @include mobile {
+            padding: 0px;
+            padding-top: 15px;
+            font-size: 17px;
+            line-height: 23px;
+          }
+        }
+      }
+    }
+  }
+}

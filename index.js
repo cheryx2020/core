@@ -30,6 +30,7 @@ import CheryxLogo from "./src/components/cheryx-logo/cheryx-logo"
 import HeaderWithImage from "./src/components/header-with-image/header-with-image"
 import TitleCheryx from "./src/components/title/title"
 import TitleLink from "./src/components/title-link/title-link"
+import ListArticle from "./src/components/list-article/list-article"
 
 export {
     SubLink,
@@ -64,5 +65,6 @@ export {
     CheryxLogo,
     HeaderWithImage,
     TitleCheryx,
-    TitleLink
+    TitleLink,
+    ListArticle
 }
