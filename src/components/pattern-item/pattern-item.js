@@ -56,8 +56,8 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
         setPrName(e.target.innerText);
       }} nameColor={prNameColor} onChangeColor={(color) => setPrNameColor(color)} isEdit={isEdit} text={prName} />
   </>;
-  const makeUrl = () => {
-    let url = ravelryUrl;
+  const makeUrl = (baseUrl) => {
+    let url = baseUrl;
     try {
       if (url?.includes(process.env.NEXT_PUBLIC_pageUrl) || patternId) {
         const split = url.split('/'), patternDetailPath = 'pattern-detail';
@@ -199,7 +199,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
     setImgFile(imgFile);
   }
 
-  return <div href={makeUrl()} className={`${styles.wrapper} ${isBottom ? styles.isBottom : ''}`} style={{
+  return <div href={makeUrl(ravelryUrl)} className={`${styles.wrapper} ${isBottom ? styles.isBottom : ''}`} style={{
     width: isAddNew ? '100%' : 'initial',
     height: isAddNew ? '100%' : 'initial',
     backgroundColor: isAddNew ? 'inherit' : 'inherit',
