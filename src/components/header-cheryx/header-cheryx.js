@@ -88,7 +88,7 @@ const HeaderCherxy = ({isAdmin, url, showNavigator = true, onAuthenticated = () 
         <a rel="noreferrer" target="_blank" href="https://www.youtube.com/channel/UCf0jCxiSGh_pBExFN3k1CIA"><img alt="Youtube" style={{width: 26, height: 20}} src="/images/yo.svg"></img></a>
         <a rel="noreferrer" target="_blank" href="https://www.pinterest.com/Cheryx_knit_a_dream"><img alt="Pinterest" style={{width: 20, height: 20}} src="/images/pi.svg"></img></a>
       </div>
-      <LeftSideMenu links={links} menuData={MenuData}/>
+      <LeftSideMenu Link={Link} links={links} menuData={MenuData}/>
       <div className={styles.rightSide}>
         {/* <a rel="noreferrer" className={styles.search}><img style={{width: 20, height: 20}} src="/images/search.svg"></img></a> 
         <a rel="noreferrer"><img style={{width: 12, height: 16}} src="/images/cart.png"></img></a> */}

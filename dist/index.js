@@ -60796,6 +60796,7 @@ const HeaderCherxy = ({
     },
     src: "/images/pi.svg"
   }))), /*#__PURE__*/React__default.createElement(LeftSideMenu, {
+    Link: Link,
     links: links,
     menuData: MenuData
   }), /*#__PURE__*/React__default.createElement("div", {
