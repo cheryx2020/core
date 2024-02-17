@@ -3,7 +3,7 @@ import React__default, { useState, useRef, useEffect, Component, isValidElement,
 import publicIp from 'public-ip';
 import Linkify from 'linkify-react';
 
-var styles$a = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
+var styles$b = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
 
 const SubLink = ({
   data,
@@ -12,19 +12,19 @@ const SubLink = ({
   renderItem = () => {}
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$a.wrapper,
+    className: styles$b.wrapper,
     style: wrapperStyle
   }, Array.isArray(data) && data.length > 0 && data.map((item, i) => {
     return /*#__PURE__*/React__default.createElement("div", {
-      className: `${styles$a.wrapperLink} ${className}`,
+      className: `${styles$b.wrapperLink} ${className}`,
       key: i
     }, renderItem(item), i < data.length - 1 && /*#__PURE__*/React__default.createElement("div", {
-      className: styles$a.spliter
+      className: styles$b.spliter
     }, '>'));
   }));
 };
 
-var styles$9 = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
+var styles$a = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
 
 function bind(fn, thisArg) {
   return function wrap() {
@@ -3319,7 +3319,43 @@ const setShowLoading = (dispatch, isLoading) => {
   }
 };
 
+const POST_ITEM_TYPE$1 = {
+    TITLE: 'title',
+    BIG_HEADER: 'big-header',
+    MEDIUM_HEADER: 'medium-header',
+    SMALL_HEADER: 'small-header',
+    PARAGRAPH: 'paragraph',
+    RELATED_TOPIC: 'related-topic',
+    SUBCRIBE_ME: 'subcribe-me',
+    IMAGE: 'image',
+    BUY_ME_A_COFFEE: 'buy-me-a-coffee',
+    VIDEO: 'video',
+    ADS: 'ads',
+    PATTERN: 'pattern',
+    PATTERN_PREVIEW: 'pattern_preview',
+    GROUP: 'group'
+};
 /**
+ * Get post description from content. Currently, it get the first paragraph of content
+ */
+const getDescriptionFromContent = (content) => {
+    let result = '', data = [];
+    if (typeof content === 'string') {
+      data = JSON.parse(content);
+    }
+    if (Array.isArray(content)) {
+      data = content;
+    }
+    if (data.length > 0) {
+      const firstParagraphItem = Array.isArray(data) ? data.find(item => item.type === POST_ITEM_TYPE$1.PARAGRAPH) : '';
+      if (typeof firstParagraphItem === 'object') {
+        result = firstParagraphItem.text;
+      }
+    }
+    return result;
+  };
+  
+  /**
    * Check file size is bigger than size
    * @param {*} file file object
    * @param {*} size default is 500000 (value: 500000 for 500KB)
@@ -3399,6 +3435,16 @@ const uploadFile = (file, localPath, hideAlert, fileName, requestAbsoluteUrlResp
       } else {
         reject('Tải ảnh không thành công');
       }
+    }).catch(err => {
+      handleApiError(err);
+    });
+  });
+};
+const deleteFile = (filePath) => {
+  return new Promise(resolve => {
+    APIService.post('delete-file', { filePath }).then(res => {
+      console.log(res);
+      resolve(res.data);
     }).catch(err => {
       handleApiError(err);
     });
@@ -3497,10 +3543,10 @@ const ImageUploadable = ({
   }
   return /*#__PURE__*/React__default.createElement("div", {
     ref: imageWap,
-    className: `${styles$9.image} ${className}`,
+    className: `${styles$a.image} ${className}`,
     style: wrapperStyle
   }, isEdit && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.imageMenu,
+    className: styles$a.imageMenu,
     onClick: e => e.stopPropagation()
   }, /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement("div", null, "Choose Image"), /*#__PURE__*/React__default.createElement("input", {
     accept: "image/png, image/jpeg, image/svg+xml",
@@ -3519,15 +3565,15 @@ const ImageUploadable = ({
       e.stopPropagation();
     },
     onMouseDown: initDrag,
-    className: styles$9.resizer
+    className: styles$a.resizer
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.vertical
+    className: styles$a.vertical
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.horizontal
+    className: styles$a.horizontal
   })));
 };
 
-var styles$8 = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
+var styles$9 = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
 
 const ImageUpload = ({
   url,
@@ -3557,17 +3603,17 @@ const ImageUpload = ({
   return /*#__PURE__*/React__default.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$8.imgWrapper,
+    className: styles$9.imgWrapper,
     style: {
       position: 'relative'
     }
   }, showMenuImage && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$8.menuImage
+    className: styles$9.menuImage
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$8.deleteButton,
+    className: styles$9.deleteButton,
     onClick: () => setShowMenuImage(false)
   }, "x"), /*#__PURE__*/React__default.createElement("label", {
-    className: styles$8.uploadButton
+    className: styles$9.uploadButton
   }, /*#__PURE__*/React__default.createElement("span", null, "Upload Image"), /*#__PURE__*/React__default.createElement("input", {
     type: "file",
     onChange: e => {
@@ -3575,10 +3621,10 @@ const ImageUpload = ({
       onChange(e);
     }
   }))), !showMenuImage && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$8.editImageBtn,
+    className: styles$9.editImageBtn,
     onClick: () => setShowMenuImage(true)
   }, "Edit"), /*#__PURE__*/React__default.createElement("textarea", {
-    className: styles$8.textarea,
+    className: styles$9.textarea,
     onMouseOut: onMouseOut,
     disabled: true,
     style: {
@@ -3626,11 +3672,11 @@ const PostVideo = ({
   return /*#__PURE__*/React__default.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$8.imgWrapper
+    className: styles$9.imgWrapper
   }, showMenuVideo && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$8.videoMenu
+    className: styles$9.videoMenu
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$8.deleteButton,
+    className: styles$9.deleteButton,
     onClick: () => setShowMenuVideo(false)
   }, "x"), /*#__PURE__*/React__default.createElement("label", null, "Video Id:"), /*#__PURE__*/React__default.createElement("input", {
     value: url,
@@ -3647,12 +3693,12 @@ const PostVideo = ({
     suppressContentEditableWarning: true,
     contentEditable: true,
     onBlur: onChangeText,
-    className: styles$8.imageDescription,
+    className: styles$9.imageDescription,
     style: {
       minWidth: 100
     }
   }, text), !showMenuVideo && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$8.editImageBtn,
+    className: styles$9.editImageBtn,
     onClick: () => setShowMenuVideo(true)
   }, "Edit"));
 };
@@ -3742,7 +3788,7 @@ class YouTubeSubscribe extends Component {
   }
 }
 
-var styles$7 = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu"};
+var styles$8 = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu"};
 
 const PatternPreview = ({
   isAdmin,
@@ -3779,9 +3825,9 @@ const PatternPreview = ({
     setPreviewUrl(_previewUrl);
   }, [_imageUrl, _previewUrl]);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$7.wrapper
+    className: styles$8.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$7.image
+    className: styles$8.image
   }, /*#__PURE__*/React__default.createElement(ImageUploadable, {
     width: '100%',
     height: '100%',
@@ -3795,20 +3841,20 @@ const PatternPreview = ({
     isEdit: isAdmin,
     src: imageUrl
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$7.info
+    className: styles$8.info
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
     href: previewUrl,
     onClick: e => onClickLink(e, 'previewUrl'),
     target: "_blank",
-    className: styles$7.previewUrl
+    className: styles$8.previewUrl
   }, buttonText), /*#__PURE__*/React__default.createElement("div", {
     contentEditable: isAdmin ? "true" : "false",
     onBlur: () => {}
   }, message)));
 };
 
-var styles$6 = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
+var styles$7 = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
 
 const POST_ITEM_TYPE = {
   TITLE: 'title',
@@ -3848,7 +3894,7 @@ const MenuAddComponentPost = ({
     return Array.isArray(POST_ITEM_TYPE_SUBMENU[item]);
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$6.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`,
+    className: `${styles$7.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`,
     onClick: () => {
       setShowMenu(!showMenu);
     }
@@ -3857,10 +3903,10 @@ const MenuAddComponentPost = ({
       position: 'relative'
     }
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$6.adminMenu + ` ${!showMenu ? styles$6.hidden : ''}`
+    className: styles$7.adminMenu + ` ${!showMenu ? styles$7.hidden : ''}`
   }, Array.isArray(Object.keys(menuItems)) && menuItems.map((item, index) => /*#__PURE__*/React__default.createElement("div", {
     onMouseOver: () => onMenuMouseOver(item),
-    className: styles$6.menuItem,
+    className: styles$7.menuItem,
     key: index,
     onClick: e => {
       e.stopPropagation();
@@ -3868,14 +3914,14 @@ const MenuAddComponentPost = ({
       setShowMenu(false);
     }
   }, item, hasSubMenu(item) && hoverItem === item && /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$6.adminMenu} ${styles$6.subMenu}`
+    className: `${styles$7.adminMenu} ${styles$7.subMenu}`
   }, POST_ITEM_TYPE_SUBMENU[item].map((i, idx) => /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       onClickMenuItem(i);
       setShowMenu(false);
     },
-    className: styles$6.menuItem,
+    className: styles$7.menuItem,
     key: idx
   }, i))))))));
 };
@@ -3908,7 +3954,7 @@ var gtag = {
   event
 };
 
-var styles$5 = {"wrapper":"PatternDetail-module_wrapper__CFlmD","mainImage":"PatternDetail-module_mainImage__ac-c1","rightInfo":"PatternDetail-module_rightInfo__6J0eO","title":"PatternDetail-module_title__0IjOq","author":"PatternDetail-module_author__Xgx6J","storeInfo":"PatternDetail-module_storeInfo__IwaSl","blackCatWrapper":"PatternDetail-module_blackCatWrapper__cqlld","blackCat":"PatternDetail-module_blackCat__xwKnn","message":"PatternDetail-module_message__Wf-re","text":"PatternDetail-module_text__Whs4v","supperWrapperButton":"PatternDetail-module_supperWrapperButton__KF8fO","buttonWrapper":"PatternDetail-module_buttonWrapper__Z-n6q","priceWrapper":"PatternDetail-module_priceWrapper__7pvJH","price":"PatternDetail-module_price__JsXa9","payPalWrapper":"PatternDetail-module_payPalWrapper__C7Mpl","show":"PatternDetail-module_show__L4BBl","payPal":"PatternDetail-module_payPal__0QLxu","closeLink":"PatternDetail-module_closeLink__Xfvkv","linkStore":"PatternDetail-module_linkStore__gf5UQ","mb11":"PatternDetail-module_mb11__sNoEg","paypalButton":"PatternDetail-module_paypalButton__bUOF3","listSmallImage":"PatternDetail-module_listSmallImage__h5eyY","deleteButton":"PatternDetail-module_deleteButton__5oh8i","triangleLeft":"PatternDetail-module_triangleLeft__C0z45","triangleRight":"PatternDetail-module_triangleRight__krzev"};
+var styles$6 = {"wrapper":"PatternDetail-module_wrapper__CFlmD","mainImage":"PatternDetail-module_mainImage__ac-c1","rightInfo":"PatternDetail-module_rightInfo__6J0eO","title":"PatternDetail-module_title__0IjOq","author":"PatternDetail-module_author__Xgx6J","storeInfo":"PatternDetail-module_storeInfo__IwaSl","blackCatWrapper":"PatternDetail-module_blackCatWrapper__cqlld","blackCat":"PatternDetail-module_blackCat__xwKnn","message":"PatternDetail-module_message__Wf-re","text":"PatternDetail-module_text__Whs4v","supperWrapperButton":"PatternDetail-module_supperWrapperButton__KF8fO","buttonWrapper":"PatternDetail-module_buttonWrapper__Z-n6q","priceWrapper":"PatternDetail-module_priceWrapper__7pvJH","price":"PatternDetail-module_price__JsXa9","payPalWrapper":"PatternDetail-module_payPalWrapper__C7Mpl","show":"PatternDetail-module_show__L4BBl","payPal":"PatternDetail-module_payPal__0QLxu","closeLink":"PatternDetail-module_closeLink__Xfvkv","linkStore":"PatternDetail-module_linkStore__gf5UQ","mb11":"PatternDetail-module_mb11__sNoEg","paypalButton":"PatternDetail-module_paypalButton__bUOF3","listSmallImage":"PatternDetail-module_listSmallImage__h5eyY","deleteButton":"PatternDetail-module_deleteButton__5oh8i","triangleLeft":"PatternDetail-module_triangleLeft__C0z45","triangleRight":"PatternDetail-module_triangleRight__krzev"};
 
 const PatternDetail = ({
   name: _name,
@@ -4025,9 +4071,9 @@ const PatternDetail = ({
     }
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.wrapper
+    className: styles$6.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.mainImage
+    className: styles$6.mainImage
   }, isAdmin ? /*#__PURE__*/React__default.createElement(ImageUploadable, {
     wrapperStyle: {
       width: '100%',
@@ -4040,55 +4086,55 @@ const PatternDetail = ({
   }) : /*#__PURE__*/React__default.createElement("img", {
     src: bigImageUrl
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.rightInfo
+    className: styles$6.rightInfo
   }, /*#__PURE__*/React__default.createElement("h1", {
     suppressContentEditableWarning: isAdmin,
     onBlur: e => onChange(e, index, 'name'),
     contenteditable: `${isAdmin ? "true" : "false"}`,
-    className: styles$5.title
+    className: styles$6.title
   }, name)), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.storeInfo
+    className: styles$6.storeInfo
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.blackCatWrapper
+    className: styles$6.blackCatWrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.blackCat
+    className: styles$6.blackCat
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.message
+    className: styles$6.message
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.text
+    className: styles$6.text
   }, "Nh\u1EAFn tin cho m\xECnh \u0111\u1EC3 tham gia l\u1EDBp nh\xE9!")))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.supperWrapperButton
+    className: styles$6.supperWrapperButton
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.buttonWrapper
+    className: styles$6.buttonWrapper
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
     href: ravelryUrl,
     onClick: e => onClickLink(e, 'ravelryUrl'),
     target: "_blank",
-    className: `${styles$5.linkStore}`
+    className: `${styles$6.linkStore}`
   }, "\u0110\u0103ng k\xED l\u1EDBp \u0111an th\xFA b\xF4ng online"))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.priceWrapper
+    className: styles$6.priceWrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.triangleRight
+    className: styles$6.triangleRight
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.triangleRight
+    className: styles$6.triangleRight
   }), /*#__PURE__*/React__default.createElement("div", {
     suppressContentEditableWarning: isAdmin,
     onBlur: e => onChange(e, index, 'price'),
     contenteditable: `${isAdmin ? "true" : "false"}`,
-    className: styles$5.price
+    className: styles$6.price
   }, price), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.triangleLeft
+    className: styles$6.triangleLeft
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.triangleLeft
+    className: styles$6.triangleLeft
   }))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.listSmallImage
+    className: styles$6.listSmallImage
   }, Array.isArray(imageList) && imageList.map((img, i) => isAdmin ? /*#__PURE__*/React__default.createElement("div", {
     style: {
       position: 'relative'
     }
   }, i < imageList.length - 1 && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.deleteButton,
+    className: styles$6.deleteButton,
     onClick: () => {
       removeImage(i);
     }
@@ -4113,7 +4159,7 @@ const PatternDetail = ({
   }))));
 };
 
-var styles$4 = {"relatedTo":"RelatedToMenu-module_relatedTo__eRHql","menuLink":"RelatedToMenu-module_menuLink__8MBUA","deleteButton":"RelatedToMenu-module_deleteButton__Hqq16","arrow":"RelatedToMenu-module_arrow__njWAs","textRelatedTo":"RelatedToMenu-module_textRelatedTo__n7-3q"};
+var styles$5 = {"relatedTo":"RelatedToMenu-module_relatedTo__eRHql","menuLink":"RelatedToMenu-module_menuLink__8MBUA","deleteButton":"RelatedToMenu-module_deleteButton__Hqq16","arrow":"RelatedToMenu-module_arrow__njWAs","textRelatedTo":"RelatedToMenu-module_textRelatedTo__n7-3q"};
 
 const RelatedToMenu = ({
   url,
@@ -4127,11 +4173,11 @@ const RelatedToMenu = ({
   return /*#__PURE__*/React__default.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$4.relatedTo
+    className: styles$5.relatedTo
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$4.arrow
+    className: styles$5.arrow
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$4.textRelatedTo,
+    className: styles$5.textRelatedTo,
     onClick: () => {
       setShowMenuUrl(true);
     }
@@ -4140,24 +4186,24 @@ const RelatedToMenu = ({
       setShowMenuUrl(true);
     }
   }, textLink), showMenuUrl && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$4.menuLink
+    className: styles$5.menuLink
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$4.deleteButton,
+    className: styles$5.deleteButton,
     onClick: () => {
       setShowMenuUrl(false);
     }
   }, "x"), /*#__PURE__*/React__default.createElement("label", null, "Text:"), /*#__PURE__*/React__default.createElement("input", {
-    className: styles$4.text,
+    className: styles$5.text,
     onChange: e => onChange('textLink', e, index),
     value: textLink
   }), /*#__PURE__*/React__default.createElement("label", null, "Url:"), /*#__PURE__*/React__default.createElement("input", {
-    className: styles$4.url,
+    className: styles$5.url,
     onChange: e => onChange('url', e, index),
     value: url
   })));
 };
 
-var styles$3 = {"btnCommon":"AdminMenu-module_btnCommon__zAFca","bigMenu":"AdminMenu-module_bigMenu__9UUTu","btn":"AdminMenu-module_btn__JqVGf","menuActive":"AdminMenu-module_menuActive__8EWvI","bottom":"AdminMenu-module_bottom__6oYnv","top":"AdminMenu-module_top__U0RCz","left":"AdminMenu-module_left__A-mrQ","show":"AdminMenu-module_show__Ie-bf"};
+var styles$4 = {"btnCommon":"AdminMenu-module_btnCommon__zAFca","bigMenu":"AdminMenu-module_bigMenu__9UUTu","btn":"AdminMenu-module_btn__JqVGf","menuActive":"AdminMenu-module_menuActive__8EWvI","bottom":"AdminMenu-module_bottom__6oYnv","top":"AdminMenu-module_top__U0RCz","left":"AdminMenu-module_left__A-mrQ","show":"AdminMenu-module_show__Ie-bf"};
 
 const AdminMenu = ({
   isEdit,
@@ -4177,31 +4223,31 @@ const AdminMenu = ({
     onClick: () => {
       setIsShowMenu(!isShowMenu);
     },
-    className: `${styles$3.bigMenu}${isShowMenu ? ' ' + styles$3.menuActive : ''}`
+    className: `${styles$4.bigMenu}${isShowMenu ? ' ' + styles$4.menuActive : ''}`
   }, /*#__PURE__*/React__default.createElement("span", null, text), !hideButtons.includes('edit-save') && /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       setIsShowMenu(!isShowMenu);
       _isEdit ? onSaveClick() : onEditClick();
     },
-    className: `${styles$3.btn}${isShowMenu ? ` ${styles$3.top} ` + styles$3.show : ''}`
+    className: `${styles$4.btn}${isShowMenu ? ` ${styles$4.top} ` + styles$4.show : ''}`
   }, _isEdit ? 'Save' : 'Edit'), _isEdit && /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       setIsShowMenu(!isShowMenu);
       onCancelClick();
     },
-    className: `${styles$3.btn}${isShowMenu ? ` ${styles$3.bottom} ` + styles$3.show : ''}`
+    className: `${styles$4.btn}${isShowMenu ? ` ${styles$4.bottom} ` + styles$4.show : ''}`
   }, 'Cancel'), _isEdit && !hideButtons.includes('preview') && /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       onPreviewClick();
     },
-    className: `${styles$3.btn}${isShowMenu ? ` ${styles$3.left} ` + styles$3.show : ''}`
+    className: `${styles$4.btn}${isShowMenu ? ` ${styles$4.left} ` + styles$4.show : ''}`
   }, '👁'));
 };
 
-var styles$2 = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","image":"PatternItem-module_image__ar-yf","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","mobileContent":"PatternItem-module_mobileContent__wcZfW","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
+var styles$3 = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","image":"PatternItem-module_image__ar-yf","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","mobileContent":"PatternItem-module_mobileContent__wcZfW","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -20142,7 +20188,7 @@ Google.defaultProps = {
 
 ColorWrap(Google);
 
-var styles$1 = {"wrapper":"PatternName-module_wrapper__KDcd8","isBottom":"PatternName-module_isBottom__j2DCd","menu":"PatternName-module_menu__OOslt","pickerMenu":"PatternName-module_pickerMenu__HtlsW"};
+var styles$2 = {"wrapper":"PatternName-module_wrapper__KDcd8","isBottom":"PatternName-module_isBottom__j2DCd","menu":"PatternName-module_menu__OOslt","pickerMenu":"PatternName-module_pickerMenu__HtlsW"};
 
 const PatternName = ({
   onBlur = () => {},
@@ -20161,7 +20207,7 @@ const PatternName = ({
   });
   const [showPicker, setShowPicker] = useState(false);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$1.wrapper} ${isBottom ? styles$1.isBottom : ''}`,
+    className: `${styles$2.wrapper} ${isBottom ? styles$2.isBottom : ''}`,
     style: {
       color: nameColor,
       fontFamily: nameFontFamily
@@ -20177,9 +20223,9 @@ const PatternName = ({
     },
     suppressContentEditableWarning: true,
     contentEditable: "false",
-    className: styles$1.menu
+    className: styles$2.menu
   }, showPicker && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$1.pickerMenu,
+    className: styles$2.pickerMenu,
     onMouseLeave: () => setShowPicker(false)
   }, /*#__PURE__*/React__default.createElement(SketchPicker, {
     color: colorInstance,
@@ -23002,7 +23048,7 @@ var keyframes = function keyframes() {
   };
 };
 
-var classnames = function classnames(args) {
+var classnames$1 = function classnames(args) {
   var len = args.length;
   var i = 0;
   var cls = '';
@@ -23106,7 +23152,7 @@ var ClassNames = /* #__PURE__ */withEmotionCache(function (props, cache) {
       args[_key2] = arguments[_key2];
     }
 
-    return merge(cache.registered, css, classnames(args));
+    return merge(cache.registered, css, classnames$1(args));
   };
 
   var content = {
@@ -58582,7 +58628,7 @@ const PatternItem = ({
     onBlur: e => {
       setDes(e.target.innerText);
     },
-    className: styles$2.description,
+    className: styles$3.description,
     suppressContentEditableWarning: true,
     contentEditable: isEdit ? 'true' : 'false'
   }, des), /*#__PURE__*/React__default.createElement(PatternName, {
@@ -58749,7 +58795,7 @@ const PatternItem = ({
   };
   return /*#__PURE__*/React__default.createElement("div", {
     href: makeUrl(ravelryUrl),
-    className: `${styles$2.wrapper} ${isBottom ? styles$2.isBottom : ''}`,
+    className: `${styles$3.wrapper} ${isBottom ? styles$3.isBottom : ''}`,
     style: {
       width: isAddNew ? '100%' : 'initial',
       height: isAddNew ? '100%' : 'initial',
@@ -58758,34 +58804,34 @@ const PatternItem = ({
     },
     onClick: onClickPatternItem
   }, isAdmin && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$2.editMenu
+    className: styles$3.editMenu
   }, isEdit && /*#__PURE__*/React__default.createElement("label", {
-    className: styles$2.isFree
+    className: styles$3.isFree
   }, /*#__PURE__*/React__default.createElement("input", {
     type: "checkbox",
     onChange: onChangeIsFree,
     checked: _isFree
   }), " Is Free"), isEdit && !isAddNew && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$2.button,
+    className: styles$3.button,
     onClick: onClickCancel
   }, "Cancel"), /*#__PURE__*/React__default.createElement("div", {
     onClick: onClickEdit,
-    className: styles$2.button
+    className: styles$3.button
   }, isEdit ? 'Save' : 'Edit'), !isAddNew && !isEdit && /*#__PURE__*/React__default.createElement("div", {
     onClick: onClickDelete,
-    className: styles$2.button
+    className: styles$3.button
   }, "Delete"), !isAddNew && !isEdit && /*#__PURE__*/React__default.createElement("div", {
     onClick: onClickPatternDetail,
-    className: styles$2.button
+    className: styles$3.button
   }, "Detail")), _isFree && /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$2.freeTag} ${isBottom ? styles$2.isBottom : ''}`
+    className: `${styles$3.freeTag} ${isBottom ? styles$3.isBottom : ''}`
   }), /*#__PURE__*/React__default.createElement(ImageUploadable, {
-    className: styles$2.image,
+    className: styles$3.image,
     isEdit: isEdit,
     src: imgSrc,
     onChangeImage: onChangeImage
   }), isMobile ? /*#__PURE__*/React__default.createElement("div", {
-    className: styles$2.mobileContent
+    className: styles$3.mobileContent
   }, content) : content, isEdit && /*#__PURE__*/React__default.createElement("div", {
     style: {
       marginBottom: 5
@@ -58806,7 +58852,7 @@ const PatternItem = ({
   }));
 };
 
-var styles = {"wrapperGroupContent":"PostContent-module_wrapperGroupContent__yFH1p","header":"PostContent-module_header__PsWMK","contentZone":"PostContent-module_contentZone__HUhpk","show":"PostContent-module_show__ZMf2A","edit":"PostContent-module_edit__Qe59Q","btnMenu":"PostContent-module_btnMenu__-mGU-","imageWrapper":"PostContent-module_imageWrapper__2Fk0j","bigTitle":"PostContent-module_bigTitle__iLoUj","wrapperAction":"PostContent-module_wrapperAction__-kVIX","deleteButton":"PostContent-module_deleteButton__iDrEN","addButton":"PostContent-module_addButton__sb98L","button":"PostContent-module_button__FKbWL","imageUpload":"PostContent-module_imageUpload__qkS0y","wrapper":"PostContent-module_wrapper__ahlNi","adminTopHeader":"PostContent-module_adminTopHeader__aIDLA","actionButtons":"PostContent-module_actionButtons__KUzyc","checkBox":"PostContent-module_checkBox__edKrx","ads":"PostContent-module_ads__vHBWo","shareZone":"PostContent-module_shareZone__gri02","shareBtn":"PostContent-module_shareBtn__hl-WI","adminMenuBtn":"PostContent-module_adminMenuBtn__dISi1","adminMenu":"PostContent-module_adminMenu__-hGkg","hidden":"PostContent-module_hidden__GQw-G","menuItem":"PostContent-module_menuItem__HomeL","adminMenuBtnSave":"PostContent-module_adminMenuBtnSave__t-FUr","listPost":"PostContent-module_listPost__cjbZ5","adminMenuInputPostId":"PostContent-module_adminMenuInputPostId__my03L","relatedTo":"PostContent-module_relatedTo__NKbLQ","menuLink":"PostContent-module_menuLink__kQC0Q","arrow":"PostContent-module_arrow__ms8AO","textRelatedTo":"PostContent-module_textRelatedTo__IHBxX","dropZone":"PostContent-module_dropZone__8WDHC","subcribeMe":"PostContent-module_subcribeMe__3y1K-","imgWrapper":"PostContent-module_imgWrapper__4YZaL","videoMenu":"PostContent-module_videoMenu__lxwk3","imageDescription":"PostContent-module_imageDescription__19QTz"};
+var styles$1 = {"wrapperGroupContent":"PostContent-module_wrapperGroupContent__yFH1p","header":"PostContent-module_header__PsWMK","contentZone":"PostContent-module_contentZone__HUhpk","show":"PostContent-module_show__ZMf2A","edit":"PostContent-module_edit__Qe59Q","btnMenu":"PostContent-module_btnMenu__-mGU-","imageWrapper":"PostContent-module_imageWrapper__2Fk0j","bigTitle":"PostContent-module_bigTitle__iLoUj","wrapperAction":"PostContent-module_wrapperAction__-kVIX","deleteButton":"PostContent-module_deleteButton__iDrEN","addButton":"PostContent-module_addButton__sb98L","button":"PostContent-module_button__FKbWL","imageUpload":"PostContent-module_imageUpload__qkS0y","wrapper":"PostContent-module_wrapper__ahlNi","adminTopHeader":"PostContent-module_adminTopHeader__aIDLA","actionButtons":"PostContent-module_actionButtons__KUzyc","checkBox":"PostContent-module_checkBox__edKrx","ads":"PostContent-module_ads__vHBWo","shareZone":"PostContent-module_shareZone__gri02","shareBtn":"PostContent-module_shareBtn__hl-WI","adminMenuBtn":"PostContent-module_adminMenuBtn__dISi1","adminMenu":"PostContent-module_adminMenu__-hGkg","hidden":"PostContent-module_hidden__GQw-G","menuItem":"PostContent-module_menuItem__HomeL","adminMenuBtnSave":"PostContent-module_adminMenuBtnSave__t-FUr","listPost":"PostContent-module_listPost__cjbZ5","adminMenuInputPostId":"PostContent-module_adminMenuInputPostId__my03L","relatedTo":"PostContent-module_relatedTo__NKbLQ","menuLink":"PostContent-module_menuLink__kQC0Q","arrow":"PostContent-module_arrow__ms8AO","textRelatedTo":"PostContent-module_textRelatedTo__IHBxX","dropZone":"PostContent-module_dropZone__8WDHC","subcribeMe":"PostContent-module_subcribeMe__3y1K-","imgWrapper":"PostContent-module_imgWrapper__4YZaL","videoMenu":"PostContent-module_videoMenu__lxwk3","imageDescription":"PostContent-module_imageDescription__19QTz"};
 
 const getSelectionText = () => {
   var text = "";
@@ -58857,8 +58903,8 @@ const PostContent = ({
     }
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles.wrapper
-  }, Array.isArray(data) && data.map((item, i) => renderItemByType(item ? item : {}, i, styles, onDeleteContentItem, addNewContentItem, isMobile, _isEdit, data, onChangeData)), _isEdit && Array.isArray(data) && data.length == 0 && /*#__PURE__*/React__default.createElement(MenuAddComponentPost, {
+    className: styles$1.wrapper
+  }, Array.isArray(data) && data.map((item, i) => renderItemByType(item ? item : {}, i, styles$1, onDeleteContentItem, addNewContentItem, isMobile, _isEdit, data, onChangeData)), _isEdit && Array.isArray(data) && data.length == 0 && /*#__PURE__*/React__default.createElement(MenuAddComponentPost, {
     menuItems: Object.keys(POST_ITEM_TYPE),
     btnClass: `${menuBtnClass ? ' ' + menuBtnClass : ''}`,
     onClickMenuItem: item => {
@@ -58893,7 +58939,7 @@ const GroupContent = ({
     setExpanded(expanded);
   }, [expanded]);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles.wrapperGroupContent
+    className: styles$1.wrapperGroupContent
   }, /*#__PURE__*/React__default.createElement("div", {
     onClick: () => {
       !isEdit && onChange(!_expanded, 'expanded');
@@ -58901,12 +58947,12 @@ const GroupContent = ({
     suppressContentEditableWarning: isEdit,
     onBlur: e => onChange(e, 'text'),
     contentEditable: `${isEdit ? "true" : "false"}`,
-    className: styles.header
+    className: styles$1.header
   }, title), /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles.contentZone}${_expanded || isEdit ? ` ${styles.edit} ` + styles.show : ''}`
+    className: `${styles$1.contentZone}${_expanded || isEdit ? ` ${styles$1.edit} ` + styles$1.show : ''}`
   }, /*#__PURE__*/React__default.createElement(PostContent, {
     isShowBigMenu: false,
-    menuBtnClass: styles.btnMenu,
+    menuBtnClass: styles$1.btnMenu,
     onChangeData: c => {
       setContentData(c);
       onChange(c, 'content');
@@ -59810,4 +59856,650 @@ const renderItemByType = ({
   return result;
 };
 
-export { AdBanner, AdminMenu, IMAGE_SUBMENU, ImageUpload, ImageUploadable, MenuAddComponentPost, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternItem, PatternName, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles };
+var __assign$2 = (undefined && undefined.__assign) || function () {
+    __assign$2 = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign$2.apply(this, arguments);
+};
+var __rest$1 = (undefined && undefined.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+function createIcon(iconConfig) {
+    var Icon = function (_a) {
+        var bgStyle = _a.bgStyle, borderRadius = _a.borderRadius, iconFillColor = _a.iconFillColor, round = _a.round, size = _a.size, rest = __rest$1(_a, ["bgStyle", "borderRadius", "iconFillColor", "round", "size"]);
+        return (React__default.createElement("svg", __assign$2({ viewBox: "0 0 64 64", width: size, height: size }, rest),
+            round ? (React__default.createElement("circle", { cx: "32", cy: "32", r: "31", fill: iconConfig.color, style: bgStyle })) : (React__default.createElement("rect", { width: "64", height: "64", rx: borderRadius, ry: borderRadius, fill: iconConfig.color, style: bgStyle })),
+            React__default.createElement("path", { d: iconConfig.path, fill: iconFillColor })));
+    };
+    Icon.defaultProps = {
+        bgStyle: {},
+        borderRadius: 0,
+        iconFillColor: 'white',
+        size: 64,
+    };
+    return Icon;
+}
+
+function objectToGetParams(object) {
+    var params = Object.entries(object)
+        .filter(function (_a) {
+        var value = _a[1];
+        return value !== undefined && value !== null;
+    })
+        .map(function (_a) {
+        var key = _a[0], value = _a[1];
+        return "".concat(encodeURIComponent(key), "=").concat(encodeURIComponent(String(value)));
+    });
+    return params.length > 0 ? "?".concat(params.join('&')) : '';
+}
+
+var classnames = {exports: {}};
+
+/*!
+	Copyright (c) 2018 Jed Watson.
+	Licensed under the MIT License (MIT), see
+	http://jedwatson.github.io/classnames
+*/
+
+(function (module) {
+	/* global define */
+
+	(function () {
+
+		var hasOwn = {}.hasOwnProperty;
+
+		function classNames () {
+			var classes = '';
+
+			for (var i = 0; i < arguments.length; i++) {
+				var arg = arguments[i];
+				if (arg) {
+					classes = appendClass(classes, parseValue(arg));
+				}
+			}
+
+			return classes;
+		}
+
+		function parseValue (arg) {
+			if (typeof arg === 'string' || typeof arg === 'number') {
+				return arg;
+			}
+
+			if (typeof arg !== 'object') {
+				return '';
+			}
+
+			if (Array.isArray(arg)) {
+				return classNames.apply(null, arg);
+			}
+
+			if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
+				return arg.toString();
+			}
+
+			var classes = '';
+
+			for (var key in arg) {
+				if (hasOwn.call(arg, key) && arg[key]) {
+					classes = appendClass(classes, key);
+				}
+			}
+
+			return classes;
+		}
+
+		function appendClass (value, newClass) {
+			if (!newClass) {
+				return value;
+			}
+		
+			if (value) {
+				return value + ' ' + newClass;
+			}
+		
+			return value + newClass;
+		}
+
+		if (module.exports) {
+			classNames.default = classNames;
+			module.exports = classNames;
+		} else {
+			window.classNames = classNames;
+		}
+	}()); 
+} (classnames));
+
+var classnamesExports = classnames.exports;
+var cx = /*@__PURE__*/getDefaultExportFromCjs(classnamesExports);
+
+var __extends$1 = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign$1 = (undefined && undefined.__assign) || function () {
+    __assign$1 = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign$1.apply(this, arguments);
+};
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var __rest = (undefined && undefined.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+var isPromise = function (obj) {
+    return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+};
+var getBoxPositionOnWindowCenter = function (width, height) { return ({
+    left: window.outerWidth / 2 + (window.screenX || window.screenLeft || 0) - width / 2,
+    top: window.outerHeight / 2 + (window.screenY || window.screenTop || 0) - height / 2,
+}); };
+var getBoxPositionOnScreenCenter = function (width, height) { return ({
+    top: (window.screen.height - height) / 2,
+    left: (window.screen.width - width) / 2,
+}); };
+function windowOpen(url, _a, onClose) {
+    var height = _a.height, width = _a.width, configRest = __rest(_a, ["height", "width"]);
+    var config = __assign$1({ height: height, width: width, location: 'no', toolbar: 'no', status: 'no', directories: 'no', menubar: 'no', scrollbars: 'yes', resizable: 'no', centerscreen: 'yes', chrome: 'yes' }, configRest);
+    var shareDialog = window.open(url, '', Object.keys(config)
+        .map(function (key) { return "".concat(key, "=").concat(config[key]); })
+        .join(', '));
+    if (onClose) {
+        var interval_1 = window.setInterval(function () {
+            try {
+                if (shareDialog === null || shareDialog.closed) {
+                    window.clearInterval(interval_1);
+                    onClose(shareDialog);
+                }
+            }
+            catch (e) {
+                /* eslint-disable no-console */
+                console.error(e);
+                /* eslint-enable no-console */
+            }
+        }, 1000);
+    }
+    return shareDialog;
+}
+var ShareButton = /** @class */ (function (_super) {
+    __extends$1(ShareButton, _super);
+    function ShareButton() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.openShareDialog = function (link) {
+            var _a = _this.props, onShareWindowClose = _a.onShareWindowClose, _b = _a.windowHeight, windowHeight = _b === void 0 ? 400 : _b, _c = _a.windowPosition, windowPosition = _c === void 0 ? 'windowCenter' : _c, _d = _a.windowWidth, windowWidth = _d === void 0 ? 550 : _d;
+            var windowConfig = __assign$1({ height: windowHeight, width: windowWidth }, (windowPosition === 'windowCenter'
+                ? getBoxPositionOnWindowCenter(windowWidth, windowHeight)
+                : getBoxPositionOnScreenCenter(windowWidth, windowHeight)));
+            windowOpen(link, windowConfig, onShareWindowClose);
+        };
+        _this.handleClick = function (event) { return __awaiter(_this, void 0, void 0, function () {
+            var _a, beforeOnClick, disabled, networkLink, onClick, url, openShareDialogOnClick, opts, link, returnVal;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = this.props, beforeOnClick = _a.beforeOnClick, disabled = _a.disabled, networkLink = _a.networkLink, onClick = _a.onClick, url = _a.url, openShareDialogOnClick = _a.openShareDialogOnClick, opts = _a.opts;
+                        link = networkLink(url, opts);
+                        if (disabled) {
+                            return [2 /*return*/];
+                        }
+                        event.preventDefault();
+                        if (!beforeOnClick) return [3 /*break*/, 2];
+                        returnVal = beforeOnClick();
+                        if (!isPromise(returnVal)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, returnVal];
+                    case 1:
+                        _b.sent();
+                        _b.label = 2;
+                    case 2:
+                        if (openShareDialogOnClick) {
+                            this.openShareDialog(link);
+                        }
+                        if (onClick) {
+                            onClick(event, link);
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        }); };
+        return _this;
+    }
+    ShareButton.prototype.render = function () {
+        var _a = this.props; _a.beforeOnClick; var children = _a.children, className = _a.className, disabled = _a.disabled, disabledStyle = _a.disabledStyle, forwardedRef = _a.forwardedRef; _a.networkLink; var networkName = _a.networkName; _a.onShareWindowClose; _a.openShareDialogOnClick; _a.opts; var resetButtonStyle = _a.resetButtonStyle, style = _a.style; _a.url; _a.windowHeight; _a.windowPosition; _a.windowWidth; var rest = __rest(_a, ["beforeOnClick", "children", "className", "disabled", "disabledStyle", "forwardedRef", "networkLink", "networkName", "onShareWindowClose", "openShareDialogOnClick", "opts", "resetButtonStyle", "style", "url", "windowHeight", "windowPosition", "windowWidth"]);
+        var newClassName = cx('react-share__ShareButton', {
+            'react-share__ShareButton--disabled': !!disabled,
+            disabled: !!disabled,
+        }, className);
+        var newStyle = resetButtonStyle
+            ? __assign$1(__assign$1({ backgroundColor: 'transparent', border: 'none', padding: 0, font: 'inherit', color: 'inherit', cursor: 'pointer' }, style), (disabled && disabledStyle)) : __assign$1(__assign$1({}, style), (disabled && disabledStyle));
+        return (React__default.createElement("button", __assign$1({}, rest, { "aria-label": rest['aria-label'] || networkName, className: newClassName, onClick: this.handleClick, ref: forwardedRef, style: newStyle }), children));
+    };
+    ShareButton.defaultProps = {
+        disabledStyle: { opacity: 0.6 },
+        openShareDialogOnClick: true,
+        resetButtonStyle: true,
+    };
+    return ShareButton;
+}(Component));
+var ShareButton$1 = ShareButton;
+
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+function createShareButton(networkName, link, optsMap, defaultProps) {
+    function CreatedButton(props, ref) {
+        var opts = optsMap(props);
+        var passedProps = __assign({}, props);
+        // remove keys from passed props that are passed as opts
+        var optsKeys = Object.keys(opts);
+        optsKeys.forEach(function (key) {
+            delete passedProps[key];
+        });
+        return (React__default.createElement(ShareButton$1, __assign({}, defaultProps, passedProps, { forwardedRef: ref, networkName: networkName, networkLink: link, opts: optsMap(props) })));
+    }
+    CreatedButton.displayName = "ShareButton-".concat(networkName);
+    return forwardRef(CreatedButton);
+}
+
+var FacebookIcon = createIcon({
+    color: '#3b5998',
+    networkName: 'facebook',
+    path: 'M34.1,47V33.3h4.6l0.7-5.3h-5.3v-3.4c0-1.5,0.4-2.6,2.6-2.6l2.8,0v-4.8c-0.5-0.1-2.2-0.2-4.1-0.2 c-4.1,0-6.9,2.5-6.9,7V28H24v5.3h4.6V47H34.1z',
+});
+var FacebookIcon$1 = FacebookIcon;
+
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var AssertionError = /** @class */ (function (_super) {
+    __extends(AssertionError, _super);
+    function AssertionError(message) {
+        var _this = _super.call(this, message) || this;
+        _this.name = 'AssertionError';
+        return _this;
+    }
+    return AssertionError;
+}(Error));
+function assert(value, message) {
+    if (!value) {
+        throw new AssertionError(message);
+    }
+}
+
+function facebookLink(url, _a) {
+    var quote = _a.quote, hashtag = _a.hashtag;
+    assert(url, 'facebook.url');
+    return ('https://www.facebook.com/sharer/sharer.php' +
+        objectToGetParams({
+            u: url,
+            quote: quote,
+            hashtag: hashtag,
+        }));
+}
+var FacebookShareButton = createShareButton('facebook', facebookLink, function (props) { return ({
+    quote: props.quote,
+    hashtag: props.hashtag,
+}); }, {
+    windowWidth: 550,
+    windowHeight: 400,
+});
+var FacebookShareButton$1 = FacebookShareButton;
+
+var TwitterIcon = createIcon({
+    color: '#00aced',
+    networkName: 'twitter',
+    path: 'M48,22.1c-1.2,0.5-2.4,0.9-3.8,1c1.4-0.8,2.4-2.1,2.9-3.6c-1.3,0.8-2.7,1.3-4.2,1.6 C41.7,19.8,40,19,38.2,19c-3.6,0-6.6,2.9-6.6,6.6c0,0.5,0.1,1,0.2,1.5c-5.5-0.3-10.3-2.9-13.5-6.9c-0.6,1-0.9,2.1-0.9,3.3 c0,2.3,1.2,4.3,2.9,5.5c-1.1,0-2.1-0.3-3-0.8c0,0,0,0.1,0,0.1c0,3.2,2.3,5.8,5.3,6.4c-0.6,0.1-1.1,0.2-1.7,0.2c-0.4,0-0.8,0-1.2-0.1 c0.8,2.6,3.3,4.5,6.1,4.6c-2.2,1.8-5.1,2.8-8.2,2.8c-0.5,0-1.1,0-1.6-0.1c2.9,1.9,6.4,2.9,10.1,2.9c12.1,0,18.7-10,18.7-18.7 c0-0.3,0-0.6,0-0.8C46,24.5,47.1,23.4,48,22.1z',
+});
+var TwitterIcon$1 = TwitterIcon;
+
+function twitterLink(url, _a) {
+    var title = _a.title, via = _a.via, _b = _a.hashtags, hashtags = _b === void 0 ? [] : _b, _c = _a.related, related = _c === void 0 ? [] : _c;
+    assert(url, 'twitter.url');
+    assert(Array.isArray(hashtags), 'twitter.hashtags is not an array');
+    assert(Array.isArray(related), 'twitter.related is not an array');
+    return ('https://twitter.com/share' +
+        objectToGetParams({
+            url: url,
+            text: title,
+            via: via,
+            hashtags: hashtags.length > 0 ? hashtags.join(',') : undefined,
+            related: related.length > 0 ? related.join(',') : undefined,
+        }));
+}
+var TwitterShareButton = createShareButton('twitter', twitterLink, function (props) { return ({
+    hashtags: props.hashtags,
+    title: props.title,
+    via: props.via,
+    related: props.related,
+}); }, {
+    windowWidth: 550,
+    windowHeight: 400,
+});
+var TwitterShareButton$1 = TwitterShareButton;
+
+var styles = {"imageWrapper":"TipDetail-module_imageWrapper__7ob-p","wrapperAction":"TipDetail-module_wrapperAction__fjIyB","deleteButton":"TipDetail-module_deleteButton__qEVWw","addButton":"TipDetail-module_addButton__1234H","button":"TipDetail-module_button__LgFX0","imageUpload":"TipDetail-module_imageUpload__1WBls","wrapper":"TipDetail-module_wrapper__v037r","adminTopHeader":"TipDetail-module_adminTopHeader__IAsnm","actionButtons":"TipDetail-module_actionButtons__HcIOT","checkBox":"TipDetail-module_checkBox__2iiOx","ads":"TipDetail-module_ads__0ycvb","shareZone":"TipDetail-module_shareZone__aJ7c4","shareBtn":"TipDetail-module_shareBtn__p4n9m","adminMenuBtn":"TipDetail-module_adminMenuBtn__NHrLd","adminMenu":"TipDetail-module_adminMenu__aDEnw","hidden":"TipDetail-module_hidden__A2u8V","menuItem":"TipDetail-module_menuItem__xdArV","adminMenuBtnSave":"TipDetail-module_adminMenuBtnSave__UZSjP","listPost":"TipDetail-module_listPost__DAxSM","adminMenuInputPostId":"TipDetail-module_adminMenuInputPostId__e2XnG","relatedTo":"TipDetail-module_relatedTo__Sw1Dt","menuLink":"TipDetail-module_menuLink__9UcOp","arrow":"TipDetail-module_arrow__51LOc","textRelatedTo":"TipDetail-module_textRelatedTo__U1jTE","dropZone":"TipDetail-module_dropZone__KmtOr","subcribeMe":"TipDetail-module_subcribeMe__K0Bcd","imgWrapper":"TipDetail-module_imgWrapper__Q2mx8","videoMenu":"TipDetail-module_videoMenu__pioTv","imageDescription":"TipDetail-module_imageDescription__O0dp9"};
+
+const TipDetail = ({
+  ProductJsonLd,
+  Link,
+  useDispatch = () => {},
+  useRouter = () => {},
+  isAuth,
+  data = {
+    title: '',
+    content: [],
+    isPattern: false,
+    isFree: false,
+    seoTitle: '',
+    seoDescription: ''
+  },
+  isEdit,
+  isMobile,
+  isAdmin,
+  category,
+  isPatternDetail
+}) => {
+  const defaultTitle = isEdit ? data.title : 'Post title';
+  const defaultContent = isEdit ? data.content : [];
+  const {
+    title,
+    content,
+    seoTitle,
+    seoDescription,
+    id
+  } = data;
+  const [titleData, setTitleData] = useState(defaultTitle);
+  const [contentData, setContentData] = useState(defaultContent);
+  const [_isPattern, setIsPattern] = useState(data.isPattern ? true : false);
+  const [_isFree, setIsFree] = useState(data.isFree ? true : false);
+  const [_isAuth, setIsAuth] = useState(isAuth);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    setIsAuth(isAuth);
+  }, [isAuth]);
+  const resetData = () => {
+    setTitleData(defaultTitle);
+    setContentData([]);
+  };
+  const onClickEdit = () => {
+    try {
+      router.push(`/edit-post/` + id);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const onClickCancel = () => {
+    router.back();
+  };
+  const onClickSave = async () => {
+    if (!category && !isPatternDetail) {
+      alert('Bài viết phải thuộc về 1 loại nào .Chọn category bên menu bên trái');
+      return false;
+    }
+    let _contentData = contentData,
+      _listFileUploaded = [];
+    // Handle upload image for content
+    if (Array.isArray(_contentData)) {
+      const {
+        updatedContent,
+        listFileUploaded
+      } = await uploadContentImageFiles(_contentData);
+      _contentData = updatedContent;
+      _listFileUploaded = listFileUploaded;
+    }
+    const data = {
+      language: 'vi',
+      title: titleData,
+      id: getPostId(titleData),
+      category: isPatternDetail ? 'pattern-detail' : category,
+      isPattern: _isPattern,
+      isFree: _isFree,
+      content: JSON.stringify(_contentData)
+    };
+    if (isPatternDetail) {
+      data.isPatternDetail = true;
+    }
+    if (confirm('Bạn có chắc chắn muốn lưu bài viết này không?')) {
+      setShowLoading(dispatch, true);
+      APIService.post(`${isEdit ? 'edit' : 'create'}-post`, data).then(res => {
+        // Handle create post success
+        resetData();
+        alert('Lưu thành công');
+        setShowLoading(dispatch, false);
+        router.push(`/tip/${data.id || res.data.id}`);
+      }).catch(err => {
+        setShowLoading(dispatch, false);
+        handleApiError(err);
+      });
+    } else {
+      console.log('User cancel, start delete files');
+      if (Array.isArray(_listFileUploaded)) {
+        _listFileUploaded.forEach(file => {
+          deleteFile(file);
+        });
+      }
+    }
+  };
+  const onChangeContent = content => {
+    // Handle update title for pattern detail
+    try {
+      const patternObj = content.find(i => i.type === POST_ITEM_TYPE.PATTERN);
+      if (Array.isArray(content) && patternObj && typeof patternObj === 'object' && patternObj.patternDetail && patternObj.patternDetail.name) {
+        setTitleData(patternObj.patternDetail.name);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    setContentData([...content]);
+  };
+  const siteName = process?.env?.NEXT_PUBLIC_SEO_pageName || 'Cheryx';
+  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("article", {
+    className: styles.wrapper
+  }, isAdmin && /*#__PURE__*/React__default.createElement("div", {
+    className: styles.adminTopHeader
+  }, !isPatternDetail && /*#__PURE__*/React__default.createElement("input", {
+    value: getPostId(titleData),
+    disabled: true,
+    className: styles.adminMenuInputPostId
+  }), /*#__PURE__*/React__default.createElement("div", {
+    className: styles.actionButtons
+  }, !isPatternDetail && _isPattern && /*#__PURE__*/React__default.createElement("label", {
+    className: styles.checkBox
+  }, /*#__PURE__*/React__default.createElement("span", null, "Is Free"), /*#__PURE__*/React__default.createElement("input", {
+    checked: _isFree,
+    type: "checkbox",
+    onChange: () => setIsFree(!_isFree)
+  })), !isPatternDetail && /*#__PURE__*/React__default.createElement("label", {
+    className: styles.checkBox
+  }, /*#__PURE__*/React__default.createElement("span", null, "Is Pattern"), /*#__PURE__*/React__default.createElement("input", {
+    checked: _isPattern,
+    type: "checkbox",
+    onChange: () => setIsPattern(!_isPattern)
+  })))), !isPatternDetail && /*#__PURE__*/React__default.createElement("header", null, isAdmin ? /*#__PURE__*/React__default.createElement("h1", {
+    suppressContentEditableWarning: true,
+    contentEditable: "true",
+    onBlur: e => {
+      setTitleData(e.target.innerText);
+    }
+  }, titleData) : /*#__PURE__*/React__default.createElement("h1", {
+    itemProp: "headline name"
+  }, title)), /*#__PURE__*/React__default.createElement("div", {
+    itemProp: "text"
+  }, /*#__PURE__*/React__default.createElement(PostContent, {
+    isShowBigMenu: _isAuth,
+    data: isAdmin ? contentData : content,
+    isMobile: isMobile,
+    isEdit: isAdmin,
+    onChangeData: onChangeContent,
+    onSaveClick: onClickSave,
+    onEditClick: onClickEdit,
+    onCancelClick: onClickCancel,
+    linkComponent: Link
+  })), /*#__PURE__*/React__default.createElement("div", {
+    className: styles.shareZone
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: styles.text
+  }, "Share:"), /*#__PURE__*/React__default.createElement("div", {
+    className: styles.shareBtn
+  }, /*#__PURE__*/React__default.createElement(FacebookShareButton$1, {
+    url: `${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`,
+    quote: title,
+    className: "Demo__some-network__share-button"
+  }, /*#__PURE__*/React__default.createElement(FacebookIcon$1, {
+    size: 32,
+    round: true
+  }))), /*#__PURE__*/React__default.createElement("div", {
+    className: styles.shareBtn
+  }, /*#__PURE__*/React__default.createElement(TwitterShareButton$1, {
+    url: `${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`,
+    quote: title,
+    className: "Demo__some-network__share-button"
+  }, /*#__PURE__*/React__default.createElement(TwitterIcon$1, {
+    size: 32,
+    round: true
+  }))))), isPatternDetail && /*#__PURE__*/React__default.createElement(ProductJsonLd, {
+    productName: seoTitle ? seoTitle : title,
+    images: [`https://cheryx.com/images/${id}/${id}-1200x1200.png`, `https://cheryx.com/images/${id}/${id}-1200x900.png`, `https://cheryx.com/images/${id}/${id}-1200x675.png`],
+    description: seoDescription ? seoDescription : getDescriptionFromContent(content),
+    brand: siteName,
+    color: "#F08C5F",
+    manufacturerName: siteName,
+    manufacturerLogo: "https://cheryx.com/images/cheryx-logo-2.png",
+    material: "pdf",
+    slogan: "Knit a dream",
+    disambiguatingDescription: "Very easy to follow, perfect for the beginner knitter.",
+    releaseDate: "2020-12-13T10:45:00+07:00",
+    productionDate: "2020-12-13T10:45:00+07:00",
+    purchaseDate: "2020-12-13T10:45:00+07:00",
+    reviews: [{
+      author: {
+        type: 'Person',
+        name: 'Jim'
+      },
+      datePublished: '2021-02-10T10:45:00+07:00',
+      reviewBody: 'This is my favorite product yet! Thanks Cheryx for the awesome pattern.',
+      name: 'So awesome!!!',
+      reviewRating: {
+        bestRating: '5',
+        ratingValue: '5',
+        worstRating: '5'
+      },
+      publisher: {
+        type: 'Organization',
+        name: 'TwoVit'
+      }
+    }],
+    aggregateRating: {
+      ratingValue: '5.0',
+      reviewCount: '10'
+    },
+    offers: [{
+      price: '6.00',
+      priceCurrency: 'USD',
+      priceValidUntil: '2022-12-13',
+      itemCondition: 'https://schema.org/UsedCondition',
+      availability: 'https://schema.org/InStock',
+      url: 'https://www.ravelry.com/stores/cheryx',
+      seller: {
+        name: 'Ravelry'
+      }
+    }],
+    mpn: "64639",
+    sku: "64639"
+  }));
+};
+
+export { AdBanner, AdminMenu, IMAGE_SUBMENU, ImageUpload, ImageUploadable, MenuAddComponentPost, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternItem, PatternName, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, TipDetail, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles };

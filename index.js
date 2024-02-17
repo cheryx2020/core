@@ -18,6 +18,7 @@ import {
     getPostId,
     uploadContentImageFiles
 } from "./src/components/post-content/postUtils"
+import TipDetail from "./src/components/tip-details/tip-detail";
 
 export {
     SubLink,
@@ -40,5 +41,6 @@ export {
     PostContent,
     noImageUrl,
     getPostId,
-    uploadContentImageFiles
+    uploadContentImageFiles,
+    TipDetail
 }
