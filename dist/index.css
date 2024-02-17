@@ -3067,3 +3067,40 @@
     line-height: 29px;
   }
 }
+.CheryxLogo-module_logo__Ik2QT {
+  padding: 39px 0px 39px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.CheryxLogo-module_logo__Ik2QT .CheryxLogo-module_cheryx__0-ARk {
+  width: 217px;
+  height: 69px;
+  background-image: url("/images/cheryx-logo.svg");
+  background-size: contain;
+}
+@media (max-width: 641px) {
+  .CheryxLogo-module_logo__Ik2QT .CheryxLogo-module_cheryx__0-ARk {
+    width: 33vw;
+    height: 10.56vw;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url("/images/cheryx-logo-mb.png");
+  }
+}
+.CheryxLogo-module_logo__Ik2QT .CheryxLogo-module_slogan__jkJ4I {
+  width: 143px;
+  height: 18.2px;
+}
+@media (max-width: 641px) {
+  .CheryxLogo-module_logo__Ik2QT .CheryxLogo-module_slogan__jkJ4I {
+    width: 33vw;
+    height: 4.55vw;
+  }
+}
+@media (max-width: 641px) {
+  .CheryxLogo-module_logo__Ik2QT {
+    padding: 15px 0px 12px 0px;
+  }
+}

@@ -26,6 +26,7 @@ import Footer from "./src/components/footer"
 import ContentWithTitle from "./src/components/content-with-title/content-with-title"
 import LeftMenu from "./src/components/left-menu/left-menu"
 import BestSeller from "./src/components/best-seller/best-seller"
+import CheryxLogo from "./src/components/cheryx-logo/cheryx-logo"
 
 export {
     SubLink,
@@ -56,5 +57,6 @@ export {
     Footer,
     ContentWithTitle,
     LeftMenu,
-    BestSeller
+    BestSeller,
+    CheryxLogo
 }

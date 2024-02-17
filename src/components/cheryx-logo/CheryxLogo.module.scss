@@ -1,0 +1,33 @@
+@import '../styles/variables.scss';
+@import '../styles/mixin.scss';
+.logo {
+  .cheryx {
+    width: 217px;
+    height: 69px;
+    background-image: url('/images/cheryx-logo.svg');
+    background-size: contain;
+    @include mobile {
+      width: 33vw;
+      height: 10.56vw;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-image: url('/images/cheryx-logo-mb.png');
+    }
+  }
+  .slogan {
+    width: 143px;
+    height: 18.2px;
+    @include mobile {
+      width: 33vw;
+      height: 4.55vw;
+    }
+  }
+  padding: 39px 0px 39px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  @include mobile {
+    padding: 15px 0px 12px 0px;
+  }
+}
