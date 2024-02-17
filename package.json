@@ -26,6 +26,7 @@
     "react-color": "^2.19.3",
     "react-select": "^5.3.2",
     "react-share": "^4.3.1",
+    "rollup-plugin-copy": "^3.5.0",
     "sass": "^1.66.1"
   },
   "peerDependencies": {

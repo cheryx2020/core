@@ -1,0 +1,435 @@
+@import './variables.scss';
+@import './mixin.scss';
+.homeFreePatternList {
+  // display: grid !important;
+  // grid-template-columns: repeat( auto-fit, minmax(234px, 1fr) )!important;
+  // overflow: hidden !important;
+  @include desktop {
+    display: grid !important;
+    grid-template-columns: repeat( auto-fit, minmax(234px, 1fr) )!important;
+    overflow: hidden !important;
+  }
+  @include wide-desktop {
+    display: grid !important;
+    grid-template-columns: repeat( auto-fit, minmax(234px, 1fr) )!important;
+    overflow: hidden !important;
+  }
+  @include tablet {
+    display: grid !important;
+    grid-template-columns: repeat( auto-fit, minmax(234px, 1fr) )!important;
+    overflow: hidden !important;
+  }
+}
+.mb30 {
+  @include desktop {
+    margin-bottom: 30px;
+  }
+  @include wide-desktop {
+    margin-bottom: 30px;
+  }
+  @include tablet {
+    margin-bottom: 30px;
+  }
+}
+.imageHeaderHome {
+  @include desktop {
+    margin-bottom: 10px;
+  }
+  @include wide-desktop {
+    margin-bottom: 10px;
+  }
+  @include tablet {
+    margin-bottom: 10px;
+  }
+  @include mobile {
+    margin-top: 25px;
+    width: 100% !important;
+  }
+}
+.mt55 {
+  @include desktop {
+    margin-top: 55px;
+  }
+  @include wide-desktop {
+    margin-top: 55px;
+  }
+  @include tablet {
+    margin-top: 55px;
+  }
+}
+.main {
+  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  font-family: 'Big Shoulders Text';
+}
+.freePattern {
+  margin-top: 54px;
+  @media (max-width: $mobile-breakpoint) {
+    margin-top: 20px
+  }
+}
+.container {
+  margin: auto;
+  min-height: 100vh;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: $body-max-width;
+  width: 100%;
+  padding: 0px;
+  background-color: white;
+}
+
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  // position: relative;
+  
+  .imageFooter {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    img {
+      width: 100%;
+    }
+    .dcma {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+  }
+}
+.title a {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+.title a:hover,
+.title a:focus,
+.title a:active {
+  text-decoration: underline;
+}
+
+.title {
+  margin: 0;
+  line-height: 1.15;
+  font-size: 4rem;
+  @include mobile {
+    margin-top: 10px;
+  }
+}
+
+.title,
+.description {
+  text-align: center;
+}
+
+.description {
+  line-height: 1.5;
+  font-size: 1.5rem;
+}
+
+.code {
+  background: #fafafa;
+  border-radius: 5px;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    Bitstream Vera Sans Mono, Courier New, monospace;
+}
+
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  max-width: 800px;
+  margin-top: 3rem;
+}
+
+.card {
+  margin: 1rem;
+  flex-basis: 45%;
+  padding: 1.5rem;
+  text-align: left;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.card:hover,
+.card:focus,
+.card:active {
+  color: #0070f3;
+  border-color: #0070f3;
+}
+
+.card h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+.card p {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+.logo {
+  height: 1em;
+}
+
+@media (max-width: $mobile-breakpoint) {
+  .grid {
+    width: 100%;
+    flex-direction: column;
+  }
+}
+
+.myPatterns {
+  @include desktop {
+   margin-top: 15px;
+  }
+  @include wide-desktop {
+   margin-top: 15px;
+  }
+  @include tablet {
+   margin-top: 15px;
+  }
+  @include mobile {
+    margin-bottom: 25px;
+  }
+  padding-top: 9px;
+  width: 100%;
+  background-color: #FFF5ED;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  .labby {
+    width: calc( 1025/#{$body-max-width-value} *100%); 
+    margin-top: 24px;
+    height: 317px;
+    background: url('/images/labby.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    @media (max-width: $mobile-breakpoint) {
+      margin-top: 15px;
+      width: 100%;
+      height: 117px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      max-width: 372px;
+      background-position: 0px -21px;
+    }
+  }
+  .images {
+    .pumpkin {
+      background: url('/images/pumpkin.png');
+    }
+    .reindeer {
+      background: url('/images/reindeer.png');
+    }
+    .lucy {
+      background: url('/images/lucy.png');
+    }
+    .alan {
+      background: url('/images/alan.png');
+    }
+    .mason {
+      background: url('/images/mason.png');
+    }
+    .jacky {
+      background: url('/images/jacky.png');
+    }
+    .jane {
+      background: url('/images/jane.png');
+    }
+    .bunny {
+      background: url('/images/bunny.png');
+      @include tablet {
+        display: none;
+      }
+      @include mobile {
+        display: none;
+      }
+    }
+    div {
+      background-repeat: no-repeat !important;
+      background-size: contain !important;
+      width: 218px;
+      height: 218px;
+      @media (max-width: $mobile-breakpoint) {
+        width: 126px;
+        height: 126px;
+      }
+    }
+  }
+}
+.images {
+  margin-top: 53px;
+  width: 100%;
+  max-width: 1025px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 31px;
+  img {
+    width: 25%;
+  }
+  @media (max-width: $mobile-breakpoint) {
+    margin-top: 15px;
+    padding-bottom: 0px;
+    width: 100%;
+  }
+}
+.seeMore {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 21px;
+  .iconSeeMore {
+    width: 116px;
+    height: 29px;
+    background-image: url('/images/see-more.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: white;
+    font-family: "Bigshot One";
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 18.6px;
+    padding: 0px 0px 6px 5px;
+    cursor: pointer;
+    @media (max-width: $mobile-breakpoint) {
+      background-image: url('/images/see-more.png');
+      height: 18px;
+      width: 80px;
+      margin-bottom: -8px;
+      margin-top: 16px;
+    }
+  }
+}
+
+.freePatterns {
+  width: 100%;
+  display: flex;
+  margin-top: 54px;
+  display: flex;
+  flex-direction: column;
+  .title {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    .freeText {
+      font-family: "Fredericka the Great";
+      font-size: 55px;
+      line-height: 67px;
+      color: #F08C5F;
+      margin-right: 4px;
+      @media (max-width: $mobile-breakpoint) {
+        font-size: 20px;
+        line-height: 24.5px;
+      }
+    }
+  }
+  .listPattern {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: overlay;
+    margin-top: 25px;
+    padding: 0px 77px 29px 77px;
+    .pattern {
+      width: 228px;
+      min-width: 228px;
+      height: 228px;
+      margin-right: 33px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+      @media (max-width: $mobile-breakpoint) {
+        width: 120px;
+        min-width: 120px;
+        height: 119px;
+        margin-right: 6px;
+      }
+    }
+    @media (max-width: $mobile-breakpoint) {
+      margin-top: 22px;
+      padding: 4px;
+    }
+  }
+  @media (max-width: $mobile-breakpoint) {
+    margin-top: 22px;
+    margin-bottom: 22px;
+  }
+}
+.tips {
+  width: 100%;
+  display: flex;
+  margin-top: 0px;
+  margin-bottom: 50px;
+  @include desktop {
+    margin-top: 55px;
+    margin-bottom: 0px;
+  }
+  @include wide-desktop {
+    margin-top: 55px;
+    margin-bottom: 0px;
+  }
+  @include tablet {
+    margin-top: 55px;
+    margin-bottom: 0px;
+  }
+  display: flex;
+  flex-direction: column;
+  .title {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+  }
+  @media (max-width: $mobile-breakpoint) {
+    margin-top: 0px;
+    margin-bottom: 30px;
+  }
+}
+.mainLogo {
+  margin: 20px 0px; 
+  height: 507px;
+  width: 62%;
+  background: url('/images/main-logo.png') no-repeat center;
+  background-size: contain;
+  @include tablet {
+    height: 320px;
+  }
+  @include mobile {
+    background: url('/images/main-logo.png') no-repeat center;
+    width: 100%;
+    max-height: 271px;
+    max-width: 373px;
+    background-size: contain;
+    margin: 0px; 
+    margin-bottom: 20px;
+  }
+}

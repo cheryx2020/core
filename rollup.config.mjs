@@ -4,6 +4,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import postcss from 'rollup-plugin-postcss-modules'
 import autoprefixer from 'autoprefixer'
+import copy from 'rollup-plugin-copy'
 
 export default {
   input: 'index.js',
@@ -27,6 +28,12 @@ export default {
       plugins: [autoprefixer()],
       writeDefinitions: true,
       // modules: { ... }
+    }),
+    copy({
+      // Specify the files or folders to copy
+      targets: [
+        { src: 'src/components/styles/*.scss', dest: 'dist/styles' },
+      ]
     })
   ],
   output: {
