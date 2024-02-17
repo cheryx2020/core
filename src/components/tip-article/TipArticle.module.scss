@@ -1,0 +1,125 @@
+@import '../styles/variables.scss';
+@import '../styles/mixin.scss';
+.wrapper {
+  position: relative;
+  display: flex;
+  padding-bottom: 17px;
+  padding-top: 17px;
+  box-sizing: content-box;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
+  &:first-child {
+    padding-top: 0px;
+  }
+  @media (max-width: $mobile-breakpoint) {
+    padding-top: 14px;
+  }
+  .editButtonZone {
+    position: absolute;
+    display: flex;
+    top: 10;
+    right: 0;
+    .editButton {
+      &:hover {
+        color: #F08C5F;
+      }
+    }
+    .deleteButton {
+      cursor: pointer;
+      &:hover {
+        color: red;
+      }
+      margin-left: 5px;
+    }
+  }
+  .image {
+    // width: 25.56%;
+    cursor: pointer;
+    // min-width: 196px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 216px;
+    height: 208px;
+    min-width: 216px;
+    @include mobile {
+      width: 40vw;
+      height: 40vw;
+      min-width: 40vw;
+    }
+    position: relative;
+    .imageMenu {
+      display: none;
+    }
+    &:hover {
+      .imageMenu {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        background-color: white;
+        opacity: 0.7;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        label {
+          cursor: pointer;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+    
+  }
+  .info {
+    padding: 15px 19px;
+    display: flex;
+    flex-direction: column;
+    @media (max-width: $mobile-breakpoint) {
+      padding: 11px;
+      padding-top: 0px;
+    }
+    .title {
+      cursor: pointer;
+      color: #F08C5F;
+      font-size: 30px;
+      line-height: 35.9px;
+      margin-bottom: 15px;
+      margin-top: 20px;
+      @media (max-width: $mobile-breakpoint) {
+        margin-top: 0px;
+        font-size: 25px;
+        line-height: 32px;
+        margin-bottom: 8px;
+      }
+    }
+    .subTitle {
+      font-size: 18px;
+      line-height: 20px;
+      color: #C4C4C4;
+      margin-bottom: 22px;
+      @media (max-width: $mobile-breakpoint) {
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+    .description {
+      font-size: 20px;
+      line-height: 24px;
+      font-weight: 300;
+      color: #565555;
+      margin-bottom: 20px;
+      @include mobile {
+        font-size: 1.2rem;
+      }
+    }
+    .seeMore{
+      font-size: 16px;
+      line-height: 18px;
+      color: #F08C5F;
+    }
+  }
+}

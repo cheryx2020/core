@@ -33,6 +33,7 @@ import TitleLink from "./src/components/title-link/title-link"
 import ListArticle from "./src/components/list-article/list-article"
 import HeaderPage from "./src/components/header-page"
 import Form from "./src/components/form"
+import TipArticle from "./src/components/tip-article/tip-article"
 
 export {
     SubLink,
@@ -70,5 +71,6 @@ export {
     TitleLink,
     ListArticle,
     HeaderPage,
-    Form
+    Form,
+    TipArticle
 }
