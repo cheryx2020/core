@@ -22,6 +22,8 @@ import TipDetail from "./src/components/tip-details/tip-detail";
 import Note from "./src/components/note/note"
 import Loader from "./src/components/loader/loader"
 import HeaderCheryx from "./src/components/header-cheryx/header-cheryx"
+import Footer from "./src/components/footer"
+import ContentWithTitle from "./src/components/content-with-title/content-with-title"
 
 export {
     SubLink,
@@ -48,5 +50,7 @@ export {
     TipDetail,
     Note,
     Loader,
-    HeaderCheryx
+    HeaderCheryx,
+    Footer,
+    ContentWithTitle
 }

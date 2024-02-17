@@ -1,0 +1,75 @@
+@import '../styles/variables.scss';
+@import '../styles/mixin.scss';
+.items {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-top: 44px;
+  margin-bottom: 66px;
+  .ravelry {
+    width: 36px;
+    height: 49px;
+    margin-right: 40px;
+    @include mobile {
+      width: 36px;
+      height: 25px;
+      margin-right: 25px;
+    }
+  }
+  .lovescraft{
+    width: 191px; 
+    height: 42px; 
+    margin-right: 66px;
+    @media (max-width: $mobile-breakpoint) {
+      width: 136.9px;
+      height: 25px;
+      margin-right: 25px;
+      margin-bottom: 6px;
+    }
+  }
+  .fb {
+    width: 15px; 
+    height: 30px;
+    margin-right: 50px;
+    margin-top: 3px;
+    @include mobile {
+      width: 10px;
+      height: 21px;
+      margin-right: 25px;
+      margin-top: 0px;
+    }
+  }
+  .in {
+    width: 32px; 
+    height: 34px; 
+    margin-right: 38px;
+    @media (max-width: $mobile-breakpoint) {
+      width: 21px;
+      height: 21px;
+      margin-right: 25px;
+    }
+  }
+  .yo {
+    width: 44px; 
+    height: 34px; 
+    margin-right: 38px;
+    @media (max-width: $mobile-breakpoint) {
+      width: 30px;
+      height: 23px;
+      margin-right: 25px;
+    }
+  }
+  .pi {
+    width: 34px; 
+    height: 34px;
+    @media (max-width: $mobile-breakpoint) {
+      width: 22px;
+      height: 22px;
+    }
+  }
+  @media (max-width: $mobile-breakpoint) {
+    padding-top: 20px;
+    margin-bottom: 11px;
+  }
+}
