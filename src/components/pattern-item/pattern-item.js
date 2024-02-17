@@ -6,7 +6,7 @@ import PatternName from '../pattern-name/pattern-name';
 import Select from 'react-select'
 
 const NoImage = 'https://cheryx.com/images/no-image.png';
-const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl = NoImage, language = 'vi', _id, description, name, nameColor = '#0A7BCA', isMobile, ravelryUrl, patternId = '', order, isAdmin, isAddNew, isEditing, isFree, isBottom, listPatternDetail = [], apiDelete = 'remove-pattern', apiEdit = 'edit-pattern', apiAdd = 'add-pattern', onClickUrl = 'edit-pattern-detail' }) => {
+const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontFamily = "", imageUrl = NoImage, language = 'vi', _id, description, name, nameColor = '#0A7BCA', isMobile, ravelryUrl, patternId = '', order, isAdmin, isAddNew, isEditing, isFree, isBottom, listPatternDetail = [], apiDelete = 'remove-pattern', apiEdit = 'edit-pattern', apiAdd = 'add-pattern', onClickUrl = 'edit-pattern-detail' }) => {
   const [imgSrc, setImgSrc] = useState(imageUrl);
   const [prNameColor, setPrNameColor] = useState(nameColor);
   const [des, setDes] = useState(isAddNew ? 'Description' : description);
@@ -51,6 +51,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, imageUrl 
     setDes(e.target.innerText);
   }} className={styles.description} suppressContentEditableWarning={true} contentEditable={isEdit ? 'true' : 'false'}>{des}</div>
     <PatternName
+      nameFontFamily={nameFontFamily}
       isBottom={isBottom}
       onBlur={(e) => {
         setPrName(e.target.innerText);

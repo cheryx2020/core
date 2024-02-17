@@ -20147,6 +20147,7 @@ var styles$1 = {"wrapper":"PatternName-module_wrapper__KDcd8","isBottom":"Patter
 const PatternName = ({
   onBlur = () => {},
   nameColor,
+  nameFontFamily = "",
   isEdit,
   text,
   onChangeColor = () => {},
@@ -20162,7 +20163,8 @@ const PatternName = ({
   return /*#__PURE__*/React__default.createElement("div", {
     className: `${styles$1.wrapper} ${isBottom ? styles$1.isBottom : ''}`,
     style: {
-      color: nameColor
+      color: nameColor,
+      fontFamily: nameFontFamily
     }
   }, /*#__PURE__*/React__default.createElement("div", {
     suppressContentEditableWarning: true,
@@ -58514,6 +58516,7 @@ const NoImage = 'https://cheryx.com/images/no-image.png';
 const PatternItem = ({
   useRouter = () => {},
   useDispatch = () => {},
+  nameFontFamily = "",
   imageUrl = NoImage,
   language = 'vi',
   _id,
@@ -58583,6 +58586,7 @@ const PatternItem = ({
     suppressContentEditableWarning: true,
     contentEditable: isEdit ? 'true' : 'false'
   }, des), /*#__PURE__*/React__default.createElement(PatternName, {
+    nameFontFamily: nameFontFamily,
     isBottom: isBottom,
     onBlur: e => {
       setPrName(e.target.innerText);
