@@ -3,7 +3,7 @@ import React__default, { useState, useRef, useEffect, Component, isValidElement,
 import publicIp from 'public-ip';
 import Linkify from 'linkify-react';
 
-var styles$s = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
+var styles$t = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
 
 const SubLink = ({
   data,
@@ -12,19 +12,19 @@ const SubLink = ({
   renderItem = () => {}
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$s.wrapper,
+    className: styles$t.wrapper,
     style: wrapperStyle
   }, Array.isArray(data) && data.length > 0 && data.map((item, i) => {
     return /*#__PURE__*/React__default.createElement("div", {
-      className: `${styles$s.wrapperLink} ${className}`,
+      className: `${styles$t.wrapperLink} ${className}`,
       key: i
     }, renderItem(item), i < data.length - 1 && /*#__PURE__*/React__default.createElement("div", {
-      className: styles$s.spliter
+      className: styles$t.spliter
     }, '>'));
   }));
 };
 
-var styles$r = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
+var styles$s = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
 
 function bind(fn, thisArg) {
   return function wrap() {
@@ -3319,54 +3319,68 @@ const setShowLoading = (dispatch, isLoading) => {
   }
 };
 
+const makeQueryParamsFromObject = params => {
+  let result = '', keys = [];
+  if (params && typeof params === 'object') {
+    keys = Object.keys(params);
+    keys = keys.filter(item => ![null, undefined, ''].includes(params[item]));
+  }
+  if (keys.length > 0) {
+    result += '?' + keys.map(item => {
+      return `${item}=${params[item]}`;
+    }).join('&');
+  }
+  return result;
+};
+
 const POST_ITEM_TYPE$1 = {
-    TITLE: 'title',
-    BIG_HEADER: 'big-header',
-    MEDIUM_HEADER: 'medium-header',
-    SMALL_HEADER: 'small-header',
-    PARAGRAPH: 'paragraph',
-    RELATED_TOPIC: 'related-topic',
-    SUBCRIBE_ME: 'subcribe-me',
-    IMAGE: 'image',
-    BUY_ME_A_COFFEE: 'buy-me-a-coffee',
-    VIDEO: 'video',
-    ADS: 'ads',
-    PATTERN: 'pattern',
-    PATTERN_PREVIEW: 'pattern_preview',
-    GROUP: 'group'
+  TITLE: 'title',
+  BIG_HEADER: 'big-header',
+  MEDIUM_HEADER: 'medium-header',
+  SMALL_HEADER: 'small-header',
+  PARAGRAPH: 'paragraph',
+  RELATED_TOPIC: 'related-topic',
+  SUBCRIBE_ME: 'subcribe-me',
+  IMAGE: 'image',
+  BUY_ME_A_COFFEE: 'buy-me-a-coffee',
+  VIDEO: 'video',
+  ADS: 'ads',
+  PATTERN: 'pattern',
+  PATTERN_PREVIEW: 'pattern_preview',
+  GROUP: 'group'
 };
 /**
  * Get post description from content. Currently, it get the first paragraph of content
  */
 const getDescriptionFromContent = (content) => {
-    let result = '', data = [];
-    if (typeof content === 'string') {
-      data = JSON.parse(content);
+  let result = '', data = [];
+  if (typeof content === 'string') {
+    data = JSON.parse(content);
+  }
+  if (Array.isArray(content)) {
+    data = content;
+  }
+  if (data.length > 0) {
+    const firstParagraphItem = Array.isArray(data) ? data.find(item => item.type === POST_ITEM_TYPE$1.PARAGRAPH) : '';
+    if (typeof firstParagraphItem === 'object') {
+      result = firstParagraphItem.text;
     }
-    if (Array.isArray(content)) {
-      data = content;
-    }
-    if (data.length > 0) {
-      const firstParagraphItem = Array.isArray(data) ? data.find(item => item.type === POST_ITEM_TYPE$1.PARAGRAPH) : '';
-      if (typeof firstParagraphItem === 'object') {
-        result = firstParagraphItem.text;
-      }
-    }
-    return result;
-  };
-  
-  /**
-   * Check file size is bigger than size
-   * @param {*} file file object
-   * @param {*} size default is 500000 (value: 500000 for 500KB)
-   */
-  const isBigFile = (file, size = 500000) => {
-    let result = false;
-    if (file && file.size > 500000) {
-      result = true;
-    }
-    return result;
-  };
+  }
+  return result;
+};
+
+/**
+ * Check file size is bigger than size
+ * @param {*} file file object
+ * @param {*} size default is 500000 (value: 500000 for 500KB)
+ */
+const isBigFile = (file, size = 500000) => {
+  let result = false;
+  if (file && file.size > 500000) {
+    result = true;
+  }
+  return result;
+};
 
 const removeAccents = str => {
   var AccentsMap = [
@@ -3488,6 +3502,18 @@ const transformImageSrc = imgUrl => {
   return result;
 };
 
+const getListTips = (params = {}) => {
+  return new Promise(async (resolve, reject) => {
+    await APIService.get(`list-post${makeQueryParamsFromObject(params)}`).then(res => {
+      if (res && res.data && res.data.data && res.data.data) {
+        resolve(res.data.data.filter(item => item.id != 'tu-hoc-dan-co-ban').map(item => { return { ...item, imgUrl: item.imgUrl || '/images/tips.png' } }));
+      }
+    }).catch(err => {
+      reject(err);
+    });
+  });
+};
+
 const ImageUploadable = ({
   src,
   onChangeImage = () => {},
@@ -3563,10 +3589,10 @@ const ImageUploadable = ({
   }
   return /*#__PURE__*/React__default.createElement("div", {
     ref: imageWap,
-    className: `${styles$r.image} ${className}`,
+    className: `${styles$s.image} ${className}`,
     style: wrapperStyle
   }, isEdit && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$r.imageMenu,
+    className: styles$s.imageMenu,
     onClick: e => e.stopPropagation()
   }, /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement("div", null, "Choose Image"), /*#__PURE__*/React__default.createElement("input", {
     accept: "image/png, image/jpeg, image/svg+xml",
@@ -3585,15 +3611,15 @@ const ImageUploadable = ({
       e.stopPropagation();
     },
     onMouseDown: initDrag,
-    className: styles$r.resizer
+    className: styles$s.resizer
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$r.vertical
+    className: styles$s.vertical
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$r.horizontal
+    className: styles$s.horizontal
   })));
 };
 
-var styles$q = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
+var styles$r = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
 
 const ImageUpload = ({
   url,
@@ -3623,17 +3649,17 @@ const ImageUpload = ({
   return /*#__PURE__*/React__default.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$q.imgWrapper,
+    className: styles$r.imgWrapper,
     style: {
       position: 'relative'
     }
   }, showMenuImage && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.menuImage
+    className: styles$r.menuImage
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.deleteButton,
+    className: styles$r.deleteButton,
     onClick: () => setShowMenuImage(false)
   }, "x"), /*#__PURE__*/React__default.createElement("label", {
-    className: styles$q.uploadButton
+    className: styles$r.uploadButton
   }, /*#__PURE__*/React__default.createElement("span", null, "Upload Image"), /*#__PURE__*/React__default.createElement("input", {
     type: "file",
     onChange: e => {
@@ -3641,10 +3667,10 @@ const ImageUpload = ({
       onChange(e);
     }
   }))), !showMenuImage && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.editImageBtn,
+    className: styles$r.editImageBtn,
     onClick: () => setShowMenuImage(true)
   }, "Edit"), /*#__PURE__*/React__default.createElement("textarea", {
-    className: styles$q.textarea,
+    className: styles$r.textarea,
     onMouseOut: onMouseOut,
     disabled: true,
     style: {
@@ -3692,11 +3718,11 @@ const PostVideo = ({
   return /*#__PURE__*/React__default.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$q.imgWrapper
+    className: styles$r.imgWrapper
   }, showMenuVideo && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.videoMenu
+    className: styles$r.videoMenu
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.deleteButton,
+    className: styles$r.deleteButton,
     onClick: () => setShowMenuVideo(false)
   }, "x"), /*#__PURE__*/React__default.createElement("label", null, "Video Id:"), /*#__PURE__*/React__default.createElement("input", {
     value: url,
@@ -3713,12 +3739,12 @@ const PostVideo = ({
     suppressContentEditableWarning: true,
     contentEditable: true,
     onBlur: onChangeText,
-    className: styles$q.imageDescription,
+    className: styles$r.imageDescription,
     style: {
       minWidth: 100
     }
   }, text), !showMenuVideo && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.editImageBtn,
+    className: styles$r.editImageBtn,
     onClick: () => setShowMenuVideo(true)
   }, "Edit"));
 };
@@ -3808,7 +3834,7 @@ class YouTubeSubscribe extends Component {
   }
 }
 
-var styles$p = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu"};
+var styles$q = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu"};
 
 const PatternPreview = ({
   isAdmin,
@@ -3845,9 +3871,9 @@ const PatternPreview = ({
     setPreviewUrl(_previewUrl);
   }, [_imageUrl, _previewUrl]);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$p.wrapper
+    className: styles$q.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$p.image
+    className: styles$q.image
   }, /*#__PURE__*/React__default.createElement(ImageUploadable, {
     width: '100%',
     height: '100%',
@@ -3861,20 +3887,20 @@ const PatternPreview = ({
     isEdit: isAdmin,
     src: imageUrl
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$p.info
+    className: styles$q.info
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
     href: previewUrl,
     onClick: e => onClickLink(e, 'previewUrl'),
     target: "_blank",
-    className: styles$p.previewUrl
+    className: styles$q.previewUrl
   }, buttonText), /*#__PURE__*/React__default.createElement("div", {
     contentEditable: isAdmin ? "true" : "false",
     onBlur: () => {}
   }, message)));
 };
 
-var styles$o = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
+var styles$p = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
 
 const POST_ITEM_TYPE = {
   TITLE: 'title',
@@ -3914,7 +3940,7 @@ const MenuAddComponentPost = ({
     return Array.isArray(POST_ITEM_TYPE_SUBMENU[item]);
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$o.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`,
+    className: `${styles$p.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`,
     onClick: () => {
       setShowMenu(!showMenu);
     }
@@ -3923,10 +3949,10 @@ const MenuAddComponentPost = ({
       position: 'relative'
     }
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$o.adminMenu + ` ${!showMenu ? styles$o.hidden : ''}`
+    className: styles$p.adminMenu + ` ${!showMenu ? styles$p.hidden : ''}`
   }, Array.isArray(Object.keys(menuItems)) && menuItems.map((item, index) => /*#__PURE__*/React__default.createElement("div", {
     onMouseOver: () => onMenuMouseOver(item),
-    className: styles$o.menuItem,
+    className: styles$p.menuItem,
     key: index,
     onClick: e => {
       e.stopPropagation();
@@ -3934,14 +3960,14 @@ const MenuAddComponentPost = ({
       setShowMenu(false);
     }
   }, item, hasSubMenu(item) && hoverItem === item && /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$o.adminMenu} ${styles$o.subMenu}`
+    className: `${styles$p.adminMenu} ${styles$p.subMenu}`
   }, POST_ITEM_TYPE_SUBMENU[item].map((i, idx) => /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       onClickMenuItem(i);
       setShowMenu(false);
     },
-    className: styles$o.menuItem,
+    className: styles$p.menuItem,
     key: idx
   }, i))))))));
 };
@@ -3974,7 +4000,7 @@ var gtag = {
   event
 };
 
-var styles$n = {"wrapper":"PatternDetail-module_wrapper__CFlmD","mainImage":"PatternDetail-module_mainImage__ac-c1","rightInfo":"PatternDetail-module_rightInfo__6J0eO","title":"PatternDetail-module_title__0IjOq","author":"PatternDetail-module_author__Xgx6J","storeInfo":"PatternDetail-module_storeInfo__IwaSl","blackCatWrapper":"PatternDetail-module_blackCatWrapper__cqlld","blackCat":"PatternDetail-module_blackCat__xwKnn","message":"PatternDetail-module_message__Wf-re","text":"PatternDetail-module_text__Whs4v","supperWrapperButton":"PatternDetail-module_supperWrapperButton__KF8fO","buttonWrapper":"PatternDetail-module_buttonWrapper__Z-n6q","priceWrapper":"PatternDetail-module_priceWrapper__7pvJH","price":"PatternDetail-module_price__JsXa9","payPalWrapper":"PatternDetail-module_payPalWrapper__C7Mpl","show":"PatternDetail-module_show__L4BBl","payPal":"PatternDetail-module_payPal__0QLxu","closeLink":"PatternDetail-module_closeLink__Xfvkv","linkStore":"PatternDetail-module_linkStore__gf5UQ","mb11":"PatternDetail-module_mb11__sNoEg","paypalButton":"PatternDetail-module_paypalButton__bUOF3","listSmallImage":"PatternDetail-module_listSmallImage__h5eyY","deleteButton":"PatternDetail-module_deleteButton__5oh8i","triangleLeft":"PatternDetail-module_triangleLeft__C0z45","triangleRight":"PatternDetail-module_triangleRight__krzev"};
+var styles$o = {"wrapper":"PatternDetail-module_wrapper__CFlmD","mainImage":"PatternDetail-module_mainImage__ac-c1","rightInfo":"PatternDetail-module_rightInfo__6J0eO","title":"PatternDetail-module_title__0IjOq","author":"PatternDetail-module_author__Xgx6J","storeInfo":"PatternDetail-module_storeInfo__IwaSl","blackCatWrapper":"PatternDetail-module_blackCatWrapper__cqlld","blackCat":"PatternDetail-module_blackCat__xwKnn","message":"PatternDetail-module_message__Wf-re","text":"PatternDetail-module_text__Whs4v","supperWrapperButton":"PatternDetail-module_supperWrapperButton__KF8fO","buttonWrapper":"PatternDetail-module_buttonWrapper__Z-n6q","priceWrapper":"PatternDetail-module_priceWrapper__7pvJH","price":"PatternDetail-module_price__JsXa9","payPalWrapper":"PatternDetail-module_payPalWrapper__C7Mpl","show":"PatternDetail-module_show__L4BBl","payPal":"PatternDetail-module_payPal__0QLxu","closeLink":"PatternDetail-module_closeLink__Xfvkv","linkStore":"PatternDetail-module_linkStore__gf5UQ","mb11":"PatternDetail-module_mb11__sNoEg","paypalButton":"PatternDetail-module_paypalButton__bUOF3","listSmallImage":"PatternDetail-module_listSmallImage__h5eyY","deleteButton":"PatternDetail-module_deleteButton__5oh8i","triangleLeft":"PatternDetail-module_triangleLeft__C0z45","triangleRight":"PatternDetail-module_triangleRight__krzev"};
 
 const PatternDetail = ({
   name: _name,
@@ -4091,9 +4117,9 @@ const PatternDetail = ({
     }
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.wrapper
+    className: styles$o.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.mainImage
+    className: styles$o.mainImage
   }, isAdmin ? /*#__PURE__*/React__default.createElement(ImageUploadable, {
     wrapperStyle: {
       width: '100%',
@@ -4106,55 +4132,55 @@ const PatternDetail = ({
   }) : /*#__PURE__*/React__default.createElement("img", {
     src: bigImageUrl
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.rightInfo
+    className: styles$o.rightInfo
   }, /*#__PURE__*/React__default.createElement("h1", {
     suppressContentEditableWarning: isAdmin,
     onBlur: e => onChange(e, index, 'name'),
     contenteditable: `${isAdmin ? "true" : "false"}`,
-    className: styles$n.title
+    className: styles$o.title
   }, name)), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.storeInfo
+    className: styles$o.storeInfo
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.blackCatWrapper
+    className: styles$o.blackCatWrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.blackCat
+    className: styles$o.blackCat
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.message
+    className: styles$o.message
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.text
+    className: styles$o.text
   }, "Nh\u1EAFn tin cho m\xECnh \u0111\u1EC3 tham gia l\u1EDBp nh\xE9!")))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.supperWrapperButton
+    className: styles$o.supperWrapperButton
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.buttonWrapper
+    className: styles$o.buttonWrapper
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
     href: ravelryUrl,
     onClick: e => onClickLink(e, 'ravelryUrl'),
     target: "_blank",
-    className: `${styles$n.linkStore}`
+    className: `${styles$o.linkStore}`
   }, "\u0110\u0103ng k\xED l\u1EDBp \u0111an th\xFA b\xF4ng online"))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.priceWrapper
+    className: styles$o.priceWrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.triangleRight
+    className: styles$o.triangleRight
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.triangleRight
+    className: styles$o.triangleRight
   }), /*#__PURE__*/React__default.createElement("div", {
     suppressContentEditableWarning: isAdmin,
     onBlur: e => onChange(e, index, 'price'),
     contenteditable: `${isAdmin ? "true" : "false"}`,
-    className: styles$n.price
+    className: styles$o.price
   }, price), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.triangleLeft
+    className: styles$o.triangleLeft
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.triangleLeft
+    className: styles$o.triangleLeft
   }))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.listSmallImage
+    className: styles$o.listSmallImage
   }, Array.isArray(imageList) && imageList.map((img, i) => isAdmin ? /*#__PURE__*/React__default.createElement("div", {
     style: {
       position: 'relative'
     }
   }, i < imageList.length - 1 && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.deleteButton,
+    className: styles$o.deleteButton,
     onClick: () => {
       removeImage(i);
     }
@@ -4179,7 +4205,7 @@ const PatternDetail = ({
   }))));
 };
 
-var styles$m = {"relatedTo":"RelatedToMenu-module_relatedTo__eRHql","menuLink":"RelatedToMenu-module_menuLink__8MBUA","deleteButton":"RelatedToMenu-module_deleteButton__Hqq16","arrow":"RelatedToMenu-module_arrow__njWAs","textRelatedTo":"RelatedToMenu-module_textRelatedTo__n7-3q"};
+var styles$n = {"relatedTo":"RelatedToMenu-module_relatedTo__eRHql","menuLink":"RelatedToMenu-module_menuLink__8MBUA","deleteButton":"RelatedToMenu-module_deleteButton__Hqq16","arrow":"RelatedToMenu-module_arrow__njWAs","textRelatedTo":"RelatedToMenu-module_textRelatedTo__n7-3q"};
 
 const RelatedToMenu = ({
   url,
@@ -4193,11 +4219,11 @@ const RelatedToMenu = ({
   return /*#__PURE__*/React__default.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$m.relatedTo
+    className: styles$n.relatedTo
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$m.arrow
+    className: styles$n.arrow
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$m.textRelatedTo,
+    className: styles$n.textRelatedTo,
     onClick: () => {
       setShowMenuUrl(true);
     }
@@ -4206,24 +4232,24 @@ const RelatedToMenu = ({
       setShowMenuUrl(true);
     }
   }, textLink), showMenuUrl && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$m.menuLink
+    className: styles$n.menuLink
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$m.deleteButton,
+    className: styles$n.deleteButton,
     onClick: () => {
       setShowMenuUrl(false);
     }
   }, "x"), /*#__PURE__*/React__default.createElement("label", null, "Text:"), /*#__PURE__*/React__default.createElement("input", {
-    className: styles$m.text,
+    className: styles$n.text,
     onChange: e => onChange('textLink', e, index),
     value: textLink
   }), /*#__PURE__*/React__default.createElement("label", null, "Url:"), /*#__PURE__*/React__default.createElement("input", {
-    className: styles$m.url,
+    className: styles$n.url,
     onChange: e => onChange('url', e, index),
     value: url
   })));
 };
 
-var styles$l = {"btnCommon":"AdminMenu-module_btnCommon__zAFca","bigMenu":"AdminMenu-module_bigMenu__9UUTu","btn":"AdminMenu-module_btn__JqVGf","menuActive":"AdminMenu-module_menuActive__8EWvI","bottom":"AdminMenu-module_bottom__6oYnv","top":"AdminMenu-module_top__U0RCz","left":"AdminMenu-module_left__A-mrQ","show":"AdminMenu-module_show__Ie-bf"};
+var styles$m = {"btnCommon":"AdminMenu-module_btnCommon__zAFca","bigMenu":"AdminMenu-module_bigMenu__9UUTu","btn":"AdminMenu-module_btn__JqVGf","menuActive":"AdminMenu-module_menuActive__8EWvI","bottom":"AdminMenu-module_bottom__6oYnv","top":"AdminMenu-module_top__U0RCz","left":"AdminMenu-module_left__A-mrQ","show":"AdminMenu-module_show__Ie-bf"};
 
 const AdminMenu = ({
   isEdit,
@@ -4243,31 +4269,31 @@ const AdminMenu = ({
     onClick: () => {
       setIsShowMenu(!isShowMenu);
     },
-    className: `${styles$l.bigMenu}${isShowMenu ? ' ' + styles$l.menuActive : ''}`
+    className: `${styles$m.bigMenu}${isShowMenu ? ' ' + styles$m.menuActive : ''}`
   }, /*#__PURE__*/React__default.createElement("span", null, text), !hideButtons.includes('edit-save') && /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       setIsShowMenu(!isShowMenu);
       _isEdit ? onSaveClick() : onEditClick();
     },
-    className: `${styles$l.btn}${isShowMenu ? ` ${styles$l.top} ` + styles$l.show : ''}`
+    className: `${styles$m.btn}${isShowMenu ? ` ${styles$m.top} ` + styles$m.show : ''}`
   }, _isEdit ? 'Save' : 'Edit'), _isEdit && /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       setIsShowMenu(!isShowMenu);
       onCancelClick();
     },
-    className: `${styles$l.btn}${isShowMenu ? ` ${styles$l.bottom} ` + styles$l.show : ''}`
+    className: `${styles$m.btn}${isShowMenu ? ` ${styles$m.bottom} ` + styles$m.show : ''}`
   }, 'Cancel'), _isEdit && !hideButtons.includes('preview') && /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       onPreviewClick();
     },
-    className: `${styles$l.btn}${isShowMenu ? ` ${styles$l.left} ` + styles$l.show : ''}`
+    className: `${styles$m.btn}${isShowMenu ? ` ${styles$m.left} ` + styles$m.show : ''}`
   }, '👁'));
 };
 
-var styles$k = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","image":"PatternItem-module_image__ar-yf","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","mobileContent":"PatternItem-module_mobileContent__wcZfW","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
+var styles$l = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","image":"PatternItem-module_image__ar-yf","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","mobileContent":"PatternItem-module_mobileContent__wcZfW","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -20208,7 +20234,7 @@ Google.defaultProps = {
 
 ColorWrap(Google);
 
-var styles$j = {"wrapper":"PatternName-module_wrapper__KDcd8","isBottom":"PatternName-module_isBottom__j2DCd","menu":"PatternName-module_menu__OOslt","pickerMenu":"PatternName-module_pickerMenu__HtlsW"};
+var styles$k = {"wrapper":"PatternName-module_wrapper__KDcd8","isBottom":"PatternName-module_isBottom__j2DCd","menu":"PatternName-module_menu__OOslt","pickerMenu":"PatternName-module_pickerMenu__HtlsW"};
 
 const PatternName = ({
   onBlur = () => {},
@@ -20227,7 +20253,7 @@ const PatternName = ({
   });
   const [showPicker, setShowPicker] = useState(false);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$j.wrapper} ${isBottom ? styles$j.isBottom : ''}`,
+    className: `${styles$k.wrapper} ${isBottom ? styles$k.isBottom : ''}`,
     style: {
       color: nameColor,
       fontFamily: nameFontFamily
@@ -20243,9 +20269,9 @@ const PatternName = ({
     },
     suppressContentEditableWarning: true,
     contentEditable: "false",
-    className: styles$j.menu
+    className: styles$k.menu
   }, showPicker && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$j.pickerMenu,
+    className: styles$k.pickerMenu,
     onMouseLeave: () => setShowPicker(false)
   }, /*#__PURE__*/React__default.createElement(SketchPicker, {
     color: colorInstance,
@@ -58648,7 +58674,7 @@ const PatternItem = ({
     onBlur: e => {
       setDes(e.target.innerText);
     },
-    className: styles$k.description,
+    className: styles$l.description,
     suppressContentEditableWarning: true,
     contentEditable: isEdit ? 'true' : 'false'
   }, des), /*#__PURE__*/React__default.createElement(PatternName, {
@@ -58815,7 +58841,7 @@ const PatternItem = ({
   };
   return /*#__PURE__*/React__default.createElement("div", {
     href: makeUrl(ravelryUrl),
-    className: `${styles$k.wrapper} ${isBottom ? styles$k.isBottom : ''}`,
+    className: `${styles$l.wrapper} ${isBottom ? styles$l.isBottom : ''}`,
     style: {
       width: isAddNew ? '100%' : 'initial',
       height: isAddNew ? '100%' : 'initial',
@@ -58824,34 +58850,34 @@ const PatternItem = ({
     },
     onClick: onClickPatternItem
   }, isAdmin && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$k.editMenu
+    className: styles$l.editMenu
   }, isEdit && /*#__PURE__*/React__default.createElement("label", {
-    className: styles$k.isFree
+    className: styles$l.isFree
   }, /*#__PURE__*/React__default.createElement("input", {
     type: "checkbox",
     onChange: onChangeIsFree,
     checked: _isFree
   }), " Is Free"), isEdit && !isAddNew && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$k.button,
+    className: styles$l.button,
     onClick: onClickCancel
   }, "Cancel"), /*#__PURE__*/React__default.createElement("div", {
     onClick: onClickEdit,
-    className: styles$k.button
+    className: styles$l.button
   }, isEdit ? 'Save' : 'Edit'), !isAddNew && !isEdit && /*#__PURE__*/React__default.createElement("div", {
     onClick: onClickDelete,
-    className: styles$k.button
+    className: styles$l.button
   }, "Delete"), !isAddNew && !isEdit && /*#__PURE__*/React__default.createElement("div", {
     onClick: onClickPatternDetail,
-    className: styles$k.button
+    className: styles$l.button
   }, "Detail")), _isFree && /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$k.freeTag} ${isBottom ? styles$k.isBottom : ''}`
+    className: `${styles$l.freeTag} ${isBottom ? styles$l.isBottom : ''}`
   }), /*#__PURE__*/React__default.createElement(ImageUploadable, {
-    className: styles$k.image,
+    className: styles$l.image,
     isEdit: isEdit,
     src: imgSrc,
     onChangeImage: onChangeImage
   }), isMobile ? /*#__PURE__*/React__default.createElement("div", {
-    className: styles$k.mobileContent
+    className: styles$l.mobileContent
   }, content) : content, isEdit && /*#__PURE__*/React__default.createElement("div", {
     style: {
       marginBottom: 5
@@ -58872,7 +58898,7 @@ const PatternItem = ({
   }));
 };
 
-var styles$i = {"wrapperGroupContent":"PostContent-module_wrapperGroupContent__yFH1p","header":"PostContent-module_header__PsWMK","contentZone":"PostContent-module_contentZone__HUhpk","show":"PostContent-module_show__ZMf2A","edit":"PostContent-module_edit__Qe59Q","btnMenu":"PostContent-module_btnMenu__-mGU-","imageWrapper":"PostContent-module_imageWrapper__2Fk0j","bigTitle":"PostContent-module_bigTitle__iLoUj","wrapperAction":"PostContent-module_wrapperAction__-kVIX","deleteButton":"PostContent-module_deleteButton__iDrEN","addButton":"PostContent-module_addButton__sb98L","button":"PostContent-module_button__FKbWL","imageUpload":"PostContent-module_imageUpload__qkS0y","wrapper":"PostContent-module_wrapper__ahlNi","adminTopHeader":"PostContent-module_adminTopHeader__aIDLA","actionButtons":"PostContent-module_actionButtons__KUzyc","checkBox":"PostContent-module_checkBox__edKrx","ads":"PostContent-module_ads__vHBWo","shareZone":"PostContent-module_shareZone__gri02","shareBtn":"PostContent-module_shareBtn__hl-WI","adminMenuBtn":"PostContent-module_adminMenuBtn__dISi1","adminMenu":"PostContent-module_adminMenu__-hGkg","hidden":"PostContent-module_hidden__GQw-G","menuItem":"PostContent-module_menuItem__HomeL","adminMenuBtnSave":"PostContent-module_adminMenuBtnSave__t-FUr","listPost":"PostContent-module_listPost__cjbZ5","adminMenuInputPostId":"PostContent-module_adminMenuInputPostId__my03L","relatedTo":"PostContent-module_relatedTo__NKbLQ","menuLink":"PostContent-module_menuLink__kQC0Q","arrow":"PostContent-module_arrow__ms8AO","textRelatedTo":"PostContent-module_textRelatedTo__IHBxX","dropZone":"PostContent-module_dropZone__8WDHC","subcribeMe":"PostContent-module_subcribeMe__3y1K-","imgWrapper":"PostContent-module_imgWrapper__4YZaL","videoMenu":"PostContent-module_videoMenu__lxwk3","imageDescription":"PostContent-module_imageDescription__19QTz"};
+var styles$j = {"wrapperGroupContent":"PostContent-module_wrapperGroupContent__yFH1p","header":"PostContent-module_header__PsWMK","contentZone":"PostContent-module_contentZone__HUhpk","show":"PostContent-module_show__ZMf2A","edit":"PostContent-module_edit__Qe59Q","btnMenu":"PostContent-module_btnMenu__-mGU-","imageWrapper":"PostContent-module_imageWrapper__2Fk0j","bigTitle":"PostContent-module_bigTitle__iLoUj","wrapperAction":"PostContent-module_wrapperAction__-kVIX","deleteButton":"PostContent-module_deleteButton__iDrEN","addButton":"PostContent-module_addButton__sb98L","button":"PostContent-module_button__FKbWL","imageUpload":"PostContent-module_imageUpload__qkS0y","wrapper":"PostContent-module_wrapper__ahlNi","adminTopHeader":"PostContent-module_adminTopHeader__aIDLA","actionButtons":"PostContent-module_actionButtons__KUzyc","checkBox":"PostContent-module_checkBox__edKrx","ads":"PostContent-module_ads__vHBWo","shareZone":"PostContent-module_shareZone__gri02","shareBtn":"PostContent-module_shareBtn__hl-WI","adminMenuBtn":"PostContent-module_adminMenuBtn__dISi1","adminMenu":"PostContent-module_adminMenu__-hGkg","hidden":"PostContent-module_hidden__GQw-G","menuItem":"PostContent-module_menuItem__HomeL","adminMenuBtnSave":"PostContent-module_adminMenuBtnSave__t-FUr","listPost":"PostContent-module_listPost__cjbZ5","adminMenuInputPostId":"PostContent-module_adminMenuInputPostId__my03L","relatedTo":"PostContent-module_relatedTo__NKbLQ","menuLink":"PostContent-module_menuLink__kQC0Q","arrow":"PostContent-module_arrow__ms8AO","textRelatedTo":"PostContent-module_textRelatedTo__IHBxX","dropZone":"PostContent-module_dropZone__8WDHC","subcribeMe":"PostContent-module_subcribeMe__3y1K-","imgWrapper":"PostContent-module_imgWrapper__4YZaL","videoMenu":"PostContent-module_videoMenu__lxwk3","imageDescription":"PostContent-module_imageDescription__19QTz"};
 
 const getSelectionText = () => {
   var text = "";
@@ -58923,8 +58949,8 @@ const PostContent = ({
     }
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$i.wrapper
-  }, Array.isArray(data) && data.map((item, i) => renderItemByType(item ? item : {}, i, styles$i, onDeleteContentItem, addNewContentItem, isMobile, _isEdit, data, onChangeData)), _isEdit && Array.isArray(data) && data.length == 0 && /*#__PURE__*/React__default.createElement(MenuAddComponentPost, {
+    className: styles$j.wrapper
+  }, Array.isArray(data) && data.map((item, i) => renderItemByType(item ? item : {}, i, styles$j, onDeleteContentItem, addNewContentItem, isMobile, _isEdit, data, onChangeData)), _isEdit && Array.isArray(data) && data.length == 0 && /*#__PURE__*/React__default.createElement(MenuAddComponentPost, {
     menuItems: Object.keys(POST_ITEM_TYPE),
     btnClass: `${menuBtnClass ? ' ' + menuBtnClass : ''}`,
     onClickMenuItem: item => {
@@ -58959,7 +58985,7 @@ const GroupContent = ({
     setExpanded(expanded);
   }, [expanded]);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$i.wrapperGroupContent
+    className: styles$j.wrapperGroupContent
   }, /*#__PURE__*/React__default.createElement("div", {
     onClick: () => {
       !isEdit && onChange(!_expanded, 'expanded');
@@ -58967,12 +58993,12 @@ const GroupContent = ({
     suppressContentEditableWarning: isEdit,
     onBlur: e => onChange(e, 'text'),
     contentEditable: `${isEdit ? "true" : "false"}`,
-    className: styles$i.header
+    className: styles$j.header
   }, title), /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$i.contentZone}${_expanded || isEdit ? ` ${styles$i.edit} ` + styles$i.show : ''}`
+    className: `${styles$j.contentZone}${_expanded || isEdit ? ` ${styles$j.edit} ` + styles$j.show : ''}`
   }, /*#__PURE__*/React__default.createElement(PostContent, {
     isShowBigMenu: false,
-    menuBtnClass: styles$i.btnMenu,
+    menuBtnClass: styles$j.btnMenu,
     onChangeData: c => {
       setContentData(c);
       onChange(c, 'content');
@@ -60289,7 +60315,7 @@ var TwitterShareButton = createShareButton('twitter', twitterLink, function (pro
 });
 var TwitterShareButton$1 = TwitterShareButton;
 
-var styles$h = {"imageWrapper":"TipDetail-module_imageWrapper__7ob-p","wrapperAction":"TipDetail-module_wrapperAction__fjIyB","deleteButton":"TipDetail-module_deleteButton__qEVWw","addButton":"TipDetail-module_addButton__1234H","button":"TipDetail-module_button__LgFX0","imageUpload":"TipDetail-module_imageUpload__1WBls","wrapper":"TipDetail-module_wrapper__v037r","adminTopHeader":"TipDetail-module_adminTopHeader__IAsnm","actionButtons":"TipDetail-module_actionButtons__HcIOT","checkBox":"TipDetail-module_checkBox__2iiOx","ads":"TipDetail-module_ads__0ycvb","shareZone":"TipDetail-module_shareZone__aJ7c4","shareBtn":"TipDetail-module_shareBtn__p4n9m","adminMenuBtn":"TipDetail-module_adminMenuBtn__NHrLd","adminMenu":"TipDetail-module_adminMenu__aDEnw","hidden":"TipDetail-module_hidden__A2u8V","menuItem":"TipDetail-module_menuItem__xdArV","adminMenuBtnSave":"TipDetail-module_adminMenuBtnSave__UZSjP","listPost":"TipDetail-module_listPost__DAxSM","adminMenuInputPostId":"TipDetail-module_adminMenuInputPostId__e2XnG","relatedTo":"TipDetail-module_relatedTo__Sw1Dt","menuLink":"TipDetail-module_menuLink__9UcOp","arrow":"TipDetail-module_arrow__51LOc","textRelatedTo":"TipDetail-module_textRelatedTo__U1jTE","dropZone":"TipDetail-module_dropZone__KmtOr","subcribeMe":"TipDetail-module_subcribeMe__K0Bcd","imgWrapper":"TipDetail-module_imgWrapper__Q2mx8","videoMenu":"TipDetail-module_videoMenu__pioTv","imageDescription":"TipDetail-module_imageDescription__O0dp9"};
+var styles$i = {"imageWrapper":"TipDetail-module_imageWrapper__7ob-p","wrapperAction":"TipDetail-module_wrapperAction__fjIyB","deleteButton":"TipDetail-module_deleteButton__qEVWw","addButton":"TipDetail-module_addButton__1234H","button":"TipDetail-module_button__LgFX0","imageUpload":"TipDetail-module_imageUpload__1WBls","wrapper":"TipDetail-module_wrapper__v037r","adminTopHeader":"TipDetail-module_adminTopHeader__IAsnm","actionButtons":"TipDetail-module_actionButtons__HcIOT","checkBox":"TipDetail-module_checkBox__2iiOx","ads":"TipDetail-module_ads__0ycvb","shareZone":"TipDetail-module_shareZone__aJ7c4","shareBtn":"TipDetail-module_shareBtn__p4n9m","adminMenuBtn":"TipDetail-module_adminMenuBtn__NHrLd","adminMenu":"TipDetail-module_adminMenu__aDEnw","hidden":"TipDetail-module_hidden__A2u8V","menuItem":"TipDetail-module_menuItem__xdArV","adminMenuBtnSave":"TipDetail-module_adminMenuBtnSave__UZSjP","listPost":"TipDetail-module_listPost__DAxSM","adminMenuInputPostId":"TipDetail-module_adminMenuInputPostId__e2XnG","relatedTo":"TipDetail-module_relatedTo__Sw1Dt","menuLink":"TipDetail-module_menuLink__9UcOp","arrow":"TipDetail-module_arrow__51LOc","textRelatedTo":"TipDetail-module_textRelatedTo__U1jTE","dropZone":"TipDetail-module_dropZone__KmtOr","subcribeMe":"TipDetail-module_subcribeMe__K0Bcd","imgWrapper":"TipDetail-module_imgWrapper__Q2mx8","videoMenu":"TipDetail-module_videoMenu__pioTv","imageDescription":"TipDetail-module_imageDescription__O0dp9"};
 
 const TipDetail = ({
   ProductJsonLd,
@@ -60407,23 +60433,23 @@ const TipDetail = ({
   };
   const siteName = process?.env?.NEXT_PUBLIC_SEO_pageName || 'Cheryx';
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("article", {
-    className: styles$h.wrapper
+    className: styles$i.wrapper
   }, isAdmin && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$h.adminTopHeader
+    className: styles$i.adminTopHeader
   }, !isPatternDetail && /*#__PURE__*/React__default.createElement("input", {
     value: getPostId(titleData),
     disabled: true,
-    className: styles$h.adminMenuInputPostId
+    className: styles$i.adminMenuInputPostId
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$h.actionButtons
+    className: styles$i.actionButtons
   }, !isPatternDetail && _isPattern && /*#__PURE__*/React__default.createElement("label", {
-    className: styles$h.checkBox
+    className: styles$i.checkBox
   }, /*#__PURE__*/React__default.createElement("span", null, "Is Free"), /*#__PURE__*/React__default.createElement("input", {
     checked: _isFree,
     type: "checkbox",
     onChange: () => setIsFree(!_isFree)
   })), !isPatternDetail && /*#__PURE__*/React__default.createElement("label", {
-    className: styles$h.checkBox
+    className: styles$i.checkBox
   }, /*#__PURE__*/React__default.createElement("span", null, "Is Pattern"), /*#__PURE__*/React__default.createElement("input", {
     checked: _isPattern,
     type: "checkbox",
@@ -60449,11 +60475,11 @@ const TipDetail = ({
     onCancelClick: onClickCancel,
     linkComponent: Link
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$h.shareZone
+    className: styles$i.shareZone
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$h.text
+    className: styles$i.text
   }, "Share:"), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$h.shareBtn
+    className: styles$i.shareBtn
   }, /*#__PURE__*/React__default.createElement(FacebookShareButton$1, {
     url: `${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`,
     quote: title,
@@ -60462,7 +60488,7 @@ const TipDetail = ({
     size: 32,
     round: true
   }))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$h.shareBtn
+    className: styles$i.shareBtn
   }, /*#__PURE__*/React__default.createElement(TwitterShareButton$1, {
     url: `${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`,
     quote: title,
@@ -60522,33 +60548,33 @@ const TipDetail = ({
   }));
 };
 
-var styles$g = {"wrapper":"Note-module_wrapper__dSD4k","noteTitle":"Note-module_noteTitle__Ar-iC","p":"Note-module_p__bkiX8","dot":"Note-module_dot__9Xgz3"};
+var styles$h = {"wrapper":"Note-module_wrapper__dSD4k","noteTitle":"Note-module_noteTitle__Ar-iC","p":"Note-module_p__bkiX8","dot":"Note-module_dot__9Xgz3"};
 
 const Note = () => {
   const text = ["Mình không làm file PDF, các lớp hướng dẫn đan là dạng Nhóm (Group) trên Facebook gồm công thức đan, video chi tiết hướng dẫn các công đoạn đan, cách khâu ráp, nhồi gòn tạo hình và các mẹo để tạo nên sản phẩm hoàn thiện.", "Chỉ cần biết đan cơ bản, có thể tham gia lớp và hoàn thành sản phẩm", "Nếu bạn chưa biết đan, ghé qua mục “Tự học đan len cơ bản” để bắt đầu tập đan thử nhé!"];
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$g.wrapper
+    className: styles$h.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$g.noteTitle
+    className: styles$h.noteTitle
   }, "L\u01B0u \xFD"), Array.isArray(text) && text.map((item, i) => /*#__PURE__*/React__default.createElement("div", {
-    className: styles$g.p,
+    className: styles$h.p,
     key: i
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$g.dot
+    className: styles$h.dot
   }), " ", item)));
 };
 
-var styles$f = {"ldsHourglass":"Loader-module_ldsHourglass__duhaK","lds-hourglass-animation":"Loader-module_lds-hourglass-animation__edjXk","loadingWrapper":"Loader-module_loadingWrapper__GIkhp","ldsHourglassAnimation":"Loader-module_lds-hourglass-animation__edjXk"};
+var styles$g = {"ldsHourglass":"Loader-module_ldsHourglass__duhaK","lds-hourglass-animation":"Loader-module_lds-hourglass-animation__edjXk","loadingWrapper":"Loader-module_loadingWrapper__GIkhp","ldsHourglassAnimation":"Loader-module_lds-hourglass-animation__edjXk"};
 
 const Loader = () => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.loadingWrapper
+    className: styles$g.loadingWrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.ldsHourglass
+    className: styles$g.ldsHourglass
   }));
 };
 
-var styles$e = {"header":"HeaderCherxy-module_header__p1wdm","leftSide":"HeaderCherxy-module_leftSide__EBweP","hambuger":"HeaderCherxy-module_hambuger__Umqrn","overlay":"HeaderCherxy-module_overlay__-X7Sq","menu":"HeaderCherxy-module_menu__aaThr","slideInLeft":"HeaderCherxy-module_slideInLeft__cBezf","searchInput":"HeaderCherxy-module_searchInput__l-5mX","search":"HeaderCherxy-module_search__yA6bt","searchIcon":"HeaderCherxy-module_searchIcon__GfXiv","links":"HeaderCherxy-module_links__3M4Ma","items":"HeaderCherxy-module_items__E8rxt","rightSide":"HeaderCherxy-module_rightSide__ADpXM","logo":"HeaderCherxy-module_logo__E0Zou","cheryx":"HeaderCherxy-module_cheryx__WT3B-","slogan":"HeaderCherxy-module_slogan__MyVr1","nav":"HeaderCherxy-module_nav__xeK49","selectedLink":"HeaderCherxy-module_selectedLink__NJDtu"};
+var styles$f = {"header":"HeaderCherxy-module_header__p1wdm","leftSide":"HeaderCherxy-module_leftSide__EBweP","hambuger":"HeaderCherxy-module_hambuger__Umqrn","overlay":"HeaderCherxy-module_overlay__-X7Sq","menu":"HeaderCherxy-module_menu__aaThr","slideInLeft":"HeaderCherxy-module_slideInLeft__cBezf","searchInput":"HeaderCherxy-module_searchInput__l-5mX","search":"HeaderCherxy-module_search__yA6bt","searchIcon":"HeaderCherxy-module_searchIcon__GfXiv","links":"HeaderCherxy-module_links__3M4Ma","items":"HeaderCherxy-module_items__E8rxt","rightSide":"HeaderCherxy-module_rightSide__ADpXM","logo":"HeaderCherxy-module_logo__E0Zou","cheryx":"HeaderCherxy-module_cheryx__WT3B-","slogan":"HeaderCherxy-module_slogan__MyVr1","nav":"HeaderCherxy-module_nav__xeK49","selectedLink":"HeaderCherxy-module_selectedLink__NJDtu"};
 
 const LinksIcon = ({
   url,
@@ -60571,7 +60597,7 @@ const LinksIcon = ({
   }));
 };
 
-var styles$d = {"hambuger":"LeftSideMenu-module_hambuger__yYPB4","overlay":"LeftSideMenu-module_overlay__8lrgX","menu":"LeftSideMenu-module_menu__ptqh0","slideInLeft":"LeftSideMenu-module_slideInLeft__yNIM5","searchInput":"LeftSideMenu-module_searchInput__KcMQt","search":"LeftSideMenu-module_search__-KQb9","searchIcon":"LeftSideMenu-module_searchIcon__bkFlv","links":"LeftSideMenu-module_links__36Vv-","items":"LeftSideMenu-module_items__2XpnR"};
+var styles$e = {"hambuger":"LeftSideMenu-module_hambuger__yYPB4","overlay":"LeftSideMenu-module_overlay__8lrgX","menu":"LeftSideMenu-module_menu__ptqh0","slideInLeft":"LeftSideMenu-module_slideInLeft__yNIM5","searchInput":"LeftSideMenu-module_searchInput__KcMQt","search":"LeftSideMenu-module_search__-KQb9","searchIcon":"LeftSideMenu-module_searchIcon__bkFlv","links":"LeftSideMenu-module_links__36Vv-","items":"LeftSideMenu-module_items__2XpnR"};
 
 const LeftSideMenu = ({
   menuText = 'Menu',
@@ -60585,7 +60611,7 @@ const LeftSideMenu = ({
       setIsShowMenu(true);
       document.body.style.overflowY = 'hidden';
     },
-    className: styles$d.hambuger
+    className: styles$e.hambuger
   }, /*#__PURE__*/React__default.createElement("img", {
     width: "22px",
     height: "24px",
@@ -60595,26 +60621,26 @@ const LeftSideMenu = ({
     onTouchStart: () => {
       setTimeout(() => setIsShowMenu(false), 100);
     },
-    className: styles$d.overlay
+    className: styles$e.overlay
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$d.menu,
+    className: styles$e.menu,
     onTouchStart: e => {
       e.stopPropagation();
     }
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$d.searchInput
+    className: styles$e.searchInput
   }, /*#__PURE__*/React__default.createElement("input", {
-    className: styles$d.search
+    className: styles$e.search
   }), /*#__PURE__*/React__default.createElement("img", {
     alt: "Search",
-    className: styles$d.searchIcon,
+    className: styles$e.searchIcon,
     src: "/images/search.svg"
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$d.links
+    className: styles$e.links
   }, links.map((item, index) => /*#__PURE__*/React__default.createElement(LinksIcon, _extends({
     key: index
   }, item)))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$d.items
+    className: styles$e.items
   }, menuData.map((item, index) => /*#__PURE__*/React__default.createElement(Link, {
     key: index,
     href: item.url
@@ -60711,9 +60737,9 @@ const HeaderCherxy = ({
       width: '100%'
     }
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$e.header
+    className: styles$f.header
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$e.leftSide
+    className: styles$f.leftSide
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
     target: "_blank",
@@ -60773,7 +60799,7 @@ const HeaderCherxy = ({
     links: links,
     menuData: MenuData
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$e.rightSide
+    className: styles$f.rightSide
   }, /*#__PURE__*/React__default.createElement(Link, {
     href: verified ? '/dashboard' : '/login'
   }, /*#__PURE__*/React__default.createElement("a", {
@@ -60786,43 +60812,43 @@ const HeaderCherxy = ({
     alt: "user",
     src: "/images/user.png"
   }))))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$e.logo
+    className: styles$f.logo
   }, /*#__PURE__*/React__default.createElement(Link, {
     href: '/'
   }, /*#__PURE__*/React__default.createElement("a", null, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$e.cheryx
+    className: styles$f.cheryx
   })))), showNavigator && /*#__PURE__*/React__default.createElement("nav", {
-    className: styles$e.nav
+    className: styles$f.nav
   }, MenuData.map((item, index) => /*#__PURE__*/React__default.createElement(Link, {
     key: index,
     href: item.url + `${isAdmin ? '?isAdmin=true' : ''}`
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
-    className: url === item.url ? styles$e.selectedLink : ''
+    className: url === item.url ? styles$f.selectedLink : ''
   }, item.text)))));
 };
 
-var styles$c = {"homeFreePatternList":"Home-module_homeFreePatternList__BycET","mb30":"Home-module_mb30__gyYi3","imageHeaderHome":"Home-module_imageHeaderHome__MZu5H","mt55":"Home-module_mt55__-08as","main":"Home-module_main__bI9na","freePattern":"Home-module_freePattern__uCele","container":"Home-module_container__mEFCr","footer":"Home-module_footer__XGpF4","imageFooter":"Home-module_imageFooter__ZINru","dcma":"Home-module_dcma__4GW8-","title":"Home-module_title__txGd6","description":"Home-module_description__E20Wj","code":"Home-module_code__31aBI","grid":"Home-module_grid__EUFcv","card":"Home-module_card__601Yy","logo":"Home-module_logo__lK-7J","myPatterns":"Home-module_myPatterns__ftfzg","labby":"Home-module_labby__n6j7Y","images":"Home-module_images__poqmB","pumpkin":"Home-module_pumpkin__k5z5Z","reindeer":"Home-module_reindeer__Ah1XJ","lucy":"Home-module_lucy__hzRoe","alan":"Home-module_alan__i6oMq","mason":"Home-module_mason__RY-fc","jacky":"Home-module_jacky__L8AG5","jane":"Home-module_jane__a5v6P","bunny":"Home-module_bunny__uVy5m","seeMore":"Home-module_seeMore__7NlKP","iconSeeMore":"Home-module_iconSeeMore__eQYok","freePatterns":"Home-module_freePatterns__yiv-E","freeText":"Home-module_freeText__fPF5-","listPattern":"Home-module_listPattern__EWsic","pattern":"Home-module_pattern__YNovi","tips":"Home-module_tips__l5XMZ","mainLogo":"Home-module_mainLogo__N6oJC"};
+var styles$d = {"homeFreePatternList":"Home-module_homeFreePatternList__BycET","mb30":"Home-module_mb30__gyYi3","imageHeaderHome":"Home-module_imageHeaderHome__MZu5H","mt55":"Home-module_mt55__-08as","main":"Home-module_main__bI9na","freePattern":"Home-module_freePattern__uCele","container":"Home-module_container__mEFCr","footer":"Home-module_footer__XGpF4","imageFooter":"Home-module_imageFooter__ZINru","dcma":"Home-module_dcma__4GW8-","title":"Home-module_title__txGd6","description":"Home-module_description__E20Wj","code":"Home-module_code__31aBI","grid":"Home-module_grid__EUFcv","card":"Home-module_card__601Yy","logo":"Home-module_logo__lK-7J","myPatterns":"Home-module_myPatterns__ftfzg","labby":"Home-module_labby__n6j7Y","images":"Home-module_images__poqmB","pumpkin":"Home-module_pumpkin__k5z5Z","reindeer":"Home-module_reindeer__Ah1XJ","lucy":"Home-module_lucy__hzRoe","alan":"Home-module_alan__i6oMq","mason":"Home-module_mason__RY-fc","jacky":"Home-module_jacky__L8AG5","jane":"Home-module_jane__a5v6P","bunny":"Home-module_bunny__uVy5m","seeMore":"Home-module_seeMore__7NlKP","iconSeeMore":"Home-module_iconSeeMore__eQYok","freePatterns":"Home-module_freePatterns__yiv-E","freeText":"Home-module_freeText__fPF5-","listPattern":"Home-module_listPattern__EWsic","pattern":"Home-module_pattern__YNovi","tips":"Home-module_tips__l5XMZ","mainLogo":"Home-module_mainLogo__N6oJC"};
 
-var styles$b = {"wrapper":"TitleCheryx2-module_wrapper__qmGmO","line":"TitleCheryx2-module_line__EPyjc","text":"TitleCheryx2-module_text__9xtyl"};
+var styles$c = {"wrapper":"TitleCheryx2-module_wrapper__qmGmO","line":"TitleCheryx2-module_line__EPyjc","text":"TitleCheryx2-module_text__9xtyl"};
 
 const TitleCheryx2 = ({
   text,
   wrapperStyle = {}
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$b.wrapper,
+    className: styles$c.wrapper,
     style: wrapperStyle
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$b.line
+    className: styles$c.line
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$b.text
+    className: styles$c.text
   }, text), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$b.line
+    className: styles$c.line
   }));
 };
 
-var styles$a = {"wrapper":"ContentWithTitle-module_wrapper__p-sG2"};
+var styles$b = {"wrapper":"ContentWithTitle-module_wrapper__p-sG2"};
 
 const ContentWithTitle = ({
   content,
@@ -60830,13 +60856,13 @@ const ContentWithTitle = ({
   className = ''
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$a.wrapper} ${className}`
+    className: `${styles$b.wrapper} ${className}`
   }, /*#__PURE__*/React__default.createElement(TitleCheryx2, {
     text: title
   }), content);
 };
 
-var styles$9 = {"items":"MySocialLink-module_items__129Nf","ravelry":"MySocialLink-module_ravelry__-2Y9f","lovescraft":"MySocialLink-module_lovescraft__2KkVr","fb":"MySocialLink-module_fb__jm-Lg","in":"MySocialLink-module_in__AUJht","yo":"MySocialLink-module_yo__rI64f","pi":"MySocialLink-module_pi__37U9a","$in$":"MySocialLink-module_in__AUJht"};
+var styles$a = {"items":"MySocialLink-module_items__129Nf","ravelry":"MySocialLink-module_ravelry__-2Y9f","lovescraft":"MySocialLink-module_lovescraft__2KkVr","fb":"MySocialLink-module_fb__jm-Lg","in":"MySocialLink-module_in__AUJht","yo":"MySocialLink-module_yo__rI64f","pi":"MySocialLink-module_pi__37U9a","$in$":"MySocialLink-module_in__AUJht"};
 
 const MySocialLink = ({
   isMobile
@@ -60844,7 +60870,7 @@ const MySocialLink = ({
   return /*#__PURE__*/React__default.createElement(ContentWithTitle, {
     title: "T\xE0i kho\u1EA3n c\xE1 nh\xE2n",
     content: /*#__PURE__*/React__default.createElement("div", {
-      className: styles$9.items
+      className: styles$a.items
     }, /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
       target: "_blank",
@@ -60853,7 +60879,7 @@ const MySocialLink = ({
       alt: "Facebook",
       width: isMobile ? '10px' : '15px',
       height: isMobile ? '21px' : '30px',
-      className: styles$9.fb,
+      className: styles$a.fb,
       src: "/images/fb1.png"
     })), /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
@@ -60863,7 +60889,7 @@ const MySocialLink = ({
       alt: "Ravelry",
       width: isMobile ? '87px' : '154px',
       height: isMobile ? '27px' : '49px',
-      className: styles$9.ravelry,
+      className: styles$a.ravelry,
       src: "/images/rv.svg"
     })), /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
@@ -60873,7 +60899,7 @@ const MySocialLink = ({
       alt: "Instagram",
       width: isMobile ? '21px' : '32px',
       height: isMobile ? '21px' : '34px',
-      className: styles$9.in,
+      className: styles$a.in,
       src: "/images/in1.png"
     })), /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
@@ -60881,7 +60907,7 @@ const MySocialLink = ({
       href: "https://www.youtube.com/channel/UCf0jCxiSGh_pBExFN3k1CIA"
     }, /*#__PURE__*/React__default.createElement("img", {
       alt: "Youtube",
-      className: styles$9.yo,
+      className: styles$a.yo,
       width: isMobile ? '23px' : '44px',
       height: isMobile ? '30px' : '34px',
       src: "/images/yo1.png"
@@ -60893,7 +60919,7 @@ const MySocialLink = ({
       alt: "Pinterest",
       width: isMobile ? '22px' : '34px',
       height: isMobile ? '22px' : '34px',
-      className: styles$9.pi,
+      className: styles$a.pi,
       src: "/images/pi.png"
     })))
   });
@@ -60904,18 +60930,18 @@ const Footer = ({
   className
 }) => {
   return /*#__PURE__*/React__default.createElement("footer", {
-    className: `${styles$c.footer} ${className}`
+    className: `${styles$d.footer} ${className}`
   }, /*#__PURE__*/React__default.createElement(MySocialLink, {
     isMobile: isMobile
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$c.imageFooter
+    className: styles$d.imageFooter
   }, /*#__PURE__*/React__default.createElement("img", {
     width: "100%",
     height: "100%",
     alt: process?.env?.NEXT_PUBLIC_SEO_mainTitle,
     src: `/images/footer.webp`
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$c.dcma
+    className: styles$d.dcma
   }, /*#__PURE__*/React__default.createElement("a", {
     href: "//www.dmca.com/Protection/Status.aspx?ID=dbcbbc0c-5007-4d0c-aeff-b4ed3e017556",
     title: "DMCA.com Protection Status",
@@ -60928,7 +60954,7 @@ const Footer = ({
   }, " "))));
 };
 
-var styles$8 = {"leftMenu":"LeftMenu-module_leftMenu__6Umri","item":"LeftMenu-module_item__0YVyd","selected":"LeftMenu-module_selected__fNM9r","icon":"LeftMenu-module_icon__nn0rc"};
+var styles$9 = {"leftMenu":"LeftMenu-module_leftMenu__6Umri","item":"LeftMenu-module_item__0YVyd","selected":"LeftMenu-module_selected__fNM9r","icon":"LeftMenu-module_icon__nn0rc"};
 
 const LeftMenu = ({
   data = [],
@@ -60938,31 +60964,31 @@ const LeftMenu = ({
 }) => {
   const makeItem = item => {
     return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("div", {
-      className: styles$8.icon,
+      className: styles$9.icon,
       style: {
         backgroundImage: `url('${item.icon}')`
       }
     }), /*#__PURE__*/React__default.createElement("div", null, item.title));
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$8.leftMenu
+    className: styles$9.leftMenu
   }, data.map((item, index) => {
     if (isAdmin) {
       return /*#__PURE__*/React__default.createElement("div", {
         key: index,
         onClick: () => onSelectedItem(item.key),
-        className: styles$8.item + ` ${item.key === selected ? styles$8.selected : ''}`
+        className: styles$9.item + ` ${item.key === selected ? styles$9.selected : ''}`
       }, makeItem(item));
     }
     return /*#__PURE__*/React__default.createElement("a", {
       key: index,
       href: item.url,
-      className: styles$8.item + ` ${item.key === selected ? styles$8.selected : ''}`
+      className: styles$9.item + ` ${item.key === selected ? styles$9.selected : ''}`
     }, makeItem(item));
   }));
 };
 
-var styles$7 = {"wrapper":"BestSeller-module_wrapper__DcZ-X","left":"BestSeller-module_left__48g-A","right":"BestSeller-module_right__yVRHM","image":"BestSeller-module_image__D8YrF","message":"BestSeller-module_message__RQ83C","description":"BestSeller-module_description__By2Bn","name":"BestSeller-module_name__K4Haa"};
+var styles$8 = {"wrapper":"BestSeller-module_wrapper__DcZ-X","left":"BestSeller-module_left__48g-A","right":"BestSeller-module_right__yVRHM","image":"BestSeller-module_image__D8YrF","message":"BestSeller-module_message__RQ83C","description":"BestSeller-module_description__By2Bn","name":"BestSeller-module_name__K4Haa"};
 
 const BestSeller = ({
   useRouter = () => {},
@@ -60976,10 +61002,10 @@ const BestSeller = ({
     // data && data.ravelryUrl && !isAdmin && window.open(data.ravelryUrl);
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$7.wrapper,
+    className: styles$8.wrapper,
     onClick: onClickPatternItem
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$7.left
+    className: styles$8.left
   }, /*#__PURE__*/React__default.createElement(PatternItem, _extends({
     useDispatch: useDispatch,
     useRouter: useRouter,
@@ -60988,63 +61014,63 @@ const BestSeller = ({
     isMobile: isMobile,
     key: data.id
   }, data))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$7.right
+    className: styles$8.right
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$7.image
+    className: styles$8.image
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$7.message
+    className: styles$8.message
   }, "\u0110\xE2y l\xE0 c\xE1c l\u1EDBp h\u01B0\u1EDBng d\u1EABn \u0111an th\xFA c\u1EE7a m\xECnh!"))));
 };
 
-var styles$6 = {"logo":"CheryxLogo-module_logo__Ik2QT","cheryx":"CheryxLogo-module_cheryx__0-ARk","slogan":"CheryxLogo-module_slogan__jkJ4I"};
+var styles$7 = {"logo":"CheryxLogo-module_logo__Ik2QT","cheryx":"CheryxLogo-module_cheryx__0-ARk","slogan":"CheryxLogo-module_slogan__jkJ4I"};
 
 const CheryxLogo = () => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$6.logo
+    className: styles$7.logo
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$6.cheryx
+    className: styles$7.cheryx
   }), /*#__PURE__*/React__default.createElement("img", {
     width: "143px",
     height: "18px",
     alt: process?.env?.NEXT_PUBLIC_SEO_mainTitle,
-    className: styles$6.slogan,
+    className: styles$7.slogan,
     src: "/images/cheryx-slogan.webp"
   }));
 };
 
-var styles$5 = {"linebase":"TagWithText-module_linebase__1fgWE","line":"TagWithText-module_line__jtXig","circle":"TagWithText-module_circle__DkgeV","middle":"TagWithText-module_middle__knogk","wrapper":"TagWithText-module_wrapper__J8uOx","line2":"TagWithText-module_line2__oJBu6","line1":"TagWithText-module_line1__mC6e3","inner":"TagWithText-module_inner__uzFrz"};
+var styles$6 = {"linebase":"TagWithText-module_linebase__1fgWE","line":"TagWithText-module_line__jtXig","circle":"TagWithText-module_circle__DkgeV","middle":"TagWithText-module_middle__knogk","wrapper":"TagWithText-module_wrapper__J8uOx","line2":"TagWithText-module_line2__oJBu6","line1":"TagWithText-module_line1__mC6e3","inner":"TagWithText-module_inner__uzFrz"};
 
 const TagWithText = ({
   text
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.wrapper
+    className: styles$6.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.inner
+    className: styles$6.inner
   }, text), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.line1
+    className: styles$6.line1
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.circle
+    className: styles$6.circle
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.middle
+    className: styles$6.middle
   }))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.line2
+    className: styles$6.line2
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.circle
+    className: styles$6.circle
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.middle
+    className: styles$6.middle
   }))));
 };
 
-var styles$4 = {"wrapper":"HeaderWithImage-module_wrapper__OoGTf","tag":"HeaderWithImage-module_tag__Io2Ux"};
+var styles$5 = {"wrapper":"HeaderWithImage-module_wrapper__OoGTf","tag":"HeaderWithImage-module_tag__Io2Ux"};
 
 const HeaderWithImage = ({
   className
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$4.wrapper} ${className}`
+    className: `${styles$5.wrapper} ${className}`
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$4.tag
+    className: styles$5.tag
   }, /*#__PURE__*/React__default.createElement(TagWithText, {
     text: "\u1EDE \u0111\xE2y c\xF3 h\u01B0\u1EDBng d\u1EABn \u0111an len cho ng\u01B0\u1EDDi m\u1EDBi b\u1EAFt \u0111\u1EA7u!"
   })), /*#__PURE__*/React__default.createElement("img", {
@@ -61052,7 +61078,7 @@ const HeaderWithImage = ({
   }));
 };
 
-var styles$3 = {"section":"TitleCheryx-module_section__7ySU8"};
+var styles$4 = {"section":"TitleCheryx-module_section__7ySU8"};
 
 const TitleCheryx = ({
   text,
@@ -61060,11 +61086,11 @@ const TitleCheryx = ({
 }) => {
   return /*#__PURE__*/React__default.createElement("section", {
     style: wrapperStyle,
-    className: styles$3.section
+    className: styles$4.section
   }, /*#__PURE__*/React__default.createElement("header", null, text));
 };
 
-var styles$2 = {"wrapper":"TitleLink-module_wrapper__1aGkJ","text":"TitleLink-module_text__MXsWL"};
+var styles$3 = {"wrapper":"TitleLink-module_wrapper__1aGkJ","text":"TitleLink-module_text__MXsWL"};
 
 const TitleLink = ({
   text,
@@ -61073,15 +61099,15 @@ const TitleLink = ({
   Link
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$2.wrapper} ${className}`
+    className: `${styles$3.wrapper} ${className}`
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$2.text
+    className: styles$3.text
   }, text), url && /*#__PURE__*/React__default.createElement(Link, {
     href: url
   }, /*#__PURE__*/React__default.createElement("a", null, 'Xem thêm >>')));
 };
 
-var styles$1 = {"wrapper":"ListArticle-module_wrapper__fmN-H","left":"ListArticle-module_left__nerkw","bigImage":"ListArticle-module_bigImage__LUfHZ","title":"ListArticle-module_title__Rs6-W","right":"ListArticle-module_right__a5X7m","items":"ListArticle-module_items__KGSu6","item":"ListArticle-module_item__NnD6I","img":"ListArticle-module_img__94M5t","bigItem":"ListArticle-module_bigItem__iDH3C"};
+var styles$2 = {"wrapper":"ListArticle-module_wrapper__fmN-H","left":"ListArticle-module_left__nerkw","bigImage":"ListArticle-module_bigImage__LUfHZ","title":"ListArticle-module_title__Rs6-W","right":"ListArticle-module_right__a5X7m","items":"ListArticle-module_items__KGSu6","item":"ListArticle-module_item__NnD6I","img":"ListArticle-module_img__94M5t","bigItem":"ListArticle-module_bigItem__iDH3C"};
 
 const ListArticle = ({
   data = [],
@@ -61092,40 +61118,40 @@ const ListArticle = ({
   const bigItem = data.find(item => item.isBig === true);
   const listItems = data.filter(item => item.isBig !== true);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$1.wrapper
+    className: styles$2.wrapper
   }, !isMobile && bigItem && /*#__PURE__*/React__default.createElement(Link, {
     href: `/tip/${bigItem.id}`
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$1.left
+    className: styles$2.left
   }, /*#__PURE__*/React__default.createElement("a", {
     href: `/tip/${bigItem.id}`,
-    className: styles$1.bigImage
+    className: styles$2.bigImage
   }, bigItem && /*#__PURE__*/React__default.createElement(Image, {
     layout: "fill",
     alt: bigItem.title,
     src: transformImageSrc(bigItem.imgUrl)
   })), bigItem && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$1.title,
+    className: styles$2.title,
     style: {
       textAlign: 'center'
     }
   }, bigItem.title))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$1.right
+    className: styles$2.right
   }, listItems.map((item, index) => /*#__PURE__*/React__default.createElement("div", {
     key: index,
-    className: styles$1.items
+    className: styles$2.items
   }, /*#__PURE__*/React__default.createElement(Link, {
     href: `/tip/${item.id}`
   }, /*#__PURE__*/React__default.createElement("a", {
-    className: styles$1.item
+    className: styles$2.item
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$1.img
+    className: styles$2.img
   }, /*#__PURE__*/React__default.createElement(Image, {
     layout: "fill",
     alt: item.title,
     src: transformImageSrc(item.imgUrl)
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$1.title
+    className: styles$2.title
   }, item.title)))))));
 };
 
@@ -61210,7 +61236,7 @@ const Form = ({
       }
     `));
 
-var styles = {"wrapper":"TipArticle-module_wrapper__fNzyi","editButtonZone":"TipArticle-module_editButtonZone__ddE5V","editButton":"TipArticle-module_editButton__PFnD3","deleteButton":"TipArticle-module_deleteButton__udde6","image":"TipArticle-module_image__NuPYd","imageMenu":"TipArticle-module_imageMenu__kGsYb","info":"TipArticle-module_info__WW9SS","title":"TipArticle-module_title__7TydJ","subTitle":"TipArticle-module_subTitle__4esJj","description":"TipArticle-module_description__897A8","seeMore":"TipArticle-module_seeMore__SbS1d"};
+var styles$1 = {"wrapper":"TipArticle-module_wrapper__fNzyi","editButtonZone":"TipArticle-module_editButtonZone__ddE5V","editButton":"TipArticle-module_editButton__PFnD3","deleteButton":"TipArticle-module_deleteButton__udde6","image":"TipArticle-module_image__NuPYd","imageMenu":"TipArticle-module_imageMenu__kGsYb","info":"TipArticle-module_info__WW9SS","title":"TipArticle-module_title__7TydJ","subTitle":"TipArticle-module_subTitle__4esJj","description":"TipArticle-module_description__897A8","seeMore":"TipArticle-module_seeMore__SbS1d"};
 
 const TipArticle = ({
   Image,
@@ -61311,34 +61337,34 @@ const TipArticle = ({
     });
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles.wrapper
+    className: styles$1.wrapper
   }, isAdmin && /*#__PURE__*/React__default.createElement("div", {
-    className: styles.editButtonZone
+    className: styles$1.editButtonZone
   }, !data.isPattern && /*#__PURE__*/React__default.createElement("div", {
-    className: styles.checkIsBig
+    className: styles$1.checkIsBig
   }, /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement("span", null, "Big Item"), /*#__PURE__*/React__default.createElement("input", {
     checked: data.isBig,
     type: "checkbox",
     onChange: onChangeIsBig
   }))), !data.isPattern && /*#__PURE__*/React__default.createElement("div", {
-    className: styles.checkIsBig
+    className: styles$1.checkIsBig
   }, /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement("span", null, "Show at home"), /*#__PURE__*/React__default.createElement("input", {
     checked: data.isShowAtHome,
     type: "checkbox",
     onChange: onChangeIsShowAtHome
   }))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles.editButton
+    className: styles$1.editButton
   }, /*#__PURE__*/React__default.createElement(Link, {
     href: `/edit-post/${data.id}`
   }, "Edit")), /*#__PURE__*/React__default.createElement("div", {
-    className: styles.deleteButton,
+    className: styles$1.deleteButton,
     onClick: onClickDelete
   }, "Delete")), /*#__PURE__*/React__default.createElement(Link, {
     href: `/${isAdmin ? 'preview' : 'tip'}/${data.id}`
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles.image
+    className: styles$1.image
   }, isAdmin && /*#__PURE__*/React__default.createElement("div", {
-    className: styles.imageMenu,
+    className: styles$1.imageMenu,
     onClick: e => e.stopPropagation()
   }, /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement("div", null, "Upload"), /*#__PURE__*/React__default.createElement("input", {
     hidden: "true",
@@ -61348,14 +61374,76 @@ const TipArticle = ({
     layout: "fill",
     src: transformImageSrc(data.imgUrl)
   }))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles.info
+    className: styles$1.info
   }, /*#__PURE__*/React__default.createElement(Link, {
     href: `/${isAdmin ? 'preview' : 'tip'}/${data.id}`
   }, /*#__PURE__*/React__default.createElement("a", {
-    className: styles.title
+    className: styles$1.title
   }, data.title)), /*#__PURE__*/React__default.createElement("div", {
-    className: styles.description
+    className: styles$1.description
   }, getDescriptionFromContent(data.content))));
 };
 
-export { AdBanner, AdminMenu, BestSeller, CheryxLogo, ContentWithTitle, Footer, Form, HeaderCherxy as HeaderCheryx, HeaderPage, HeaderWithImage, IMAGE_SUBMENU, ImageUpload, ImageUploadable, LeftMenu, ListArticle, Loader, MenuAddComponentPost, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternItem, PatternName, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, TipArticle, TipDetail, TitleCheryx, TitleLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles };
+var styles = {"wrapper":"PatternList-module_wrapper__XGei4","bottom":"PatternList-module_bottom__1xgHo"};
+
+const PatternList = ({
+  useRouter = () => {},
+  useDispatch = () => {},
+  language = 'vi',
+  data,
+  isMobile,
+  isAdmin,
+  style = {},
+  isBottom,
+  onLoadPatternList = () => {},
+  className
+}) => {
+  const [listPatternDetail, setListPatternDetail] = useState([{
+    value: '1',
+    label: 'Mmmm'
+  }]);
+  useEffect(() => {
+    getListTips({
+      language,
+      isPattern: true
+    }).then(res => {
+      if (Array.isArray(res)) {
+        const result = res.map(i => {
+          return {
+            value: i.id,
+            label: i.title
+          };
+        });
+        setListPatternDetail(result);
+        onLoadPatternList(result);
+      }
+    }).catch(e => {
+      console.log(e);
+    });
+  }, []);
+  return /*#__PURE__*/React__default.createElement("div", {
+    className: `${styles.wrapper} ${isBottom ? `${styles.bottom} ${className}` : ''}`,
+    style: {
+      ...style
+    }
+  }, Array.isArray(data) && data.map((item, index) => /*#__PURE__*/React__default.createElement(PatternItem, _extends({
+    useDispatch: useDispatch,
+    useRouter: useRouter,
+    listPatternDetail: listPatternDetail,
+    isBottom: isBottom,
+    isAdmin: isAdmin,
+    isMobile: isMobile,
+    key: index
+  }, item))), isAdmin && /*#__PURE__*/React__default.createElement(PatternItem, {
+    useDispatch: useDispatch,
+    useRouter: useRouter,
+    listPatternDetail: listPatternDetail,
+    name: "Pattern Name",
+    description: "Description",
+    isEditing: true,
+    isAdmin: isAdmin,
+    isAddNew: true
+  }));
+};
+
+export { AdBanner, AdminMenu, BestSeller, CheryxLogo, ContentWithTitle, Footer, Form, HeaderCherxy as HeaderCheryx, HeaderPage, HeaderWithImage, IMAGE_SUBMENU, ImageUpload, ImageUploadable, LeftMenu, ListArticle, Loader, MenuAddComponentPost, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternItem, PatternList, PatternName, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, TipArticle, TipDetail, TitleCheryx, TitleLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles };

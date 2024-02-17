@@ -1050,10 +1050,10 @@
   dependencies:
     axios "^1.5.1"
 
-"@cheryx2020/utils@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@cheryx2020/utils/-/utils-1.3.1.tgz#819d1b903a4f2fcb37f8d703dadc504ff3e7545c"
-  integrity sha512-zVTDyqxmAiRMxKCCRNl5PL5ZQ9c5+mCdtNbwuSI//azUeVeC7tFK0nrxf/dJ6HxsXjlrmjwwJQeXfTQwIVmsZw==
+"@cheryx2020/utils@^1.3.2":
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@cheryx2020/utils/-/utils-1.3.2.tgz#3f6009af922fea0b6963f7aa5d76d7d2ce0cbe51"
+  integrity sha512-4RsEo1VoQK0T4ofa4Y2qq1uHvfsiLfo5YGIZUJLQVKWWx7FF06SuJifX+sfBYN1NVXk0HT7yITnifWpWEMmIrQ==
   dependencies:
     "@cheryx2020/api-service" "^1.0.8"
     public-ip "^5.0.0"

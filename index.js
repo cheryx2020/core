@@ -34,6 +34,7 @@ import ListArticle from "./src/components/list-article/list-article"
 import HeaderPage from "./src/components/header-page"
 import Form from "./src/components/form"
 import TipArticle from "./src/components/tip-article/tip-article"
+import PatternList from "./src/components/pattern-list/pattern-list"
 
 export {
     SubLink,
@@ -72,5 +73,6 @@ export {
     ListArticle,
     HeaderPage,
     Form,
-    TipArticle
+    TipArticle,
+    PatternList
 }

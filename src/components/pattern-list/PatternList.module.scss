@@ -1,0 +1,60 @@
+@import '../styles/variables.scss';
+@import '../styles/mixin.scss';
+.wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(45%, 45%) );
+    gap: 30px;
+    margin-bottom: 20px;
+    img {
+        @include tablet {
+            width: 100%;
+        }
+    }
+    @include tablet {
+        gap: 10px;
+        grid-template-columns: repeat( auto-fit, minmax(49%, 45%) );
+    }
+    @include desktop {
+        gap: 40px;
+        grid-template-columns: repeat( auto-fit, minmax(50%, 45%) );
+    }
+    &.bottom {
+        display: flex;
+        flex-direction: row;
+        overflow: auto;
+        max-width: $body-max-width;
+        margin-top: 20px;
+        margin-bottom: 0px;
+        padding-bottom: 20px;
+        @include wide-desktop {
+            margin-top: 30px;
+            // padding-bottom: 0px;
+        }
+        @include mobile {
+            margin-bottom: 0px;
+            margin-top: 15px;
+            padding-bottom: 0px;
+            flex-direction: column;
+            max-width: $mobile-breakpoint;
+        }
+        @include tablet {
+            margin-top: 30px;
+            max-width: $tablet-breakpoint;
+            padding: 0px 10px;
+            // padding-bottom: 0px;
+            img {
+                width: auto;
+            }
+        }
+        @include desktop {
+            margin-top: 30px;
+            max-width: $desktop-breakpoint;
+        }
+    }
+    @include mobile {
+        gap: 20px;
+        grid-template-columns: 1fr;
+        padding: 10px 7px;
+    }
+}
