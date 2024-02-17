@@ -1,0 +1,50 @@
+@import '../styles/variables.scss';
+@import '../styles/mixin.scss';
+.wrapper {
+    margin: 29px 0px;
+    @include desktop {
+        margin-bottom: 70px;
+    }
+    @include wide-desktop {
+        margin-bottom: 70px;
+    }
+    @include tablet {
+        margin-bottom: 70px;
+    }
+    background-color: #FFF2EC;
+    border-radius: 40px;
+    padding: 11px 57px;
+    width: 93%;
+    font-family: 'Big Shoulders Text';
+    color: #565555;
+    font-size: 20px;
+    line-height: 30px;
+    @include mobile {
+        font-size: 16px;
+        line-height: 23px;
+    }
+    @media (max-width: $mobile-breakpoint) {
+        margin: 16px 0px;
+        padding: 9px 17px;
+    }
+    .noteTitle {
+        font-size: 25px;
+        text-decoration: underline;
+    }
+    .p {
+        margin: 15px 0px;
+        display: flex;
+    }
+    .dot {
+        margin-right: 9px;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: #565555;
+        margin-top: 12px;
+        @include mobile {
+            min-width: 4px;
+            margin-top: 10px;
+        }
+    }
+}
