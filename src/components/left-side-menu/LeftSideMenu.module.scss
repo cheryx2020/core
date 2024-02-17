@@ -1,0 +1,85 @@
+@import '../styles/variables.scss';
+.hambuger {
+    font-size: 20px;
+    line-height: 24px;
+    img {
+      margin-right: 5px;
+      width: 22px;
+    }
+    @media (max-width: $mobile-breakpoint) {
+      display: flex;
+    }
+    @media (min-width: $mobile-breakpoint) {
+      display: none;
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background-color: #80808040;
+      z-index: 9999;
+      .menu {
+        z-index: 2;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding: 11px 6px;
+        padding-bottom: 0px;
+        display: flex;
+        flex-direction: column;
+        width: 78.5vw;
+        background-color: white;
+        -webkit-animation-name: slideInLeft;
+        animation-name: slideInLeft;
+        -webkit-animation-duration: 0.3s;
+        animation-duration: 0.3s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        .searchInput {
+          position: relative;
+          margin-bottom: 9px;
+          .search {
+            display: none;
+            width: 100%;
+            border-radius: 50px;
+            outline: none;
+            background: rgba(196, 196, 196, 0.22);
+            height: 30px;
+            border: none;
+            padding: 0px 40px 0px 20px;
+          }
+          .searchIcon {
+            display: none;
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 7px;
+            right: 13px;
+          }
+        }
+        
+        .links {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          padding: 0px 9px;
+          margin-bottom: 33px;
+          a { 
+          }
+        }
+        .items {
+          display: flex;
+          flex-direction: column;
+          padding-left: 7px;
+          a {
+            margin-bottom: 30px;
+            font-size: 24px;
+            line-height: 28.73px;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+}

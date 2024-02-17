@@ -1,0 +1,175 @@
+@import '../styles/variables.scss';
+.header {
+  display: flex;
+  justify-content: space-between;
+  height: 47px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.4);
+  width: 100%;
+  padding-bottom: 6px;
+  align-items: flex-end;
+  @media (max-width: $body-max-width) {
+    padding: 5px;
+    padding-bottom: 6px;
+  }
+  .leftSide {
+    @media (max-width: $mobile-breakpoint) {
+      display: none;
+    }
+    a {
+      padding-right: 11px;
+    }
+  }
+  .hambuger {
+    font-size: 20px;
+    line-height: 24px;
+    img {
+      margin-right: 5px;
+      width: 22px;
+    }
+    @media (max-width: $mobile-breakpoint) {
+      display: flex;
+    }
+    @media (min-width: $mobile-breakpoint) {
+      display: none;
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background-color: #80808040;
+      z-index: 9999;
+      .menu {
+        z-index: 2;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding: 11px 6px;
+        padding-bottom: 0px;
+        display: flex;
+        flex-direction: column;
+        width: 78.5vw;
+        background-color: white;
+        -webkit-animation-name: slideInLeft;
+        animation-name: slideInLeft;
+        -webkit-animation-duration: 0.3s;
+        animation-duration: 0.3s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        .searchInput {
+          position: relative;
+          margin-bottom: 9px;
+          .search {
+            display: none;
+            width: 100%;
+            border-radius: 50px;
+            outline: none;
+            background: rgba(196, 196, 196, 0.22);
+            height: 30px;
+            border: none;
+            padding: 0px 40px 0px 20px;
+          }
+          .searchIcon {
+            display: none;
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 7px;
+            right: 13px;
+          }
+        }
+        
+        .links {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          padding: 0px 9px;
+          margin-bottom: 33px;
+          a { 
+          }
+        }
+        .items {
+          display: flex;
+          flex-direction: column;
+          padding-left: 7px;
+          a {
+            margin-bottom: 30px;
+            font-size: 24px;
+            line-height: 28.73px;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+  }
+  .rightSide {
+    .search {
+      @media (max-width: $mobile-breakpoint) {
+        display: none;
+      }
+    }
+    a {
+      padding-left: 11px;
+    }
+  }
+}
+.logo {
+  .cheryx {
+    width: 394px;
+    height: 98px;
+    background-image: url('/images/cheryx-slogan.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    @media (max-width: $mobile-breakpoint) {
+      width: 295.5px;
+      height: 66.75px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-image: url('/images/cheryx-slogan.webp');
+    }
+  }
+  .slogan {
+    width: 143px;
+    height: 18.2px;
+    @media (max-width: $mobile-breakpoint) {
+      width: 33vw;
+      height: 4.55vw;
+    }
+  }
+  padding: 39px 0px 39px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  @media (max-width: $mobile-breakpoint) {
+    padding: 20px 0px 12px 0px;
+  }
+}
+.nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: #F08C5F;
+  color: white;
+  font-family: "Big Shoulders Text";
+  align-items: center;
+  padding: 8px 100px 5px 100px;
+  a {
+    font-size: 20px;
+    &:hover {
+      color: #565555;
+    }
+    &.selectedLink {
+      color: #565555;
+    }
+  }
+  div {
+    width: 0.1px;
+    height: 16px;
+    background-color: white;
+  }
+  @media (max-width: $mobile-breakpoint) {
+    display: none;
+  }
+}
