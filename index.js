@@ -24,6 +24,7 @@ import Loader from "./src/components/loader/loader"
 import HeaderCheryx from "./src/components/header-cheryx/header-cheryx"
 import Footer from "./src/components/footer"
 import ContentWithTitle from "./src/components/content-with-title/content-with-title"
+import LeftMenu from "./src/components/left-menu/left-menu"
 
 export {
     SubLink,
@@ -52,5 +53,6 @@ export {
     Loader,
     HeaderCheryx,
     Footer,
-    ContentWithTitle
+    ContentWithTitle,
+    LeftMenu
 }
