@@ -34,7 +34,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;
-  aspect-ratio: 1;
+  aspect-ratio: 1.4054;
   background-color: lightgray;
 }
 @media (max-width: 641px) {
