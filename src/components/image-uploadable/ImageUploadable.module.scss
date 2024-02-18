@@ -1,9 +1,16 @@
-@import '../styles/variables.scss';
+@import '../styles/mixin.scss';
 .image {
   cursor: pointer;
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;
+  aspect-ratio: 1;
+  background-color: lightgray;
+  @include mobile {
+    aspect-ratio: unset;
+    background-color: unset;
+  }
+  
   img {
     width: 100%;
     height: 100%;

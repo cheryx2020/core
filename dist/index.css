@@ -34,6 +34,14 @@
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;
+  aspect-ratio: 1;
+  background-color: lightgray;
+}
+@media (max-width: 641px) {
+  .ImageUploadable-module_image__B0Aq1 {
+    aspect-ratio: unset;
+    background-color: unset;
+  }
 }
 .ImageUploadable-module_image__B0Aq1 img {
   width: 100%;

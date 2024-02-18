@@ -3,7 +3,6 @@ import styles from './ImageUploadable.module.scss';
 import { readFile, isBigFile } from "@cheryx2020/utils";
 
 const ImageUploadable = ({ src, onChangeImage = () => { }, isEdit, wrapperStyle = {}, className = '', onChangeStyle = () => { }, resizeable = false }) => {
-  const { width, height } = wrapperStyle;
   const [imgSrc, setImgSrc] = useState('');
   const imageWap = useRef(null);
   const image = useRef(null);
