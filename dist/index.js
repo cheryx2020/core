@@ -61114,7 +61114,8 @@ const ListArticle = ({
   data = [],
   isMobile,
   Image,
-  Link
+  Link,
+  unoptimized = true
 }) => {
   const bigItem = data.find(item => item.isBig === true);
   const listItems = data.filter(item => item.isBig !== true);
@@ -61128,6 +61129,7 @@ const ListArticle = ({
     href: `/tip/${bigItem.id}`,
     className: styles$2.bigImage
   }, bigItem && /*#__PURE__*/React__default.createElement(Image, {
+    unoptimized: unoptimized,
     layout: "fill",
     alt: bigItem.title,
     src: transformImageSrc(bigItem.imgUrl)
@@ -61149,6 +61151,7 @@ const ListArticle = ({
     className: styles$2.img
   }, /*#__PURE__*/React__default.createElement(Image, {
     layout: "fill",
+    unoptimized: unoptimized,
     alt: item.title,
     src: transformImageSrc(item.imgUrl)
   })), /*#__PURE__*/React__default.createElement("div", {
@@ -61245,7 +61248,8 @@ const TipArticle = ({
   useDispatch = () => {},
   data,
   isAdmin,
-  onDeletePostSuccess = () => {}
+  onDeletePostSuccess = () => {},
+  unoptimized = true
 }) => {
   const dispatch = useDispatch();
   const onClickDelete = () => {
@@ -61372,6 +61376,7 @@ const TipArticle = ({
     type: "file",
     onChange: onChangeImage
   }))), /*#__PURE__*/React__default.createElement(Image, {
+    unoptimized: unoptimized,
     layout: "fill",
     src: transformImageSrc(data.imgUrl)
   }))), /*#__PURE__*/React__default.createElement("div", {

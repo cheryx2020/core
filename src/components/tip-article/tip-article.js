@@ -3,7 +3,7 @@ import styles from './TipArticle.module.scss';
 import { APIService, handleApiError, setShowLoading } from '@cheryx2020/api-service';
 import { transformImageSrc, getDescriptionFromContent, isBigFile, uploadFile } from "@cheryx2020/utils";
 
-const TipArticle = ({Image, Link, useDispatch = () => {}, data, isAdmin, onDeletePostSuccess = () => {}}) => {
+const TipArticle = ({Image, Link, useDispatch = () => {}, data, isAdmin, onDeletePostSuccess = () => {}, unoptimized = true}) => {
   const dispatch = useDispatch();
   const onClickDelete = () => {
     if (confirm(`Bạn có chắn chắn muốn xoá bài viết '${data.title}'?`)) {
@@ -103,7 +103,7 @@ const TipArticle = ({Image, Link, useDispatch = () => {}, data, isAdmin, onDelet
         {isAdmin && <div className={styles.imageMenu} onClick={e => e.stopPropagation()}>
           <label><div>Upload</div><input hidden="true" type="file" onChange={onChangeImage}></input></label>
         </div>}
-        <Image layout='fill' src={transformImageSrc(data.imgUrl)}/>
+        <Image unoptimized={unoptimized} layout='fill' src={transformImageSrc(data.imgUrl)}/>
       </div>
     </Link>
     <div className={styles.info}>
