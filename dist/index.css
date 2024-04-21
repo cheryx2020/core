@@ -2556,7 +2556,7 @@
   width: calc(1025 / 1162 * 100%);
   margin-top: 24px;
   height: 317px;
-  background: url("/images/labby.webp");
+  background: url("/images/labby.png");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -2781,7 +2781,7 @@
   margin: 20px 0px;
   height: 507px;
   width: 62%;
-  background: url("/images/main-logo.webp") no-repeat center;
+  background: url("/images/main-logo.png") no-repeat center;
   background-size: contain;
 }
 @media (min-width: 641px) and (max-width: 1023px) {
@@ -2791,7 +2791,7 @@
 }
 @media (max-width: 641px) {
   .Home-module_mainLogo__N6oJC {
-    background: url("/images/main-logo-mb.webp") no-repeat center;
+    background: url("/images/main-logo.png") no-repeat center;
     width: 100%;
     max-height: 271px;
     max-width: 373px;
