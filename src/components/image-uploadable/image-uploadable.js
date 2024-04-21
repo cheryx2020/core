@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './ImageUploadable.module.scss';
 import { readFile, isBigFile } from "@cheryx2020/utils";
 
-const ImageUploadable = ({ src, onChangeImage = () => { }, isEdit, wrapperStyle = {}, className = '', onChangeStyle = () => { }, resizeable = false }) => {
+const ImageUploadable = ({ src, onChangeImage = () => { }, isEdit, wrapperStyle = {}, imgStyle={}, className = '', onChangeStyle = () => { }, resizeable = false }) => {
   const [imgSrc, setImgSrc] = useState('');
   const imageWap = useRef(null);
   const image = useRef(null);
@@ -57,7 +57,7 @@ const ImageUploadable = ({ src, onChangeImage = () => { }, isEdit, wrapperStyle 
     {isEdit && <div className={styles.imageMenu} onClick={e => e.stopPropagation()}>
       <label><div>Choose Image</div><input accept="image/png, image/jpeg, image/svg+xml" hidden={true} type="file" onChange={onChange}></input></label>
     </div>}
-    {isEdit ? <img ref={image} src={imgSrc != '' ? imgSrc : src} /> : <img alt={process.env.NEXT_PUBLIC_SEO_mainTitle} src={src} />}
+    {isEdit ? <img style={imgStyle} ref={image} src={imgSrc != '' ? imgSrc : src} /> : <img style={imgStyle} alt={process.env.NEXT_PUBLIC_SEO_mainTitle} src={src} />}
     {isEdit && resizeable && <div onDrag={(e) => { e.preventDefault(); e.stopPropagation() }} onMouseDown={initDrag} className={styles.resizer}>
       <div className={styles.vertical}></div>
       <div className={styles.horizontal}></div>

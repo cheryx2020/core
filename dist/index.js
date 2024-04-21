@@ -3519,6 +3519,7 @@ const ImageUploadable = ({
   onChangeImage = () => {},
   isEdit,
   wrapperStyle = {},
+  imgStyle = {},
   className = '',
   onChangeStyle = () => {},
   resizeable = false
@@ -3600,9 +3601,11 @@ const ImageUploadable = ({
     type: "file",
     onChange: onChange
   }))), isEdit ? /*#__PURE__*/React__default.createElement("img", {
+    style: imgStyle,
     ref: image,
     src: imgSrc != '' ? imgSrc : src
   }) : /*#__PURE__*/React__default.createElement("img", {
+    style: imgStyle,
     alt: process.env.NEXT_PUBLIC_SEO_mainTitle,
     src: src
   }), isEdit && resizeable && /*#__PURE__*/React__default.createElement("div", {
