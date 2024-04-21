@@ -222,7 +222,7 @@
     width: calc( 1025/#{$body-max-width-value} *100%); 
     margin-top: 24px;
     height: 317px;
-    background: url('/images/labby.png');
+    background: url('/images/labby.webp');
     background-size: cover;
     background-repeat: no-repeat;
     @media (max-width: $mobile-breakpoint) {
@@ -418,13 +418,13 @@
   margin: 20px 0px; 
   height: 507px;
   width: 62%;
-  background: url('/images/main-logo.png') no-repeat center;
+  background: url('/images/main-logo.webp') no-repeat center;
   background-size: contain;
   @include tablet {
     height: 320px;
   }
   @include mobile {
-    background: url('/images/main-logo.png') no-repeat center;
+    background: url('/images/main-logo-mb.webp') no-repeat center;
     width: 100%;
     max-height: 271px;
     max-width: 373px;

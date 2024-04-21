@@ -61161,29 +61161,28 @@ const ListArticle = ({
 
 const HeaderPage = ({
   title,
+  description,
   url,
   seoConfig,
   Head,
   NextSeo
 }) => {
   const mainTitle = process?.env?.NEXT_PUBLIC_SEO_mainTitle;
-  let titlePage = `${mainTitle}${title ? ` - ${title}` : ''}`;
-  if (titlePage.length > 60) {
-    titlePage = mainTitle;
-  }
-  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Head, null, /*#__PURE__*/React__default.createElement("title", null, titlePage), /*#__PURE__*/React__default.createElement("link", {
+  const titleSeo = `${title ? title : mainTitle}`;
+  const descriptionSeo = description ?? title;
+  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Head, null, /*#__PURE__*/React__default.createElement("title", null, titleSeo), /*#__PURE__*/React__default.createElement("link", {
     rel: "icon",
     href: "/favicon.ico"
   })), seoConfig ? seoConfig : /*#__PURE__*/React__default.createElement(NextSeo, {
-    title: titlePage,
-    description: title,
+    title: titleSeo,
+    description: descriptionSeo,
     openGraph: {
       url: `${process?.env?.NEXT_PUBLIC_pageUrl}/${url}`,
-      title: titlePage,
-      description: title,
+      title: titleSeo,
+      description: descriptionSeo,
       images: [{
         url: 'https://gocnhacolen.com/images/footer.webp',
-        alt: titlePage
+        alt: titleSeo
       }],
       site_name: process?.env?.NEXT_PUBLIC_SEO_pageName
     }
