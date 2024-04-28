@@ -3366,6 +3366,20 @@ const isBigFile = (file, size = 500000) => {
   return result;
 };
 
+const getDomain = () => {
+  const pageUrl = process.env.NEXT_PUBLIC_pageUrl;
+  let result = "";
+  let schema = "https://";
+  if (pageUrl) {
+    if (pageUrl.includes(schema)) {
+      result = pageUrl.split(schema)[1].trim();
+    } else {
+      result = pageUrl.split("http://")[1].trim();
+    }
+  }
+  return result;
+};
+
 const removeAccents = str => {
   var AccentsMap = [
     "aàảãáạăằẳẵắặâầẩẫấậ",
@@ -61444,7 +61458,7 @@ function usePageData({
   page,
   pageName,
   router,
-  domain = "cheryx.com"
+  domain = getDomain()
 }) {
   const [pageData, setPageData] = useState(JSON.parse(JSON.stringify(page)));
   const [urlChanges, setUrlChanges] = useState({});

@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { APIService } from '@cheryx2020/api-service';
+import { getDomain } from '@cheryx2020/utils';
 
 export const CIRCLE_IMAGE = "paterns-circle-images";
 
-function usePageData({ page, pageName, router, domain = "cheryx.com" }) {
+function usePageData({ page, pageName, router, domain = getDomain() }) {
     const [pageData, setPageData] = useState(JSON.parse(JSON.stringify(page)));
     const [urlChanges, setUrlChanges] = useState({});
     const [loading, setLoading] = useState(false);
