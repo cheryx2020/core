@@ -36,6 +36,7 @@ import Form from "./src/components/form"
 import TipArticle from "./src/components/tip-article/tip-article"
 import PatternList from "./src/components/pattern-list/pattern-list"
 import usePageData, { CIRCLE_IMAGE } from "./hooks/usePageData"
+import CircleGroup from "./src/components/circle-group/circle-group";
 
 export {
     SubLink,
@@ -77,5 +78,6 @@ export {
     TipArticle,
     PatternList,
     usePageData,
-    CIRCLE_IMAGE
+    CIRCLE_IMAGE,
+    CircleGroup
 }
