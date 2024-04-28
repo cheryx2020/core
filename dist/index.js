@@ -61519,6 +61519,8 @@ function usePageData({
   };
 }
 
+var styles = {"images":"circle-group-module_images__7MJXz"};
+
 const CircleItem = ({
   isAdmin,
   url,
@@ -61547,11 +61549,12 @@ const CircleGroup = ({
   isAdmin,
   urls = [],
   isMobile,
-  onChangeData = () => {}
+  onChangeData = () => {},
+  wrapperClass
 }) => {
   const urlsToShow = isMobile ? urls?.slice(0, 3) : urls;
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles.images
+    className: [styles.images, wrapperClass]
   }, urlsToShow.map(url => /*#__PURE__*/React__default.createElement(CircleItem, {
     onChangeItem: data => {
       onChangeData(data);

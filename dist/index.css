@@ -3634,3 +3634,23 @@
     padding: 10px 7px;
   }
 }
+.circle-group-module_images__7MJXz {
+  margin-top: 53px;
+  width: 100%;
+  max-width: 1025px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 31px;
+}
+.circle-group-module_images__7MJXz img {
+  width: 25%;
+}
+@media (max-width: 641px) {
+  .circle-group-module_images__7MJXz {
+    margin-top: 15px;
+    padding-bottom: 0px;
+    width: 100%;
+  }
+}
