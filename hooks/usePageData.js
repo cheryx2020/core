@@ -9,8 +9,16 @@ function usePageData({ page, pageName, router }) {
     const [loading, setLoading] = useState(false);
     const [isDurty, setIsDurty] = useState(true);
     const onDataPageChange = (id, data) => {
+        let file = data.data.imgFile;
         if (data?.url) {
-            setUrlChanges({ ...urlChanges, [data.url]: data?.data.imgFile });
+            if (id === CIRCLE_IMAGE) {
+                const fileName = data.data.imgFile.name;
+                const existingFile = data.data.imgFile;
+                const blob = existingFile.slice(0, existingFile.size);
+                const imgWidth = pageData.find(i => i.id === CIRCLE_IMAGE).width;
+                file = new File([blob], `${fileName}fileSize${imgWidth}`);
+            }
+            setUrlChanges({ ...urlChanges, [data.url]: file });
         }
         if (id === CIRCLE_IMAGE) {
             // Handle keep data for circle image
@@ -20,7 +28,7 @@ function usePageData({ page, pageName, router }) {
                     const index = pageData[i]?.value?.findIndex(item => item === data?.url);
                     if (index > -1) {
                         // We have a rule for the value of a page config to handle upload files
-                        pageData[i].value[index] = `${pageName}_${data?.data?.imgFile?.name?.toLowerCase()}`;
+                        pageData[i].value[index] = `${pageName}_${file.name?.toLowerCase()}`;
                     }
                 }
             }

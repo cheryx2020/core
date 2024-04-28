@@ -13,9 +13,10 @@ const ImageUploadable = ({ src, onChangeImage = () => { }, isEdit, wrapperStyle 
       setImgSrc(src);
     }
   }, [src]);
+  const isSkipCheckFileSize = wrapperStyle.width;
   const onChange = async (e) => {
     // Check file size
-    if (isBigFile(e?.target?.files[0])) {
+    if (!isSkipCheckFileSize && isBigFile(e?.target?.files[0])) {
       alert('Kích thước file không được vượt quá 500KB');
       return;
     }

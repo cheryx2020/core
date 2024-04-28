@@ -3333,22 +3333,6 @@ const makeQueryParamsFromObject = params => {
   return result;
 };
 
-const POST_ITEM_TYPE$1 = {
-  TITLE: 'title',
-  BIG_HEADER: 'big-header',
-  MEDIUM_HEADER: 'medium-header',
-  SMALL_HEADER: 'small-header',
-  PARAGRAPH: 'paragraph',
-  RELATED_TOPIC: 'related-topic',
-  SUBCRIBE_ME: 'subcribe-me',
-  IMAGE: 'image',
-  BUY_ME_A_COFFEE: 'buy-me-a-coffee',
-  VIDEO: 'video',
-  ADS: 'ads',
-  PATTERN: 'pattern',
-  PATTERN_PREVIEW: 'pattern_preview',
-  GROUP: 'group'
-};
 /**
  * Get post description from content. Currently, it get the first paragraph of content
  */
@@ -3361,7 +3345,7 @@ const getDescriptionFromContent = (content) => {
     data = content;
   }
   if (data.length > 0) {
-    const firstParagraphItem = Array.isArray(data) ? data.find(item => item.type === POST_ITEM_TYPE$1.PARAGRAPH) : '';
+    const firstParagraphItem = Array.isArray(data) ? data.find(item => item.type === "paragraph") : '';
     if (typeof firstParagraphItem === 'object') {
       result = firstParagraphItem.text;
     }
@@ -3376,7 +3360,7 @@ const getDescriptionFromContent = (content) => {
  */
 const isBigFile = (file, size = 500000) => {
   let result = false;
-  if (file && file.size > 500000) {
+  if (file && file.size > size) {
     result = true;
   }
   return result;
@@ -3536,9 +3520,10 @@ const ImageUploadable = ({
       setImgSrc(src);
     }
   }, [src]);
+  const isSkipCheckFileSize = wrapperStyle.width;
   const onChange = async e => {
     // Check file size
-    if (isBigFile(e?.target?.files[0])) {
+    if (!isSkipCheckFileSize && isBigFile(e?.target?.files[0])) {
       alert('Kích thước file không được vượt quá 500KB');
       return;
     }
@@ -61465,10 +61450,18 @@ function usePageData({
   const [loading, setLoading] = useState(false);
   const [isDurty, setIsDurty] = useState(true);
   const onDataPageChange = (id, data) => {
+    let file = data.data.imgFile;
     if (data?.url) {
+      if (id === CIRCLE_IMAGE) {
+        const fileName = data.data.imgFile.name;
+        const existingFile = data.data.imgFile;
+        const blob = existingFile.slice(0, existingFile.size);
+        const imgWidth = pageData.find(i => i.id === CIRCLE_IMAGE).width;
+        file = new File([blob], `${fileName}fileSize${imgWidth}`);
+      }
       setUrlChanges({
         ...urlChanges,
-        [data.url]: data?.data.imgFile
+        [data.url]: file
       });
     }
     if (id === CIRCLE_IMAGE) {
@@ -61479,7 +61472,7 @@ function usePageData({
           const index = pageData[i]?.value?.findIndex(item => item === data?.url);
           if (index > -1) {
             // We have a rule for the value of a page config to handle upload files
-            pageData[i].value[index] = `${pageName}_${data?.data?.imgFile?.name?.toLowerCase()}`;
+            pageData[i].value[index] = `${pageName}_${file.name?.toLowerCase()}`;
           }
         }
       }
@@ -61526,18 +61519,21 @@ const CircleItem = ({
   url,
   onChangeItem = () => {}
 }) => {
+  const maxWidthImg = 218;
+  // Set image uploadable size based on this, no limit upload to 500kb
   const style = {
     background: `url('${url}')`
   };
   return isAdmin ? /*#__PURE__*/React__default.createElement(ImageUploadable, {
     wrapperStyle: {
-      width: 218,
-      height: 218
+      width: maxWidthImg,
+      height: maxWidthImg
     },
     onChangeImage: data => {
       onChangeItem({
         data,
-        url
+        url,
+        width: maxWidthImg
       });
     },
     imgStyle: {
