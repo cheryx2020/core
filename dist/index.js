@@ -61443,7 +61443,8 @@ const CIRCLE_IMAGE = "paterns-circle-images";
 function usePageData({
   page,
   pageName,
-  router
+  router,
+  domain = "cheryx.com"
 }) {
   const [pageData, setPageData] = useState(JSON.parse(JSON.stringify(page)));
   const [urlChanges, setUrlChanges] = useState({});
@@ -61489,6 +61490,7 @@ function usePageData({
     }
     bodyFormData.set("removedImages", removedImages);
     bodyFormData.set("content", content);
+    bodyFormData.set("domain", domain);
     setLoading(true);
     setIsDurty(false);
     APIService.post(`page`, bodyFormData, {

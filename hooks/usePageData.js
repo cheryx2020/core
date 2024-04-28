@@ -3,7 +3,7 @@ import { APIService } from '@cheryx2020/api-service';
 
 export const CIRCLE_IMAGE = "paterns-circle-images";
 
-function usePageData({ page, pageName, router }) {
+function usePageData({ page, pageName, router, domain = "cheryx.com" }) {
     const [pageData, setPageData] = useState(JSON.parse(JSON.stringify(page)));
     const [urlChanges, setUrlChanges] = useState({});
     const [loading, setLoading] = useState(false);
@@ -46,6 +46,7 @@ function usePageData({ page, pageName, router }) {
         }
         bodyFormData.set("removedImages", removedImages);
         bodyFormData.set("content", content);
+        bodyFormData.set("domain", domain);
         setLoading(true);
         setIsDurty(false);
         APIService.post(`page`, bodyFormData, {
