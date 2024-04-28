@@ -6,7 +6,7 @@ const CircleItem = ({ isAdmin, url, onChangeItem = () => { } }) => {
     const style = {
         background: `url('${url}')`
     }
-    return isAdmin ? <ImageUploadable onChangeImage={(data) => { onChangeItem({ data, url }) }} imgStyle={{ width: "100%" }} src={url} isEdit={true} /> : <div style={style}></div>
+    return isAdmin ? <ImageUploadable wrapperStyle={{width: 218, height: 218}} onChangeImage={(data) => { onChangeItem({ data, url }) }} imgStyle={{ width: "100%" }} src={url} isEdit={true} /> : <div style={style}></div>
 }
 
 const CircleGroup = ({ isAdmin, urls = [], isMobile, onChangeData = () => { }, wrapperClass }) => {

@@ -61530,6 +61530,10 @@ const CircleItem = ({
     background: `url('${url}')`
   };
   return isAdmin ? /*#__PURE__*/React__default.createElement(ImageUploadable, {
+    wrapperStyle: {
+      width: 218,
+      height: 218
+    },
     onChangeImage: data => {
       onChangeItem({
         data,
