@@ -35,6 +35,7 @@ import HeaderPage from "./src/components/header-page"
 import Form from "./src/components/form"
 import TipArticle from "./src/components/tip-article/tip-article"
 import PatternList from "./src/components/pattern-list/pattern-list"
+import usePageData, { CIRCLE_IMAGE } from "./hooks/usePageData"
 
 export {
     SubLink,
@@ -74,5 +75,7 @@ export {
     HeaderPage,
     Form,
     TipArticle,
-    PatternList
+    PatternList,
+    usePageData,
+    CIRCLE_IMAGE
 }
