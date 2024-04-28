@@ -17,4 +17,14 @@
       padding-bottom: 0px;
       width: 100%;
     }
+    div {
+        background-repeat: no-repeat !important;
+        background-size: contain !important;
+        width: 218px;
+        height: 218px;
+        @media (max-width: $mobile-breakpoint) {
+          width: 126px;
+          height: 126px;
+        }
+    }
 }

@@ -3654,3 +3654,15 @@
     width: 100%;
   }
 }
+.circle-group-module_images__7MJXz div {
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+  width: 218px;
+  height: 218px;
+}
+@media (max-width: 641px) {
+  .circle-group-module_images__7MJXz div {
+    width: 126px;
+    height: 126px;
+  }
+}
