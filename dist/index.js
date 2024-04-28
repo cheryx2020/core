@@ -61554,7 +61554,7 @@ const CircleGroup = ({
 }) => {
   const urlsToShow = isMobile ? urls?.slice(0, 3) : urls;
   return /*#__PURE__*/React__default.createElement("div", {
-    className: [styles.images, wrapperClass]
+    className: `$${styles.images} ${wrapperClass ? wrapperClass : ''}`
   }, urlsToShow.map(url => /*#__PURE__*/React__default.createElement(CircleItem, {
     onChangeItem: data => {
       onChangeData(data);

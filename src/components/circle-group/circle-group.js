@@ -11,7 +11,7 @@ const CircleItem = ({ isAdmin, url, onChangeItem = () => { } }) => {
 
 const CircleGroup = ({ isAdmin, urls = [], isMobile, onChangeData = () => { }, wrapperClass }) => {
     const urlsToShow = isMobile ? urls?.slice(0, 3) : urls;
-    return <div className={[styles.images, wrapperClass]}>
+    return <div className={`$${styles.images} ${wrapperClass ? wrapperClass : ''}`}>
         {urlsToShow.map(url => <CircleItem onChangeItem={(data) => { onChangeData(data) }} isAdmin={isAdmin} key={url} url={url} />)}
     </div>
 }
