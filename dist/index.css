@@ -76,6 +76,10 @@
 .ImageUploadable-module_image__B0Aq1:hover .ImageUploadable-module_imageMenu__KVFuF label:hover {
   background-color: aqua;
 }
+.ImageUploadable-module_image__B0Aq1:hover .ImageUploadable-module_imageMenu__KVFuF label div {
+  width: unset;
+  height: unset;
+}
 
 .ImageUploadable-module_resizer__ccKdB {
   position: absolute;
