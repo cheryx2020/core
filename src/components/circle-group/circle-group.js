@@ -3,12 +3,12 @@ import ImageUploadable from "../image-uploadable/image-uploadable";
 import styles from "./circle-group.module.scss";
 
 const CircleItem = ({ isAdmin, url, onChangeItem = () => { } }) => {
-    const maxWidthImg = 218;
+    const imgWidth = 218;
     // Set image uploadable size based on this, no limit upload to 500kb
     const style = {
         background: `url('${url}')`
     }
-    return isAdmin ? <ImageUploadable wrapperStyle={{width: maxWidthImg, height: maxWidthImg}} onChangeImage={(data) => { onChangeItem({ data, url, width: maxWidthImg }) }} imgStyle={{ width: "100%" }} src={url} isEdit={true} /> : <div style={style}></div>
+    return isAdmin ? <ImageUploadable wrapperStyle={{width: imgWidth, height: imgWidth}} onChangeImage={(data) => { onChangeItem({ data, url }) }} imgStyle={{ width: "100%" }} src={url} isEdit={true} /> : <div style={style}></div>
 }
 
 const CircleGroup = ({ isAdmin, urls = [], isMobile, onChangeData = () => { }, wrapperClass }) => {

@@ -60653,6 +60653,37 @@ const LeftSideMenu = ({
   })() : ''));
 };
 
+const useAuthenticate = () => {
+  const [verified, setVerified] = useState(false);
+  useEffect(() => {
+    checkAccess();
+  }, []);
+  const checkAccess = async () => {
+    try {
+      // we call the api that verifies the token.
+      const data = await verifyToken();
+      const isDevelopment = process?.env?.NODE_ENV === "development";
+      if (isDevelopment) {
+        setVerified(true);
+        return;
+      }
+      // if token was verified we set the state.
+      if (localStorage.getItem("accessToken") && data.verified) {
+        setVerified(true);
+      } else {
+        // If the token was fraud we first remove it from localStorage and then redirect to "/"
+        localStorage.removeItem("accessToken");
+        setVerified(false);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  return {
+    isAuth: verified
+  };
+};
+
 const links = [{
   url: 'https://www.facebook.com/Cheryx.KnitADream',
   iconStyle: {
@@ -60693,7 +60724,6 @@ const HeaderCherxy = ({
   isAdmin,
   url,
   showNavigator = true,
-  onAuthenticated = () => {},
   Link,
   MenuData = [{
     text: 'Trang chủ',
@@ -60712,28 +60742,9 @@ const HeaderCherxy = ({
     url: `/${process?.env?.NEXT_PUBLIC_PRE_TIP}`
   }]
 }) => {
-  const [verified, setVerified] = useState(false);
-  useEffect(() => {
-    checkAccess();
-  }, []);
-  const checkAccess = async () => {
-    try {
-      // we call the api that verifies the token.
-      const data = await verifyToken();
-      // if token was verified we set the state.
-      if (localStorage.getItem("accessToken") && data.verified) {
-        setVerified(true);
-        onAuthenticated(true);
-      } else {
-        // If the token was fraud we first remove it from localStorage and then redirect to "/"
-        localStorage.removeItem("accessToken");
-        setVerified(false);
-        onAuthenticated(false);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const {
+    isAuth
+  } = useAuthenticate();
   return /*#__PURE__*/React__default.createElement("header", {
     style: {
       width: '100%'
@@ -60804,7 +60815,7 @@ const HeaderCherxy = ({
   }), /*#__PURE__*/React__default.createElement("div", {
     className: styles$g.rightSide
   }, /*#__PURE__*/React__default.createElement(Link, {
-    href: verified ? '/dashboard' : '/login'
+    href: isAuth ? '/dashboard' : '/login'
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer"
   }, /*#__PURE__*/React__default.createElement("img", {
@@ -61471,7 +61482,7 @@ function usePageData({
         const fileName = data.data.imgFile.name;
         const existingFile = data.data.imgFile;
         const blob = existingFile.slice(0, existingFile.size);
-        const imgWidth = pageData.find(i => i.id === CIRCLE_IMAGE).width;
+        const imgWidth = pageData?.find(i => i.id === CIRCLE_IMAGE)?.imgMaxWidth ?? 800;
         file = new File([blob], `${fileName}fileSize${imgWidth}`);
       }
       setUrlChanges({
@@ -61535,21 +61546,20 @@ const CircleItem = ({
   url,
   onChangeItem = () => {}
 }) => {
-  const maxWidthImg = 218;
+  const imgWidth = 218;
   // Set image uploadable size based on this, no limit upload to 500kb
   const style = {
     background: `url('${url}')`
   };
   return isAdmin ? /*#__PURE__*/React__default.createElement(ImageUploadable, {
     wrapperStyle: {
-      width: maxWidthImg,
-      height: maxWidthImg
+      width: imgWidth,
+      height: imgWidth
     },
     onChangeImage: data => {
       onChangeItem({
         data,
-        url,
-        width: maxWidthImg
+        url
       });
     },
     imgStyle: {
@@ -61581,4 +61591,46 @@ const CircleGroup = ({
   })));
 };
 
-export { AdBanner, AdminMenu, BestSeller, CIRCLE_IMAGE, CheryxLogo, CircleGroup, ContentWithTitle, Footer, Form, HeaderCherxy as HeaderCheryx, HeaderPage, HeaderWithImage, IMAGE_SUBMENU, ImageUpload, ImageUploadable, LeftMenu, ListArticle, Loader, MenuAddComponentPost, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternItem, PatternList, PatternName, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, TipArticle, TipDetail, TitleCheryx, TitleLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles, usePageData };
+const withAuth = (WrappedComponent, Router) => {
+  return props => {
+    const isDevelopment = process?.env?.NODE_ENV === "development";
+    const [verified, setVerified] = useState(isDevelopment || false);
+    const goToRoot = useCallback(() => {
+      if (typeof Router === "object" && typeof Router.replace === "function") {
+        Router.replace("/");
+      } else if (typeof location === "object") {
+        location = "/";
+      }
+    }, [Router]);
+    const checkAccess = async () => {
+      const accessToken = localStorage.getItem("accessToken");
+      // if no accessToken was found,then we redirect to "/" page.
+      if (!accessToken) {
+        goToRoot();
+      } else {
+        // we call the api that verifies the token.
+        const data = await verifyToken();
+        // if token was verified we set the state.
+        if (data.verified) {
+          setVerified(data.verified);
+        } else {
+          // If the token was fraud we first remove it from localStorage and then redirect to "/"
+          localStorage.removeItem("accessToken");
+          goToRoot();
+        }
+      }
+    };
+    useEffect(() => {
+      if (!isDevelopment) {
+        checkAccess();
+      }
+    }, []);
+    if (verified) {
+      return /*#__PURE__*/React__default.createElement(WrappedComponent, props);
+    } else {
+      return null;
+    }
+  };
+};
+
+export { AdBanner, AdminMenu, BestSeller, CIRCLE_IMAGE, CheryxLogo, CircleGroup, ContentWithTitle, Footer, Form, HeaderCherxy as HeaderCheryx, HeaderPage, HeaderWithImage, IMAGE_SUBMENU, ImageUpload, ImageUploadable, LeftMenu, ListArticle, Loader, MenuAddComponentPost, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternItem, PatternList, PatternName, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, TipArticle, TipDetail, TitleCheryx, TitleLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles, useAuthenticate, usePageData, withAuth };

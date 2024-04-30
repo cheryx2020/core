@@ -16,7 +16,7 @@ function usePageData({ page, pageName, router, domain = getDomain() }) {
                 const fileName = data.data.imgFile.name;
                 const existingFile = data.data.imgFile;
                 const blob = existingFile.slice(0, existingFile.size);
-                const imgWidth = pageData.find(i => i.id === CIRCLE_IMAGE).width;
+                const imgWidth = pageData?.find(i => i.id === CIRCLE_IMAGE)?.imgMaxWidth ?? 800;
                 file = new File([blob], `${fileName}fileSize${imgWidth}`);
             }
             setUrlChanges({ ...urlChanges, [data.url]: file });

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from './HeaderCherxy.module.scss';
-import { verifyToken } from "@cheryx2020/utils";
 import LeftSideMenu from '../left-side-menu/left-side-menu';
+import useAuthenticate from '../../../hooks/useAuthenticate';
 
 const links = [{
   url: 'https://www.facebook.com/Cheryx.KnitADream',
@@ -41,7 +41,7 @@ const links = [{
 }
 ];
 
-const HeaderCherxy = ({isAdmin, url, showNavigator = true, onAuthenticated = () => {}, Link, MenuData = [{
+const HeaderCherxy = ({isAdmin, url, showNavigator = true, Link, MenuData = [{
   text: 'Trang chủ',
   url: '/'
 }, {
@@ -57,28 +57,7 @@ const HeaderCherxy = ({isAdmin, url, showNavigator = true, onAuthenticated = () 
   text: 'Mẹo đan móc lượm lặt',
   url: `/${process?.env?.NEXT_PUBLIC_PRE_TIP}`
 }]}) => {
-  const [verified, setVerified] = useState(false);
-  useEffect(() => {
-    checkAccess();
-  }, []);
-  const checkAccess = async () => {
-    try {
-      // we call the api that verifies the token.
-      const data = await verifyToken();
-      // if token was verified we set the state.
-      if (localStorage.getItem("accessToken") && data.verified) {
-        setVerified(true);
-        onAuthenticated(true);
-      } else {
-        // If the token was fraud we first remove it from localStorage and then redirect to "/"
-        localStorage.removeItem("accessToken");
-        setVerified(false);
-        onAuthenticated(false);
-      }
-    } catch(e) {
-      console.log(e);
-    }
-  }
+  const { isAuth } = useAuthenticate();
   return <header style={{width: '100%'}}>
     <div className={styles.header}>
       <div className={styles.leftSide}>
@@ -92,7 +71,7 @@ const HeaderCherxy = ({isAdmin, url, showNavigator = true, onAuthenticated = () 
       <div className={styles.rightSide}>
         {/* <a rel="noreferrer" className={styles.search}><img style={{width: 20, height: 20}} src="/images/search.svg"></img></a> 
         <a rel="noreferrer"><img style={{width: 12, height: 16}} src="/images/cart.png"></img></a> */}
-        <Link href={verified ? '/dashboard' : '/login'}><a rel="noreferrer"><img style={{width: 12, height: 16}} alt="user" src="/images/user.png"></img></a></Link>
+        <Link href={isAuth ? '/dashboard' : '/login'}><a rel="noreferrer"><img style={{width: 12, height: 16}} alt="user" src="/images/user.png"></img></a></Link>
       </div>
     </div>
     <div className={styles.logo}>
