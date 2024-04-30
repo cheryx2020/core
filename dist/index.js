@@ -4276,7 +4276,7 @@ const AdminMenu = ({
     onClick: e => {
       e.stopPropagation();
       setIsShowMenu(!isShowMenu);
-      _isEdit ? onSaveClick() : onEditClick();
+      _isEdit ? onSaveClick(e) : onEditClick(e);
     },
     className: `${styles$n.btn}${isShowMenu ? ` ${styles$n.top} ` + styles$n.show : ''}`
   }, _isEdit ? 'Save' : 'Edit'), _isEdit && /*#__PURE__*/React__default.createElement("div", {
@@ -60319,12 +60319,42 @@ var TwitterShareButton$1 = TwitterShareButton;
 
 var styles$j = {"imageWrapper":"TipDetail-module_imageWrapper__7ob-p","wrapperAction":"TipDetail-module_wrapperAction__fjIyB","deleteButton":"TipDetail-module_deleteButton__qEVWw","addButton":"TipDetail-module_addButton__1234H","button":"TipDetail-module_button__LgFX0","imageUpload":"TipDetail-module_imageUpload__1WBls","wrapper":"TipDetail-module_wrapper__v037r","adminTopHeader":"TipDetail-module_adminTopHeader__IAsnm","actionButtons":"TipDetail-module_actionButtons__HcIOT","checkBox":"TipDetail-module_checkBox__2iiOx","ads":"TipDetail-module_ads__0ycvb","shareZone":"TipDetail-module_shareZone__aJ7c4","shareBtn":"TipDetail-module_shareBtn__p4n9m","adminMenuBtn":"TipDetail-module_adminMenuBtn__NHrLd","adminMenu":"TipDetail-module_adminMenu__aDEnw","hidden":"TipDetail-module_hidden__A2u8V","menuItem":"TipDetail-module_menuItem__xdArV","adminMenuBtnSave":"TipDetail-module_adminMenuBtnSave__UZSjP","listPost":"TipDetail-module_listPost__DAxSM","adminMenuInputPostId":"TipDetail-module_adminMenuInputPostId__e2XnG","relatedTo":"TipDetail-module_relatedTo__Sw1Dt","menuLink":"TipDetail-module_menuLink__9UcOp","arrow":"TipDetail-module_arrow__51LOc","textRelatedTo":"TipDetail-module_textRelatedTo__U1jTE","dropZone":"TipDetail-module_dropZone__KmtOr","subcribeMe":"TipDetail-module_subcribeMe__K0Bcd","imgWrapper":"TipDetail-module_imgWrapper__Q2mx8","videoMenu":"TipDetail-module_videoMenu__pioTv","imageDescription":"TipDetail-module_imageDescription__O0dp9"};
 
+const useAuthenticate = () => {
+  const [verified, setVerified] = useState(false);
+  useEffect(() => {
+    checkAccess();
+  }, []);
+  const checkAccess = async () => {
+    try {
+      // we call the api that verifies the token.
+      const data = await verifyToken();
+      const isDevelopment = process?.env?.NODE_ENV === "development";
+      if (isDevelopment) {
+        setVerified(true);
+        return;
+      }
+      // if token was verified we set the state.
+      if (localStorage.getItem("accessToken") && data.verified) {
+        setVerified(true);
+      } else {
+        // If the token was fraud we first remove it from localStorage and then redirect to "/"
+        localStorage.removeItem("accessToken");
+        setVerified(false);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  return {
+    isAuth: verified
+  };
+};
+
 const TipDetail = ({
   ProductJsonLd,
   Link,
   useDispatch = () => {},
   useRouter = () => {},
-  isAuth,
   data = {
     title: '',
     content: [],
@@ -60352,12 +60382,11 @@ const TipDetail = ({
   const [contentData, setContentData] = useState(defaultContent);
   const [_isPattern, setIsPattern] = useState(data.isPattern ? true : false);
   const [_isFree, setIsFree] = useState(data.isFree ? true : false);
-  const [_isAuth, setIsAuth] = useState(isAuth);
+  const {
+    isAuth
+  } = useAuthenticate();
   const router = useRouter();
   const dispatch = useDispatch();
-  useEffect(() => {
-    setIsAuth(isAuth);
-  }, [isAuth]);
   const resetData = () => {
     setTitleData(defaultTitle);
     setContentData([]);
@@ -60467,7 +60496,7 @@ const TipDetail = ({
   }, title)), /*#__PURE__*/React__default.createElement("div", {
     itemProp: "text"
   }, /*#__PURE__*/React__default.createElement(PostContent, {
-    isShowBigMenu: _isAuth,
+    isShowBigMenu: isAuth,
     data: isAdmin ? contentData : content,
     isMobile: isMobile,
     isEdit: isAdmin,
@@ -60651,37 +60680,6 @@ const LeftSideMenu = ({
   }, item.text)))))) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null, typeof document !== 'undefined' ? (() => {
     document.body.style.overflowY = 'overlay';
   })() : ''));
-};
-
-const useAuthenticate = () => {
-  const [verified, setVerified] = useState(false);
-  useEffect(() => {
-    checkAccess();
-  }, []);
-  const checkAccess = async () => {
-    try {
-      // we call the api that verifies the token.
-      const data = await verifyToken();
-      const isDevelopment = process?.env?.NODE_ENV === "development";
-      if (isDevelopment) {
-        setVerified(true);
-        return;
-      }
-      // if token was verified we set the state.
-      if (localStorage.getItem("accessToken") && data.verified) {
-        setVerified(true);
-      } else {
-        // If the token was fraud we first remove it from localStorage and then redirect to "/"
-        localStorage.removeItem("accessToken");
-        setVerified(false);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  return {
-    isAuth: verified
-  };
 };
 
 const links = [{
@@ -61529,7 +61527,7 @@ function usePageData({
     }
   };
   const onClickSave = e => {
-    e.stopPropagation();
+    e?.stopPropagation();
     const content = JSON.stringify(pageData);
     const removedImages = JSON.stringify(Object.keys(urlChanges));
     const bodyFormData = new FormData();

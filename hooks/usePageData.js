@@ -39,7 +39,7 @@ function usePageData({ page, pageName, router, domain = getDomain() }) {
     }
 
     const onClickSave = (e) => {
-        e.stopPropagation();
+        e?.stopPropagation();
         const content = JSON.stringify(pageData);
         const removedImages = JSON.stringify(Object.keys(urlChanges));
         const bodyFormData = new FormData();

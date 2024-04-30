@@ -10,7 +10,9 @@ import {
 import styles from './TipDetail.module.scss';
 import { getPostId, PostContent, uploadContentImageFiles } from '../post-content/postUtils';
 import { POST_ITEM_TYPE } from '../menu-add-component-post/menu-add-component-post';
-const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = () => {}, isAuth, data = { title: '', content: [], isPattern: false, isFree: false, seoTitle: '', seoDescription: '' }, isEdit, isMobile, isAdmin, category, isPatternDetail }) => {
+import useAuthenticate from '../../../hooks/useAuthenticate';
+
+const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = () => {}, data = { title: '', content: [], isPattern: false, isFree: false, seoTitle: '', seoDescription: '' }, isEdit, isMobile, isAdmin, category, isPatternDetail }) => {
   const defaultTitle = isEdit ? data.title : 'Post title';
   const defaultContent = isEdit ? data.content : [];
   const { title, content, seoTitle, seoDescription, id } = data;
@@ -18,12 +20,9 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
   const [contentData, setContentData] = useState(defaultContent);
   const [_isPattern, setIsPattern] = useState(data.isPattern ? true : false);
   const [_isFree, setIsFree] = useState(data.isFree ? true : false);
-  const [_isAuth, setIsAuth] = useState(isAuth);
+  const { isAuth } = useAuthenticate();
   const router = useRouter();
   const dispatch = useDispatch();
-  useEffect(() => {
-    setIsAuth(isAuth)
-  }, [isAuth])
   const resetData = () => {
     setTitleData(defaultTitle);
     setContentData([]);
@@ -109,7 +108,7 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
     </header>}
     <div itemProp="text">
     <PostContent
-        isShowBigMenu={_isAuth}
+        isShowBigMenu={isAuth}
         data={isAdmin ? contentData : content}
         isMobile={isMobile}
         isEdit={isAdmin}
