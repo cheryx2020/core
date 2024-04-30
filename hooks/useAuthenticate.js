@@ -10,11 +10,6 @@ const useAuthenticate = () => {
     try {
       // we call the api that verifies the token.
       const data = await verifyToken();
-      const isDevelopment = process?.env?.NODE_ENV === "development";
-      if (isDevelopment) {
-        setVerified(true);
-        return;
-      }
       // if token was verified we set the state.
       if (localStorage.getItem("accessToken") && data.verified) {
         setVerified(true);

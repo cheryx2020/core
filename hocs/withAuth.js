@@ -4,8 +4,7 @@ import { verifyToken } from "@cheryx2020/utils";
 
 const withAuth = (WrappedComponent, Router) => {
   return (props) => {
-    const isDevelopment = process?.env?.NODE_ENV === "development";
-    const [verified, setVerified] = useState(isDevelopment || false);
+    const [verified, setVerified] = useState(false);
     const goToRoot = useCallback(() => {
       if (typeof Router === "object" && typeof Router.replace === "function") {
         Router.replace("/");
@@ -33,9 +32,7 @@ const withAuth = (WrappedComponent, Router) => {
     }
 
     useEffect(() => {
-      if (!isDevelopment) {
-        checkAccess()
-      }
+      checkAccess()
     }, []);
 
     if (verified) {

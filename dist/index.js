@@ -60328,11 +60328,6 @@ const useAuthenticate = () => {
     try {
       // we call the api that verifies the token.
       const data = await verifyToken();
-      const isDevelopment = process?.env?.NODE_ENV === "development";
-      if (isDevelopment) {
-        setVerified(true);
-        return;
-      }
       // if token was verified we set the state.
       if (localStorage.getItem("accessToken") && data.verified) {
         setVerified(true);
@@ -61614,8 +61609,7 @@ const CircleGroup = ({
 
 const withAuth = (WrappedComponent, Router) => {
   return props => {
-    const isDevelopment = process?.env?.NODE_ENV === "development";
-    const [verified, setVerified] = useState(isDevelopment || false);
+    const [verified, setVerified] = useState(false);
     const goToRoot = useCallback(() => {
       if (typeof Router === "object" && typeof Router.replace === "function") {
         Router.replace("/");
@@ -61642,9 +61636,7 @@ const withAuth = (WrappedComponent, Router) => {
       }
     };
     useEffect(() => {
-      if (!isDevelopment) {
-        checkAccess();
-      }
+      checkAccess();
     }, []);
     if (verified) {
       return /*#__PURE__*/React__default.createElement(WrappedComponent, props);
