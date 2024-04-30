@@ -61474,8 +61474,9 @@ function usePageData({
   const [pageData, setPageData] = useState(JSON.parse(JSON.stringify(page)));
   const [urlChanges, setUrlChanges] = useState({});
   const [loading, setLoading] = useState(false);
-  const [isDurty, setIsDurty] = useState(true);
+  const [isDurty, setIsDurty] = useState(false);
   const onDataPageChange = (id, data) => {
+    setIsDurty(true);
     let file = data.data.imgFile;
     if (data?.url) {
       if (id === CIRCLE_IMAGE) {
