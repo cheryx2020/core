@@ -61203,11 +61203,30 @@ const HeaderPage = ({
 };
 
 const Form = ({
+  isLogin,
   errorMessage,
   onSubmit
 }) => /*#__PURE__*/React__default.createElement("form", {
   onSubmit: onSubmit
-}, errorMessage && /*#__PURE__*/React__default.createElement("p", {
+}, /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement("span", null, "Username"), /*#__PURE__*/React__default.createElement("input", {
+  type: "text",
+  name: "username",
+  required: true
+})), /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement("span", null, "Password"), /*#__PURE__*/React__default.createElement("input", {
+  type: "password",
+  name: "password",
+  required: true
+})), !isLogin && /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement("span", null, "Repeat password"), /*#__PURE__*/React__default.createElement("input", {
+  type: "password",
+  name: "rpassword",
+  required: true
+})), /*#__PURE__*/React__default.createElement("div", {
+  className: "submit"
+}, isLogin ? /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("button", {
+  type: "submit"
+}, "Login")) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("button", {
+  type: "submit"
+}, "Signup"))), errorMessage && /*#__PURE__*/React__default.createElement("p", {
   className: "error"
 }, errorMessage), /*#__PURE__*/React__default.createElement("style", {
   jsx: true
@@ -61216,6 +61235,9 @@ const Form = ({
       label {
         display: flex;
         flex-flow: column;
+      }
+      form {
+        margin-top: 16px;
       }
       label > span {
         font-weight: 600;

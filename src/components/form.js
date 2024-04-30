@@ -1,8 +1,8 @@
 import React from "react"
 
-const Form = ({ errorMessage, onSubmit }) => (
+const Form = ({ isLogin, errorMessage, onSubmit }) => (
   <form onSubmit={onSubmit}>
-    {/* <label>
+    <label>
       <span>Username</span>
       <input type="text" name="username" required />
     </label>
@@ -20,20 +20,20 @@ const Form = ({ errorMessage, onSubmit }) => (
     <div className="submit">
       {isLogin ? (
         <>
-          <Link href="/#">
+          {/* <Link href="/#">
             <a>I don't have an account</a>
-          </Link>
+          </Link> */}
           <button type="submit">Login</button>
         </>
       ) : (
         <>
-          <Link href="/login">
+          {/* <Link href="/login">
             <a>I already have an account</a>
-          </Link>
+          </Link> */}
           <button type="submit">Signup</button>
         </>
       )}
-    </div> */}
+    </div>
     {errorMessage && <p className="error">{errorMessage}</p>}
 
     <style jsx>{`
@@ -41,6 +41,9 @@ const Form = ({ errorMessage, onSubmit }) => (
       label {
         display: flex;
         flex-flow: column;
+      }
+      form {
+        margin-top: 16px;
       }
       label > span {
         font-weight: 600;
