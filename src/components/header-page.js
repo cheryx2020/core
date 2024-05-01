@@ -5,6 +5,7 @@ const HeaderPage = ({ title, description, url, seoConfig, Head, NextSeo }) => {
     const titleSeo = `${title ? title : mainTitle}`;
     const descriptionSeo = description ?? title;
     return <><Head>
+        <meta key="viewport" name="viewport" content="width=device-width, initial-scale=1" />
         <title>{titleSeo}</title>
         <link rel="icon" href="/favicon.ico" />
     </Head>

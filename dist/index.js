@@ -60952,7 +60952,7 @@ const Footer = ({
   }, /*#__PURE__*/React__default.createElement("a", {
     href: "//www.dmca.com/Protection/Status.aspx?ID=dbcbbc0c-5007-4d0c-aeff-b4ed3e017556",
     title: "DMCA.com Protection Status",
-    class: "dmca-badge"
+    className: "dmca-badge"
   }, " ", /*#__PURE__*/React__default.createElement("img", {
     src: "https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=dbcbbc0c-5007-4d0c-aeff-b4ed3e017556",
     alt: "DMCA.com Protection Status"
@@ -61176,7 +61176,11 @@ const HeaderPage = ({
   const mainTitle = process?.env?.NEXT_PUBLIC_SEO_mainTitle;
   const titleSeo = `${title ? title : mainTitle}`;
   const descriptionSeo = description ?? title;
-  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Head, null, /*#__PURE__*/React__default.createElement("title", null, titleSeo), /*#__PURE__*/React__default.createElement("link", {
+  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Head, null, /*#__PURE__*/React__default.createElement("meta", {
+    key: "viewport",
+    name: "viewport",
+    content: "width=device-width, initial-scale=1"
+  }), /*#__PURE__*/React__default.createElement("title", null, titleSeo), /*#__PURE__*/React__default.createElement("link", {
     rel: "icon",
     href: "/favicon.ico"
   })), seoConfig ? seoConfig : /*#__PURE__*/React__default.createElement(NextSeo, {
