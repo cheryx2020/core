@@ -60463,7 +60463,7 @@ const TipDetail = ({
    */
   let video = null;
   const videos = content?.filter(item => item.type === POST_ITEM_TYPE.VIDEO);
-  if (videos.length === 1) {
+  if (videos?.length === 1) {
     video = videos[0];
   }
   const postTitle = useMemo(() => {
