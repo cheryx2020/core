@@ -127,7 +127,7 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
     <div itemProp="text">
     <PostContent
         isShowBigMenu={isAuth}
-        data={isAdmin ? contentData : content?.filter(item => item.type !== POST_ITEM_TYPE.VIDEO)}
+        data={isAdmin ? contentData : ((video && !isPatternDetail) ? content?.filter(item => item.type !== POST_ITEM_TYPE.VIDEO) : content)}
         isMobile={isMobile}
         isEdit={isAdmin}
         onChangeData={onChangeContent}
