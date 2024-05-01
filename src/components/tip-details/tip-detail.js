@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { APIService, handleApiError, setShowLoading } from '@cheryx2020/api-service';
 import { deleteFile, getDescriptionFromContent } from "@cheryx2020/utils";
 import {
@@ -11,6 +11,7 @@ import styles from './TipDetail.module.scss';
 import { getPostId, PostContent, uploadContentImageFiles } from '../post-content/postUtils';
 import { POST_ITEM_TYPE } from '../menu-add-component-post/menu-add-component-post';
 import useAuthenticate from '../../../hooks/useAuthenticate';
+import { useMemo } from 'react';
 
 const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = () => {}, data = { title: '', content: [], isPattern: false, isFree: false, seoTitle: '', seoDescription: '' }, isEdit, isMobile, isAdmin, category, isPatternDetail }) => {
   const defaultTitle = isEdit ? data.title : 'Post title';
@@ -94,6 +95,22 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
     }
     setContentData([...content]);
   }
+  
+  /**
+   * Detect if the post only has 1 video, then move it to the header as a main content and add "Video" prefix for the post title
+   */
+  let video = null;
+  const videos = content?.filter(item => item.type === POST_ITEM_TYPE.VIDEO);
+  if (videos.length === 1) {
+    video = videos[0];
+  }
+  const postTitle = useMemo(() => {
+    let _title = title;
+    if (!title?.toLowerCase()?.includes("video")) {
+      _title =  `Video - ${title}`;
+    }
+    return _title;
+  },[video,title])
   const siteName = process?.env?.NEXT_PUBLIC_SEO_pageName || 'Cheryx';
   return <><article className={styles.wrapper}>
     {isAdmin && <div className={styles.adminTopHeader}>
@@ -104,12 +121,13 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
       </div>
     </div>}
     {!isPatternDetail && <header>
-      {isAdmin ? <h1 suppressContentEditableWarning={true} contentEditable="true" onBlur={(e) => { setTitleData(e.target.innerText) }}>{titleData}</h1> : <h1 itemProp="headline name">{title}</h1>}
+      {isAdmin ? <h1 suppressContentEditableWarning={true} contentEditable="true" onBlur={(e) => { setTitleData(e.target.innerText) }}>{titleData}</h1> : <h1 itemProp="headline name">{postTitle}</h1>}
+      {isAdmin ? null : (video ? <PostContent data={[video]}/> : null)}
     </header>}
     <div itemProp="text">
     <PostContent
         isShowBigMenu={isAuth}
-        data={isAdmin ? contentData : content}
+        data={isAdmin ? contentData : content?.filter(item => item.type !== POST_ITEM_TYPE.VIDEO)}
         isMobile={isMobile}
         isEdit={isAdmin}
         onChangeData={onChangeContent}
@@ -121,12 +139,12 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
     </div>
     <div className={styles.shareZone}>
       <div className={styles.text}>Share:</div>
-      <div className={styles.shareBtn}><FacebookShareButton url={`${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`} quote={title} className="Demo__some-network__share-button"><FacebookIcon size={32} round/></FacebookShareButton></div>
-      <div className={styles.shareBtn}><TwitterShareButton url={`${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`} quote={title} className="Demo__some-network__share-button"><TwitterIcon size={32} round/></TwitterShareButton></div>
+      <div className={styles.shareBtn}><FacebookShareButton url={`${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`} quote={postTitle} className="Demo__some-network__share-button"><FacebookIcon size={32} round/></FacebookShareButton></div>
+      <div className={styles.shareBtn}><TwitterShareButton url={`${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`} quote={postTitle} className="Demo__some-network__share-button"><TwitterIcon size={32} round/></TwitterShareButton></div>
     </div>
   </article>
   {isPatternDetail && <ProductJsonLd
-      productName={seoTitle ? seoTitle : title}
+      productName={seoTitle ? seoTitle : postTitle}
       images={[
         `https://cheryx.com/images/${id}/${id}-1200x1200.png`,
         `https://cheryx.com/images/${id}/${id}-1200x900.png`,

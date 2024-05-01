@@ -60457,6 +60457,22 @@ const TipDetail = ({
     }
     setContentData([...content]);
   };
+
+  /**
+   * Detect if the post only has 1 video, then move it to the header as a main content and add "Video" prefix for the post title
+   */
+  let video = null;
+  const videos = content?.filter(item => item.type === POST_ITEM_TYPE.VIDEO);
+  if (videos.length === 1) {
+    video = videos[0];
+  }
+  const postTitle = useMemo(() => {
+    let _title = title;
+    if (!title?.toLowerCase()?.includes("video")) {
+      _title = `Video - ${title}`;
+    }
+    return _title;
+  }, [video, title]);
   const siteName = process?.env?.NEXT_PUBLIC_SEO_pageName || 'Cheryx';
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("article", {
     className: styles$j.wrapper
@@ -60488,11 +60504,13 @@ const TipDetail = ({
     }
   }, titleData) : /*#__PURE__*/React__default.createElement("h1", {
     itemProp: "headline name"
-  }, title)), /*#__PURE__*/React__default.createElement("div", {
+  }, postTitle), isAdmin ? null : video ? /*#__PURE__*/React__default.createElement(PostContent, {
+    data: [video]
+  }) : null), /*#__PURE__*/React__default.createElement("div", {
     itemProp: "text"
   }, /*#__PURE__*/React__default.createElement(PostContent, {
     isShowBigMenu: isAuth,
-    data: isAdmin ? contentData : content,
+    data: isAdmin ? contentData : content?.filter(item => item.type !== POST_ITEM_TYPE.VIDEO),
     isMobile: isMobile,
     isEdit: isAdmin,
     onChangeData: onChangeContent,
@@ -60508,7 +60526,7 @@ const TipDetail = ({
     className: styles$j.shareBtn
   }, /*#__PURE__*/React__default.createElement(FacebookShareButton$1, {
     url: `${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`,
-    quote: title,
+    quote: postTitle,
     className: "Demo__some-network__share-button"
   }, /*#__PURE__*/React__default.createElement(FacebookIcon$1, {
     size: 32,
@@ -60517,13 +60535,13 @@ const TipDetail = ({
     className: styles$j.shareBtn
   }, /*#__PURE__*/React__default.createElement(TwitterShareButton$1, {
     url: `${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`,
-    quote: title,
+    quote: postTitle,
     className: "Demo__some-network__share-button"
   }, /*#__PURE__*/React__default.createElement(TwitterIcon$1, {
     size: 32,
     round: true
   }))))), isPatternDetail && /*#__PURE__*/React__default.createElement(ProductJsonLd, {
-    productName: seoTitle ? seoTitle : title,
+    productName: seoTitle ? seoTitle : postTitle,
     images: [`https://cheryx.com/images/${id}/${id}-1200x1200.png`, `https://cheryx.com/images/${id}/${id}-1200x900.png`, `https://cheryx.com/images/${id}/${id}-1200x675.png`],
     description: seoDescription ? seoDescription : getDescriptionFromContent(content),
     brand: siteName,
