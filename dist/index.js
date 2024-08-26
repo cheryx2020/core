@@ -61681,33 +61681,24 @@ const Input = ({
 var styles = {"modal":"Table-module_modal__x6PHZ","confirmDeleteModal":"Table-module_confirmDeleteModal__aTCQQ","modalContent":"Table-module_modalContent__4fA-4","buttonGroup":"Table-module_buttonGroup__mLW0m","yesButton":"Table-module_yesButton__LLOyV","noButton":"Table-module_noButton__Skj-A","closeButton":"Table-module_closeButton__5pa40","submitButton":"Table-module_submitButton__Cyelt","table-container":"Table-module_table-container__zwAaG","delete":"Table-module_delete__5sz2G","edit":"Table-module_edit__31Gu4","tableContainer":"Table-module_table-container__zwAaG","$delete$":"Table-module_delete__5sz2G"};
 
 const Table = ({
-  listApi = "v2/email",
+  addButtonText = "Add",
+  listApi,
   listDataPath = "data.data",
-  addApi = "v2/email/create",
-  editApi = "v2/email/edit",
-  deleteApi = "v2/email",
-  formFields = [{
-    id: "_id",
-    type: "text",
-    hidden: true
-  }, {
-    id: "title",
-    type: "text",
-    require: true
-  }, {
-    id: "patternId",
-    type: "text",
-    require: true
-  }, {
-    id: "content",
-    type: "textarea",
-    require: true
-  }, {
-    id: "mainImage",
-    type: "text",
-    require: true
-  }]
+  addApi,
+  editApi,
+  deleteApi,
+  formFields = []
 }) => {
+  if (!listApi) {
+    return /*#__PURE__*/React__default.createElement("div", {
+      "data-testid": "error-missing-list-api"
+    }, "Missing ", /*#__PURE__*/React__default.createElement("strong", null, "listApi"), " property");
+  }
+  if (!formFields || Array.isArray(formFields) && formFields.length === 0) {
+    return /*#__PURE__*/React__default.createElement("div", {
+      "data-testid": "error-invalid-form-fields"
+    }, "Missing or invalid ", /*#__PURE__*/React__default.createElement("strong", null, "formFields"), " property");
+  }
   const [formData, setFormData] = useState(formFields.reduce((acc, field) => {
     acc[field.id] = '';
     return acc;
@@ -61724,6 +61715,7 @@ const Table = ({
   const [isShowConfirmDelete, setIsShowConfirmDelete] = useState(false);
   const [selectedIdDelete, setSelectedIdDelete] = useState("");
   const [listData, setListData] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
   const handleSubmit = async e => {
     e.preventDefault();
     if (!loading) {
@@ -61778,7 +61770,7 @@ const Table = ({
     APIService.get(listApi).then(res => {
       setListData(getValueObjectByPath(res, listDataPath, []));
     }).catch(e => {
-      console.log(e);
+      setErrorMessage(JSON.stringify(e));
     }).finally(() => {
       setLoading(false);
     });
@@ -61808,15 +61800,19 @@ const Table = ({
   useEffect(() => {
     getListData();
   }, []);
+  const canEditOrDelete = editApi || deleteApi;
   const listVisibleFields = formFields.filter(item => !item.hidden);
   return /*#__PURE__*/React__default.createElement("div", {
+    "data-testid": "table",
     style: {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       height: '100vh'
     }
-  }, loading && /*#__PURE__*/React__default.createElement(Loader, null), isShowConfirmDelete && /*#__PURE__*/React__default.createElement("div", {
+  }, errorMessage ? /*#__PURE__*/React__default.createElement("div", {
+    "data-testid": "error-message"
+  }, errorMessage) : null, loading && /*#__PURE__*/React__default.createElement(Loader, null), isShowConfirmDelete && /*#__PURE__*/React__default.createElement("div", {
     className: styles.confirmDeleteModal
   }, /*#__PURE__*/React__default.createElement("div", {
     className: styles.modalContent
@@ -61849,34 +61845,31 @@ const Table = ({
   })), /*#__PURE__*/React__default.createElement("button", {
     type: "submit",
     className: styles.submitButton
-  }, "Submit")))) : /*#__PURE__*/React__default.createElement("div", null, listData?.length === 0 && /*#__PURE__*/React__default.createElement("div", {
-    onClick: () => {
-      setIsEdit(true);
-    }
-  }, "Add"), listData?.length && /*#__PURE__*/React__default.createElement("div", {
+  }, "Submit")))) : /*#__PURE__*/React__default.createElement("div", {
     className: styles["table-container"]
-  }, /*#__PURE__*/React__default.createElement("button", {
+  }, addApi ? /*#__PURE__*/React__default.createElement("button", {
+    "data-testid": "add-button",
     onClick: () => {
       resetFormData();
       setIsEdit(true);
     }
-  }, "Add Template"), /*#__PURE__*/React__default.createElement("table", null, /*#__PURE__*/React__default.createElement("thead", null, /*#__PURE__*/React__default.createElement("tr", null, listVisibleFields.map(field => /*#__PURE__*/React__default.createElement("th", {
+  }, addButtonText) : null, /*#__PURE__*/React__default.createElement("table", null, /*#__PURE__*/React__default.createElement("thead", null, /*#__PURE__*/React__default.createElement("tr", null, listVisibleFields.map(field => /*#__PURE__*/React__default.createElement("th", {
     key: field.id
-  }, field.id.charAt(0).toUpperCase() + field.id.slice(1))), /*#__PURE__*/React__default.createElement("th", null, "Action"))), /*#__PURE__*/React__default.createElement("tbody", null, listData.map((item, index) => /*#__PURE__*/React__default.createElement("tr", {
+  }, field.id.charAt(0).toUpperCase() + field.id.slice(1))), canEditOrDelete && /*#__PURE__*/React__default.createElement("th", null, "Action"))), /*#__PURE__*/React__default.createElement("tbody", null, listData.map((item, index) => /*#__PURE__*/React__default.createElement("tr", {
     key: index
   }, listVisibleFields.map(field => /*#__PURE__*/React__default.createElement("td", {
     key: field.id
-  }, item[field.id])), /*#__PURE__*/React__default.createElement("td", null, /*#__PURE__*/React__default.createElement("button", {
+  }, item[field.id])), canEditOrDelete && /*#__PURE__*/React__default.createElement("td", null, editApi ? /*#__PURE__*/React__default.createElement("button", {
     onClick: () => {
       onClickEdit(item._id);
     },
     className: styles.edit
-  }, "Edit"), /*#__PURE__*/React__default.createElement("button", {
+  }, "Edit") : null, deleteApi ? /*#__PURE__*/React__default.createElement("button", {
     onClick: () => {
       onClickDelete(item._id);
     },
     className: styles.delete
-  }, "Delete")))))))));
+  }, "Delete") : null)))))));
 };
 
 const withAuth = (WrappedComponent, Router) => {

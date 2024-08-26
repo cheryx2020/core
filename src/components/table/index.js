@@ -6,32 +6,19 @@ import Input from "../input";
 import styles from './Table.module.scss';
 import Loader from "../loader/loader";
 const Table = ({
-    listApi = "v2/email",
+    addButtonText = "Add",
+    listApi,
     listDataPath = "data.data",
-    addApi = "v2/email/create",
-    editApi = "v2/email/edit",
-    deleteApi = "v2/email",
-    formFields = [{
-        id: "_id",
-        type: "text",
-        hidden: true,
-    }, {
-        id: "title",
-        type: "text",
-        require: true,
-    }, {
-        id: "patternId",
-        type: "text",
-        require: true,
-    }, {
-        id: "content",
-        type: "textarea",
-        require: true,
-    }, {
-        id: "mainImage",
-        type: "text",
-        require: true,
-    }] }) => {
+    addApi,
+    editApi,
+    deleteApi,
+    formFields = [] }) => {
+    if (!listApi) {
+        return <div data-testid="error-missing-list-api">Missing <strong>listApi</strong> property</div>
+    }
+    if (!formFields || (Array.isArray(formFields) && formFields.length === 0)) {
+        return <div data-testid="error-invalid-form-fields">Missing or invalid <strong>formFields</strong> property</div>
+    }
     const [formData, setFormData] = useState(
         formFields.reduce((acc, field) => {
             acc[field.id] = '';
@@ -50,6 +37,7 @@ const Table = ({
     const [isShowConfirmDelete, setIsShowConfirmDelete] = useState(false);
     const [selectedIdDelete, setSelectedIdDelete] = useState("");
     const [listData, setListData] = useState([]);
+    const [errorMessage, setErrorMessage] = useState("");
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!loading) {
@@ -101,7 +89,7 @@ const Table = ({
         APIService.get(listApi).then(res => {
             setListData(getValueObjectByPath(res, listDataPath, []));
         }).catch(e => {
-            console.log(e);
+            setErrorMessage(JSON.stringify(e))
         }).finally(() => {
             setLoading(false);
         });
@@ -120,7 +108,7 @@ const Table = ({
     const handleConfirmDelete = async () => {
         try {
             APIService.delete(`${deleteApi}?_id=${selectedIdDelete}`);
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         } finally {
             getListData();
@@ -131,8 +119,10 @@ const Table = ({
     useEffect(() => {
         getListData();
     }, []);
+    const canEditOrDelete = editApi || deleteApi;
     const listVisibleFields = formFields.filter(item => !item.hidden);
-    return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+    return <div data-testid="table" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        {errorMessage ? <div data-testid="error-message">{errorMessage}</div> : null}
         {loading && <Loader />}
         {isShowConfirmDelete && (
             <div className={styles.confirmDeleteModal}>
@@ -165,37 +155,34 @@ const Table = ({
                 </div>
             </div>
         ) : (
-            <div>
-                {listData?.length === 0 && <div onClick={() => { setIsEdit(true) }}>Add</div>}
-                {listData?.length && <div className={styles["table-container"]}>
-                    <button onClick={() => {
-                        resetFormData();
-                        setIsEdit(true);
-                    }}>Add Template</button>
-                    <table>
-                        <thead>
-                            <tr>
-                                {listVisibleFields.map(field => (
-                                    <th key={field.id}>{field.id.charAt(0).toUpperCase() + field.id.slice(1)}</th>
-                                ))}
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {listData.map((item, index) => (
-                                <tr key={index}>
-                                    {listVisibleFields.map(field => (
-                                        <td key={field.id}>{item[field.id]}</td>
-                                    ))}
-                                    <td>
-                                        <button onClick={() => { onClickEdit(item._id); }} className={styles.edit}>Edit</button>
-                                        <button onClick={() => { onClickDelete(item._id); }} className={styles.delete}>Delete</button>
-                                    </td>
-                                </tr>
+            <div className={styles["table-container"]}>
+                {addApi ? <button data-testid="add-button" onClick={() => {
+                    resetFormData();
+                    setIsEdit(true);
+                }}>{addButtonText}</button> : null}
+                <table>
+                    <thead>
+                        <tr>
+                            {listVisibleFields.map(field => (
+                                <th key={field.id}>{field.id.charAt(0).toUpperCase() + field.id.slice(1)}</th>
                             ))}
-                        </tbody>
-                    </table>
-                </div>}
+                            {canEditOrDelete && <th>Action</th>}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {listData.map((item, index) => (
+                            <tr key={index}>
+                                {listVisibleFields.map(field => (
+                                    <td key={field.id}>{item[field.id]}</td>
+                                ))}
+                                {canEditOrDelete && <td>
+                                    {editApi ? <button onClick={() => { onClickEdit(item._id); }} className={styles.edit}>Edit</button> : null}
+                                    {deleteApi ? <button onClick={() => { onClickDelete(item._id); }} className={styles.delete}>Delete</button> : null}
+                                </td>}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         )}
     </div>
