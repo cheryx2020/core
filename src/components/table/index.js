@@ -160,7 +160,7 @@ const Table = ({
                     resetFormData();
                     setIsEdit(true);
                 }}>{addButtonText}</button> : null}
-                <table>
+                <table data-testid="table-element">
                     <thead>
                         <tr>
                             {listVisibleFields.map(field => (

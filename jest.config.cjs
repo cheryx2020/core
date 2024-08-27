@@ -8,5 +8,6 @@ module.exports = {
       '^.+\\.(css|scss)$': 'jest-css-modules-transform',
     },
     testEnvironment: "jsdom",
+    testMatch: ["**/*.test.js"]
   };
   

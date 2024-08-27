@@ -61853,7 +61853,9 @@ const Table = ({
       resetFormData();
       setIsEdit(true);
     }
-  }, addButtonText) : null, /*#__PURE__*/React__default.createElement("table", null, /*#__PURE__*/React__default.createElement("thead", null, /*#__PURE__*/React__default.createElement("tr", null, listVisibleFields.map(field => /*#__PURE__*/React__default.createElement("th", {
+  }, addButtonText) : null, /*#__PURE__*/React__default.createElement("table", {
+    "data-testid": "table-element"
+  }, /*#__PURE__*/React__default.createElement("thead", null, /*#__PURE__*/React__default.createElement("tr", null, listVisibleFields.map(field => /*#__PURE__*/React__default.createElement("th", {
     key: field.id
   }, field.id.charAt(0).toUpperCase() + field.id.slice(1))), canEditOrDelete && /*#__PURE__*/React__default.createElement("th", null, "Action"))), /*#__PURE__*/React__default.createElement("tbody", null, listData.map((item, index) => /*#__PURE__*/React__default.createElement("tr", {
     key: index
