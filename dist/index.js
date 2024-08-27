@@ -60621,10 +60621,12 @@ const Note = () => {
 
 var styles$j = {"ldsHourglass":"Loader-module_ldsHourglass__duhaK","lds-hourglass-animation":"Loader-module_lds-hourglass-animation__edjXk","loadingWrapper":"Loader-module_loadingWrapper__GIkhp","ldsHourglassAnimation":"Loader-module_lds-hourglass-animation__edjXk"};
 
-const Loader = () => {
-  return /*#__PURE__*/React__default.createElement("div", {
+const Loader = ({
+  ...rest
+}) => {
+  return /*#__PURE__*/React__default.createElement("div", _extends({}, rest, {
     className: styles$j.loadingWrapper
-  }, /*#__PURE__*/React__default.createElement("div", {
+  }), /*#__PURE__*/React__default.createElement("div", {
     className: styles$j.ldsHourglass
   }));
 };
@@ -61655,27 +61657,28 @@ const Input = ({
   type,
   value,
   onChange,
-  required
+  required,
+  ...rest
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
     key: id,
     className: styles$1.inputContainer
   }, /*#__PURE__*/React__default.createElement("label", {
     htmlFor: id
-  }, id.charAt(0).toUpperCase() + id.slice(1)), type === 'textarea' ? /*#__PURE__*/React__default.createElement("textarea", {
+  }, id.charAt(0).toUpperCase() + id.slice(1)), type === 'textarea' ? /*#__PURE__*/React__default.createElement("textarea", _extends({}, rest, {
     id: id,
     value: value,
     onChange: onChange,
     required: required,
     className: styles$1.textarea
-  }) : /*#__PURE__*/React__default.createElement("input", {
+  })) : /*#__PURE__*/React__default.createElement("input", _extends({}, rest, {
     type: type,
     id: id,
     value: value,
     onChange: onChange,
     required: required,
     className: styles$1.input
-  }));
+  })));
 };
 
 var styles = {"modal":"Table-module_modal__x6PHZ","confirmDeleteModal":"Table-module_confirmDeleteModal__aTCQQ","modalContent":"Table-module_modalContent__4fA-4","buttonGroup":"Table-module_buttonGroup__mLW0m","yesButton":"Table-module_yesButton__LLOyV","noButton":"Table-module_noButton__Skj-A","closeButton":"Table-module_closeButton__5pa40","submitButton":"Table-module_submitButton__Cyelt","table-container":"Table-module_table-container__zwAaG","delete":"Table-module_delete__5sz2G","edit":"Table-module_edit__31Gu4","tableContainer":"Table-module_table-container__zwAaG","$delete$":"Table-module_delete__5sz2G"};
@@ -61740,7 +61743,7 @@ const Table = ({
           }
         });
       } catch (error) {
-        console.error('Error:', error);
+        setErrorMessage(JSON.stringify(error));
       } finally {
         setLoading(false);
         setIsEdit(false);
@@ -61812,7 +61815,9 @@ const Table = ({
     }
   }, errorMessage ? /*#__PURE__*/React__default.createElement("div", {
     "data-testid": "error-message"
-  }, errorMessage) : null, loading && /*#__PURE__*/React__default.createElement(Loader, null), isShowConfirmDelete && /*#__PURE__*/React__default.createElement("div", {
+  }, errorMessage) : null, loading && /*#__PURE__*/React__default.createElement(Loader, {
+    "data-testid": "loader"
+  }), isShowConfirmDelete && /*#__PURE__*/React__default.createElement("div", {
     className: styles.confirmDeleteModal
   }, /*#__PURE__*/React__default.createElement("div", {
     className: styles.modalContent
@@ -61825,6 +61830,7 @@ const Table = ({
     className: styles.noButton,
     onClick: handleCancelDelete
   }, "No")))), isEdit ? /*#__PURE__*/React__default.createElement("div", {
+    "data-testid": "edit-form",
     className: styles.modal
   }, /*#__PURE__*/React__default.createElement("div", {
     className: styles.modalContent
@@ -61836,6 +61842,7 @@ const Table = ({
   }, "\xD7"), /*#__PURE__*/React__default.createElement("form", {
     onSubmit: handleSubmit
   }, listVisibleFields.map(field => /*#__PURE__*/React__default.createElement(Input, {
+    "data-testid": `form-field-${field.id}`,
     key: field.id,
     id: field.id,
     type: field.type,
@@ -61843,6 +61850,7 @@ const Table = ({
     onChange: handleChange,
     required: field.require
   })), /*#__PURE__*/React__default.createElement("button", {
+    "data-testid": "form-submit",
     type: "submit",
     className: styles.submitButton
   }, "Submit")))) : /*#__PURE__*/React__default.createElement("div", {

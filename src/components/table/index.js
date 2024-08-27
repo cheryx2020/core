@@ -61,7 +61,7 @@ const Table = ({
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
             } catch (error) {
-                console.error('Error:', error);
+                setErrorMessage(JSON.stringify(error));
             } finally {
                 setLoading(false);
                 setIsEdit(false);
@@ -123,7 +123,7 @@ const Table = ({
     const listVisibleFields = formFields.filter(item => !item.hidden);
     return <div data-testid="table" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         {errorMessage ? <div data-testid="error-message">{errorMessage}</div> : null}
-        {loading && <Loader />}
+        {loading && <Loader data-testid="loader" />}
         {isShowConfirmDelete && (
             <div className={styles.confirmDeleteModal}>
                 <div className={styles.modalContent}>
@@ -136,12 +136,13 @@ const Table = ({
             </div>
         )}
         {isEdit ? (
-            <div className={styles.modal}>
+            <div data-testid="edit-form" className={styles.modal}>
                 <div className={styles.modalContent}>
                     <button className={styles.closeButton} onClick={() => { setIsEdit(false) }}>×</button>
                     <form onSubmit={handleSubmit}>
                         {listVisibleFields.map((field) => (
                             <Input
+                                data-testid={`form-field-${field.id}`}
                                 key={field.id}
                                 id={field.id}
                                 type={field.type}
@@ -150,7 +151,7 @@ const Table = ({
                                 required={field.require}
                             />
                         ))}
-                        <button type="submit" className={styles.submitButton}>Submit</button>
+                        <button data-testid="form-submit" type="submit" className={styles.submitButton}>Submit</button>
                     </form>
                 </div>
             </div>
