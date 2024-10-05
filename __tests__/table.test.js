@@ -35,7 +35,7 @@ describe('Table component', () => {
     it('Render table with addApi formFields', async () => {
         render(<Table addApi="test" listApi="test" formFields={[{id: "vinh"}, {id: "textare", type: "textarea"}]}/>);
         const addButton = screen.getByTestId('add-button');
-        expect(screen.getByTestId('add-button')).toBeInTheDocument();
+        expect(addButton).toBeInTheDocument();
         await waitFor(() => {
             expect(screen.getByTestId('error-message')).toBeInTheDocument();
         });
