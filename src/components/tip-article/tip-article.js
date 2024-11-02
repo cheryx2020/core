@@ -85,7 +85,7 @@ const TipArticle = ({Image, Link, useDispatch = () => {}, data, isAdmin, onDelet
       handleApiError(err);
     });
   }
-  return <div className={styles.wrapper}>
+  return <article className={styles.wrapper}>
     {isAdmin && <div className={styles.editButtonZone}>
       {!data.isPattern && <div className={styles.checkIsBig}>
         <label><span>Big Item</span><input checked={data.isBig} type="checkbox" onChange={onChangeIsBig}/></label>
@@ -111,6 +111,6 @@ const TipArticle = ({Image, Link, useDispatch = () => {}, data, isAdmin, onDelet
       <div className={styles.description}>{getDescriptionFromContent(data.content)}</div>
       {/* <div className={styles.seeMore}>{`See more >>`}</div> */}
     </div>
-  </div>
+  </article>
 }
 export default TipArticle;

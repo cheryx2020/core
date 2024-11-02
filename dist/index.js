@@ -61451,7 +61451,7 @@ const TipArticle = ({
       handleApiError(err);
     });
   };
-  return /*#__PURE__*/React__default.createElement("div", {
+  return /*#__PURE__*/React__default.createElement("article", {
     className: styles$4.wrapper
   }, isAdmin && /*#__PURE__*/React__default.createElement("div", {
     className: styles$4.editButtonZone
