@@ -42,6 +42,7 @@ import CircleGroup from "./src/components/circle-group/circle-group";
 import Table from "./src/components/table"
 import Input from "./src/components/input"
 import withAuth from "./hocs/withAuth"
+import { renderPageItem } from "./src/utils/page";
 
 export {
     AdBanner,
@@ -78,6 +79,7 @@ export {
     POST_ITEM_TYPE_SUBMENU,
     PostVideo,
     RelatedToMenu,
+    renderPageItem,
     SubLink,
     Table,
     TipArticle,

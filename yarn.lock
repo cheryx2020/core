@@ -1071,10 +1071,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cheryx2020/api-service@^1.0.18":
-  version "1.0.18"
-  resolved "https://registry.yarnpkg.com/@cheryx2020/api-service/-/api-service-1.0.18.tgz#4089ec2e3124897e266dd2d4d37afe601f71f6c2"
-  integrity sha512-C9D4WceUKIN9AzUg48gyFWhUzlevujLhCULY1HDHtOa4N+5xkDD47NhNsI55v9MXmleDBQbrzqKuokMjsq5kZg==
+"@cheryx2020/api-service@^1.0.19":
+  version "1.0.19"
+  resolved "https://registry.yarnpkg.com/@cheryx2020/api-service/-/api-service-1.0.19.tgz#0b78d3024613f0745a205f661648ce047ba9d3ea"
+  integrity sha512-JD5IPDfLK0/6vn51Mi/Yvkj/CfoExlSP1IfrQHYnZO27Dj2tPk4XFaZWGBYU4Vz9RLUuRcPnhNuNyYdJIs8biA==
   dependencies:
     axios "^1.5.1"
 
