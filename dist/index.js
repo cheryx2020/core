@@ -1463,9 +1463,6 @@ const defaults = {
     const isFormData = utils$1.isFormData(data);
 
     if (isFormData) {
-      if (!hasJSONContentType) {
-        return data;
-      }
       return hasJSONContentType ? JSON.stringify(formDataToJSON(data)) : data;
     }
 
@@ -2581,7 +2578,7 @@ function dispatchRequest(config) {
   });
 }
 
-const headersToObject = (thing) => thing instanceof AxiosHeaders$1 ? thing.toJSON() : thing;
+const headersToObject = (thing) => thing instanceof AxiosHeaders$1 ? { ...thing } : thing;
 
 /**
  * Config-specific merge-function which creates a new config-object
@@ -2683,7 +2680,7 @@ function mergeConfig(config1, config2) {
   return config;
 }
 
-const VERSION = "1.6.5";
+const VERSION = "1.6.8";
 
 const validators$1 = {};
 
@@ -2798,7 +2795,31 @@ class Axios {
    *
    * @returns {Promise} The Promise to be fulfilled
    */
-  request(configOrUrl, config) {
+  async request(configOrUrl, config) {
+    try {
+      return await this._request(configOrUrl, config);
+    } catch (err) {
+      if (err instanceof Error) {
+        let dummy;
+
+        Error.captureStackTrace ? Error.captureStackTrace(dummy = {}) : (dummy = new Error());
+
+        // slice off the Error: ... line
+        const stack = dummy.stack ? dummy.stack.replace(/^.+\n/, '') : '';
+
+        if (!err.stack) {
+          err.stack = stack;
+          // match without the 2 top stack lines
+        } else if (stack && !String(err.stack).endsWith(stack.replace(/^.+\n.+\n/, ''))) {
+          err.stack += '\n' + stack;
+        }
+      }
+
+      throw err;
+    }
+  }
+
+  _request(configOrUrl, config) {
     /*eslint no-param-reassign:0*/
     // Allow for axios('example/url'[, config]) a la fetch API
     if (typeof configOrUrl === 'string') {
@@ -61641,7 +61662,14 @@ function usePageData({
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    setIsMobile(isMobileDevice$1());
+    const checkIsMobile = () => {
+      setIsMobile(isMobileDevice$1());
+    };
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    return () => {
+      window.removeEventListener('resize', checkIsMobile);
+    };
   }, []);
   return isMobile;
 };
@@ -61970,14 +61998,30 @@ const withAuth = (WrappedComponent, Router) => {
   };
 };
 
-const renderPageItem = data => {
-  switch (data?.id) {
-    case CIRCLE_IMAGE:
-      return /*#__PURE__*/React__default.createElement(CircleGroup, {
-        urls: data?.value || []
-      });
-    default:
-      return /*#__PURE__*/React__default.createElement("div", null, "Not implemented");
+const PageItem = ({
+  data,
+  isAdmin,
+  isMobile,
+  useRouter,
+  useDispatch
+}) => {
+  if (data?.id === "PATTERN_LIST") {
+    return /*#__PURE__*/React__default.createElement(PatternList, {
+      useRouter: useRouter,
+      useDispatch: useDispatch,
+      style: {
+        marginTop: isMobile ? 20 : 40
+      },
+      isAdmin: isAdmin,
+      isMobile: isMobile,
+      data: data?.[data.api] ?? []
+    });
+  } else if (data?.id === CIRCLE_IMAGE) {
+    return /*#__PURE__*/React__default.createElement(CircleGroup, {
+      urls: data?.value || []
+    });
+  } else {
+    return /*#__PURE__*/React__default.createElement("div", null, "Not implemented");
   }
 };
 
@@ -62031,4 +62075,4 @@ const MainLayout = ({
   }));
 };
 
-export { AdBanner, AdminMenu, BestSeller, CIRCLE_IMAGE, CheryxLogo, CircleGroup, ContentWithTitle, Footer, Form, HeaderCherxy as HeaderCheryx, HeaderPage, HeaderWithImage, IMAGE_SUBMENU, ImageUpload, ImageUploadable, Input, LeftMenu, ListArticle, Loader, MainLayout, MenuAddComponentPost, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PatternDetail, PatternItem, PatternList, PatternName, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, Table, TipArticle, TipDetail, TitleCheryx, TitleLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, renderPageItem, uploadContentImageFiles, useAuthenticate, useIsMobile, usePageData, withAuth };
+export { AdBanner, AdminMenu, BestSeller, CIRCLE_IMAGE, CheryxLogo, CircleGroup, ContentWithTitle, Footer, Form, HeaderCherxy as HeaderCheryx, HeaderPage, HeaderWithImage, IMAGE_SUBMENU, ImageUpload, ImageUploadable, Input, LeftMenu, ListArticle, Loader, MainLayout, MenuAddComponentPost, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PageItem, PatternDetail, PatternItem, PatternList, PatternName, PatternPreview, PostContent, PostVideo, RelatedToMenu, SubLink, Table, TipArticle, TipDetail, TitleCheryx, TitleLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles, useAuthenticate, useIsMobile, usePageData, withAuth };

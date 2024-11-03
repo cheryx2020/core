@@ -42,7 +42,7 @@ import CircleGroup from "./src/components/circle-group/circle-group";
 import Table from "./src/components/table"
 import Input from "./src/components/input"
 import withAuth from "./hocs/withAuth"
-import { renderPageItem } from "./src/utils/page";
+import PageItem from "./src/utils/page";
 import MainLayout from "./src/layouts/main";
 
 export {
@@ -71,6 +71,7 @@ export {
     MenuAddComponentPost,
     noImageUrl,
     Note,
+    PageItem,
     PatternDetail,
     PatternItem,
     PatternList,
@@ -81,7 +82,6 @@ export {
     POST_ITEM_TYPE_SUBMENU,
     PostVideo,
     RelatedToMenu,
-    renderPageItem,
     SubLink,
     Table,
     TipArticle,
