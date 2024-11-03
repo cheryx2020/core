@@ -43,6 +43,7 @@ import Table from "./src/components/table"
 import Input from "./src/components/input"
 import withAuth from "./hocs/withAuth"
 import { renderPageItem } from "./src/utils/page";
+import MainLayout from "./src/layouts/main";
 
 export {
     AdBanner,
@@ -66,6 +67,7 @@ export {
     LeftMenu,
     ListArticle,
     Loader,
+    MainLayout,
     MenuAddComponentPost,
     noImageUrl,
     Note,
