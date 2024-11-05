@@ -1,17 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from './AdminMenu.module.scss';
 
-const AdminMenu = ({isEdit, text, onSaveClick = () => {}, onEditClick = () => {}, onCancelClick = () => {}, onPreviewClick = () => {}, hideButtons = [] }) => {
-    const [_isEdit, setIsEdit] = useState(isEdit);
+const AdminMenu = ({text, onSaveClick = () => {}, onEditClick = () => {}, onCancelClick = () => {}, onPreviewClick = () => {}}) => {
+    const [isEdit, setIsEdit] = useState(false);
     const [isShowMenu, setIsShowMenu] = useState(false);
-    useEffect(() => {
-        setIsEdit(isEdit);
-    },[isEdit]);
+    const onCancelBtnClick = (e) => {
+        setIsEdit(false);
+        onCancelClick(e);
+    }
+    const onEditBtnClick = (e) => {
+        setIsEdit(true);
+        onEditClick(e);
+    }
+    const onPreviewBtnClick = (e) => {
+        setIsEdit(false);
+        onPreviewClick(e);
+    }
     return <div onClick={() => { setIsShowMenu(!isShowMenu) }} className={`${styles.bigMenu}${isShowMenu ? ' ' + styles.menuActive : ''}`}>
         <span>{text}</span>
-        {!hideButtons.includes('edit-save') && <div onClick={(e) => { e.stopPropagation(); setIsShowMenu(!isShowMenu); _isEdit ? onSaveClick(e) : onEditClick(e); }} className={`${styles.btn}${isShowMenu ? ` ${styles.top} ` + styles.show : ''}`}>{_isEdit ? 'Save' : 'Edit'}</div>}
-        {_isEdit && <div onClick={(e) => { e.stopPropagation(); setIsShowMenu(!isShowMenu); onCancelClick(); }} className={`${styles.btn}${isShowMenu ? ` ${styles.bottom} ` + styles.show : ''}`}>{'Cancel'}</div>}
-        {_isEdit && !hideButtons.includes('preview') && <div onClick={(e) => { e.stopPropagation(); onPreviewClick(); }} className={`${styles.btn}${isShowMenu ? ` ${styles.left} ` + styles.show : ''}`}>{'👁'}</div>}
+        <div onClick={(e) => { e.stopPropagation(); setIsShowMenu(!isShowMenu); isEdit ? onSaveClick(e) : onEditBtnClick(e); }} className={`${styles.btn}${isShowMenu ? ` ${styles.top} ` + styles.show : ''}`}>{isEdit ? 'Save' : 'Edit'}</div>
+        {isEdit && <div onClick={(e) => { e.stopPropagation(); setIsShowMenu(!isShowMenu); onCancelBtnClick(); }} className={`${styles.btn}${isShowMenu ? ` ${styles.bottom} ` + styles.show : ''}`}>{'Cancel'}</div>}
+        {isEdit && <div onClick={(e) => { e.stopPropagation(); onPreviewBtnClick(e); }} className={`${styles.btn}${isShowMenu ? ` ${styles.left} ` + styles.show : ''}`}>{'👁'}</div>}
     </div>
 }
 export default AdminMenu;
