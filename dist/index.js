@@ -62627,6 +62627,7 @@ createContext({
 const PayPalCheckout = ({
   clientId,
   itemId,
+  instructionText = "Enter your email to receive the pattern",
   amount = "6.00",
   currency = "USD"
 }) => {
@@ -62652,7 +62653,7 @@ const PayPalCheckout = ({
       clientId,
       currency
     }
-  }, /*#__PURE__*/React__default.createElement("h1", null, "PayPal Checkout"), !isShowEmailInput && /*#__PURE__*/React__default.createElement(PayPalButtons, {
+  }, !isShowEmailInput && /*#__PURE__*/React__default.createElement(PayPalButtons, {
     style: {
       layout: "horizontal"
     },
@@ -62662,16 +62663,14 @@ const PayPalCheckout = ({
     createOrder: () => null // No order created yet
   }), isShowEmailInput && /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("form", {
     onSubmit: handleSubmit
-  }, /*#__PURE__*/React__default.createElement("label", null, "Email:", " ", /*#__PURE__*/React__default.createElement("input", {
+  }, /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement(Input, {
+    id: instructionText,
     type: "email",
     value: email,
     onChange: handleEmailChange,
     required: true,
     placeholder: "Enter your email"
-  })), /*#__PURE__*/React__default.createElement("button", {
-    type: "submit",
-    disabled: !isEmailValid
-  }, "Submit Email")), isEmailValid && /*#__PURE__*/React__default.createElement("div", {
+  }))), isEmailValid && /*#__PURE__*/React__default.createElement("div", {
     style: {
       marginTop: "20px"
     }

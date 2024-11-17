@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import Input from "../input";
 
-const PayPalCheckout = ({ clientId, itemId, amount = "6.00", currency = "USD" }) => {
+const PayPalCheckout = ({ clientId, itemId, instructionText = "Enter your email to receive the pattern", amount = "6.00", currency = "USD" }) => {
   const [email, setEmail] = useState(""); // Email input state
   const [isEmailValid, setIsEmailValid] = useState(false); // Track email validity
   const [isShowEmailInput, setIsShowEmailInput] = useState(false); // Control showing email input
@@ -23,9 +24,6 @@ const PayPalCheckout = ({ clientId, itemId, amount = "6.00", currency = "USD" })
 
   return (
     <PayPalScriptProvider options={{ clientId, currency }}>
-      <h1>PayPal Checkout</h1>
-
-      {/* First PayPal Button to show email form */}
       {!isShowEmailInput && (
         <PayPalButtons
           style={{ layout: "horizontal" }}
@@ -41,8 +39,8 @@ const PayPalCheckout = ({ clientId, itemId, amount = "6.00", currency = "USD" })
         <div>
           <form onSubmit={handleSubmit}>
             <label>
-              Email:{" "}
-              <input
+              <Input
+                id={instructionText}
                 type="email"
                 value={email}
                 onChange={handleEmailChange}
@@ -50,9 +48,6 @@ const PayPalCheckout = ({ clientId, itemId, amount = "6.00", currency = "USD" })
                 placeholder="Enter your email"
               />
             </label>
-            <button type="submit" disabled={!isEmailValid}>
-              Submit Email
-            </button>
           </form>
 
           {/* Show PayPal Payment Button after email is valid */}
