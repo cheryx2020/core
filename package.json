@@ -18,6 +18,7 @@
   "dependencies": {
     "@cheryx2020/api-service": "^1.0.19",
     "@cheryx2020/utils": "^1.4.2",
+    "@paypal/react-paypal-js": "^8.7.0",
     "jest": "^29.7.0",
     "linkify-react": "^4.0.2",
     "linkifyjs": "^4.0.2",

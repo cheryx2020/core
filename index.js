@@ -43,6 +43,7 @@ import Table from "./src/components/table"
 import Input from "./src/components/input"
 import withAuth from "./hocs/withAuth"
 import PageItem from "./src/utils/page";
+import PayPalCheckout from "./src/components/paypal-checkout/paypal-checkout";
 import MainLayout from "./src/layouts/main";
 
 export {
@@ -77,6 +78,7 @@ export {
     PatternList,
     PatternName,
     PatternPreview,
+    PayPalCheckout,
     PostContent,
     POST_ITEM_TYPE,
     POST_ITEM_TYPE_SUBMENU,
