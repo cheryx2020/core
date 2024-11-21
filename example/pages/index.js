@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import "../../dist/index.css"
+// import "../../dist/index.css"
 const Index = () => {
     return <div>
         <div>V1.0</div>

@@ -4303,7 +4303,7 @@ const AdminMenu = ({
   }, '👁'));
 };
 
-var styles$n = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","image":"PatternItem-module_image__ar-yf","discount":"PatternItem-module_discount__pzryu","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","mobileContent":"PatternItem-module_mobileContent__wcZfW","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
+var styles$n = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","discount":"PatternItem-module_discount__pzryu","image":"PatternItem-module_image__ar-yf","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","mobileContent":"PatternItem-module_mobileContent__wcZfW","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
 
 axios$1.interceptors.request.use(function (config) {
   try {

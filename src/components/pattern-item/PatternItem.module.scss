@@ -12,6 +12,14 @@
         @media (max-width: $mobile-breakpoint) {
             width: 100% !important;
         }
+        .discount {
+            width: 60px;
+            height: 60px;
+            right: unset;
+            left: 170px;
+            top: 3px;
+            font-size: 20px;
+        }
     }
 
     .image {
@@ -40,12 +48,12 @@
         color: white;
         font-family: "Fredericka the Great";
         @include mobile {
-            width: 40px;
-            height: 40px;
-            right: unset;
-            left: 132px;
-            top: 3px;
-            font-size: 15px;
+            width: 40px !important;
+            height: 40px !important;
+            right: unset !important;
+            left: 33vw !important;
+            top: 3px !important;
+            font-size: 15px !important;
         }
     }
 

@@ -1,7 +1,7 @@
 export const wrapper: string
 export const isBottom: string
-export const image: string
 export const discount: string
+export const image: string
 export const freeTag: string
 export const editMenu: string
 export const isFree: string
@@ -15,8 +15,8 @@ export const label: string
 interface Namespace {
 	"wrapper": string,
 	"isBottom": string,
-	"image": string,
 	"discount": string,
+	"image": string,
 	"freeTag": string,
 	"editMenu": string,
 	"isFree": string,
