@@ -4,7 +4,7 @@ import { getDomain } from '@cheryx2020/utils';
 
 export const CIRCLE_IMAGE = "paterns-circle-images";
 
-function usePageData({ page, pageName, router, domain = getDomain() }) {
+function usePageData({ page, pageName, router, domain = getDomain(), language = "en" }) {
     const [pageData, setPageData] = useState(JSON.parse(JSON.stringify(page)));
     const [urlChanges, setUrlChanges] = useState({});
     const [loading, setLoading] = useState(false);
@@ -48,6 +48,7 @@ function usePageData({ page, pageName, router, domain = getDomain() }) {
         }
         bodyFormData.set("removedImages", removedImages);
         bodyFormData.set("content", content);
+        bodyFormData.set("language", language);
         bodyFormData.set("domain", domain);
         setLoading(true);
         setIsDurty(false);
