@@ -6,7 +6,7 @@ import PatternName from '../pattern-name/pattern-name';
 import Select from 'react-select'
 
 const NoImage = 'https://cheryx.com/images/no-image.png';
-const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontFamily = "", imageUrl = NoImage, language = 'vi', _id, description, name, nameColor = '#0A7BCA', isMobile, ravelryUrl, patternId = '', order, isAdmin, isAddNew, isEditing, isFree, isBottom, listPatternDetail = [], apiDelete = 'remove-pattern', apiEdit = 'edit-pattern', apiAdd = 'add-pattern', onClickUrl = 'edit-pattern-detail' }) => {
+const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontFamily = "", imageUrl = NoImage, discount = 0, language = 'vi', _id, description, name, nameColor = '#0A7BCA', isMobile, ravelryUrl, patternId = '', order, isAdmin, isAddNew, isEditing, isFree, isBottom, listPatternDetail = [], apiDelete = 'remove-pattern', apiEdit = 'edit-pattern', apiAdd = 'add-pattern', onClickUrl = 'edit-pattern-detail' }) => {
   const [imgSrc, setImgSrc] = useState(imageUrl);
   const [prNameColor, setPrNameColor] = useState(nameColor);
   const [des, setDes] = useState(isAddNew ? 'Description' : description);
@@ -215,6 +215,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
     </div>}
     {_isFree && <div className={`${styles.freeTag} ${isBottom ? styles.isBottom : ''}`}></div>}
     <ImageUploadable className={styles.image} isEdit={isEdit} src={imgSrc} onChangeImage={onChangeImage} />
+    {discount && !_isFree ? <div className={styles.discount}>-{discount}%</div> : null}
     {isMobile ? <div className={styles.mobileContent}>{content}</div> : content}
     {isEdit && <div style={{ marginBottom: 5 }}><Select
       placeholder="Chọn bài viết"

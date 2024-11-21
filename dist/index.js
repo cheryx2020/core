@@ -4303,7 +4303,7 @@ const AdminMenu = ({
   }, '👁'));
 };
 
-var styles$n = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","image":"PatternItem-module_image__ar-yf","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","mobileContent":"PatternItem-module_mobileContent__wcZfW","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
+var styles$n = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","image":"PatternItem-module_image__ar-yf","discount":"PatternItem-module_discount__pzryu","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","mobileContent":"PatternItem-module_mobileContent__wcZfW","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
 
 axios$1.interceptors.request.use(function (config) {
   try {
@@ -58678,6 +58678,7 @@ const PatternItem = ({
   useDispatch = () => {},
   nameFontFamily = "",
   imageUrl = NoImage,
+  discount = 0,
   language = 'vi',
   _id,
   description,
@@ -58944,7 +58945,9 @@ const PatternItem = ({
     isEdit: isEdit,
     src: imgSrc,
     onChangeImage: onChangeImage
-  }), isMobile ? /*#__PURE__*/React__default.createElement("div", {
+  }), discount && !_isFree ? /*#__PURE__*/React__default.createElement("div", {
+    className: styles$n.discount
+  }, "-", discount, "%") : null, isMobile ? /*#__PURE__*/React__default.createElement("div", {
     className: styles$n.mobileContent
   }, content) : content, isEdit && /*#__PURE__*/React__default.createElement("div", {
     style: {
@@ -62629,12 +62632,18 @@ const PayPalCheckout = ({
   itemId,
   instructionText = "Enter your email to receive the pattern",
   amount = "6.00",
-  currency = "USD"
+  currency = "USD",
+  className,
+  styles = {}
 }) => {
   const [email, setEmail] = useState(""); // Email input state
   const [isEmailValid, setIsEmailValid] = useState(false); // Track email validity
   const [isShowEmailInput, setIsShowEmailInput] = useState(false); // Control showing email input
-
+  const [isSuccess, setIsSuccess] = useState(true);
+  const _styles = {
+    width: "100%",
+    ...styles
+  };
   const handleEmailChange = event => {
     setEmail(event.target.value);
     // Basic email validation
@@ -62653,7 +62662,7 @@ const PayPalCheckout = ({
       clientId,
       currency
     }
-  }, !isShowEmailInput && /*#__PURE__*/React__default.createElement(PayPalButtons, {
+  }, !isShowEmailInput && !isSuccess && /*#__PURE__*/React__default.createElement(PayPalButtons, {
     style: {
       layout: "horizontal"
     },
@@ -62661,7 +62670,10 @@ const PayPalCheckout = ({
       setIsShowEmailInput(true); // Show email input after PayPal button is clicked
     },
     createOrder: () => null // No order created yet
-  }), isShowEmailInput && /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("form", {
+  }), isShowEmailInput && /*#__PURE__*/React__default.createElement("div", {
+    className: className,
+    styles: _styles
+  }, /*#__PURE__*/React__default.createElement("form", {
     onSubmit: handleSubmit
   }, /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement(Input, {
     id: instructionText,
@@ -62670,7 +62682,7 @@ const PayPalCheckout = ({
     onChange: handleEmailChange,
     required: true,
     placeholder: "Enter your email"
-  }))), isEmailValid && /*#__PURE__*/React__default.createElement("div", {
+  }))), isEmailValid && !isSuccess && /*#__PURE__*/React__default.createElement("div", {
     style: {
       marginTop: "20px"
     }
@@ -62690,13 +62702,14 @@ const PayPalCheckout = ({
     },
     onApprove: (data, actions) => {
       return actions.order.capture().then(details => {
+        setIsSuccess(true);
         console.log("Transaction Details:", details);
       });
     },
     onError: err => {
       console.error("PayPal Checkout Error:", err);
     }
-  }))));
+  }))), isSuccess && /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("div", null, "\uD83C\uDF89 Payment Successful! \uD83C\uDF89"), /*#__PURE__*/React__default.createElement("p", null, "Thank you for your purchase! Your transaction has been completed successfully."), /*#__PURE__*/React__default.createElement("p", null, "Please check your email for a confirmation message and any further details regarding your order. If you don\u2019t see it in your inbox, be sure to check your spam or junk folder just in case!"), /*#__PURE__*/React__default.createElement("p", null, "If you have any questions or need assistance, feel free to reach out. Enjoy your day!")));
 };
 
 const MainLayout = ({

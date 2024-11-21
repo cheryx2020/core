@@ -25,6 +25,28 @@
             }
         }
     }
+    .discount {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        font-size: 30px;
+        background-color: #d03333;
+        border-radius: 50%;
+        right: 10px;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-family: "Fredericka the Great";
+        @include mobile {
+            width: 60px;
+            height: 60px;
+            right: unset;
+            left: 110px;
+            font-size: 20px;
+        }
+    }
 
     .freeTag {
         width: 231px;
