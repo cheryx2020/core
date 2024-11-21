@@ -906,7 +906,7 @@
   background-color: #d03333;
   border-radius: 50%;
   right: 10px;
-  top: 0;
+  top: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -915,11 +915,12 @@
 }
 @media (max-width: 641px) {
   .PatternItem-module_wrapper__daTgU .PatternItem-module_discount__pzryu {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     right: unset;
-    left: 110px;
-    font-size: 20px;
+    left: 132px;
+    top: 3px;
+    font-size: 15px;
   }
 }
 .PatternItem-module_wrapper__daTgU .PatternItem-module_freeTag__HCPV8 {
