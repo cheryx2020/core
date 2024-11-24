@@ -60388,6 +60388,7 @@ var TwitterShareButton$1 = TwitterShareButton;
 
 var styles$k = {"imageWrapper":"TipDetail-module_imageWrapper__7ob-p","wrapperAction":"TipDetail-module_wrapperAction__fjIyB","deleteButton":"TipDetail-module_deleteButton__qEVWw","addButton":"TipDetail-module_addButton__1234H","button":"TipDetail-module_button__LgFX0","imageUpload":"TipDetail-module_imageUpload__1WBls","wrapper":"TipDetail-module_wrapper__v037r","adminTopHeader":"TipDetail-module_adminTopHeader__IAsnm","actionButtons":"TipDetail-module_actionButtons__HcIOT","checkBox":"TipDetail-module_checkBox__2iiOx","ads":"TipDetail-module_ads__0ycvb","shareZone":"TipDetail-module_shareZone__aJ7c4","shareBtn":"TipDetail-module_shareBtn__p4n9m","adminMenuBtn":"TipDetail-module_adminMenuBtn__NHrLd","adminMenu":"TipDetail-module_adminMenu__aDEnw","hidden":"TipDetail-module_hidden__A2u8V","menuItem":"TipDetail-module_menuItem__xdArV","adminMenuBtnSave":"TipDetail-module_adminMenuBtnSave__UZSjP","listPost":"TipDetail-module_listPost__DAxSM","adminMenuInputPostId":"TipDetail-module_adminMenuInputPostId__e2XnG","relatedTo":"TipDetail-module_relatedTo__Sw1Dt","menuLink":"TipDetail-module_menuLink__9UcOp","arrow":"TipDetail-module_arrow__51LOc","textRelatedTo":"TipDetail-module_textRelatedTo__U1jTE","dropZone":"TipDetail-module_dropZone__KmtOr","subcribeMe":"TipDetail-module_subcribeMe__K0Bcd","imgWrapper":"TipDetail-module_imgWrapper__Q2mx8","videoMenu":"TipDetail-module_videoMenu__pioTv","imageDescription":"TipDetail-module_imageDescription__O0dp9"};
 
+const AUTH_KEY = "accessToken";
 const useAuthenticate = () => {
   const [verified, setVerified] = useState(false);
   useEffect(() => {
@@ -60395,14 +60396,19 @@ const useAuthenticate = () => {
   }, []);
   const checkAccess = async () => {
     try {
+      if (!localStorage.getItem(AUTH_KEY)) {
+        return {
+          isAuth: false
+        };
+      }
       // we call the api that verifies the token.
       const data = await verifyToken();
       // if token was verified we set the state.
-      if (localStorage.getItem("accessToken") && data.verified) {
+      if (localStorage.getItem(AUTH_KEY) && data.verified) {
         setVerified(true);
       } else {
         // If the token was fraud we first remove it from localStorage and then redirect to "/"
-        localStorage.removeItem("accessToken");
+        localStorage.removeItem(AUTH_KEY);
         setVerified(false);
       }
     } catch (e) {
@@ -60824,9 +60830,6 @@ const HeaderCherxy = ({
     url: `/${process?.env?.NEXT_PUBLIC_PRE_TIP}`
   }]
 }) => {
-  const {
-    isAuth
-  } = useAuthenticate();
   return /*#__PURE__*/React__default.createElement("header", {
     style: {
       width: '100%'
@@ -60897,7 +60900,7 @@ const HeaderCherxy = ({
   }), /*#__PURE__*/React__default.createElement("div", {
     className: styles$h.rightSide
   }, /*#__PURE__*/React__default.createElement(Link, {
-    href: isAuth ? '/dashboard' : '/login'
+    href: isAdmin ? '/dashboard' : '/login'
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer"
   }, /*#__PURE__*/React__default.createElement("img", {
@@ -61023,7 +61026,9 @@ const MySocialLink = ({
 
 const Footer = ({
   isMobile,
-  className
+  image = "https://gocnhacolen.com/images/footer.webp",
+  className,
+  isAdmin
 }) => {
   return /*#__PURE__*/React__default.createElement("footer", {
     className: `${homeStyles.footer} ${className}`
@@ -61031,11 +61036,16 @@ const Footer = ({
     isMobile: isMobile
   }), /*#__PURE__*/React__default.createElement("div", {
     className: homeStyles.imageFooter
-  }, /*#__PURE__*/React__default.createElement("img", {
-    width: "100%",
-    height: "100%",
+  }, /*#__PURE__*/React__default.createElement(ImageUploadable, {
+    isAdmin: isAdmin,
+    isEdit: isAdmin,
+    wrapperStyle: {
+      width: "100%",
+      height: "100%",
+      aspectRatio: "unset"
+    },
     alt: process?.env?.NEXT_PUBLIC_SEO_mainTitle,
-    src: `/images/footer.webp`
+    src: image
   }), /*#__PURE__*/React__default.createElement("div", {
     className: homeStyles.dcma
   }, /*#__PURE__*/React__default.createElement("a", {
@@ -62718,12 +62728,16 @@ const MainLayout = ({
   url,
   seoConfig,
   description,
-  MenuData = []
+  MenuData = [],
+  footer = {},
+  isAdmin
 }) => {
   const router = useRouter();
-  const {
-    isAdmin
-  } = router.query || {};
+  let _isAdmin = isAdmin ?? false;
+  if (router && router.query && router.query.isAdmin) {
+    // TODO will remove in the future
+    _isAdmin = true;
+  }
   return /*#__PURE__*/React__default.createElement("div", {
     className: homeStyles.container
   }, /*#__PURE__*/React__default.createElement(HeaderPage, {
@@ -62739,7 +62753,7 @@ const MainLayout = ({
     MenuData: MenuData,
     Link: Link,
     url: url,
-    isAdmin: isAdmin
+    isAdmin: _isAdmin
   }), /*#__PURE__*/React__default.createElement(SubLink, {
     className: sublinkClassName,
     wrapperStyle: subLinkStyle,
@@ -62750,6 +62764,8 @@ const MainLayout = ({
       }, /*#__PURE__*/React__default.createElement("a", null, item.text));
     }
   }), content), /*#__PURE__*/React__default.createElement(Footer, {
+    isAdmin: _isAdmin,
+    image: footer.image,
     isMobile: isMobile
   }));
 };
