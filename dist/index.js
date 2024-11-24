@@ -60920,7 +60920,7 @@ const HeaderCherxy = ({
     className: styles$h.nav
   }, MenuData.map((item, index) => /*#__PURE__*/React__default.createElement(Link, {
     key: index,
-    href: item.url + `${isAdmin ? '?isAdmin=true' : ''}`
+    href: item.url
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
     className: url === item.url ? styles$h.selectedLink : ''

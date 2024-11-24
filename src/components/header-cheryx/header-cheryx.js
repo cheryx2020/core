@@ -76,7 +76,7 @@ const HeaderCherxy = ({isAdmin, url, showNavigator = true, Link, MenuData = [{
       <Link href={'/'}><a><div className={styles.cheryx}></div></a></Link>
     </div>
     {showNavigator && <nav className={styles.nav}>
-      {MenuData.map((item,index) => <Link key={index} href={item.url + `${isAdmin ? '?isAdmin=true' : ''}`}><a rel="noreferrer" className={url === item.url ? styles.selectedLink : ''}>{item.text}</a></Link>)}
+      {MenuData.map((item,index) => <Link key={index} href={item.url}><a rel="noreferrer" className={url === item.url ? styles.selectedLink : ''}>{item.text}</a></Link>)}
     </nav>}
   </header>
 }
