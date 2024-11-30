@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import Input from "../input";
 
-const PayPalCheckout = ({ clientId, itemId, instructionText = "Enter your email to receive the pattern", amount = "6.00", currency = "USD" }) => {
+const PayPalCheckout = ({ clientId, itemId, instructionText = "Enter your email to receive the pattern", amount = "6.00", currency = "USD", className, styles = {} }) => {
   const [email, setEmail] = useState(""); // Email input state
   const [isEmailValid, setIsEmailValid] = useState(false); // Track email validity
   const [isShowEmailInput, setIsShowEmailInput] = useState(false); // Control showing email input
+  const [isSuccess, setIsSuccess] = useState(true);
+  const _styles = {
+    width: "100%",
+    ...styles,
+  }
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -24,7 +29,7 @@ const PayPalCheckout = ({ clientId, itemId, instructionText = "Enter your email 
 
   return (
     <PayPalScriptProvider options={{ clientId, currency }}>
-      {!isShowEmailInput && (
+      {!isShowEmailInput && !isSuccess && (
         <PayPalButtons
           style={{ layout: "horizontal" }}
           onClick={() => {
@@ -36,7 +41,7 @@ const PayPalCheckout = ({ clientId, itemId, instructionText = "Enter your email 
 
       {/* Email Input Form */}
       {isShowEmailInput && (
-        <div>
+        <div className={className} styles={_styles}>
           <form onSubmit={handleSubmit}>
             <label>
               <Input
@@ -51,7 +56,7 @@ const PayPalCheckout = ({ clientId, itemId, instructionText = "Enter your email 
           </form>
 
           {/* Show PayPal Payment Button after email is valid */}
-          {isEmailValid && (
+          {isEmailValid && !isSuccess && (
             <div style={{ marginTop: "20px" }}>
               <PayPalButtons
                 style={{ layout: "horizontal" }}
@@ -69,6 +74,7 @@ const PayPalCheckout = ({ clientId, itemId, instructionText = "Enter your email 
                 }}
                 onApprove={(data, actions) => {
                   return actions.order.capture().then((details) => {
+                    setIsSuccess(true);
                     console.log("Transaction Details:", details);
                   });
                 }}
@@ -80,6 +86,16 @@ const PayPalCheckout = ({ clientId, itemId, instructionText = "Enter your email 
           )}
         </div>
       )}
+      {/* Success message */}
+      {isSuccess && <div>
+            <div>🎉 Payment Successful! 🎉</div>
+
+            <p>Thank you for your purchase! Your transaction has been completed successfully.</p>
+
+            <p>Please check your email for a confirmation message and any further details regarding your order. If you don’t see it in your inbox, be sure to check your spam or junk folder just in case!</p>
+
+            <p>If you have any questions or need assistance, feel free to reach out. Enjoy your day!</p>
+          </div>}
     </PayPalScriptProvider>
   );
 };
