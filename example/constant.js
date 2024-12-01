@@ -1,1 +1,1 @@
-export const defaultImageUrl = "https://avatars.githubusercontent.com/u/9473156?v=4"
+export const defaultImageUrl = "https://avatars.githubusercontent.com/u/0000001?v=4"

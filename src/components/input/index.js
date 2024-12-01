@@ -3,8 +3,8 @@ import styles from './Input.module.scss';
 
 const Input = ({ id, type, value, onChange, required, ...rest }) => {
     return (
-        <div key={id} className={styles.inputContainer}>
-            <label htmlFor={id}>{id.charAt(0).toUpperCase() + id.slice(1)}</label>
+        <div key={id} style={rest.style ?? {}} className={styles.inputContainer}>
+            { id ? <label htmlFor={id}>{id.charAt(0)?.toUpperCase() + id.slice(1)}</label> : null }
             {type === 'textarea' ? (
                 <textarea
                     {...rest}

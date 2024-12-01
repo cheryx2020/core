@@ -5,7 +5,7 @@ import { defaultImageUrl } from "../constant";
 
 const Index = () => {
     const [imageUrl, setImageUrl] = useState(defaultImageUrl);
-    const [name, setName] = useState("Pattern Name");
+    const [name, setName] = useState("Product Name");
     const [discount, setDiscount] = useState(0);
     const [description, setDescription] = useState("Description");
     const [nameColor, setNameColor] = useState("#0A7BCA");

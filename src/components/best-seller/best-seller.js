@@ -8,7 +8,7 @@ const BestSeller = ({ useRouter = () => {}, useDispatch = () => {}, isAdmin, isM
     }
     return <div className={styles.wrapper} onClick={onClickPatternItem}>
         <div className={styles.left}>
-            <PatternItem useDispatch={useDispatch} useRouter={useRouter} isAdmin={isAdmin} isMobile={isMobile} key={data.id} {...data}/>
+            <PatternItem useDispatch={useDispatch} useRouter={useRouter} isAdmin={isAdmin} isMobile={isMobile} key={data?.id} {...data}/>
         </div>
         <div className={styles.right}>
             <div className={styles.image}>
