@@ -160,15 +160,13 @@
         }
     }
 
-    .mobileContent {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        padding-left: 9px;
-
+    .content {
         @include mobile {
             padding-left: 20px;
             justify-content: center;
+            display: flex;
+            flex-direction: column;
+            padding-left: 9px;
         }
     }
 

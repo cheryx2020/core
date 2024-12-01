@@ -12,7 +12,6 @@ const Index = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const [isAddNew, setIsAddNew] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
     const [isFree, setIsFree] = useState(false);
     const [isBottom, setIsBottom] = useState(false);
     return <div>
@@ -25,7 +24,6 @@ const Index = () => {
                 nameColor={nameColor} 
                 isEditing={isEditing} 
                 isAdmin={isAdmin} 
-                isMobile={isMobile} 
                 isBottom={isBottom}
                 isFree={isFree} 
                 isAddNew={isAddNew}
@@ -40,7 +38,6 @@ const Index = () => {
             <Property text="isEditing" value={isEditing} onChange={() => { setIsEditing(!isEditing) }} description="to make sure the component can editable or not" />
             <Property text="isAdmin" value={isAdmin} onChange={() => { setIsAdmin(!isAdmin) }} description="to show admin menu" />
             <Property text="isBottom" value={isBottom} onChange={() => { setIsBottom(!isBottom) }} description="is bottom layout" />
-            <Property text="isMobile" value={isMobile} onChange={() => { setIsMobile(!isMobile) }} description="mobile view" />
             <Property text="isFree" value={isFree} onChange={() => { setIsFree(!isFree) }} description="is free" />
             <Property text="isAddNew" value={isAddNew} onChange={() => { setIsAddNew(!isAddNew) }} description="is add new" />
         </Properties>

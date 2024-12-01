@@ -7,7 +7,7 @@ import Select from 'react-select'
 import { getListTips } from '@cheryx2020/utils';
 
 const NoImage = 'https://cheryx.com/images/no-image.png';
-const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontFamily = "", imageUrl = NoImage, discount = 0, language = 'vi', _id, description, name, nameColor = '#0A7BCA', isMobile, ravelryUrl, patternId = '', order, isAdmin, isAddNew, isFree, isBottom, apiDelete = 'remove-pattern', apiEdit = 'edit-pattern', apiAdd = 'add-pattern', onClickUrl = 'edit-pattern-detail' }) => {
+const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontFamily = "", imageUrl = NoImage, discount = 0, language = 'vi', _id, description, name, nameColor = '#0A7BCA', ravelryUrl, patternId = '', order, isAdmin, isAddNew, isFree, isBottom, apiDelete = 'remove-pattern', apiEdit = 'edit-pattern', apiAdd = 'add-pattern', onClickUrl = 'edit-pattern-detail' }) => {
   const [imgSrc, setImgSrc] = useState(imageUrl);
   const [listPatternDetail, setListPatternDetail] = useState([]);
   const [prNameColor, setPrNameColor] = useState(nameColor);
@@ -226,7 +226,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
     {_isFree && <div className={`${styles.freeTag} ${isBottom ? styles.isBottom : ''}`}></div>}
     <ImageUploadable className={styles.image} isEdit={isEdit} src={imgSrc} onChangeImage={onChangeImage} />
     {discount && !_isFree ? <div className={styles.discount}>-{discount}%</div> : null}
-    {isMobile ? <div className={styles.mobileContent}>{content}</div> : content}
+    <div className={styles.content}>{content}</div>
     {isEdit && <div style={{ marginBottom: 5 }}><Select
       placeholder="Chọn bài viết"
       classNamePrefix={'muti-select'}

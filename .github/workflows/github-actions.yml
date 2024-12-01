@@ -1,7 +1,11 @@
 name: Publish
 run-name: Publish
-on: [push]
+on: 
+  push:
+    branches:
+      - main
 jobs:
   publish:
+    if: contains(github.event.head_commit.message, 'publish')
     uses: cheryx2020/api-service/.github/workflows/actions.yml@main
     secrets: inherit
