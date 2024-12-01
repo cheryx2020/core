@@ -58690,22 +58690,21 @@ const PatternItem = ({
   order,
   isAdmin,
   isAddNew,
-  isEditing,
   isFree,
   isBottom,
-  listPatternDetail = [],
   apiDelete = 'remove-pattern',
   apiEdit = 'edit-pattern',
   apiAdd = 'add-pattern',
   onClickUrl = 'edit-pattern-detail'
 }) => {
   const [imgSrc, setImgSrc] = useState(imageUrl);
+  const [listPatternDetail, setListPatternDetail] = useState([]);
   const [prNameColor, setPrNameColor] = useState(nameColor);
   const [des, setDes] = useState(isAddNew ? 'Description' : description);
   const [prName, setPrName] = useState(isAddNew ? 'Pattern Name' : name);
   const [patternFile, setPatternFile] = useState(null);
   const [imgFile, setImgFile] = useState(null);
-  const [isEdit, setIsEdit] = useState(isEditing);
+  const [isEdit, setIsEdit] = useState(false);
   const [_isFree, setIsFree] = useState(isFree);
   const [prRavelryUrl, setPrRavelryUrl] = useState(ravelryUrl);
   const [selectedPatternDetail, setSelectedPatternDetail] = useState(null);
@@ -58728,9 +58727,8 @@ const PatternItem = ({
     setIsFree(isFree);
     setDes(description);
     setPrNameColor(nameColor);
-    setIsEdit(isEditing);
     setImgSrc(imageUrl || NoImage);
-  }, [name, isFree, description, nameColor, isEditing, imageUrl]);
+  }, [name, isFree, description, nameColor, imageUrl]);
   useEffect(() => {
     if (patternId && Array.isArray(listPatternDetail) && listPatternDetail.length > 0) {
       setSelectedPatternDetail(listPatternDetail.find(item => item.value === patternId));
@@ -58800,6 +58798,22 @@ const PatternItem = ({
     e.stopPropagation();
     if (!isEdit) {
       setIsEdit(true);
+      getListTips({
+        language,
+        isPattern: true
+      }).then(res => {
+        if (Array.isArray(res)) {
+          const result = res.map(i => {
+            return {
+              value: i.id,
+              label: i.title
+            };
+          });
+          setListPatternDetail(result);
+        }
+      }).catch(e => {
+        console.log(e);
+      });
     } else {
       const bodyFormData = new FormData();
       let data = {};
@@ -61102,7 +61116,6 @@ var styles$b = {"wrapper":"BestSeller-module_wrapper__DcZ-X","left":"BestSeller-
 const BestSeller = ({
   useRouter = () => {},
   useDispatch = () => {},
-  listPatternDetail,
   isAdmin,
   isMobile,
   data
@@ -61118,7 +61131,6 @@ const BestSeller = ({
   }, /*#__PURE__*/React__default.createElement(PatternItem, _extends({
     useDispatch: useDispatch,
     useRouter: useRouter,
-    listPatternDetail: listPatternDetail,
     isAdmin: isAdmin,
     isMobile: isMobile,
     key: data.id
@@ -61528,38 +61540,13 @@ var styles$3 = {"wrapper":"PatternList-module_wrapper__XGei4","bottom":"PatternL
 const PatternList = ({
   useRouter = () => {},
   useDispatch = () => {},
-  language = 'vi',
   data,
   isMobile,
   isAdmin,
   style = {},
   isBottom,
-  onLoadPatternList = () => {},
   className
 }) => {
-  const [listPatternDetail, setListPatternDetail] = useState([{
-    value: '1',
-    label: 'Mmmm'
-  }]);
-  useEffect(() => {
-    getListTips({
-      language,
-      isPattern: true
-    }).then(res => {
-      if (Array.isArray(res)) {
-        const result = res.map(i => {
-          return {
-            value: i.id,
-            label: i.title
-          };
-        });
-        setListPatternDetail(result);
-        onLoadPatternList(result);
-      }
-    }).catch(e => {
-      console.log(e);
-    });
-  }, []);
   return /*#__PURE__*/React__default.createElement("div", {
     className: `${styles$3.wrapper} ${isBottom ? `${styles$3.bottom} ${className}` : ''}`,
     style: {
@@ -61568,7 +61555,6 @@ const PatternList = ({
   }, Array.isArray(data) && data.map((item, index) => /*#__PURE__*/React__default.createElement(PatternItem, _extends({
     useDispatch: useDispatch,
     useRouter: useRouter,
-    listPatternDetail: listPatternDetail,
     isBottom: isBottom,
     isAdmin: isAdmin,
     isMobile: isMobile,
@@ -61576,7 +61562,6 @@ const PatternList = ({
   }, item))), isAdmin && /*#__PURE__*/React__default.createElement(PatternItem, {
     useDispatch: useDispatch,
     useRouter: useRouter,
-    listPatternDetail: listPatternDetail,
     name: "Pattern Name",
     description: "Description",
     isEditing: true,
@@ -62004,28 +61989,25 @@ const withAuth = (WrappedComponent, Router) => {
 
 const PageItem = ({
   data,
-  isAdmin,
-  isMobile,
-  useRouter,
-  useDispatch
+  ...rest
 }) => {
   switch (data?.id) {
+    case "BEST_SELLER":
+      return /*#__PURE__*/React__default.createElement(BestSeller, _extends({}, rest, {
+        data: data?.[data.api] ?? {}
+      }));
     case "NOTE":
-      return /*#__PURE__*/React__default.createElement(Note, {
+      return /*#__PURE__*/React__default.createElement(Note, _extends({}, rest, {
         title: data.title,
         text: data.text
-      });
+      }));
     case "PATTERN_LIST":
-      return /*#__PURE__*/React__default.createElement(PatternList, {
-        useRouter: useRouter,
-        useDispatch: useDispatch,
+      return /*#__PURE__*/React__default.createElement(PatternList, _extends({}, rest, {
         style: {
-          marginTop: isMobile ? 20 : 40
+          marginTop: rest.isMobile ? 20 : 40
         },
-        isAdmin: isAdmin,
-        isMobile: isMobile,
         data: data?.[data.api] ?? []
-      });
+      }));
     case CIRCLE_IMAGE:
       return /*#__PURE__*/React__default.createElement(CircleGroup, {
         urls: data?.value || []
@@ -62652,12 +62634,18 @@ const PayPalCheckout = ({
   itemId,
   instructionText = "Enter your email to receive the pattern",
   amount = "6.00",
-  currency = "USD"
+  currency = "USD",
+  className,
+  styles = {}
 }) => {
   const [email, setEmail] = useState(""); // Email input state
   const [isEmailValid, setIsEmailValid] = useState(false); // Track email validity
   const [isShowEmailInput, setIsShowEmailInput] = useState(false); // Control showing email input
-
+  const [isSuccess, setIsSuccess] = useState(true);
+  const _styles = {
+    width: "100%",
+    ...styles
+  };
   const handleEmailChange = event => {
     setEmail(event.target.value);
     // Basic email validation
@@ -62676,7 +62664,7 @@ const PayPalCheckout = ({
       clientId,
       currency
     }
-  }, !isShowEmailInput && /*#__PURE__*/React__default.createElement(PayPalButtons, {
+  }, !isShowEmailInput && !isSuccess && /*#__PURE__*/React__default.createElement(PayPalButtons, {
     style: {
       layout: "horizontal"
     },
@@ -62684,7 +62672,10 @@ const PayPalCheckout = ({
       setIsShowEmailInput(true); // Show email input after PayPal button is clicked
     },
     createOrder: () => null // No order created yet
-  }), isShowEmailInput && /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("form", {
+  }), isShowEmailInput && /*#__PURE__*/React__default.createElement("div", {
+    className: className,
+    styles: _styles
+  }, /*#__PURE__*/React__default.createElement("form", {
     onSubmit: handleSubmit
   }, /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement(Input, {
     id: instructionText,
@@ -62693,7 +62684,7 @@ const PayPalCheckout = ({
     onChange: handleEmailChange,
     required: true,
     placeholder: "Enter your email"
-  }))), isEmailValid && /*#__PURE__*/React__default.createElement("div", {
+  }))), isEmailValid && !isSuccess && /*#__PURE__*/React__default.createElement("div", {
     style: {
       marginTop: "20px"
     }
@@ -62713,13 +62704,14 @@ const PayPalCheckout = ({
     },
     onApprove: (data, actions) => {
       return actions.order.capture().then(details => {
+        setIsSuccess(true);
         console.log("Transaction Details:", details);
       });
     },
     onError: err => {
       console.error("PayPal Checkout Error:", err);
     }
-  }))));
+  }))), isSuccess && /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("div", null, "\uD83C\uDF89 Payment Successful! \uD83C\uDF89"), /*#__PURE__*/React__default.createElement("p", null, "Thank you for your purchase! Your transaction has been completed successfully."), /*#__PURE__*/React__default.createElement("p", null, "Please check your email for a confirmation message and any further details regarding your order. If you don\u2019t see it in your inbox, be sure to check your spam or junk folder just in case!"), /*#__PURE__*/React__default.createElement("p", null, "If you have any questions or need assistance, feel free to reach out. Enjoy your day!")));
 };
 
 const MainLayout = ({

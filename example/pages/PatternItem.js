@@ -12,14 +12,9 @@ const Index = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const [isAddNew, setIsAddNew] = useState(false);
-    const [listPatternDetail, setListPatternDetail] = useState(`[{"value": 1, "label": "Option 1"}]`);
     const [isMobile, setIsMobile] = useState(false);
     const [isFree, setIsFree] = useState(false);
     const [isBottom, setIsBottom] = useState(false);
-    let _listPatternDetail = [];
-    try {
-        _listPatternDetail = JSON.parse(listPatternDetail);
-    } catch (e) { }
     return <div>
         <div style={{ width: 400, height: 'auto' }}>
             <PatternItem 
@@ -34,7 +29,6 @@ const Index = () => {
                 isBottom={isBottom}
                 isFree={isFree} 
                 isAddNew={isAddNew}
-                listPatternDetail={_listPatternDetail} 
             />
         </div>
         <Properties>
@@ -49,7 +43,6 @@ const Index = () => {
             <Property text="isMobile" value={isMobile} onChange={() => { setIsMobile(!isMobile) }} description="mobile view" />
             <Property text="isFree" value={isFree} onChange={() => { setIsFree(!isFree) }} description="is free" />
             <Property text="isAddNew" value={isAddNew} onChange={() => { setIsAddNew(!isAddNew) }} description="is add new" />
-            <Property text="listPatternDetail" type="input" value={listPatternDetail} onChange={(e) => { setListPatternDetail(e.target.value) }} description="" />
         </Properties>
     </div>
 }

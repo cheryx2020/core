@@ -4,16 +4,18 @@ import { APIService, setShowLoading, handleApiError } from "@cheryx2020/api-serv
 import React, { useEffect, useState } from 'react';
 import PatternName from '../pattern-name/pattern-name';
 import Select from 'react-select'
+import { getListTips } from '@cheryx2020/utils';
 
 const NoImage = 'https://cheryx.com/images/no-image.png';
-const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontFamily = "", imageUrl = NoImage, discount = 0, language = 'vi', _id, description, name, nameColor = '#0A7BCA', isMobile, ravelryUrl, patternId = '', order, isAdmin, isAddNew, isEditing, isFree, isBottom, listPatternDetail = [], apiDelete = 'remove-pattern', apiEdit = 'edit-pattern', apiAdd = 'add-pattern', onClickUrl = 'edit-pattern-detail' }) => {
+const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontFamily = "", imageUrl = NoImage, discount = 0, language = 'vi', _id, description, name, nameColor = '#0A7BCA', isMobile, ravelryUrl, patternId = '', order, isAdmin, isAddNew, isFree, isBottom, apiDelete = 'remove-pattern', apiEdit = 'edit-pattern', apiAdd = 'add-pattern', onClickUrl = 'edit-pattern-detail' }) => {
   const [imgSrc, setImgSrc] = useState(imageUrl);
+  const [listPatternDetail, setListPatternDetail] = useState([]);
   const [prNameColor, setPrNameColor] = useState(nameColor);
   const [des, setDes] = useState(isAddNew ? 'Description' : description);
   const [prName, setPrName] = useState(isAddNew ? 'Pattern Name' : name);
   const [patternFile, setPatternFile] = useState(null);
   const [imgFile, setImgFile] = useState(null);
-  const [isEdit, setIsEdit] = useState(isEditing);
+  const [isEdit, setIsEdit] = useState(false);
   const [_isFree, setIsFree] = useState(isFree);
   const [prRavelryUrl, setPrRavelryUrl] = useState(ravelryUrl);
   const [selectedPatternDetail, setSelectedPatternDetail] = useState(null);
@@ -36,9 +38,8 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
     setIsFree(isFree);
     setDes(description);
     setPrNameColor(nameColor);
-    setIsEdit(isEditing);
     setImgSrc(imageUrl || NoImage);
-    }, [name, isFree, description, nameColor, isEditing, imageUrl]);
+  }, [name, isFree, description, nameColor, imageUrl]);
   useEffect(() => {
     if (patternId && Array.isArray(listPatternDetail) && listPatternDetail.length > 0) {
       setSelectedPatternDetail(listPatternDetail.find(item => item.value === patternId));
@@ -93,11 +94,20 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
       router.push(`${onClickUrl}/${patternId}`);
     }
   }
+
   const dispatch = useDispatch();
   const onClickEdit = (e) => {
     e.stopPropagation();
     if (!isEdit) {
       setIsEdit(true);
+      getListTips({ language, isPattern: true }).then(res => {
+        if (Array.isArray(res)) {
+          const result = res.map(i => { return { value: i.id, label: i.title } });
+          setListPatternDetail(result);
+        }
+      }).catch(e => {
+        console.log(e);
+      });
     } else {
       const bodyFormData = new FormData();
       let data = {};
