@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './ImageUploadable.module.scss';
 import { readFile, isBigFile } from "@cheryx2020/utils";
 
-const ImageUploadable = ({ src, onChangeImage = () => { }, isEdit, wrapperStyle = {}, imgStyle={}, className = '', onChangeStyle = () => { }, resizeable = false }) => {
+const ImageUploadable = ({ src, onChangeImage = () => { }, isEdit, wrapperStyle = {}, skipCheckFileSize, imgStyle={}, className = '', onChangeStyle = () => { }, resizeable = false }) => {
   const [imgSrc, setImgSrc] = useState('');
   const imageWap = useRef(null);
   const image = useRef(null);
@@ -13,7 +13,7 @@ const ImageUploadable = ({ src, onChangeImage = () => { }, isEdit, wrapperStyle 
       setImgSrc(src);
     }
   }, [src]);
-  const isSkipCheckFileSize = wrapperStyle.width;
+  const isSkipCheckFileSize = skipCheckFileSize ? true : wrapperStyle.width;
   const onChange = async (e) => {
     // Check file size
     if (!isSkipCheckFileSize && isBigFile(e?.target?.files[0])) {
@@ -30,7 +30,7 @@ const ImageUploadable = ({ src, onChangeImage = () => { }, isEdit, wrapperStyle 
       }
     })
     setImgSrc(imgSrc);
-    onChangeImage({ imgSrc, imgFile })
+    onChangeImage({ imgSrc, imgFile, width: imageWap?.current?.clientWidth ?? 0 })
     return;
   }
   let startX, startY, startWidth, startHeight;
@@ -44,10 +44,12 @@ const ImageUploadable = ({ src, onChangeImage = () => { }, isEdit, wrapperStyle 
     document.documentElement.addEventListener('mouseup', stopDrag, false);
   }
   function doDrag(e) {
-    imageWap.current.style.width = (startWidth + e.clientX - startX) + 'px';
-    imageWap.current.style.height = (startHeight + e.clientY - startY) + 'px';
-    image.current.style.width = (startWidth + e.clientX - startX) + 'px';
-    image.current.style.height = (startHeight + e.clientY - startY) + 'px';
+    const imageWidth = (startWidth + e.clientX - startX) + 'px';
+    const imageHeight = (startHeight + e.clientY - startY) + 'px';
+    imageWap.current.style.width = imageWidth;
+    imageWap.current.style.height = imageHeight;
+    image.current.style.width = imageWidth;
+    image.current.style.height = imageHeight;
   }
 
   function stopDrag(e) {

@@ -3518,6 +3518,7 @@ const ImageUploadable = ({
   onChangeImage = () => {},
   isEdit,
   wrapperStyle = {},
+  skipCheckFileSize,
   imgStyle = {},
   className = '',
   onChangeStyle = () => {},
@@ -3535,7 +3536,7 @@ const ImageUploadable = ({
       setImgSrc(src);
     }
   }, [src]);
-  const isSkipCheckFileSize = wrapperStyle.width;
+  const isSkipCheckFileSize = skipCheckFileSize ? true : wrapperStyle.width;
   const onChange = async e => {
     // Check file size
     if (!isSkipCheckFileSize && isBigFile(e?.target?.files[0])) {
@@ -3560,7 +3561,8 @@ const ImageUploadable = ({
     setImgSrc(imgSrc);
     onChangeImage({
       imgSrc,
-      imgFile
+      imgFile,
+      width: imageWap?.current?.clientWidth ?? 0
     });
     return;
   };
@@ -3575,10 +3577,12 @@ const ImageUploadable = ({
     document.documentElement.addEventListener('mouseup', stopDrag, false);
   };
   function doDrag(e) {
-    imageWap.current.style.width = startWidth + e.clientX - startX + 'px';
-    imageWap.current.style.height = startHeight + e.clientY - startY + 'px';
-    image.current.style.width = startWidth + e.clientX - startX + 'px';
-    image.current.style.height = startHeight + e.clientY - startY + 'px';
+    const imageWidth = startWidth + e.clientX - startX + 'px';
+    const imageHeight = startHeight + e.clientY - startY + 'px';
+    imageWap.current.style.width = imageWidth;
+    imageWap.current.style.height = imageHeight;
+    image.current.style.width = imageWidth;
+    image.current.style.height = imageHeight;
   }
   function stopDrag(e) {
     document.documentElement.removeEventListener('mousemove', doDrag, false);
@@ -58703,6 +58707,7 @@ const PatternItem = ({
   const [prName, setPrName] = useState(isAddNew ? 'Pattern Name' : name);
   const [patternFile, setPatternFile] = useState(null);
   const [imgFile, setImgFile] = useState(null);
+  const [imgWidth, setImgWidth] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [_isFree, setIsFree] = useState(isFree);
   const [prRavelryUrl, setPrRavelryUrl] = useState(ravelryUrl);
@@ -58836,15 +58841,16 @@ const PatternItem = ({
         bodyFormData.set('patternId', selectedPatternDetail.value);
         data.patternId = selectedPatternDetail.value;
       }
+      if (imgFile) {
+        bodyFormData.set('file', imgFile);
+        bodyFormData.set('imgWidth', imgWidth);
+        bodyFormData.set('requestAbsoluteUrlResponse', true);
+      }
       // Handle on save
       if (!isAddNew) {
         if (!_id) {
           alert('Không tìm thấy id');
           return;
-        }
-        if (imgFile) {
-          bodyFormData.set('file', imgFile);
-          bodyFormData.set('requestAbsoluteUrlResponse', true);
         }
         if (patternFile) {
           bodyFormData.set('patternFile', patternFile);
@@ -58869,8 +58875,6 @@ const PatternItem = ({
         return;
       }
       setShowLoading(dispatch, true);
-      bodyFormData.set('requestAbsoluteUrlResponse', true);
-      bodyFormData.set('file', imgFile);
       bodyFormData.set('name', prName);
       bodyFormData.set('description', des);
       bodyFormData.set('nameColor', prNameColor);
@@ -58916,10 +58920,12 @@ const PatternItem = ({
   };
   const onChangeImage = async ({
     imgSrc,
-    imgFile
+    imgFile,
+    width
   }) => {
     setImgSrc(imgSrc);
     setImgFile(imgFile);
+    setImgWidth(width);
   };
   return /*#__PURE__*/React__default.createElement("div", {
     href: makeUrl(ravelryUrl),
@@ -58954,6 +58960,7 @@ const PatternItem = ({
   }, "Detail")), _isFree && /*#__PURE__*/React__default.createElement("div", {
     className: `${styles$n.freeTag} ${isBottom ? styles$n.isBottom : ''}`
   }), /*#__PURE__*/React__default.createElement(ImageUploadable, {
+    skipCheckFileSize: true,
     className: styles$n.image,
     isEdit: isEdit,
     src: imgSrc,

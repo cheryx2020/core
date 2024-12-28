@@ -15,6 +15,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
   const [prName, setPrName] = useState(isAddNew ? 'Pattern Name' : name);
   const [patternFile, setPatternFile] = useState(null);
   const [imgFile, setImgFile] = useState(null);
+  const [imgWidth, setImgWidth] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [_isFree, setIsFree] = useState(isFree);
   const [prRavelryUrl, setPrRavelryUrl] = useState(ravelryUrl);
@@ -131,15 +132,16 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
         bodyFormData.set('patternId', selectedPatternDetail.value);
         data.patternId = selectedPatternDetail.value;
       }
+      if (imgFile) {
+        bodyFormData.set('file', imgFile);
+        bodyFormData.set('imgWidth', imgWidth);
+        bodyFormData.set('requestAbsoluteUrlResponse', true);
+      }
       // Handle on save
       if (!isAddNew) {
         if (!_id) {
           alert('Không tìm thấy id');
           return;
-        }
-        if (imgFile) {
-          bodyFormData.set('file', imgFile);
-          bodyFormData.set('requestAbsoluteUrlResponse', true);
         }
         if (patternFile) {
           bodyFormData.set('patternFile', patternFile);
@@ -162,8 +164,6 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
         return;
       }
       setShowLoading(dispatch, true);
-      bodyFormData.set('requestAbsoluteUrlResponse', true);
-      bodyFormData.set('file', imgFile);
       bodyFormData.set('name', prName);
       bodyFormData.set('description', des);
       bodyFormData.set('nameColor', prNameColor);
@@ -205,9 +205,10 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
   const onClickCancel = () => {
     setIsEdit(false);
   }
-  const onChangeImage = async ({ imgSrc, imgFile }) => {
+  const onChangeImage = async ({ imgSrc, imgFile, width }) => {
     setImgSrc(imgSrc);
     setImgFile(imgFile);
+    setImgWidth(width);
   }
 
   return <div href={makeUrl(ravelryUrl)} className={`${styles.wrapper} ${isBottom ? styles.isBottom : ''}`} style={{
@@ -224,7 +225,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
       {!isAddNew && !isEdit && <div onClick={onClickPatternDetail} className={styles.button}>Detail</div>}
     </div>}
     {_isFree && <div className={`${styles.freeTag} ${isBottom ? styles.isBottom : ''}`}></div>}
-    <ImageUploadable className={styles.image} isEdit={isEdit} src={imgSrc} onChangeImage={onChangeImage} />
+    <ImageUploadable skipCheckFileSize={true} className={styles.image} isEdit={isEdit} src={imgSrc} onChangeImage={onChangeImage} />
     {discount && !_isFree ? <div className={styles.discount}>-{discount}%</div> : null}
     <div className={styles.content}>{content}</div>
     {isEdit && <div style={{ marginBottom: 5 }}><Select
