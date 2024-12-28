@@ -9,7 +9,7 @@ export const button: string
 export const img: string
 export const description: string
 export const name: string
-export const mobileContent: string
+export const content: string
 export const patternUpload: string
 export const label: string
 interface Namespace {
@@ -24,7 +24,7 @@ interface Namespace {
 	"img": string,
 	"description": string,
 	"name": string,
-	"mobileContent": string,
+	"content": string,
 	"patternUpload": string,
 	"label": string,
 }

@@ -4303,7 +4303,7 @@ const AdminMenu = ({
   }, '👁'));
 };
 
-var styles$n = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","discount":"PatternItem-module_discount__pzryu","image":"PatternItem-module_image__ar-yf","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","mobileContent":"PatternItem-module_mobileContent__wcZfW","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
+var styles$n = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","discount":"PatternItem-module_discount__pzryu","image":"PatternItem-module_image__ar-yf","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","content":"PatternItem-module_content__7DVSj","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
 
 axios$1.interceptors.request.use(function (config) {
   try {
@@ -58684,7 +58684,6 @@ const PatternItem = ({
   description,
   name,
   nameColor = '#0A7BCA',
-  isMobile,
   ravelryUrl,
   patternId = '',
   order,
@@ -58961,9 +58960,9 @@ const PatternItem = ({
     onChangeImage: onChangeImage
   }), discount && !_isFree ? /*#__PURE__*/React__default.createElement("div", {
     className: styles$n.discount
-  }, "-", discount, "%") : null, isMobile ? /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.mobileContent
-  }, content) : content, isEdit && /*#__PURE__*/React__default.createElement("div", {
+  }, "-", discount, "%") : null, /*#__PURE__*/React__default.createElement("div", {
+    className: styles$n.content
+  }, content), isEdit && /*#__PURE__*/React__default.createElement("div", {
     style: {
       marginBottom: 5
     }
@@ -61117,7 +61116,6 @@ const BestSeller = ({
   useRouter = () => {},
   useDispatch = () => {},
   isAdmin,
-  isMobile,
   data
 }) => {
   const onClickPatternItem = () => {
@@ -61132,8 +61130,7 @@ const BestSeller = ({
     useDispatch: useDispatch,
     useRouter: useRouter,
     isAdmin: isAdmin,
-    isMobile: isMobile,
-    key: data.id
+    key: data?.id
   }, data))), /*#__PURE__*/React__default.createElement("div", {
     className: styles$b.right
   }, /*#__PURE__*/React__default.createElement("div", {
@@ -61557,7 +61554,6 @@ const PatternList = ({
     useRouter: useRouter,
     isBottom: isBottom,
     isAdmin: isAdmin,
-    isMobile: isMobile,
     key: index
   }, item))), isAdmin && /*#__PURE__*/React__default.createElement(PatternItem, {
     useDispatch: useDispatch,
@@ -61727,10 +61723,11 @@ const Input = ({
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
     key: id,
+    style: rest.style ?? {},
     className: styles$1.inputContainer
-  }, /*#__PURE__*/React__default.createElement("label", {
+  }, id ? /*#__PURE__*/React__default.createElement("label", {
     htmlFor: id
-  }, id.charAt(0).toUpperCase() + id.slice(1)), type === 'textarea' ? /*#__PURE__*/React__default.createElement("textarea", _extends({}, rest, {
+  }, id.charAt(0)?.toUpperCase() + id.slice(1)) : null, type === 'textarea' ? /*#__PURE__*/React__default.createElement("textarea", _extends({}, rest, {
     id: id,
     value: value,
     onChange: onChange,
@@ -62716,7 +62713,6 @@ const PayPalCheckout = ({
 
 const MainLayout = ({
   Link,
-  useRouter,
   Head,
   NextSeo,
   isMobile,
@@ -62732,12 +62728,6 @@ const MainLayout = ({
   footer = {},
   isAdmin
 }) => {
-  const router = useRouter();
-  let _isAdmin = isAdmin ?? false;
-  if (router && router.query && router.query.isAdmin) {
-    // TODO will remove in the future
-    _isAdmin = true;
-  }
   return /*#__PURE__*/React__default.createElement("div", {
     className: homeStyles.container
   }, /*#__PURE__*/React__default.createElement(HeaderPage, {
@@ -62753,7 +62743,7 @@ const MainLayout = ({
     MenuData: MenuData,
     Link: Link,
     url: url,
-    isAdmin: _isAdmin
+    isAdmin: isAdmin
   }), /*#__PURE__*/React__default.createElement(SubLink, {
     className: sublinkClassName,
     wrapperStyle: subLinkStyle,
@@ -62764,7 +62754,7 @@ const MainLayout = ({
       }, /*#__PURE__*/React__default.createElement("a", null, item.text));
     }
   }), content), /*#__PURE__*/React__default.createElement(Footer, {
-    isAdmin: _isAdmin,
+    isAdmin: isAdmin,
     image: footer.image,
     isMobile: isMobile
   }));
