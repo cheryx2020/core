@@ -60423,7 +60423,7 @@ const TipDetail = ({
   useEffect(() => {
     setTitleData(defaultTitle);
     setContentData(defaultContent);
-  }, [isAdmin]);
+  }, [isAdmin, data]);
   const router = useRouter();
   const dispatch = useDispatch();
   const resetData = () => {
@@ -61351,6 +61351,12 @@ const TipArticle = ({
   unoptimized = true
 }) => {
   const dispatch = useDispatch();
+  const [isBigItem, setIsBigItem] = useState(data?.isBig ?? false);
+  const [isShowAtHome, setIsShowAtHome] = useState(data?.isShowAtHome ?? false);
+  useEffect(() => {
+    setIsBigItem(data?.isBig ?? false);
+    setIsShowAtHome(data?.isShowAtHome ?? false);
+  }, [data]);
   const onClickDelete = () => {
     if (confirm(`Bạn có chắn chắn muốn xoá bài viết '${data.title}'?`)) {
       setShowLoading(dispatch, true);
@@ -61404,33 +61410,10 @@ const TipArticle = ({
       }
     }
   };
-  const onChangeIsBig = e => {
-    if (e.target.checked && confirm(`Bài viết '${data.title}' sẽ trở thành chủ đề lớn trên trang chính phải không?`)) {
-      setShowLoading(dispatch, true);
-      // Call api update isBig
-      APIService.post(`edit-post`, {
-        id: data.id,
-        isBig: true
-      }).then(res => {
-        // Handle create post success
-        alert('Cập nhật bài viết thành công');
-        setShowLoading(dispatch, false);
-        window.location.reload();
-      }).catch(err => {
-        setShowLoading(dispatch, false);
-        handleApiError(err);
-      });
-    } else {
-      e.target.checked = false;
-    }
-  };
-  const onChangeIsShowAtHome = e => {
+  const handleCheckBoxChange = data => {
     setShowLoading(dispatch, true);
     // Call api update isBig
-    APIService.post(`edit-post`, {
-      id: data.id,
-      isShowAtHome: e.target.checked ? true : false
-    }).then(res => {
+    APIService.post(`edit-post`, data).then(res => {
       // Handle create post success
       alert('Cập nhật bài viết thành công');
       setShowLoading(dispatch, false);
@@ -61440,6 +61423,29 @@ const TipArticle = ({
       handleApiError(err);
     });
   };
+  const onChangeIsBig = e => {
+    if (e.target.checked && confirm(`Bài viết '${data.title}' sẽ trở thành chủ đề lớn trên trang chính phải không?`)) {
+      handleCheckBoxChange({
+        id: data.id,
+        isBig: true,
+        isShowAtHome: true
+      });
+    } else {
+      e.target.checked = false;
+      handleCheckBoxChange({
+        id: data.id,
+        isBig: false,
+        isShowAtHome
+      });
+    }
+  };
+  const onChangeIsShowAtHome = e => {
+    handleCheckBoxChange({
+      id: data.id,
+      isShowAtHome: e.target.checked ? true : false,
+      isBig: isBigItem
+    });
+  };
   return /*#__PURE__*/React__default.createElement("article", {
     className: styles$4.wrapper
   }, isAdmin && /*#__PURE__*/React__default.createElement("div", {
@@ -61447,23 +61453,20 @@ const TipArticle = ({
   }, !data.isPattern && /*#__PURE__*/React__default.createElement("div", {
     className: styles$4.checkIsBig
   }, /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement("span", null, "Big Item"), /*#__PURE__*/React__default.createElement("input", {
-    checked: data.isBig,
+    checked: isBigItem,
     type: "checkbox",
     onChange: onChangeIsBig
   }))), !data.isPattern && /*#__PURE__*/React__default.createElement("div", {
     className: styles$4.checkIsBig
   }, /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement("span", null, "Show at home"), /*#__PURE__*/React__default.createElement("input", {
-    checked: data.isShowAtHome,
+    checked: isShowAtHome,
     type: "checkbox",
     onChange: onChangeIsShowAtHome
   }))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$4.editButton
-  }, /*#__PURE__*/React__default.createElement(Link, {
-    href: `/edit-post/${data.id}`
-  }, "Edit")), /*#__PURE__*/React__default.createElement("div", {
+    title: "Delete",
     className: styles$4.deleteButton,
     onClick: onClickDelete
-  }, "Delete")), /*#__PURE__*/React__default.createElement(Link, {
+  }, "\uD83D\uDDD1")), /*#__PURE__*/React__default.createElement(Link, {
     href: `/${isAdmin ? 'preview' : 'tip'}/${data.id}`
   }, /*#__PURE__*/React__default.createElement("div", {
     className: styles$4.image

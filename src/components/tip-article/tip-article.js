@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './TipArticle.module.scss';
 import { APIService, handleApiError, setShowLoading } from '@cheryx2020/api-service';
 import { transformImageSrc, getDescriptionFromContent, isBigFile, uploadFile } from "@cheryx2020/utils";
 
 const TipArticle = ({Image, Link, useDispatch = () => {}, data, isAdmin, onDeletePostSuccess = () => {}, unoptimized = true}) => {
   const dispatch = useDispatch();
+  const [isBigItem, setIsBigItem] = useState(data?.isBig ?? false);
+  const [isShowAtHome, setIsShowAtHome] = useState(data?.isShowAtHome ?? false);
+  useEffect(() => {
+    setIsBigItem(data?.isBig ?? false);
+    setIsShowAtHome(data?.isShowAtHome ?? false)
+  }, [data])
   const onClickDelete = () => {
     if (confirm(`Bạn có chắn chắn muốn xoá bài viết '${data.title}'?`)) {
       setShowLoading(dispatch, true);
@@ -55,27 +61,10 @@ const TipArticle = ({Image, Link, useDispatch = () => {}, data, isAdmin, onDelet
       }
     }
   }
-  const onChangeIsBig = e => {
-    if (e.target.checked && confirm(`Bài viết '${data.title}' sẽ trở thành chủ đề lớn trên trang chính phải không?`)) {
-      setShowLoading(dispatch, true);
-      // Call api update isBig
-      APIService.post(`edit-post`, {id: data.id ,isBig: true}).then(res => {
-        // Handle create post success
-        alert('Cập nhật bài viết thành công');
-        setShowLoading(dispatch, false);
-        window.location.reload();
-      }).catch(err => {
-        setShowLoading(dispatch, false);
-        handleApiError(err);
-      });
-    } else {
-      e.target.checked = false;
-    }
-  }
-  const onChangeIsShowAtHome = e => {
+  const handleCheckBoxChange = (data) => {
     setShowLoading(dispatch, true);
     // Call api update isBig
-    APIService.post(`edit-post`, {id: data.id ,isShowAtHome: e.target.checked ? true : false}).then(res => {
+    APIService.post(`edit-post`, data).then(res => {
       // Handle create post success
       alert('Cập nhật bài viết thành công');
       setShowLoading(dispatch, false);
@@ -85,18 +74,26 @@ const TipArticle = ({Image, Link, useDispatch = () => {}, data, isAdmin, onDelet
       handleApiError(err);
     });
   }
+  const onChangeIsBig = e => {
+    if (e.target.checked && confirm(`Bài viết '${data.title}' sẽ trở thành chủ đề lớn trên trang chính phải không?`)) {
+      handleCheckBoxChange({ id: data.id ,isBig: true, isShowAtHome: true });
+    } else {
+      e.target.checked = false;
+      handleCheckBoxChange({ id: data.id ,isBig: false, isShowAtHome });
+    }
+  }
+  const onChangeIsShowAtHome = e => {
+    handleCheckBoxChange({id: data.id ,isShowAtHome: e.target.checked ? true : false, isBig: isBigItem});
+  }
   return <article className={styles.wrapper}>
     {isAdmin && <div className={styles.editButtonZone}>
       {!data.isPattern && <div className={styles.checkIsBig}>
-        <label><span>Big Item</span><input checked={data.isBig} type="checkbox" onChange={onChangeIsBig}/></label>
+        <label><span>Big Item</span><input checked={isBigItem} type="checkbox" onChange={onChangeIsBig}/></label>
       </div>}
       {!data.isPattern && <div className={styles.checkIsBig}>
-        <label><span>Show at home</span><input checked={data.isShowAtHome} type="checkbox" onChange={onChangeIsShowAtHome}/></label>
+        <label><span>Show at home</span><input checked={isShowAtHome} type="checkbox" onChange={onChangeIsShowAtHome}/></label>
       </div>}
-      <div className={styles.editButton}>
-        <Link href={`/edit-post/${data.id}`}>Edit</Link>
-      </div>
-      <div className={styles.deleteButton} onClick={onClickDelete}>Delete</div>
+      <div title='Delete' className={styles.deleteButton} onClick={onClickDelete}>🗑</div>
     </div>}
     <Link href={`/${isAdmin ? 'preview' : 'tip'}/${data.id}`}>
       <div className={styles.image}>

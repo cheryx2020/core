@@ -23,7 +23,7 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
   useEffect(() => {
     setTitleData(defaultTitle);
     setContentData(defaultContent);
-  }, [isAdmin]);
+  }, [isAdmin, data]);
   const router = useRouter();
   const dispatch = useDispatch();
   const resetData = () => {
