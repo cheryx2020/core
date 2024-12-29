@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { APIService, handleApiError, setShowLoading } from '@cheryx2020/api-service';
 import { deleteFile, getDescriptionFromContent } from "@cheryx2020/utils";
 import {
@@ -10,18 +10,20 @@ import {
 import styles from './TipDetail.module.scss';
 import { getPostId, PostContent, uploadContentImageFiles } from '../post-content/postUtils';
 import { POST_ITEM_TYPE } from '../menu-add-component-post/menu-add-component-post';
-import useAuthenticate from '../../../hooks/useAuthenticate';
 import { useMemo } from 'react';
 
-const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = () => {}, data = { title: '', content: [], isPattern: false, isFree: false, seoTitle: '', seoDescription: '' }, isEdit, isMobile, isAdmin, category, isPatternDetail }) => {
-  const defaultTitle = isEdit ? data.title : 'Post title';
-  const defaultContent = isEdit ? data.content : [];
+const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = () => {}, data = { title: '', content: [], isPattern: false, isFree: false, seoTitle: '', seoDescription: '' }, isMobile, isAdmin, category, isPatternDetail }) => {
+  const defaultTitle = data?.title ?? 'Post title';
+  const defaultContent = data?.content ?? [];
   const { title, content, seoTitle, seoDescription, id } = data;
   const [titleData, setTitleData] = useState(defaultTitle);
   const [contentData, setContentData] = useState(defaultContent);
   const [_isPattern, setIsPattern] = useState(data.isPattern ? true : false);
   const [_isFree, setIsFree] = useState(data.isFree ? true : false);
-  const { isAuth } = useAuthenticate();
+  useEffect(() => {
+    setTitleData(defaultTitle);
+    setContentData(defaultContent);
+  }, [isAdmin]);
   const router = useRouter();
   const dispatch = useDispatch();
   const resetData = () => {
@@ -50,7 +52,7 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
       _contentData = updatedContent;
       _listFileUploaded = listFileUploaded;
     }
-    const data = {
+    const body = {
       language: 'vi',
       title: titleData,
       id: getPostId(titleData),
@@ -60,16 +62,17 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
       content: JSON.stringify(_contentData)
     }
     if (isPatternDetail) {
-      data.isPatternDetail = true;
+      body.isPatternDetail = true;
     }
     if (confirm('Bạn có chắc chắn muốn lưu bài viết này không?')) {
       setShowLoading(dispatch, true);
-      APIService.post(`${isEdit ? 'edit' : 'create'}-post`, data).then(res => {
+      APIService.post(`${data?._id ? 'edit' : 'create'}-post`, body).then(res => {
         // Handle create post success
-        resetData();
+        if (!data?._id) {
+          resetData();
+        }
         alert('Lưu thành công');
         setShowLoading(dispatch, false);
-        router.push(`/tip/${data.id || res.data.id}`);
       }).catch(err => {
         setShowLoading(dispatch, false);
         handleApiError(err);
@@ -126,7 +129,7 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
     </header>}
     <div itemProp="text">
     <PostContent
-        isShowBigMenu={isAuth}
+        isShowBigMenu={isAdmin}
         data={isAdmin ? contentData : ((video && !isPatternDetail) ? content?.filter(item => item.type !== POST_ITEM_TYPE.VIDEO) : content)}
         isMobile={isMobile}
         isEdit={isAdmin}

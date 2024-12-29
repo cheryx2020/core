@@ -3486,7 +3486,7 @@ const verifyToken = () => {
     APIService$1.get('user').then(res => {
       resolve({ verified: true, userInfo: res.data });
     }).catch(e => {
-      resolve({ verified: false });
+      resolve({ verified: !(e.response && e.response.status == 401) });
     });
   });
 };
@@ -4262,22 +4262,16 @@ const AdminMenu = ({
   text,
   onSaveClick = () => {},
   onEditClick = () => {},
-  onCancelClick = () => {},
-  onPreviewClick = () => {}
+  isEdit: _isEdit
 }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isShowMenu, setIsShowMenu] = useState(false);
-  const onCancelBtnClick = e => {
-    setIsEdit(false);
-    onCancelClick(e);
-  };
+  useEffect(() => {
+    setIsEdit(_isEdit);
+  }, [_isEdit]);
   const onEditBtnClick = e => {
     setIsEdit(true);
     onEditClick(e);
-  };
-  const onPreviewBtnClick = e => {
-    setIsEdit(false);
-    onPreviewClick(e);
   };
   return /*#__PURE__*/React__default.createElement("div", {
     onClick: () => {
@@ -4291,20 +4285,7 @@ const AdminMenu = ({
       isEdit ? onSaveClick(e) : onEditBtnClick(e);
     },
     className: `${styles$o.btn}${isShowMenu ? ` ${styles$o.top} ` + styles$o.show : ''}`
-  }, isEdit ? 'Save' : 'Edit'), isEdit && /*#__PURE__*/React__default.createElement("div", {
-    onClick: e => {
-      e.stopPropagation();
-      setIsShowMenu(!isShowMenu);
-      onCancelBtnClick();
-    },
-    className: `${styles$o.btn}${isShowMenu ? ` ${styles$o.bottom} ` + styles$o.show : ''}`
-  }, 'Cancel'), isEdit && /*#__PURE__*/React__default.createElement("div", {
-    onClick: e => {
-      e.stopPropagation();
-      onPreviewBtnClick(e);
-    },
-    className: `${styles$o.btn}${isShowMenu ? ` ${styles$o.left} ` + styles$o.show : ''}`
-  }, '👁'));
+  }, isEdit ? 'Save' : 'Edit'));
 };
 
 var styles$n = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","discount":"PatternItem-module_discount__pzryu","image":"PatternItem-module_image__ar-yf","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","content":"PatternItem-module_content__7DVSj","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
@@ -60408,38 +60389,6 @@ var TwitterShareButton$1 = TwitterShareButton;
 
 var styles$k = {"imageWrapper":"TipDetail-module_imageWrapper__7ob-p","wrapperAction":"TipDetail-module_wrapperAction__fjIyB","deleteButton":"TipDetail-module_deleteButton__qEVWw","addButton":"TipDetail-module_addButton__1234H","button":"TipDetail-module_button__LgFX0","imageUpload":"TipDetail-module_imageUpload__1WBls","wrapper":"TipDetail-module_wrapper__v037r","adminTopHeader":"TipDetail-module_adminTopHeader__IAsnm","actionButtons":"TipDetail-module_actionButtons__HcIOT","checkBox":"TipDetail-module_checkBox__2iiOx","ads":"TipDetail-module_ads__0ycvb","shareZone":"TipDetail-module_shareZone__aJ7c4","shareBtn":"TipDetail-module_shareBtn__p4n9m","adminMenuBtn":"TipDetail-module_adminMenuBtn__NHrLd","adminMenu":"TipDetail-module_adminMenu__aDEnw","hidden":"TipDetail-module_hidden__A2u8V","menuItem":"TipDetail-module_menuItem__xdArV","adminMenuBtnSave":"TipDetail-module_adminMenuBtnSave__UZSjP","listPost":"TipDetail-module_listPost__DAxSM","adminMenuInputPostId":"TipDetail-module_adminMenuInputPostId__e2XnG","relatedTo":"TipDetail-module_relatedTo__Sw1Dt","menuLink":"TipDetail-module_menuLink__9UcOp","arrow":"TipDetail-module_arrow__51LOc","textRelatedTo":"TipDetail-module_textRelatedTo__U1jTE","dropZone":"TipDetail-module_dropZone__KmtOr","subcribeMe":"TipDetail-module_subcribeMe__K0Bcd","imgWrapper":"TipDetail-module_imgWrapper__Q2mx8","videoMenu":"TipDetail-module_videoMenu__pioTv","imageDescription":"TipDetail-module_imageDescription__O0dp9"};
 
-const AUTH_KEY = "accessToken";
-const useAuthenticate = () => {
-  const [verified, setVerified] = useState(false);
-  useEffect(() => {
-    checkAccess();
-  }, []);
-  const checkAccess = async () => {
-    try {
-      if (!localStorage.getItem(AUTH_KEY)) {
-        return {
-          isAuth: false
-        };
-      }
-      // we call the api that verifies the token.
-      const data = await verifyToken();
-      // if token was verified we set the state.
-      if (localStorage.getItem(AUTH_KEY) && data.verified) {
-        setVerified(true);
-      } else {
-        // If the token was fraud we first remove it from localStorage and then redirect to "/"
-        localStorage.removeItem(AUTH_KEY);
-        setVerified(false);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  return {
-    isAuth: verified
-  };
-};
-
 const TipDetail = ({
   ProductJsonLd,
   Link,
@@ -60453,14 +60402,13 @@ const TipDetail = ({
     seoTitle: '',
     seoDescription: ''
   },
-  isEdit,
   isMobile,
   isAdmin,
   category,
   isPatternDetail
 }) => {
-  const defaultTitle = isEdit ? data.title : 'Post title';
-  const defaultContent = isEdit ? data.content : [];
+  const defaultTitle = data?.title ?? 'Post title';
+  const defaultContent = data?.content ?? [];
   const {
     title,
     content,
@@ -60472,9 +60420,10 @@ const TipDetail = ({
   const [contentData, setContentData] = useState(defaultContent);
   const [_isPattern, setIsPattern] = useState(data.isPattern ? true : false);
   const [_isFree, setIsFree] = useState(data.isFree ? true : false);
-  const {
-    isAuth
-  } = useAuthenticate();
+  useEffect(() => {
+    setTitleData(defaultTitle);
+    setContentData(defaultContent);
+  }, [isAdmin]);
   const router = useRouter();
   const dispatch = useDispatch();
   const resetData = () => {
@@ -60507,7 +60456,7 @@ const TipDetail = ({
       _contentData = updatedContent;
       _listFileUploaded = listFileUploaded;
     }
-    const data = {
+    const body = {
       language: 'vi',
       title: titleData,
       id: getPostId(titleData),
@@ -60517,16 +60466,17 @@ const TipDetail = ({
       content: JSON.stringify(_contentData)
     };
     if (isPatternDetail) {
-      data.isPatternDetail = true;
+      body.isPatternDetail = true;
     }
     if (confirm('Bạn có chắc chắn muốn lưu bài viết này không?')) {
       setShowLoading(dispatch, true);
-      APIService.post(`${isEdit ? 'edit' : 'create'}-post`, data).then(res => {
+      APIService.post(`${data?._id ? 'edit' : 'create'}-post`, body).then(res => {
         // Handle create post success
-        resetData();
+        if (!data?._id) {
+          resetData();
+        }
         alert('Lưu thành công');
         setShowLoading(dispatch, false);
-        router.push(`/tip/${data.id || res.data.id}`);
       }).catch(err => {
         setShowLoading(dispatch, false);
         handleApiError(err);
@@ -60604,7 +60554,7 @@ const TipDetail = ({
   }) : null), /*#__PURE__*/React__default.createElement("div", {
     itemProp: "text"
   }, /*#__PURE__*/React__default.createElement(PostContent, {
-    isShowBigMenu: isAuth,
+    isShowBigMenu: isAdmin,
     data: isAdmin ? contentData : video && !isPatternDetail ? content?.filter(item => item.type !== POST_ITEM_TYPE.VIDEO) : content,
     isMobile: isMobile,
     isEdit: isAdmin,
@@ -61650,6 +61600,38 @@ function usePageData({
     isDurty
   };
 }
+
+const AUTH_KEY = "accessToken";
+const useAuthenticate = () => {
+  const [verified, setVerified] = useState(false);
+  useEffect(() => {
+    checkAccess();
+  }, []);
+  const checkAccess = async () => {
+    try {
+      if (!localStorage.getItem(AUTH_KEY)) {
+        return {
+          isAuth: false
+        };
+      }
+      // we call the api that verifies the token.
+      const data = await verifyToken();
+      // if token was verified we set the state.
+      if (localStorage.getItem(AUTH_KEY) && data.verified) {
+        setVerified(true);
+      } else {
+        // If the token was fraud we first remove it from localStorage and then redirect to "/"
+        localStorage.removeItem(AUTH_KEY);
+        setVerified(false);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  return {
+    isAuth: verified
+  };
+};
 
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false);
