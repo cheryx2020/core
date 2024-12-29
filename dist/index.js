@@ -61467,7 +61467,7 @@ const TipArticle = ({
     className: styles$4.deleteButton,
     onClick: onClickDelete
   }, "\uD83D\uDDD1")), /*#__PURE__*/React__default.createElement(Link, {
-    href: `/${isAdmin ? 'preview' : 'tip'}/${data.id}`
+    href: `/tip/${data.id}`
   }, /*#__PURE__*/React__default.createElement("div", {
     className: styles$4.image
   }, isAdmin && /*#__PURE__*/React__default.createElement("div", {
@@ -61484,7 +61484,7 @@ const TipArticle = ({
   }))), /*#__PURE__*/React__default.createElement("div", {
     className: styles$4.info
   }, /*#__PURE__*/React__default.createElement(Link, {
-    href: `/${isAdmin ? 'preview' : 'tip'}/${data.id}`
+    href: `/tip/${data.id}`
   }, /*#__PURE__*/React__default.createElement("a", {
     className: styles$4.title
   }, data.title)), /*#__PURE__*/React__default.createElement("div", {

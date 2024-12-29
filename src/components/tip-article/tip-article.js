@@ -95,7 +95,7 @@ const TipArticle = ({Image, Link, useDispatch = () => {}, data, isAdmin, onDelet
       </div>}
       <div title='Delete' className={styles.deleteButton} onClick={onClickDelete}>🗑</div>
     </div>}
-    <Link href={`/${isAdmin ? 'preview' : 'tip'}/${data.id}`}>
+    <Link href={`/tip/${data.id}`}>
       <div className={styles.image}>
         {isAdmin && <div className={styles.imageMenu} onClick={e => e.stopPropagation()}>
           <label><div>Upload</div><input hidden="true" type="file" onChange={onChangeImage}></input></label>
@@ -104,7 +104,7 @@ const TipArticle = ({Image, Link, useDispatch = () => {}, data, isAdmin, onDelet
       </div>
     </Link>
     <div className={styles.info}>
-      <Link href={`/${isAdmin ? 'preview' : 'tip'}/${data.id}`}><a className={styles.title}>{data.title}</a></Link>
+      <Link href={`/tip/${data.id}`}><a className={styles.title}>{data.title}</a></Link>
       <div className={styles.description}>{getDescriptionFromContent(data.content)}</div>
       {/* <div className={styles.seeMore}>{`See more >>`}</div> */}
     </div>
