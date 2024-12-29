@@ -13,16 +13,18 @@ import { POST_ITEM_TYPE } from '../menu-add-component-post/menu-add-component-po
 import { useMemo } from 'react';
 
 const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = () => {}, data = { title: '', content: [], isPattern: false, isFree: false, seoTitle: '', seoDescription: '' }, isMobile, isAdmin, category, isPatternDetail }) => {
-  const defaultTitle = data?.title ?? 'Post title';
-  const defaultContent = data?.content ?? [];
+  const defaultTitle = data?.title || 'Post title';
+  const defaultContent = data?.content || [];
   const { title, content, seoTitle, seoDescription, id } = data;
   const [titleData, setTitleData] = useState(defaultTitle);
   const [contentData, setContentData] = useState(defaultContent);
   const [_isPattern, setIsPattern] = useState(data.isPattern ? true : false);
   const [_isFree, setIsFree] = useState(data.isFree ? true : false);
   useEffect(() => {
-    setTitleData(defaultTitle);
-    setContentData(defaultContent);
+    if (data?._id) {
+      setTitleData(defaultTitle);
+      setContentData(defaultContent)
+    }
   }, [isAdmin, data]);
   const router = useRouter();
   const dispatch = useDispatch();

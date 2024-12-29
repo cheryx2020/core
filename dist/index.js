@@ -60407,8 +60407,8 @@ const TipDetail = ({
   category,
   isPatternDetail
 }) => {
-  const defaultTitle = data?.title ?? 'Post title';
-  const defaultContent = data?.content ?? [];
+  const defaultTitle = data?.title || 'Post title';
+  const defaultContent = data?.content || [];
   const {
     title,
     content,
@@ -60421,8 +60421,10 @@ const TipDetail = ({
   const [_isPattern, setIsPattern] = useState(data.isPattern ? true : false);
   const [_isFree, setIsFree] = useState(data.isFree ? true : false);
   useEffect(() => {
-    setTitleData(defaultTitle);
-    setContentData(defaultContent);
+    if (data?._id) {
+      setTitleData(defaultTitle);
+      setContentData(defaultContent);
+    }
   }, [isAdmin, data]);
   const router = useRouter();
   const dispatch = useDispatch();
