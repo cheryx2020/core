@@ -60788,6 +60788,7 @@ const HeaderCherxy = ({
   url,
   showNavigator = true,
   Link,
+  mainImageUrl = "",
   MenuData = [{
     text: 'Trang chủ',
     url: '/'
@@ -60803,8 +60804,16 @@ const HeaderCherxy = ({
   }, {
     text: 'Mẹo đan móc lượm lặt',
     url: `/${process?.env?.NEXT_PUBLIC_PRE_TIP}`
-  }]
+  }],
+  styles: wrapperStyle = {}
 }) => {
+  const _styles = {
+    ...wrapperStyle
+  };
+  const cheryxStyle = {};
+  if (mainImageUrl) {
+    cheryxStyle.backgroundImage = `url("${mainImageUrl}")`;
+  }
   return /*#__PURE__*/React__default.createElement("header", {
     style: {
       width: '100%'
@@ -60890,9 +60899,13 @@ const HeaderCherxy = ({
   }, /*#__PURE__*/React__default.createElement(Link, {
     href: '/'
   }, /*#__PURE__*/React__default.createElement("a", null, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$h.cheryx
+    className: styles$h.cheryx,
+    style: cheryxStyle
   })))), showNavigator && /*#__PURE__*/React__default.createElement("nav", {
-    className: styles$h.nav
+    className: styles$h.nav,
+    style: {
+      ..._styles
+    }
   }, MenuData.map((item, index) => /*#__PURE__*/React__default.createElement(Link, {
     key: index,
     href: item.url
@@ -61041,7 +61054,12 @@ const LeftMenu = ({
   data = [],
   selected,
   isAdmin,
-  onSelectedItem = () => {}
+  onSelectedItem = () => {},
+  Link = ({
+    children
+  }) => {
+    return children;
+  }
 }) => {
   const makeItem = item => {
     return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("div", {
@@ -61061,11 +61079,13 @@ const LeftMenu = ({
         className: styles$c.item + ` ${item.key === selected ? styles$c.selected : ''}`
       }, makeItem(item));
     }
-    return /*#__PURE__*/React__default.createElement("a", {
+    return /*#__PURE__*/React__default.createElement(Link, {
       key: index,
+      href: item.url
+    }, /*#__PURE__*/React__default.createElement("a", {
       href: item.url,
       className: styles$c.item + ` ${item.key === selected ? styles$c.selected : ''}`
-    }, makeItem(item));
+    }, makeItem(item)));
   }));
 };
 

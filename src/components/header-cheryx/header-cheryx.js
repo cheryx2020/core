@@ -40,7 +40,7 @@ const links = [{
 }
 ];
 
-const HeaderCherxy = ({isAdmin, url, showNavigator = true, Link, MenuData = [{
+const HeaderCherxy = ({isAdmin, url, showNavigator = true, Link, mainImageUrl = "", MenuData = [{
   text: 'Trang chủ',
   url: '/'
 }, {
@@ -55,7 +55,14 @@ const HeaderCherxy = ({isAdmin, url, showNavigator = true, Link, MenuData = [{
 }, {
   text: 'Mẹo đan móc lượm lặt',
   url: `/${process?.env?.NEXT_PUBLIC_PRE_TIP}`
-}]}) => {
+}], styles: wrapperStyle = {}}) => {
+  const _styles = {
+    ...wrapperStyle
+  }
+  const cheryxStyle = {};
+  if (mainImageUrl) {
+    cheryxStyle.backgroundImage = `url("${mainImageUrl}")`;
+  }
   return <header style={{width: '100%'}}>
     <div className={styles.header}>
       <div className={styles.leftSide}>
@@ -73,9 +80,9 @@ const HeaderCherxy = ({isAdmin, url, showNavigator = true, Link, MenuData = [{
       </div>
     </div>
     <div className={styles.logo}>
-      <Link href={'/'}><a><div className={styles.cheryx}></div></a></Link>
+      <Link href={'/'}><a><div className={styles.cheryx} style={cheryxStyle}></div></a></Link>
     </div>
-    {showNavigator && <nav className={styles.nav}>
+    {showNavigator && <nav className={styles.nav} style={{..._styles}}>
       {MenuData.map((item,index) => <Link key={index} href={item.url}><a rel="noreferrer" className={url === item.url ? styles.selectedLink : ''}>{item.text}</a></Link>)}
     </nav>}
   </header>
