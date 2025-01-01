@@ -5,7 +5,7 @@ import SubLink from '../components/sub-link/sub-link';
 import Footer from '../components/footer';
 import HeaderPage from '../components/header-page';
 
-const MainLayout = ({ headerStyle, mainImageUrl, Link, Head, NextSeo, isMobile, sublinkData = [], subLinkStyle = {}, sublinkClassName='', content, title, url, seoConfig, description, MenuData = [], footer = {}, isAdmin}) => {
+const MainLayout = ({ headerStyle, socialStyle = {}, mainImageUrl, Link, Head, NextSeo, isMobile, sublinkData = [], subLinkStyle = {}, sublinkClassName='', content, title, url, seoConfig, description, MenuData = [], footer = {}, isAdmin}) => {
   return <div className={homeStyles.container}>
     <HeaderPage description={description} Head={Head} NextSeo={NextSeo} title={title} url={url} seoConfig={seoConfig}/>
     <main className={homeStyles.main}>
@@ -15,7 +15,7 @@ const MainLayout = ({ headerStyle, mainImageUrl, Link, Head, NextSeo, isMobile, 
       })}/>
       {content}
     </main>
-    <Footer isAdmin={isAdmin} image={footer.image} isMobile={isMobile} />
+    <Footer socialLinkStyle={socialStyle} socialTitle={footer?.socialTitle} isAdmin={isAdmin} image={footer.image} isMobile={isMobile} />
   </div>
 }
 export default MainLayout;

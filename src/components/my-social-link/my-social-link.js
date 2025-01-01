@@ -2,9 +2,10 @@ import React from 'react';
 import ContentWithTitle from '../content-with-title/content-with-title';
 import styles from './MySocialLink.module.scss';
 
-const MySocialLink = ({ isMobile }) => {
+const MySocialLink = ({ isMobile, style, title }) => {
   return <ContentWithTitle
-    title="Tài khoản cá nhân"
+    style={style}
+    title={title}
     content={
       <div className={styles.items}>
         <a rel="noreferrer" target="_blank" href="https://www.facebook.com/Cheryx.KnitADream"><img alt="Facebook" width={isMobile ? '10px' : '15px'} height={isMobile ? '21px' : '30px'} className={styles.fb} src="/images/fb1.png" /></a>
