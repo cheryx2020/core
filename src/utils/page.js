@@ -8,7 +8,7 @@ import Note from "../components/note/note";
 const PageItem = ({ data, ...rest }) => {
     switch (data?.id) {
         case "BEST_SELLER":
-            return <BestSeller {...rest} data={data?.[data.api] ?? {}}/>
+            return <BestSeller message={data?.message} {...rest} data={data?.[data.api] ?? {}}/>
         case "NOTE":
             return <Note {...rest} title={data.title} text={data.text}/>
         case "PATTERN_LIST":

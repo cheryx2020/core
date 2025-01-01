@@ -1463,9 +1463,6 @@ const defaults = {
     const isFormData = utils$1.isFormData(data);
 
     if (isFormData) {
-      if (!hasJSONContentType) {
-        return data;
-      }
       return hasJSONContentType ? JSON.stringify(formDataToJSON(data)) : data;
     }
 
@@ -2581,7 +2578,7 @@ function dispatchRequest(config) {
   });
 }
 
-const headersToObject = (thing) => thing instanceof AxiosHeaders$1 ? thing.toJSON() : thing;
+const headersToObject = (thing) => thing instanceof AxiosHeaders$1 ? { ...thing } : thing;
 
 /**
  * Config-specific merge-function which creates a new config-object
@@ -2683,7 +2680,7 @@ function mergeConfig(config1, config2) {
   return config;
 }
 
-const VERSION = "1.6.5";
+const VERSION = "1.6.8";
 
 const validators$1 = {};
 
@@ -2798,7 +2795,31 @@ class Axios {
    *
    * @returns {Promise} The Promise to be fulfilled
    */
-  request(configOrUrl, config) {
+  async request(configOrUrl, config) {
+    try {
+      return await this._request(configOrUrl, config);
+    } catch (err) {
+      if (err instanceof Error) {
+        let dummy;
+
+        Error.captureStackTrace ? Error.captureStackTrace(dummy = {}) : (dummy = new Error());
+
+        // slice off the Error: ... line
+        const stack = dummy.stack ? dummy.stack.replace(/^.+\n/, '') : '';
+
+        if (!err.stack) {
+          err.stack = stack;
+          // match without the 2 top stack lines
+        } else if (stack && !String(err.stack).endsWith(stack.replace(/^.+\n.+\n/, ''))) {
+          err.stack += '\n' + stack;
+        }
+      }
+
+      throw err;
+    }
+  }
+
+  _request(configOrUrl, config) {
     /*eslint no-param-reassign:0*/
     // Allow for axios('example/url'[, config]) a la fetch API
     if (typeof configOrUrl === 'string') {
@@ -61095,7 +61116,8 @@ const BestSeller = ({
   useRouter = () => {},
   useDispatch = () => {},
   isAdmin,
-  data
+  data,
+  message = "Đây là các lớp hướng dẫn đan thú của mình!"
 }) => {
   const onClickPatternItem = () => {
     // data && data.ravelryUrl && !isAdmin && window.open(data.ravelryUrl);
@@ -61116,7 +61138,7 @@ const BestSeller = ({
     className: styles$b.image
   }, /*#__PURE__*/React__default.createElement("div", {
     className: styles$b.message
-  }, "\u0110\xE2y l\xE0 c\xE1c l\u1EDBp h\u01B0\u1EDBng d\u1EABn \u0111an th\xFA c\u1EE7a m\xECnh!"))));
+  }, message))));
 };
 
 var styles$a = {"logo":"CheryxLogo-module_logo__Ik2QT","cheryx":"CheryxLogo-module_cheryx__0-ARk","slogan":"CheryxLogo-module_slogan__jkJ4I"};
@@ -62004,7 +62026,9 @@ const PageItem = ({
 }) => {
   switch (data?.id) {
     case "BEST_SELLER":
-      return /*#__PURE__*/React__default.createElement(BestSeller, _extends({}, rest, {
+      return /*#__PURE__*/React__default.createElement(BestSeller, _extends({
+        message: data?.message
+      }, rest, {
         data: data?.[data.api] ?? {}
       }));
     case "NOTE":
@@ -62726,6 +62750,8 @@ const PayPalCheckout = ({
 };
 
 const MainLayout = ({
+  headerStyle,
+  mainImageUrl,
   Link,
   Head,
   NextSeo,
@@ -62754,6 +62780,8 @@ const MainLayout = ({
   }), /*#__PURE__*/React__default.createElement("main", {
     className: homeStyles.main
   }, /*#__PURE__*/React__default.createElement(HeaderCherxy, {
+    styles: headerStyle,
+    mainImageUrl: mainImageUrl,
     MenuData: MenuData,
     Link: Link,
     url: url,
