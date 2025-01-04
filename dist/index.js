@@ -61895,6 +61895,7 @@ var styles$4 = {"wrapper":"TipArticle-module_wrapper__fNzyi","editButtonZone":"T
 
 const TipArticle = ({
   Image,
+  titleStyle = {},
   Link,
   useDispatch = () => {},
   data,
@@ -62038,7 +62039,8 @@ const TipArticle = ({
   }, /*#__PURE__*/React__default.createElement(Link, {
     href: `/tip/${data.id}`
   }, /*#__PURE__*/React__default.createElement("a", {
-    className: styles$4.title
+    className: styles$4.title,
+    style: titleStyle
   }, data.title)), /*#__PURE__*/React__default.createElement("div", {
     className: styles$4.description
   }, getDescriptionFromContent(data.content))));

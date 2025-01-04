@@ -3,7 +3,7 @@ import styles from './TipArticle.module.scss';
 import { APIService, handleApiError, setShowLoading } from '@cheryx2020/api-service';
 import { transformImageSrc, getDescriptionFromContent, isBigFile, uploadFile } from "@cheryx2020/utils";
 
-const TipArticle = ({Image, Link, useDispatch = () => {}, data, isAdmin, onDeletePostSuccess = () => {}, unoptimized = true}) => {
+const TipArticle = ({Image, titleStyle = {}, Link, useDispatch = () => {}, data, isAdmin, onDeletePostSuccess = () => {}, unoptimized = true}) => {
   const dispatch = useDispatch();
   const [isBigItem, setIsBigItem] = useState(data?.isBig ?? false);
   const [isShowAtHome, setIsShowAtHome] = useState(data?.isShowAtHome ?? false);
@@ -104,7 +104,7 @@ const TipArticle = ({Image, Link, useDispatch = () => {}, data, isAdmin, onDelet
       </div>
     </Link>
     <div className={styles.info}>
-      <Link href={`/tip/${data.id}`}><a className={styles.title}>{data.title}</a></Link>
+      <Link href={`/tip/${data.id}`}><a className={styles.title} style={titleStyle}>{data.title}</a></Link>
       <div className={styles.description}>{getDescriptionFromContent(data.content)}</div>
       {/* <div className={styles.seeMore}>{`See more >>`}</div> */}
     </div>
