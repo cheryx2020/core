@@ -3376,21 +3376,6 @@
   flex-direction: column;
   max-height: 550px;
 }
-@media (min-width: 769px) and (max-width: 1024px) {
-  .ListArticle-module_wrapper__fmN-H .ListArticle-module_right__a5X7m {
-    overflow: hidden;
-  }
-}
-@media (min-width: 1025px) {
-  .ListArticle-module_wrapper__fmN-H .ListArticle-module_right__a5X7m {
-    overflow: hidden;
-  }
-}
-@media (min-width: 641px) and (max-width: 1023px) {
-  .ListArticle-module_wrapper__fmN-H .ListArticle-module_right__a5X7m {
-    overflow: hidden;
-  }
-}
 @media (max-width: 641px) {
   .ListArticle-module_wrapper__fmN-H .ListArticle-module_right__a5X7m {
     padding-left: 7px;
