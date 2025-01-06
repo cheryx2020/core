@@ -61489,7 +61489,8 @@ const TipArticle = ({
       handleCheckBoxChange({
         id: data.id,
         isBig: true,
-        isShowAtHome: true
+        isShowAtHome: true,
+        language: data.language
       });
     } else {
       e.target.checked = false;

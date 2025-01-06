@@ -76,7 +76,7 @@ const TipArticle = ({Image, titleStyle = {}, Link, useDispatch = () => {}, data,
   }
   const onChangeIsBig = e => {
     if (e.target.checked && confirm(`Bài viết '${data.title}' sẽ trở thành chủ đề lớn trên trang chính phải không?`)) {
-      handleCheckBoxChange({ id: data.id ,isBig: true, isShowAtHome: true });
+      handleCheckBoxChange({ id: data.id ,isBig: true, isShowAtHome: true, language: data.language });
     } else {
       e.target.checked = false;
       handleCheckBoxChange({ id: data.id ,isBig: false, isShowAtHome });
