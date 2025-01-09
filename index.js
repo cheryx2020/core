@@ -16,6 +16,7 @@ import {
     PostContent,
     noImageUrl,
     getPostId,
+    MultiImageConfig,
     uploadContentImageFiles
 } from "./src/components/post-content/postUtils"
 import TipDetail from "./src/components/tip-details/tip-detail";
@@ -70,6 +71,7 @@ export {
     Loader,
     MainLayout,
     MenuAddComponentPost,
+    MultiImageConfig,
     noImageUrl,
     Note,
     PageItem,

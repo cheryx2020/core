@@ -112,7 +112,7 @@ const ImageConfig = ({ title, value, onChange = () => { } }) => {
     return <div style={{ display: 'flex', alignItems: 'center', marginBottom: 5 }}><label style={{ marginRight: 5, minWidth: 50 }}>{title}: </label><input type="number" value={value} onChange={e => { onChange(parseInt(e.target.value)) }} /></div>
 }
 
-const MultiImageConfig = ({ data = {}, onChange = () => { } }) => {
+export const MultiImageConfig = ({ data = {}, onChange = () => { } }) => {
     const [isLinkWidthHeight, setIsLinkWidthHeight] = useState(true);
     return <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
