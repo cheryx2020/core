@@ -3957,7 +3957,7 @@ const POST_ITEM_TYPE_SUBMENU = {
 const MenuAddComponentPost = ({
   onClickMenuItem = () => {},
   btnClass = '',
-  menuItems = []
+  menuItems = Object.keys(POST_ITEM_TYPE)
 }) => {
   const [hoverItem, setHoverItem] = useState('');
   const [showMenu, setShowMenu] = useState(false);
@@ -3978,7 +3978,7 @@ const MenuAddComponentPost = ({
     }
   }, /*#__PURE__*/React__default.createElement("div", {
     className: styles$r.adminMenu + ` ${!showMenu ? styles$r.hidden : ''}`
-  }, Array.isArray(Object.keys(menuItems)) && menuItems.map((item, index) => /*#__PURE__*/React__default.createElement("div", {
+  }, Array.isArray(menuItems) && menuItems.map((item, index) => /*#__PURE__*/React__default.createElement("div", {
     onMouseOver: () => onMenuMouseOver(item),
     className: styles$r.menuItem,
     key: index,
@@ -59044,7 +59044,6 @@ const PostContent = ({
   return /*#__PURE__*/React__default.createElement("div", {
     className: styles$l.wrapper
   }, Array.isArray(data) && data.map((item, i) => renderItemByType(item ? item : {}, i, styles$l, onDeleteContentItem, addNewContentItem, isMobile, _isEdit, data, onChangeData)), _isEdit && Array.isArray(data) && data.length == 0 && /*#__PURE__*/React__default.createElement(MenuAddComponentPost, {
-    menuItems: Object.keys(POST_ITEM_TYPE),
     btnClass: `${menuBtnClass ? ' ' + menuBtnClass : ''}`,
     onClickMenuItem: item => {
       addNewContentItem(item);
@@ -59432,7 +59431,6 @@ const wrapperActionAdmin = (item, index, styles = {}, onDeleteContentItem = () =
   }, "X"), /*#__PURE__*/React__default.createElement("div", {
     className: styles.addButton
   }, /*#__PURE__*/React__default.createElement(MenuAddComponentPost, {
-    menuItems: Object.keys(POST_ITEM_TYPE),
     btnClass: styles.button,
     onClickMenuItem: item => {
       onAddNewContentItem(item, undefined, index);
@@ -61561,7 +61559,6 @@ const PatternList = ({
   useRouter = () => {},
   useDispatch = () => {},
   data,
-  isMobile,
   isAdmin,
   style = {},
   isBottom,

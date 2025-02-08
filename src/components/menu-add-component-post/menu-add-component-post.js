@@ -31,7 +31,7 @@ export const POST_ITEM_TYPE_SUBMENU = {
 }
 
 import styles from './MenuAddComponentPost.module.scss'
-const MenuAddComponentPost = ({ onClickMenuItem = () => {}, btnClass='', menuItems = [] }) => {
+const MenuAddComponentPost = ({ onClickMenuItem = () => {}, btnClass='', menuItems = Object.keys(POST_ITEM_TYPE) }) => {
     const [hoverItem, setHoverItem] = useState('');
     const [showMenu, setShowMenu] = useState(false);
     const onMenuMouseOver = (item) => {
@@ -44,7 +44,7 @@ const MenuAddComponentPost = ({ onClickMenuItem = () => {}, btnClass='', menuIte
         {showMenu ? 'X' : 'Add'}
         <div style={{ position: 'relative' }}>
           <div className={styles.adminMenu + ` ${!showMenu ? styles.hidden : ''}`}>
-            {Array.isArray(Object.keys(menuItems)) && menuItems.map((item, index) => <div onMouseOver={() => onMenuMouseOver(item)} className={styles.menuItem} key={index} onClick={(e) => { e.stopPropagation(); !hasSubMenu(item) && onClickMenuItem(POST_ITEM_TYPE[item]); setShowMenu(false) }}>
+            {Array.isArray(menuItems) && menuItems.map((item, index) => <div onMouseOver={() => onMenuMouseOver(item)} className={styles.menuItem} key={index} onClick={(e) => { e.stopPropagation(); !hasSubMenu(item) && onClickMenuItem(POST_ITEM_TYPE[item]); setShowMenu(false) }}>
                 {item}
                 {hasSubMenu(item) && hoverItem === item && <div className={`${styles.adminMenu} ${styles.subMenu}`}>
                     {POST_ITEM_TYPE_SUBMENU[item].map((i,idx) => <div onClick={e => { e.stopPropagation(); onClickMenuItem(i); setShowMenu(false);}} className={styles.menuItem} key={idx}>{i}</div>)}

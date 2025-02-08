@@ -74,7 +74,6 @@ export const PostContent = ({
         data,
         onChangeData))}
         {_isEdit && (Array.isArray(data) && data.length == 0) && <MenuAddComponentPost
-            menuItems={Object.keys(POST_ITEM_TYPE)}
             btnClass={`${menuBtnClass ? ' ' + menuBtnClass : ''}`}
             onClickMenuItem={item => {
                 addNewContentItem(item)
@@ -362,7 +361,6 @@ const wrapperActionAdmin = (item, index, styles = {}, onDeleteContentItem = () =
         <div onClick={() => onDeleteContentItem(index)} className={styles.deleteButton}>X</div>
         <div className={styles.addButton}>
             <MenuAddComponentPost
-                menuItems={Object.keys(POST_ITEM_TYPE)}
                 btnClass={styles.button}
                 onClickMenuItem={item => {
                     onAddNewContentItem(item, undefined, index)
