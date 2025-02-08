@@ -60940,21 +60940,24 @@ var styles$f = {"wrapper":"TitleCheryx2-module_wrapper__qmGmO","line":"TitleCher
 
 const TitleCheryx2 = ({
   text,
-  wrapperStyle = {},
-  style = {}
+  wrapperStyle = {
+    line: {},
+    text: {},
+    wrapper: {}
+  }
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
     className: styles$f.wrapper,
-    style: wrapperStyle
+    style: wrapperStyle.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
     className: styles$f.line,
-    style: style
+    style: wrapperStyle.line
   }), /*#__PURE__*/React__default.createElement("div", {
     className: styles$f.text,
-    style: style
+    style: wrapperStyle.text
   }, text), /*#__PURE__*/React__default.createElement("div", {
     className: styles$f.line,
-    style: style
+    style: wrapperStyle.line
   }));
 };
 
@@ -60964,12 +60967,19 @@ const ContentWithTitle = ({
   content,
   title,
   className = '',
-  style = {}
+  theme
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
     className: `${styles$e.wrapper} ${className}`
   }, /*#__PURE__*/React__default.createElement(TitleCheryx2, {
-    style: style,
+    wrapperStyle: {
+      line: {
+        backgroundColor: theme?.NAVIGATION?.backgroundColor ?? 'none'
+      },
+      text: {
+        backgroundColor: theme?.NAVIGATION?.backgroundColor ?? 'none'
+      }
+    },
     text: title
   }), content);
 };
@@ -60978,12 +60988,12 @@ var styles$d = {"items":"MySocialLink-module_items__129Nf","ravelry":"MySocialLi
 
 const MySocialLink = ({
   isMobile,
-  style,
-  title
+  title,
+  theme
 }) => {
   return /*#__PURE__*/React__default.createElement(ContentWithTitle, {
-    style: style,
     title: title,
+    theme: theme,
     content: /*#__PURE__*/React__default.createElement("div", {
       className: styles$d.items
     }, /*#__PURE__*/React__default.createElement("a", {
@@ -61042,6 +61052,7 @@ const MySocialLink = ({
 
 const Footer = ({
   isMobile,
+  theme,
   socialLinkStyle = {},
   socialTitle = "Tài khoản cá nhân",
   image = "https://gocnhacolen.com/images/footer.webp",
@@ -61051,6 +61062,7 @@ const Footer = ({
   return /*#__PURE__*/React__default.createElement("footer", {
     className: `${homeStyles.footer} ${className}`
   }, /*#__PURE__*/React__default.createElement(MySocialLink, {
+    theme: theme,
     title: socialTitle,
     style: socialLinkStyle,
     isMobile: isMobile
@@ -62766,6 +62778,7 @@ const PayPalCheckout = ({
 };
 
 const MainLayout = ({
+  theme,
   headerStyle,
   socialStyle = {},
   mainImageUrl,
@@ -62813,6 +62826,7 @@ const MainLayout = ({
       }, /*#__PURE__*/React__default.createElement("a", null, item.text));
     }
   }), content), /*#__PURE__*/React__default.createElement(Footer, {
+    theme: theme,
     socialLinkStyle: socialStyle,
     socialTitle: footer?.socialTitle,
     isAdmin: isAdmin,
