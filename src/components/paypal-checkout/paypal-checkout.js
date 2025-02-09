@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import Input from "../input";
 
-const PayPalCheckout = ({ clientId, itemId, instructionText = "Enter your email to receive the pattern", amount = "6.00", currency = "USD", className, styles = {} }) => {
+const PayPalCheckout = ({PayPalButtons = () => {}, PayPalScriptProvider = () => {}, clientId, itemId, instructionText = "Enter your email to receive the pattern", amount = "6.00", currency = "USD", className, styles = {} }) => {
   const [email, setEmail] = useState(""); // Email input state
   const [isEmailValid, setIsEmailValid] = useState(false); // Track email validity
   const [isShowEmailInput, setIsShowEmailInput] = useState(false); // Control showing email input
