@@ -3969,3 +3969,33 @@
 .Table-module_table-container__zwAaG table tbody tr button.Table-module_edit__31Gu4:hover {
   background-color: #218838;
 }
+.DetailLayout-module_listVideo__bkaF9 {
+  display: grid;
+  grid-template-columns: 24.1% 1fr;
+  width: 100%;
+  margin-top: 27px;
+  margin-bottom: 19px;
+  grid-gap: 2.4%;
+}
+.DetailLayout-module_listVideo__bkaF9.DetailLayout-module_isPattern__GUt9C {
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 641px) {
+  .DetailLayout-module_listVideo__bkaF9 {
+    display: flex;
+    flex-direction: column;
+    grid-template-rows: none !important;
+    grid-template-columns: none !important;
+  }
+}
+.DetailLayout-module_listVideo__bkaF9 .DetailLayout-module_rightSide__IaUU4 {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  padding: 23px 35px;
+  border-left: 1px solid #EFEFEF;
+}
+@media (max-width: 641px) {
+  .DetailLayout-module_listVideo__bkaF9 .DetailLayout-module_rightSide__IaUU4 {
+    padding: 8px;
+  }
+}

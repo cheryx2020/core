@@ -47,6 +47,8 @@ import withAuth from "./hocs/withAuth"
 import PageItem from "./src/utils/page";
 import PayPalCheckout from "./src/components/paypal-checkout/paypal-checkout";
 import MainLayout from "./src/layouts/main";
+import DetailLayout from "./src/layouts/detail";
+import DashboardLayout from "./src/layouts/dashboard-layout";
 
 export {
     AdBanner,
@@ -57,6 +59,8 @@ export {
     CircleGroup,
     CircularLoader,
     ContentWithTitle,
+    DashboardLayout,
+    DetailLayout,
     Footer,
     Form,
     getPostId,

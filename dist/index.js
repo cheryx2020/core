@@ -1,9 +1,9 @@
-import * as React from 'react';
+import * as React$1 from 'react';
 import React__default, { useState, useRef, useEffect, Component, isValidElement, PureComponent, useCallback, forwardRef, useContext, useLayoutEffect, createContext, useMemo, Fragment, useReducer } from 'react';
 import publicIp from 'public-ip';
 import Linkify from 'linkify-react';
 
-var styles$v = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
+var styles$w = {"wrapper":"Sublink-module_wrapper__v-n3q","spliter":"Sublink-module_spliter__j4x-a","wrapperLink":"Sublink-module_wrapperLink__Lozil"};
 
 const SubLink = ({
   data,
@@ -12,19 +12,19 @@ const SubLink = ({
   renderItem = () => {}
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$v.wrapper,
+    className: styles$w.wrapper,
     style: wrapperStyle
   }, Array.isArray(data) && data.length > 0 && data.map((item, i) => {
     return /*#__PURE__*/React__default.createElement("div", {
-      className: `${styles$v.wrapperLink} ${className}`,
+      className: `${styles$w.wrapperLink} ${className}`,
       key: i
     }, renderItem(item), i < data.length - 1 && /*#__PURE__*/React__default.createElement("div", {
-      className: styles$v.spliter
+      className: styles$w.spliter
     }, '>'));
   }));
 };
 
-var styles$u = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
+var styles$v = {"image":"ImageUploadable-module_image__B0Aq1","imageMenu":"ImageUploadable-module_imageMenu__KVFuF","resizer":"ImageUploadable-module_resizer__ccKdB","vertical":"ImageUploadable-module_vertical__cn5LW","horizontal":"ImageUploadable-module_horizontal__e9JwU"};
 
 function bind(fn, thisArg) {
   return function wrap() {
@@ -3615,10 +3615,10 @@ const ImageUploadable = ({
   }
   return /*#__PURE__*/React__default.createElement("div", {
     ref: imageWap,
-    className: `${styles$u.image} ${className}`,
+    className: `${styles$v.image} ${className}`,
     style: wrapperStyle
   }, isEdit && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$u.imageMenu,
+    className: styles$v.imageMenu,
     onClick: e => e.stopPropagation()
   }, /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement("div", null, "Choose Image"), /*#__PURE__*/React__default.createElement("input", {
     accept: "image/png, image/jpeg, image/svg+xml",
@@ -3639,15 +3639,15 @@ const ImageUploadable = ({
       e.stopPropagation();
     },
     onMouseDown: initDrag,
-    className: styles$u.resizer
+    className: styles$v.resizer
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$u.vertical
+    className: styles$v.vertical
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$u.horizontal
+    className: styles$v.horizontal
   })));
 };
 
-var styles$t = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
+var styles$u = {"editImageBtn":"ImageUpload-module_editImageBtn__WJjSq","menuImage":"ImageUpload-module_menuImage__Qkkfq","uploadButton":"ImageUpload-module_uploadButton__QCNEB","textarea":"ImageUpload-module_textarea__pbgpO","imgWrapper":"ImageUpload-module_imgWrapper__y6fHe","videoMenu":"ImageUpload-module_videoMenu__pMOzt","deleteButton":"ImageUpload-module_deleteButton__K4dVX"};
 
 const ImageUpload = ({
   url,
@@ -3677,17 +3677,17 @@ const ImageUpload = ({
   return /*#__PURE__*/React__default.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$t.imgWrapper,
+    className: styles$u.imgWrapper,
     style: {
       position: 'relative'
     }
   }, showMenuImage && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$t.menuImage
+    className: styles$u.menuImage
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$t.deleteButton,
+    className: styles$u.deleteButton,
     onClick: () => setShowMenuImage(false)
   }, "x"), /*#__PURE__*/React__default.createElement("label", {
-    className: styles$t.uploadButton
+    className: styles$u.uploadButton
   }, /*#__PURE__*/React__default.createElement("span", null, "Upload Image"), /*#__PURE__*/React__default.createElement("input", {
     type: "file",
     onChange: e => {
@@ -3695,10 +3695,10 @@ const ImageUpload = ({
       onChange(e);
     }
   }))), !showMenuImage && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$t.editImageBtn,
+    className: styles$u.editImageBtn,
     onClick: () => setShowMenuImage(true)
   }, "Edit"), /*#__PURE__*/React__default.createElement("textarea", {
-    className: styles$t.textarea,
+    className: styles$u.textarea,
     onMouseOut: onMouseOut,
     disabled: true,
     style: {
@@ -3746,11 +3746,11 @@ const PostVideo = ({
   return /*#__PURE__*/React__default.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$t.imgWrapper
+    className: styles$u.imgWrapper
   }, showMenuVideo && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$t.videoMenu
+    className: styles$u.videoMenu
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$t.deleteButton,
+    className: styles$u.deleteButton,
     onClick: () => setShowMenuVideo(false)
   }, "x"), /*#__PURE__*/React__default.createElement("label", null, "Video Id:"), /*#__PURE__*/React__default.createElement("input", {
     value: url,
@@ -3767,12 +3767,12 @@ const PostVideo = ({
     suppressContentEditableWarning: true,
     contentEditable: true,
     onBlur: onChangeText,
-    className: styles$t.imageDescription,
+    className: styles$u.imageDescription,
     style: {
       minWidth: 100
     }
   }, text), !showMenuVideo && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$t.editImageBtn,
+    className: styles$u.editImageBtn,
     onClick: () => setShowMenuVideo(true)
   }, "Edit"));
 };
@@ -3862,7 +3862,7 @@ class YouTubeSubscribe extends Component {
   }
 }
 
-var styles$s = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu","subscribe":"PatternPreview-module_subscribe__UQhAQ","wrapperDownloadPdf":"PatternPreview-module_wrapperDownloadPdf__976cz","title":"PatternPreview-module_title__gMc1n","small":"PatternPreview-module_small__B4Lps","textEmailSubscription":"PatternPreview-module_textEmailSubscription__UETHA","submitSuscribe":"PatternPreview-module_submitSuscribe__-gfpJ","formInput":"PatternPreview-module_formInput__Fcufy","label":"PatternPreview-module_label__c-RNI"};
+var styles$t = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu","subscribe":"PatternPreview-module_subscribe__UQhAQ","wrapperDownloadPdf":"PatternPreview-module_wrapperDownloadPdf__976cz","title":"PatternPreview-module_title__gMc1n","small":"PatternPreview-module_small__B4Lps","textEmailSubscription":"PatternPreview-module_textEmailSubscription__UETHA","submitSuscribe":"PatternPreview-module_submitSuscribe__-gfpJ","formInput":"PatternPreview-module_formInput__Fcufy","label":"PatternPreview-module_label__c-RNI"};
 
 axios$1.interceptors.request.use(function (config) {
   try {
@@ -3930,10 +3930,10 @@ const FormInput = ({
   placeholder = "Text"
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$s.formInput
+    className: styles$t.formInput
   }, /*#__PURE__*/React__default.createElement("div", {
     for: name,
-    className: styles$s.label
+    className: styles$t.label
   }, label), /*#__PURE__*/React__default.createElement("input", {
     required: required ? "true" : "",
     type: type,
@@ -3957,7 +3957,7 @@ const PatternPreview = ({
   const [isSubmitted, setIsSubmitted] = useState(false);
   const dispatch = useDispatch();
   const [previewUrl, setPreviewUrl] = useState(_previewUrl);
-  const smallTitle = `${styles$s.title} ${styles$s.small}`;
+  const smallTitle = `${styles$t.title} ${styles$t.small}`;
   const onChangeBigImage = ({
     imgFile
   }) => {
@@ -3982,9 +3982,9 @@ const PatternPreview = ({
     setPreviewUrl(_previewUrl);
   }, [_imageUrl, _previewUrl]);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$s.wrapper}${isSubscribe ? ` ${styles$s.subscribe}` : ''}`
+    className: `${styles$t.wrapper}${isSubscribe ? ` ${styles$t.subscribe}` : ''}`
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$s.image
+    className: styles$t.image
   }, /*#__PURE__*/React__default.createElement(ImageUploadable, {
     width: '100%',
     height: '100%',
@@ -3998,21 +3998,21 @@ const PatternPreview = ({
     isEdit: isAdmin,
     src: imageUrl
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$s.info
+    className: styles$t.info
   }, isSubscribe ? /*#__PURE__*/React__default.createElement("div", {
-    className: styles$s.wrapperDownloadPdf
+    className: styles$t.wrapperDownloadPdf
   }, isSubmitted ? /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("div", {
     className: smallTitle
   }, "Success!"), /*#__PURE__*/React__default.createElement("div", {
     className: smallTitle
   }, "Check your email in a few minutes!"), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$s.textEmailSubscription
+    className: styles$t.textEmailSubscription
   }, "To find my letter, simply search for a letter from Cheryx.", /*#__PURE__*/React__default.createElement("strong", null, " Also, double-check your junk/spam folder"), ". Be sure to mark it as 'not spam' so you won't miss any important updates from me in the future."), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$s.textEmailSubscription
+    className: styles$t.textEmailSubscription
   }, "If you can't seem to locate the email, please send me a message and I'll be happy to help you!")) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$s.title
+    className: styles$t.title
   }, "Download PDF Pattern"), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$s.textEmailSubscription
+    className: styles$t.textEmailSubscription
   }, "This free pattern will be sent to the provided email. Please make sure you write your email address correctly."), /*#__PURE__*/React__default.createElement("form", {
     method: "POST",
     onSubmit: e => {
@@ -4046,7 +4046,7 @@ const PatternPreview = ({
     placeholder: "",
     label: "First name"
   }), /*#__PURE__*/React__default.createElement("input", {
-    className: styles$s.submitSuscribe,
+    className: styles$t.submitSuscribe,
     type: "submit",
     value: "Get the pattern"
   })))) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("a", {
@@ -4054,14 +4054,14 @@ const PatternPreview = ({
     href: previewUrl,
     onClick: e => onClickLink(e, 'previewUrl'),
     target: "_blank",
-    className: styles$s.previewUrl
+    className: styles$t.previewUrl
   }, buttonText), /*#__PURE__*/React__default.createElement("div", {
     contentEditable: isAdmin ? "true" : "false",
     onBlur: () => {}
   }, message))));
 };
 
-var styles$r = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
+var styles$s = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
 
 const POST_ITEM_TYPE = {
   TITLE: 'title',
@@ -4101,7 +4101,7 @@ const MenuAddComponentPost = ({
     return Array.isArray(POST_ITEM_TYPE_SUBMENU[item]);
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$r.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`,
+    className: `${styles$s.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`,
     onClick: () => {
       setShowMenu(!showMenu);
     }
@@ -4110,10 +4110,10 @@ const MenuAddComponentPost = ({
       position: 'relative'
     }
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$r.adminMenu + ` ${!showMenu ? styles$r.hidden : ''}`
+    className: styles$s.adminMenu + ` ${!showMenu ? styles$s.hidden : ''}`
   }, Array.isArray(menuItems) && menuItems.map((item, index) => /*#__PURE__*/React__default.createElement("div", {
     onMouseOver: () => onMenuMouseOver(item),
-    className: styles$r.menuItem,
+    className: styles$s.menuItem,
     key: index,
     onClick: e => {
       e.stopPropagation();
@@ -4121,14 +4121,14 @@ const MenuAddComponentPost = ({
       setShowMenu(false);
     }
   }, item, hasSubMenu(item) && hoverItem === item && /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$r.adminMenu} ${styles$r.subMenu}`
+    className: `${styles$s.adminMenu} ${styles$s.subMenu}`
   }, POST_ITEM_TYPE_SUBMENU[item].map((i, idx) => /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       onClickMenuItem(i);
       setShowMenu(false);
     },
-    className: styles$r.menuItem,
+    className: styles$s.menuItem,
     key: idx
   }, i))))))));
 };
@@ -4161,7 +4161,7 @@ var gtag = {
   event
 };
 
-var styles$q = {"wrapper":"PatternDetail-module_wrapper__CFlmD","mainImage":"PatternDetail-module_mainImage__ac-c1","rightInfo":"PatternDetail-module_rightInfo__6J0eO","title":"PatternDetail-module_title__0IjOq","author":"PatternDetail-module_author__Xgx6J","storeInfo":"PatternDetail-module_storeInfo__IwaSl","blackCatWrapper":"PatternDetail-module_blackCatWrapper__cqlld","blackCat":"PatternDetail-module_blackCat__xwKnn","message":"PatternDetail-module_message__Wf-re","text":"PatternDetail-module_text__Whs4v","supperWrapperButton":"PatternDetail-module_supperWrapperButton__KF8fO","buttonWrapper":"PatternDetail-module_buttonWrapper__Z-n6q","priceWrapper":"PatternDetail-module_priceWrapper__7pvJH","price":"PatternDetail-module_price__JsXa9","payPalWrapper":"PatternDetail-module_payPalWrapper__C7Mpl","show":"PatternDetail-module_show__L4BBl","payPal":"PatternDetail-module_payPal__0QLxu","closeLink":"PatternDetail-module_closeLink__Xfvkv","linkStore":"PatternDetail-module_linkStore__gf5UQ","mb11":"PatternDetail-module_mb11__sNoEg","paypalButton":"PatternDetail-module_paypalButton__bUOF3","listSmallImage":"PatternDetail-module_listSmallImage__h5eyY","deleteButton":"PatternDetail-module_deleteButton__5oh8i","triangleLeft":"PatternDetail-module_triangleLeft__C0z45","triangleRight":"PatternDetail-module_triangleRight__krzev"};
+var styles$r = {"wrapper":"PatternDetail-module_wrapper__CFlmD","mainImage":"PatternDetail-module_mainImage__ac-c1","rightInfo":"PatternDetail-module_rightInfo__6J0eO","title":"PatternDetail-module_title__0IjOq","author":"PatternDetail-module_author__Xgx6J","storeInfo":"PatternDetail-module_storeInfo__IwaSl","blackCatWrapper":"PatternDetail-module_blackCatWrapper__cqlld","blackCat":"PatternDetail-module_blackCat__xwKnn","message":"PatternDetail-module_message__Wf-re","text":"PatternDetail-module_text__Whs4v","supperWrapperButton":"PatternDetail-module_supperWrapperButton__KF8fO","buttonWrapper":"PatternDetail-module_buttonWrapper__Z-n6q","priceWrapper":"PatternDetail-module_priceWrapper__7pvJH","price":"PatternDetail-module_price__JsXa9","payPalWrapper":"PatternDetail-module_payPalWrapper__C7Mpl","show":"PatternDetail-module_show__L4BBl","payPal":"PatternDetail-module_payPal__0QLxu","closeLink":"PatternDetail-module_closeLink__Xfvkv","linkStore":"PatternDetail-module_linkStore__gf5UQ","mb11":"PatternDetail-module_mb11__sNoEg","paypalButton":"PatternDetail-module_paypalButton__bUOF3","listSmallImage":"PatternDetail-module_listSmallImage__h5eyY","deleteButton":"PatternDetail-module_deleteButton__5oh8i","triangleLeft":"PatternDetail-module_triangleLeft__C0z45","triangleRight":"PatternDetail-module_triangleRight__krzev"};
 
 const PatternDetail = ({
   name: _name,
@@ -4305,9 +4305,9 @@ const PatternDetail = ({
   };
   if (!isVi) {
     return /*#__PURE__*/React__default.createElement("div", {
-      className: styles$q.wrapper
+      className: styles$r.wrapper
     }, /*#__PURE__*/React__default.createElement("div", {
-      className: styles$q.mainImage
+      className: styles$r.mainImage
     }, isAdmin ? /*#__PURE__*/React__default.createElement(ImageUploadable, {
       wrapperStyle: {
         width: '100%',
@@ -4321,40 +4321,40 @@ const PatternDetail = ({
       alt: name,
       src: bigImageUrl
     })), /*#__PURE__*/React__default.createElement("div", {
-      className: styles$q.rightInfo
+      className: styles$r.rightInfo
     }, /*#__PURE__*/React__default.createElement("h1", {
       suppressContentEditableWarning: isAdmin,
       onBlur: e => onChange(e, index, 'name'),
       contenteditable: `${isAdmin ? "true" : "false"}`,
-      className: styles$q.title
+      className: styles$r.title
     }, name), /*#__PURE__*/React__default.createElement("div", {
-      className: styles$q.author
+      className: styles$r.author
     }, "By Cheryx"), /*#__PURE__*/React__default.createElement("div", {
       suppressContentEditableWarning: isAdmin,
       onBlur: e => onChange(e, index, 'price'),
       contenteditable: `${isAdmin ? "true" : "false"}`,
-      className: styles$q.price
+      className: styles$r.price
     }, /*#__PURE__*/React__default.createElement("div", {
-      className: discount ? styles$q.lineThrough : ""
+      className: discount ? styles$r.lineThrough : ""
     }, priceNumber, " USD"), discount && /*#__PURE__*/React__default.createElement("div", {
-      className: styles$q.discounted
+      className: styles$r.discounted
     }, discountedPrice, " USD ", /*#__PURE__*/React__default.createElement("div", {
-      className: styles$q.priceNote
+      className: styles$r.priceNote
     }, "Coupon code ", /*#__PURE__*/React__default.createElement("strong", null, "CHERYX"), " on Ravelry")))), /*#__PURE__*/React__default.createElement("div", {
-      className: styles$q.storeInfo
+      className: styles$r.storeInfo
     }, !isShowPayPal && /*#__PURE__*/React__default.createElement("img", {
       alt: "buy pattern here",
       src: "/images/pattern-store.png"
     }), /*#__PURE__*/React__default.createElement("div", {
-      className: `${styles$q.payPalWrapper}${isShowPayPal ? ` ${styles$q.show}` : ''}`
+      className: `${styles$r.payPalWrapper}${isShowPayPal ? ` ${styles$r.show}` : ''}`
     }, /*#__PURE__*/React__default.createElement("div", {
-      className: styles$q.closeLink,
+      className: styles$r.closeLink,
       onClick: () => {
         lockScroll(false);
         setIsShowPayPal(false);
       }
     }, "Close"), /*#__PURE__*/React__default.createElement("div", {
-      className: styles$q.payPal,
+      className: styles$r.payPal,
       id: "paypal-button-container"
     })), /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
@@ -4364,26 +4364,26 @@ const PatternDetail = ({
       href: ravelryUrl,
       onClick: e => onClickLink(e, 'ravelryUrl'),
       target: "_blank",
-      className: `${styles$q.linkStore} ${styles$q.mb11}`
+      className: `${styles$r.linkStore} ${styles$r.mb11}`
     }, "Ravelry", discount && /*#__PURE__*/React__default.createElement("div", {
-      className: styles$q.discount
+      className: styles$r.discount
     }, `-${discount}%`)), /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
       href: lovecraftsUrl,
       onClick: e => onClickLink(e, 'lovecraftsUrl'),
       target: "_blank",
-      className: styles$q.linkStore
+      className: styles$r.linkStore
     }, "Lovecrafts"), /*#__PURE__*/React__default.createElement("a", {
-      className: styles$q.emailMe,
+      className: styles$r.emailMe,
       href: "mailto:vungoc101230@gmail.com"
     }, "If you prefer to buy directly from me instead of using Ravelry or Lovecrafts, you can click here to send me an email with your order details. I will reply to you as soon as possible and provide you with the payment and delivery options.")), /*#__PURE__*/React__default.createElement("div", {
-      className: styles$q.listSmallImage
+      className: styles$r.listSmallImage
     }, Array.isArray(imageList) && imageList.map((img, i) => isAdmin ? /*#__PURE__*/React__default.createElement("div", {
       style: {
         position: 'relative'
       }
     }, i < imageList.length - 1 && /*#__PURE__*/React__default.createElement("div", {
-      className: styles$q.deleteButton,
+      className: styles$r.deleteButton,
       onClick: () => {
         removeImage(i);
       }
@@ -4409,9 +4409,9 @@ const PatternDetail = ({
     }))));
   }
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.wrapper
+    className: styles$r.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.mainImage
+    className: styles$r.mainImage
   }, isAdmin ? /*#__PURE__*/React__default.createElement(ImageUploadable, {
     wrapperStyle: {
       width: '100%',
@@ -4424,55 +4424,55 @@ const PatternDetail = ({
   }) : /*#__PURE__*/React__default.createElement("img", {
     src: bigImageUrl
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.rightInfo
+    className: styles$r.rightInfo
   }, /*#__PURE__*/React__default.createElement("h1", {
     suppressContentEditableWarning: isAdmin,
     onBlur: e => onChange(e, index, 'name'),
     contenteditable: `${isAdmin ? "true" : "false"}`,
-    className: styles$q.title
+    className: styles$r.title
   }, name)), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.storeInfo
+    className: styles$r.storeInfo
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.blackCatWrapper
+    className: styles$r.blackCatWrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.blackCat
+    className: styles$r.blackCat
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.message
+    className: styles$r.message
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.text
+    className: styles$r.text
   }, "Nh\u1EAFn tin cho m\xECnh \u0111\u1EC3 tham gia l\u1EDBp nh\xE9!")))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.supperWrapperButton
+    className: styles$r.supperWrapperButton
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.buttonWrapper
+    className: styles$r.buttonWrapper
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
     href: ravelryUrl,
     onClick: e => onClickLink(e, 'ravelryUrl'),
     target: "_blank",
-    className: `${styles$q.linkStore}`
+    className: `${styles$r.linkStore}`
   }, "\u0110\u0103ng k\xED l\u1EDBp \u0111an th\xFA b\xF4ng online"))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.priceWrapper
+    className: styles$r.priceWrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.triangleRight
+    className: styles$r.triangleRight
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.triangleRight
+    className: styles$r.triangleRight
   }), /*#__PURE__*/React__default.createElement("div", {
     suppressContentEditableWarning: isAdmin,
     onBlur: e => onChange(e, index, 'price'),
     contenteditable: `${isAdmin ? "true" : "false"}`,
-    className: styles$q.price
+    className: styles$r.price
   }, price), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.triangleLeft
+    className: styles$r.triangleLeft
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.triangleLeft
+    className: styles$r.triangleLeft
   }))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.listSmallImage
+    className: styles$r.listSmallImage
   }, Array.isArray(imageList) && imageList.map((img, i) => isAdmin ? /*#__PURE__*/React__default.createElement("div", {
     style: {
       position: 'relative'
     }
   }, i < imageList.length - 1 && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$q.deleteButton,
+    className: styles$r.deleteButton,
     onClick: () => {
       removeImage(i);
     }
@@ -4497,7 +4497,7 @@ const PatternDetail = ({
   }))));
 };
 
-var styles$p = {"relatedTo":"RelatedToMenu-module_relatedTo__eRHql","menuLink":"RelatedToMenu-module_menuLink__8MBUA","deleteButton":"RelatedToMenu-module_deleteButton__Hqq16","arrow":"RelatedToMenu-module_arrow__njWAs","textRelatedTo":"RelatedToMenu-module_textRelatedTo__n7-3q"};
+var styles$q = {"relatedTo":"RelatedToMenu-module_relatedTo__eRHql","menuLink":"RelatedToMenu-module_menuLink__8MBUA","deleteButton":"RelatedToMenu-module_deleteButton__Hqq16","arrow":"RelatedToMenu-module_arrow__njWAs","textRelatedTo":"RelatedToMenu-module_textRelatedTo__n7-3q"};
 
 const RelatedToMenu = ({
   url,
@@ -4511,11 +4511,11 @@ const RelatedToMenu = ({
   return /*#__PURE__*/React__default.createElement("div", {
     onDragStart: onDragStart,
     draggable: "true",
-    className: styles$p.relatedTo
+    className: styles$q.relatedTo
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$p.arrow
+    className: styles$q.arrow
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$p.textRelatedTo,
+    className: styles$q.textRelatedTo,
     onClick: () => {
       setShowMenuUrl(true);
     }
@@ -4524,24 +4524,24 @@ const RelatedToMenu = ({
       setShowMenuUrl(true);
     }
   }, textLink), showMenuUrl && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$p.menuLink
+    className: styles$q.menuLink
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$p.deleteButton,
+    className: styles$q.deleteButton,
     onClick: () => {
       setShowMenuUrl(false);
     }
   }, "x"), /*#__PURE__*/React__default.createElement("label", null, "Text:"), /*#__PURE__*/React__default.createElement("input", {
-    className: styles$p.text,
+    className: styles$q.text,
     onChange: e => onChange('textLink', e, index),
     value: textLink
   }), /*#__PURE__*/React__default.createElement("label", null, "Url:"), /*#__PURE__*/React__default.createElement("input", {
-    className: styles$p.url,
+    className: styles$q.url,
     onChange: e => onChange('url', e, index),
     value: url
   })));
 };
 
-var styles$o = {"btnCommon":"AdminMenu-module_btnCommon__zAFca","bigMenu":"AdminMenu-module_bigMenu__9UUTu","btn":"AdminMenu-module_btn__JqVGf","menuActive":"AdminMenu-module_menuActive__8EWvI","bottom":"AdminMenu-module_bottom__6oYnv","top":"AdminMenu-module_top__U0RCz","left":"AdminMenu-module_left__A-mrQ","show":"AdminMenu-module_show__Ie-bf"};
+var styles$p = {"btnCommon":"AdminMenu-module_btnCommon__zAFca","bigMenu":"AdminMenu-module_bigMenu__9UUTu","btn":"AdminMenu-module_btn__JqVGf","menuActive":"AdminMenu-module_menuActive__8EWvI","bottom":"AdminMenu-module_bottom__6oYnv","top":"AdminMenu-module_top__U0RCz","left":"AdminMenu-module_left__A-mrQ","show":"AdminMenu-module_show__Ie-bf"};
 
 const AdminMenu = ({
   text,
@@ -4562,18 +4562,18 @@ const AdminMenu = ({
     onClick: () => {
       setIsShowMenu(!isShowMenu);
     },
-    className: `${styles$o.bigMenu}${isShowMenu ? ' ' + styles$o.menuActive : ''}`
+    className: `${styles$p.bigMenu}${isShowMenu ? ' ' + styles$p.menuActive : ''}`
   }, /*#__PURE__*/React__default.createElement("span", null, text), /*#__PURE__*/React__default.createElement("div", {
     onClick: e => {
       e.stopPropagation();
       setIsShowMenu(!isShowMenu);
       isEdit ? onSaveClick(e) : onEditBtnClick(e);
     },
-    className: `${styles$o.btn}${isShowMenu ? ` ${styles$o.top} ` + styles$o.show : ''}`
+    className: `${styles$p.btn}${isShowMenu ? ` ${styles$p.top} ` + styles$p.show : ''}`
   }, isEdit ? 'Save' : 'Edit'));
 };
 
-var styles$n = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","discount":"PatternItem-module_discount__pzryu","image":"PatternItem-module_image__ar-yf","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","content":"PatternItem-module_content__7DVSj","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
+var styles$o = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","discount":"PatternItem-module_discount__pzryu","image":"PatternItem-module_image__ar-yf","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","content":"PatternItem-module_content__7DVSj","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -20514,7 +20514,7 @@ Google.defaultProps = {
 
 ColorWrap(Google);
 
-var styles$m = {"wrapper":"PatternName-module_wrapper__KDcd8","isBottom":"PatternName-module_isBottom__j2DCd","menu":"PatternName-module_menu__OOslt","pickerMenu":"PatternName-module_pickerMenu__HtlsW"};
+var styles$n = {"wrapper":"PatternName-module_wrapper__KDcd8","isBottom":"PatternName-module_isBottom__j2DCd","menu":"PatternName-module_menu__OOslt","pickerMenu":"PatternName-module_pickerMenu__HtlsW"};
 
 const PatternName = ({
   onBlur = () => {},
@@ -20533,7 +20533,7 @@ const PatternName = ({
   });
   const [showPicker, setShowPicker] = useState(false);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$m.wrapper} ${isBottom ? styles$m.isBottom : ''}`,
+    className: `${styles$n.wrapper} ${isBottom ? styles$n.isBottom : ''}`,
     style: {
       color: nameColor,
       fontFamily: nameFontFamily
@@ -20549,9 +20549,9 @@ const PatternName = ({
     },
     suppressContentEditableWarning: true,
     contentEditable: "false",
-    className: styles$m.menu
+    className: styles$n.menu
   }, showPicker && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$m.pickerMenu,
+    className: styles$n.pickerMenu,
     onMouseLeave: () => setShowPicker(false)
   }, /*#__PURE__*/React__default.createElement(SketchPicker, {
     color: colorInstance,
@@ -22945,13 +22945,13 @@ var syncFallback = function syncFallback(create) {
   return create();
 };
 
-var useInsertionEffect = React['useInsertion' + 'Effect'] ? React['useInsertion' + 'Effect'] : false;
+var useInsertionEffect = React$1['useInsertion' + 'Effect'] ? React$1['useInsertion' + 'Effect'] : false;
 var useInsertionEffectAlwaysWithSyncFallback = useInsertionEffect || syncFallback;
-var useInsertionEffectWithLayoutFallback = useInsertionEffect || React.useLayoutEffect;
+var useInsertionEffectWithLayoutFallback = useInsertionEffect || React$1.useLayoutEffect;
 
 var hasOwnProperty = {}.hasOwnProperty;
 
-var EmotionCacheContext = /* #__PURE__ */React.createContext( // we're doing this to avoid preconstruct's dead code elimination in this one case
+var EmotionCacheContext = /* #__PURE__ */React$1.createContext( // we're doing this to avoid preconstruct's dead code elimination in this one case
 // because this module is primarily intended for the browser and node
 // but it's also required in react native and similar environments sometimes
 // and we could have a special build just for that
@@ -22976,7 +22976,7 @@ var withEmotionCache = function withEmotionCache(func) {
   });
 };
 
-var ThemeContext = /* #__PURE__ */React.createContext({});
+var ThemeContext = /* #__PURE__ */React$1.createContext({});
 
 if (process.env.NODE_ENV !== 'production') {
   ThemeContext.displayName = 'EmotionThemeContext';
@@ -23083,7 +23083,7 @@ var Emotion = /* #__PURE__ */withEmotionCache(function (props, cache, ref) {
     className = props.className + " ";
   }
 
-  var serialized = serializeStyles(registeredStyles, undefined, React.useContext(ThemeContext));
+  var serialized = serializeStyles(registeredStyles, undefined, React$1.useContext(ThemeContext));
 
   if (process.env.NODE_ENV !== 'production' && serialized.name.indexOf('-') === -1) {
     var labelFromStack = props[labelPropName];
@@ -23104,11 +23104,11 @@ var Emotion = /* #__PURE__ */withEmotionCache(function (props, cache, ref) {
 
   newProps.ref = ref;
   newProps.className = className;
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Insertion$1, {
+  return /*#__PURE__*/React$1.createElement(React$1.Fragment, null, /*#__PURE__*/React$1.createElement(Insertion$1, {
     cache: cache,
     serialized: serialized,
     isStringTag: typeof WrappedComponent === 'string'
-  }), /*#__PURE__*/React.createElement(WrappedComponent, newProps));
+  }), /*#__PURE__*/React$1.createElement(WrappedComponent, newProps));
 });
 
 if (process.env.NODE_ENV !== 'production') {
@@ -23254,7 +23254,7 @@ var jsx = function jsx(type, props) {
 
   if (props == null || !hasOwnProperty.call(props, 'css')) {
     // $FlowFixMe
-    return React.createElement.apply(undefined, args);
+    return React$1.createElement.apply(undefined, args);
   }
 
   var argsLength = args.length;
@@ -23267,7 +23267,7 @@ var jsx = function jsx(type, props) {
   } // $FlowFixMe
 
 
-  return React.createElement.apply(null, createElementArgArray);
+  return React$1.createElement.apply(null, createElementArgArray);
 };
 
 var warnedAboutCssPropForGlobal = false; // maintain place over rerenders.
@@ -23285,13 +23285,13 @@ var Global = /* #__PURE__ */withEmotionCache(function (props, cache) {
   }
 
   var styles = props.styles;
-  var serialized = serializeStyles([styles], undefined, React.useContext(ThemeContext));
+  var serialized = serializeStyles([styles], undefined, React$1.useContext(ThemeContext));
   // but it is based on a constant that will never change at runtime
   // it's effectively like having two implementations and switching them out
   // so it's not actually breaking anything
 
 
-  var sheetRef = React.useRef();
+  var sheetRef = React$1.useRef();
   useInsertionEffectWithLayoutFallback(function () {
     var key = cache.key + "-global"; // use case of https://github.com/emotion-js/emotion/issues/2675
 
@@ -23484,11 +23484,11 @@ var ClassNames = /* #__PURE__ */withEmotionCache(function (props, cache) {
   var content = {
     css: css,
     cx: cx,
-    theme: React.useContext(ThemeContext)
+    theme: React$1.useContext(ThemeContext)
   };
   var ele = props.children(content);
   hasRendered = true;
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Insertion, {
+  return /*#__PURE__*/React$1.createElement(React$1.Fragment, null, /*#__PURE__*/React$1.createElement(Insertion, {
     cache: cache,
     serializedArr: serializedArr
   }), ele);
@@ -58353,7 +58353,7 @@ var Select = /*#__PURE__*/function (_Component) {
       });
       if (!isSearchable) {
         // use a dummy input to maintain focus/blur functionality
-        return /*#__PURE__*/React.createElement(DummyInput, _extends({
+        return /*#__PURE__*/React$1.createElement(DummyInput, _extends({
           id: id,
           innerRef: this.getInputRef,
           onBlur: this.onInputBlur,
@@ -58366,7 +58366,7 @@ var Select = /*#__PURE__*/function (_Component) {
           value: ""
         }, ariaAttributes));
       }
-      return /*#__PURE__*/React.createElement(Input, _extends({}, commonProps, {
+      return /*#__PURE__*/React$1.createElement(Input, _extends({}, commonProps, {
         autoCapitalize: "none",
         autoComplete: "off",
         autoCorrect: "off",
@@ -58407,7 +58407,7 @@ var Select = /*#__PURE__*/function (_Component) {
         focusedValue = _this$state5.focusedValue,
         isFocused = _this$state5.isFocused;
       if (!this.hasValue() || !controlShouldRenderValue) {
-        return inputValue ? null : /*#__PURE__*/React.createElement(Placeholder, _extends({}, commonProps, {
+        return inputValue ? null : /*#__PURE__*/React$1.createElement(Placeholder, _extends({}, commonProps, {
           key: "placeholder",
           isDisabled: isDisabled,
           isFocused: isFocused,
@@ -58420,7 +58420,7 @@ var Select = /*#__PURE__*/function (_Component) {
         return selectValue.map(function (opt, index) {
           var isOptionFocused = opt === focusedValue;
           var key = "".concat(_this3.getOptionLabel(opt), "-").concat(_this3.getOptionValue(opt));
-          return /*#__PURE__*/React.createElement(MultiValue, _extends({}, commonProps, {
+          return /*#__PURE__*/React$1.createElement(MultiValue, _extends({}, commonProps, {
             components: {
               Container: MultiValueContainer,
               Label: MultiValueLabel,
@@ -58449,7 +58449,7 @@ var Select = /*#__PURE__*/function (_Component) {
         return null;
       }
       var singleValue = selectValue[0];
-      return /*#__PURE__*/React.createElement(SingleValue, _extends({}, commonProps, {
+      return /*#__PURE__*/React$1.createElement(SingleValue, _extends({}, commonProps, {
         data: singleValue,
         isDisabled: isDisabled
       }), this.formatOptionLabel(singleValue, 'value'));
@@ -58472,7 +58472,7 @@ var Select = /*#__PURE__*/function (_Component) {
         onTouchEnd: this.onClearIndicatorTouchEnd,
         'aria-hidden': 'true'
       };
-      return /*#__PURE__*/React.createElement(ClearIndicator, _extends({}, commonProps, {
+      return /*#__PURE__*/React$1.createElement(ClearIndicator, _extends({}, commonProps, {
         innerProps: innerProps,
         isFocused: isFocused
       }));
@@ -58491,7 +58491,7 @@ var Select = /*#__PURE__*/function (_Component) {
       var innerProps = {
         'aria-hidden': 'true'
       };
-      return /*#__PURE__*/React.createElement(LoadingIndicator, _extends({}, commonProps, {
+      return /*#__PURE__*/React$1.createElement(LoadingIndicator, _extends({}, commonProps, {
         innerProps: innerProps,
         isDisabled: isDisabled,
         isFocused: isFocused
@@ -58509,7 +58509,7 @@ var Select = /*#__PURE__*/function (_Component) {
       var commonProps = this.commonProps;
       var isDisabled = this.props.isDisabled;
       var isFocused = this.state.isFocused;
-      return /*#__PURE__*/React.createElement(IndicatorSeparator, _extends({}, commonProps, {
+      return /*#__PURE__*/React$1.createElement(IndicatorSeparator, _extends({}, commonProps, {
         isDisabled: isDisabled,
         isFocused: isFocused
       }));
@@ -58528,7 +58528,7 @@ var Select = /*#__PURE__*/function (_Component) {
         onTouchEnd: this.onDropdownIndicatorTouchEnd,
         'aria-hidden': 'true'
       };
-      return /*#__PURE__*/React.createElement(DropdownIndicator, _extends({}, commonProps, {
+      return /*#__PURE__*/React$1.createElement(DropdownIndicator, _extends({}, commonProps, {
         innerProps: innerProps,
         isDisabled: isDisabled,
         isFocused: isFocused
@@ -58593,7 +58593,7 @@ var Select = /*#__PURE__*/function (_Component) {
           'aria-selected': _this4.isAppleDevice ? undefined : isSelected // is not supported on Apple devices
         };
 
-        return /*#__PURE__*/React.createElement(Option, _extends({}, commonProps, {
+        return /*#__PURE__*/React$1.createElement(Option, _extends({}, commonProps, {
           innerProps: innerProps,
           data: data,
           isDisabled: isDisabled,
@@ -58615,7 +58615,7 @@ var Select = /*#__PURE__*/function (_Component) {
               groupIndex = item.index;
             var groupId = "".concat(_this4.getElementId('group'), "-").concat(groupIndex);
             var headingId = "".concat(groupId, "-heading");
-            return /*#__PURE__*/React.createElement(Group, _extends({}, commonProps, {
+            return /*#__PURE__*/React$1.createElement(Group, _extends({}, commonProps, {
               key: groupId,
               data: _data,
               options: options,
@@ -58637,13 +58637,13 @@ var Select = /*#__PURE__*/function (_Component) {
           inputValue: inputValue
         });
         if (message === null) return null;
-        menuUI = /*#__PURE__*/React.createElement(LoadingMessage, commonProps, message);
+        menuUI = /*#__PURE__*/React$1.createElement(LoadingMessage, commonProps, message);
       } else {
         var _message = noOptionsMessage({
           inputValue: inputValue
         });
         if (_message === null) return null;
-        menuUI = /*#__PURE__*/React.createElement(NoOptionsMessage, commonProps, _message);
+        menuUI = /*#__PURE__*/React$1.createElement(NoOptionsMessage, commonProps, _message);
       }
       var menuPlacementProps = {
         minMenuHeight: minMenuHeight,
@@ -58652,12 +58652,12 @@ var Select = /*#__PURE__*/function (_Component) {
         menuPosition: menuPosition,
         menuShouldScrollIntoView: menuShouldScrollIntoView
       };
-      var menuElement = /*#__PURE__*/React.createElement(MenuPlacer, _extends({}, commonProps, menuPlacementProps), function (_ref4) {
+      var menuElement = /*#__PURE__*/React$1.createElement(MenuPlacer, _extends({}, commonProps, menuPlacementProps), function (_ref4) {
         var ref = _ref4.ref,
           _ref4$placerProps = _ref4.placerProps,
           placement = _ref4$placerProps.placement,
           maxHeight = _ref4$placerProps.maxHeight;
-        return /*#__PURE__*/React.createElement(Menu, _extends({}, commonProps, menuPlacementProps, {
+        return /*#__PURE__*/React$1.createElement(Menu, _extends({}, commonProps, menuPlacementProps, {
           innerRef: ref,
           innerProps: {
             onMouseDown: _this4.onMenuMouseDown,
@@ -58665,13 +58665,13 @@ var Select = /*#__PURE__*/function (_Component) {
           },
           isLoading: isLoading,
           placement: placement
-        }), /*#__PURE__*/React.createElement(ScrollManager, {
+        }), /*#__PURE__*/React$1.createElement(ScrollManager, {
           captureEnabled: captureMenuScroll,
           onTopArrive: onMenuScrollToTop,
           onBottomArrive: onMenuScrollToBottom,
           lockEnabled: menuShouldBlockScroll
         }, function (scrollTargetRef) {
-          return /*#__PURE__*/React.createElement(MenuList, _extends({}, commonProps, {
+          return /*#__PURE__*/React$1.createElement(MenuList, _extends({}, commonProps, {
             innerRef: function innerRef(instance) {
               _this4.getMenuListRef(instance);
               scrollTargetRef(instance);
@@ -58691,7 +58691,7 @@ var Select = /*#__PURE__*/function (_Component) {
       // positioning behaviour is almost identical for portalled and fixed,
       // so we use the same component. the actual portalling logic is forked
       // within the component based on `menuPosition`
-      return menuPortalTarget || menuPosition === 'fixed' ? /*#__PURE__*/React.createElement(MenuPortal, _extends({}, commonProps, {
+      return menuPortalTarget || menuPosition === 'fixed' ? /*#__PURE__*/React$1.createElement(MenuPortal, _extends({}, commonProps, {
         appendTo: menuPortalTarget,
         controlElement: this.controlRef,
         menuPlacement: menuPlacement,
@@ -58710,7 +58710,7 @@ var Select = /*#__PURE__*/function (_Component) {
         required = _this$props13.required;
       var selectValue = this.state.selectValue;
       if (required && !this.hasValue() && !isDisabled) {
-        return /*#__PURE__*/React.createElement(RequiredInput$1, {
+        return /*#__PURE__*/React$1.createElement(RequiredInput$1, {
           name: name,
           onFocus: this.onValueInputFocus
         });
@@ -58721,29 +58721,29 @@ var Select = /*#__PURE__*/function (_Component) {
           var value = selectValue.map(function (opt) {
             return _this5.getOptionValue(opt);
           }).join(delimiter);
-          return /*#__PURE__*/React.createElement("input", {
+          return /*#__PURE__*/React$1.createElement("input", {
             name: name,
             type: "hidden",
             value: value
           });
         } else {
           var input = selectValue.length > 0 ? selectValue.map(function (opt, i) {
-            return /*#__PURE__*/React.createElement("input", {
+            return /*#__PURE__*/React$1.createElement("input", {
               key: "i-".concat(i),
               name: name,
               type: "hidden",
               value: _this5.getOptionValue(opt)
             });
-          }) : /*#__PURE__*/React.createElement("input", {
+          }) : /*#__PURE__*/React$1.createElement("input", {
             name: name,
             type: "hidden",
             value: ""
           });
-          return /*#__PURE__*/React.createElement("div", null, input);
+          return /*#__PURE__*/React$1.createElement("div", null, input);
         }
       } else {
         var _value = selectValue[0] ? this.getOptionValue(selectValue[0]) : '';
-        return /*#__PURE__*/React.createElement("input", {
+        return /*#__PURE__*/React$1.createElement("input", {
           name: name,
           type: "hidden",
           value: _value
@@ -58761,7 +58761,7 @@ var Select = /*#__PURE__*/function (_Component) {
         isFocused = _this$state6.isFocused,
         selectValue = _this$state6.selectValue;
       var focusableOptions = this.getFocusableOptions();
-      return /*#__PURE__*/React.createElement(LiveRegion$1, _extends({}, commonProps, {
+      return /*#__PURE__*/React$1.createElement(LiveRegion$1, _extends({}, commonProps, {
         id: this.getElementId('live-region'),
         ariaSelection: ariaSelection,
         focusedOption: focusedOption,
@@ -58787,7 +58787,7 @@ var Select = /*#__PURE__*/function (_Component) {
         menuIsOpen = _this$props14.menuIsOpen;
       var isFocused = this.state.isFocused;
       var commonProps = this.commonProps = this.getCommonProps();
-      return /*#__PURE__*/React.createElement(SelectContainer, _extends({}, commonProps, {
+      return /*#__PURE__*/React$1.createElement(SelectContainer, _extends({}, commonProps, {
         className: className,
         innerProps: {
           id: id,
@@ -58795,7 +58795,7 @@ var Select = /*#__PURE__*/function (_Component) {
         },
         isDisabled: isDisabled,
         isFocused: isFocused
-      }), this.renderLiveRegion(), /*#__PURE__*/React.createElement(Control, _extends({}, commonProps, {
+      }), this.renderLiveRegion(), /*#__PURE__*/React$1.createElement(Control, _extends({}, commonProps, {
         innerRef: this.getControlRef,
         innerProps: {
           onMouseDown: this.onControlMouseDown,
@@ -58804,9 +58804,9 @@ var Select = /*#__PURE__*/function (_Component) {
         isDisabled: isDisabled,
         isFocused: isFocused,
         menuIsOpen: menuIsOpen
-      }), /*#__PURE__*/React.createElement(ValueContainer, _extends({}, commonProps, {
+      }), /*#__PURE__*/React$1.createElement(ValueContainer, _extends({}, commonProps, {
         isDisabled: isDisabled
-      }), this.renderPlaceholderOrValue(), this.renderInput()), /*#__PURE__*/React.createElement(IndicatorsContainer, _extends({}, commonProps, {
+      }), this.renderPlaceholderOrValue(), this.renderInput()), /*#__PURE__*/React$1.createElement(IndicatorsContainer, _extends({}, commonProps, {
         isDisabled: isDisabled
       }), this.renderClearIndicator(), this.renderLoadingIndicator(), this.renderIndicatorSeparator(), this.renderDropdownIndicator())), this.renderMenu(), this.renderFormField());
     }
@@ -58878,7 +58878,7 @@ Select.defaultProps = defaultProps;
 
 var StateManagedSelect = /*#__PURE__*/forwardRef(function (props, ref) {
   var baseSelectProps = useStateManager(props);
-  return /*#__PURE__*/React.createElement(Select, _extends({
+  return /*#__PURE__*/React$1.createElement(Select, _extends({
     ref: ref
   }, baseSelectProps));
 });
@@ -58953,7 +58953,7 @@ const PatternItem = ({
     onBlur: e => {
       setDes(e.target.innerText);
     },
-    className: styles$n.description,
+    className: styles$o.description,
     suppressContentEditableWarning: true,
     contentEditable: isEdit ? 'true' : 'false'
   }, des), /*#__PURE__*/React__default.createElement(PatternName, {
@@ -59137,7 +59137,7 @@ const PatternItem = ({
   };
   return /*#__PURE__*/React__default.createElement("div", {
     href: makeUrl(ravelryUrl),
-    className: `${styles$n.wrapper} ${isBottom ? styles$n.isBottom : ''}`,
+    className: `${styles$o.wrapper} ${isBottom ? styles$o.isBottom : ''}`,
     style: {
       width: isAddNew ? '100%' : 'initial',
       height: isAddNew ? '100%' : 'initial',
@@ -59146,37 +59146,37 @@ const PatternItem = ({
     },
     onClick: onClickPatternItem
   }, isAdmin && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.editMenu
+    className: styles$o.editMenu
   }, isEdit && /*#__PURE__*/React__default.createElement("label", {
-    className: styles$n.isFree
+    className: styles$o.isFree
   }, /*#__PURE__*/React__default.createElement("input", {
     type: "checkbox",
     onChange: onChangeIsFree,
     checked: _isFree
   }), " Is Free"), isEdit && !isAddNew && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.button,
+    className: styles$o.button,
     onClick: onClickCancel
   }, "Cancel"), /*#__PURE__*/React__default.createElement("div", {
     onClick: onClickEdit,
-    className: styles$n.button
+    className: styles$o.button
   }, isEdit ? 'Save' : 'Edit'), !isAddNew && !isEdit && /*#__PURE__*/React__default.createElement("div", {
     onClick: onClickDelete,
-    className: styles$n.button
+    className: styles$o.button
   }, "Delete"), !isAddNew && !isEdit && /*#__PURE__*/React__default.createElement("div", {
     onClick: onClickPatternDetail,
-    className: styles$n.button
+    className: styles$o.button
   }, "Detail")), _isFree && /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$n.freeTag} ${isBottom ? styles$n.isBottom : ''}`
+    className: `${styles$o.freeTag} ${isBottom ? styles$o.isBottom : ''}`
   }), /*#__PURE__*/React__default.createElement(ImageUploadable, {
     skipCheckFileSize: true,
-    className: styles$n.image,
+    className: styles$o.image,
     isEdit: isEdit,
     src: imgSrc,
     onChangeImage: onChangeImage
   }), discount && !_isFree ? /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.discount
+    className: styles$o.discount
   }, "-", discount, "%") : null, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$n.content
+    className: styles$o.content
   }, content), isEdit && /*#__PURE__*/React__default.createElement("div", {
     style: {
       marginBottom: 5
@@ -59197,7 +59197,7 @@ const PatternItem = ({
   }));
 };
 
-var styles$l = {"wrapperGroupContent":"PostContent-module_wrapperGroupContent__yFH1p","header":"PostContent-module_header__PsWMK","contentZone":"PostContent-module_contentZone__HUhpk","show":"PostContent-module_show__ZMf2A","edit":"PostContent-module_edit__Qe59Q","btnMenu":"PostContent-module_btnMenu__-mGU-","imageWrapper":"PostContent-module_imageWrapper__2Fk0j","bigTitle":"PostContent-module_bigTitle__iLoUj","wrapperAction":"PostContent-module_wrapperAction__-kVIX","deleteButton":"PostContent-module_deleteButton__iDrEN","addButton":"PostContent-module_addButton__sb98L","button":"PostContent-module_button__FKbWL","imageUpload":"PostContent-module_imageUpload__qkS0y","wrapper":"PostContent-module_wrapper__ahlNi","adminTopHeader":"PostContent-module_adminTopHeader__aIDLA","actionButtons":"PostContent-module_actionButtons__KUzyc","checkBox":"PostContent-module_checkBox__edKrx","ads":"PostContent-module_ads__vHBWo","shareZone":"PostContent-module_shareZone__gri02","shareBtn":"PostContent-module_shareBtn__hl-WI","adminMenuBtn":"PostContent-module_adminMenuBtn__dISi1","adminMenu":"PostContent-module_adminMenu__-hGkg","hidden":"PostContent-module_hidden__GQw-G","menuItem":"PostContent-module_menuItem__HomeL","adminMenuBtnSave":"PostContent-module_adminMenuBtnSave__t-FUr","listPost":"PostContent-module_listPost__cjbZ5","adminMenuInputPostId":"PostContent-module_adminMenuInputPostId__my03L","relatedTo":"PostContent-module_relatedTo__NKbLQ","menuLink":"PostContent-module_menuLink__kQC0Q","arrow":"PostContent-module_arrow__ms8AO","textRelatedTo":"PostContent-module_textRelatedTo__IHBxX","dropZone":"PostContent-module_dropZone__8WDHC","subcribeMe":"PostContent-module_subcribeMe__3y1K-","imgWrapper":"PostContent-module_imgWrapper__4YZaL","videoMenu":"PostContent-module_videoMenu__lxwk3","imageDescription":"PostContent-module_imageDescription__19QTz"};
+var styles$m = {"wrapperGroupContent":"PostContent-module_wrapperGroupContent__yFH1p","header":"PostContent-module_header__PsWMK","contentZone":"PostContent-module_contentZone__HUhpk","show":"PostContent-module_show__ZMf2A","edit":"PostContent-module_edit__Qe59Q","btnMenu":"PostContent-module_btnMenu__-mGU-","imageWrapper":"PostContent-module_imageWrapper__2Fk0j","bigTitle":"PostContent-module_bigTitle__iLoUj","wrapperAction":"PostContent-module_wrapperAction__-kVIX","deleteButton":"PostContent-module_deleteButton__iDrEN","addButton":"PostContent-module_addButton__sb98L","button":"PostContent-module_button__FKbWL","imageUpload":"PostContent-module_imageUpload__qkS0y","wrapper":"PostContent-module_wrapper__ahlNi","adminTopHeader":"PostContent-module_adminTopHeader__aIDLA","actionButtons":"PostContent-module_actionButtons__KUzyc","checkBox":"PostContent-module_checkBox__edKrx","ads":"PostContent-module_ads__vHBWo","shareZone":"PostContent-module_shareZone__gri02","shareBtn":"PostContent-module_shareBtn__hl-WI","adminMenuBtn":"PostContent-module_adminMenuBtn__dISi1","adminMenu":"PostContent-module_adminMenu__-hGkg","hidden":"PostContent-module_hidden__GQw-G","menuItem":"PostContent-module_menuItem__HomeL","adminMenuBtnSave":"PostContent-module_adminMenuBtnSave__t-FUr","listPost":"PostContent-module_listPost__cjbZ5","adminMenuInputPostId":"PostContent-module_adminMenuInputPostId__my03L","relatedTo":"PostContent-module_relatedTo__NKbLQ","menuLink":"PostContent-module_menuLink__kQC0Q","arrow":"PostContent-module_arrow__ms8AO","textRelatedTo":"PostContent-module_textRelatedTo__IHBxX","dropZone":"PostContent-module_dropZone__8WDHC","subcribeMe":"PostContent-module_subcribeMe__3y1K-","imgWrapper":"PostContent-module_imgWrapper__4YZaL","videoMenu":"PostContent-module_videoMenu__lxwk3","imageDescription":"PostContent-module_imageDescription__19QTz"};
 
 const getSelectionText = () => {
   var text = "";
@@ -59248,8 +59248,8 @@ const PostContent = ({
     }
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.wrapper
-  }, Array.isArray(data) && data.map((item, i) => renderItemByType(item ? item : {}, i, styles$l, onDeleteContentItem, addNewContentItem, isMobile, _isEdit, data, onChangeData)), _isEdit && Array.isArray(data) && data.length == 0 && /*#__PURE__*/React__default.createElement(MenuAddComponentPost, {
+    className: styles$m.wrapper
+  }, Array.isArray(data) && data.map((item, i) => renderItemByType(item ? item : {}, i, styles$m, onDeleteContentItem, addNewContentItem, isMobile, _isEdit, data, onChangeData)), _isEdit && Array.isArray(data) && data.length == 0 && /*#__PURE__*/React__default.createElement(MenuAddComponentPost, {
     btnClass: `${menuBtnClass ? ' ' + menuBtnClass : ''}`,
     onClickMenuItem: item => {
       addNewContentItem(item);
@@ -59283,7 +59283,7 @@ const GroupContent = ({
     setExpanded(expanded);
   }, [expanded]);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$l.wrapperGroupContent
+    className: styles$m.wrapperGroupContent
   }, /*#__PURE__*/React__default.createElement("div", {
     onClick: () => {
       !isEdit && onChange(!_expanded, 'expanded');
@@ -59291,12 +59291,12 @@ const GroupContent = ({
     suppressContentEditableWarning: isEdit,
     onBlur: e => onChange(e, 'text'),
     contentEditable: `${isEdit ? "true" : "false"}`,
-    className: styles$l.header
+    className: styles$m.header
   }, title), /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$l.contentZone}${_expanded || isEdit ? ` ${styles$l.edit} ` + styles$l.show : ''}`
+    className: `${styles$m.contentZone}${_expanded || isEdit ? ` ${styles$m.edit} ` + styles$m.show : ''}`
   }, /*#__PURE__*/React__default.createElement(PostContent, {
     isShowBigMenu: false,
-    menuBtnClass: styles$l.btnMenu,
+    menuBtnClass: styles$m.btnMenu,
     onChangeData: c => {
       setContentData(c);
       onChange(c, 'content');
@@ -60616,7 +60616,7 @@ var TwitterShareButton = createShareButton('twitter', twitterLink, function (pro
 });
 var TwitterShareButton$1 = TwitterShareButton;
 
-var styles$k = {"imageWrapper":"TipDetail-module_imageWrapper__7ob-p","wrapperAction":"TipDetail-module_wrapperAction__fjIyB","deleteButton":"TipDetail-module_deleteButton__qEVWw","addButton":"TipDetail-module_addButton__1234H","button":"TipDetail-module_button__LgFX0","imageUpload":"TipDetail-module_imageUpload__1WBls","wrapper":"TipDetail-module_wrapper__v037r","adminTopHeader":"TipDetail-module_adminTopHeader__IAsnm","actionButtons":"TipDetail-module_actionButtons__HcIOT","checkBox":"TipDetail-module_checkBox__2iiOx","ads":"TipDetail-module_ads__0ycvb","shareZone":"TipDetail-module_shareZone__aJ7c4","shareBtn":"TipDetail-module_shareBtn__p4n9m","adminMenuBtn":"TipDetail-module_adminMenuBtn__NHrLd","adminMenu":"TipDetail-module_adminMenu__aDEnw","hidden":"TipDetail-module_hidden__A2u8V","menuItem":"TipDetail-module_menuItem__xdArV","adminMenuBtnSave":"TipDetail-module_adminMenuBtnSave__UZSjP","listPost":"TipDetail-module_listPost__DAxSM","adminMenuInputPostId":"TipDetail-module_adminMenuInputPostId__e2XnG","relatedTo":"TipDetail-module_relatedTo__Sw1Dt","menuLink":"TipDetail-module_menuLink__9UcOp","arrow":"TipDetail-module_arrow__51LOc","textRelatedTo":"TipDetail-module_textRelatedTo__U1jTE","dropZone":"TipDetail-module_dropZone__KmtOr","subcribeMe":"TipDetail-module_subcribeMe__K0Bcd","imgWrapper":"TipDetail-module_imgWrapper__Q2mx8","videoMenu":"TipDetail-module_videoMenu__pioTv","imageDescription":"TipDetail-module_imageDescription__O0dp9"};
+var styles$l = {"imageWrapper":"TipDetail-module_imageWrapper__7ob-p","wrapperAction":"TipDetail-module_wrapperAction__fjIyB","deleteButton":"TipDetail-module_deleteButton__qEVWw","addButton":"TipDetail-module_addButton__1234H","button":"TipDetail-module_button__LgFX0","imageUpload":"TipDetail-module_imageUpload__1WBls","wrapper":"TipDetail-module_wrapper__v037r","adminTopHeader":"TipDetail-module_adminTopHeader__IAsnm","actionButtons":"TipDetail-module_actionButtons__HcIOT","checkBox":"TipDetail-module_checkBox__2iiOx","ads":"TipDetail-module_ads__0ycvb","shareZone":"TipDetail-module_shareZone__aJ7c4","shareBtn":"TipDetail-module_shareBtn__p4n9m","adminMenuBtn":"TipDetail-module_adminMenuBtn__NHrLd","adminMenu":"TipDetail-module_adminMenu__aDEnw","hidden":"TipDetail-module_hidden__A2u8V","menuItem":"TipDetail-module_menuItem__xdArV","adminMenuBtnSave":"TipDetail-module_adminMenuBtnSave__UZSjP","listPost":"TipDetail-module_listPost__DAxSM","adminMenuInputPostId":"TipDetail-module_adminMenuInputPostId__e2XnG","relatedTo":"TipDetail-module_relatedTo__Sw1Dt","menuLink":"TipDetail-module_menuLink__9UcOp","arrow":"TipDetail-module_arrow__51LOc","textRelatedTo":"TipDetail-module_textRelatedTo__U1jTE","dropZone":"TipDetail-module_dropZone__KmtOr","subcribeMe":"TipDetail-module_subcribeMe__K0Bcd","imgWrapper":"TipDetail-module_imgWrapper__Q2mx8","videoMenu":"TipDetail-module_videoMenu__pioTv","imageDescription":"TipDetail-module_imageDescription__O0dp9"};
 
 const TipDetail = ({
   ProductJsonLd,
@@ -60751,23 +60751,23 @@ const TipDetail = ({
   }, [video, title]);
   const siteName = process?.env?.NEXT_PUBLIC_SEO_pageName || 'Cheryx';
   return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("article", {
-    className: styles$k.wrapper
+    className: styles$l.wrapper
   }, isAdmin && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$k.adminTopHeader
+    className: styles$l.adminTopHeader
   }, !isPatternDetail && /*#__PURE__*/React__default.createElement("input", {
     value: getPostId(titleData),
     disabled: true,
-    className: styles$k.adminMenuInputPostId
+    className: styles$l.adminMenuInputPostId
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$k.actionButtons
+    className: styles$l.actionButtons
   }, !isPatternDetail && _isPattern && /*#__PURE__*/React__default.createElement("label", {
-    className: styles$k.checkBox
+    className: styles$l.checkBox
   }, /*#__PURE__*/React__default.createElement("span", null, "Is Free"), /*#__PURE__*/React__default.createElement("input", {
     checked: _isFree,
     type: "checkbox",
     onChange: () => setIsFree(!_isFree)
   })), !isPatternDetail && /*#__PURE__*/React__default.createElement("label", {
-    className: styles$k.checkBox
+    className: styles$l.checkBox
   }, /*#__PURE__*/React__default.createElement("span", null, "Is Pattern"), /*#__PURE__*/React__default.createElement("input", {
     checked: _isPattern,
     type: "checkbox",
@@ -60795,11 +60795,11 @@ const TipDetail = ({
     onCancelClick: onClickCancel,
     linkComponent: Link
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$k.shareZone
+    className: styles$l.shareZone
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$k.text
+    className: styles$l.text
   }, "Share:"), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$k.shareBtn
+    className: styles$l.shareBtn
   }, /*#__PURE__*/React__default.createElement(FacebookShareButton$1, {
     url: `${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`,
     quote: postTitle,
@@ -60808,7 +60808,7 @@ const TipDetail = ({
     size: 32,
     round: true
   }))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$k.shareBtn
+    className: styles$l.shareBtn
   }, /*#__PURE__*/React__default.createElement(TwitterShareButton$1, {
     url: `${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`,
     quote: postTitle,
@@ -60868,7 +60868,7 @@ const TipDetail = ({
   }));
 };
 
-var styles$j = {"wrapper":"Note-module_wrapper__dSD4k","noteTitle":"Note-module_noteTitle__Ar-iC","p":"Note-module_p__bkiX8","dot":"Note-module_dot__9Xgz3"};
+var styles$k = {"wrapper":"Note-module_wrapper__dSD4k","noteTitle":"Note-module_noteTitle__Ar-iC","p":"Note-module_p__bkiX8","dot":"Note-module_dot__9Xgz3"};
 
 const DEFAULT_TEXT = ["Mình không làm file PDF, các lớp hướng dẫn đan là dạng Nhóm (Group) trên Facebook gồm công thức đan, video chi tiết hướng dẫn các công đoạn đan, cách khâu ráp, nhồi gòn tạo hình và các mẹo để tạo nên sản phẩm hoàn thiện.", "Chỉ cần biết đan cơ bản, có thể tham gia lớp và hoàn thành sản phẩm", "Nếu bạn chưa biết đan, ghé qua mục “Tự học đan len cơ bản” để bắt đầu tập đan thử nhé!"];
 const Note = ({
@@ -60876,30 +60876,30 @@ const Note = ({
   text = DEFAULT_TEXT
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$j.wrapper
+    className: styles$k.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$j.noteTitle
+    className: styles$k.noteTitle
   }, title), Array.isArray(text) && text.map((item, i) => /*#__PURE__*/React__default.createElement("div", {
-    className: styles$j.p,
+    className: styles$k.p,
     key: i
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$j.dot
+    className: styles$k.dot
   }), " ", item)));
 };
 
-var styles$i = {"ldsHourglass":"Loader-module_ldsHourglass__duhaK","lds-hourglass-animation":"Loader-module_lds-hourglass-animation__edjXk","loadingWrapper":"Loader-module_loadingWrapper__GIkhp","ldsHourglassAnimation":"Loader-module_lds-hourglass-animation__edjXk"};
+var styles$j = {"ldsHourglass":"Loader-module_ldsHourglass__duhaK","lds-hourglass-animation":"Loader-module_lds-hourglass-animation__edjXk","loadingWrapper":"Loader-module_loadingWrapper__GIkhp","ldsHourglassAnimation":"Loader-module_lds-hourglass-animation__edjXk"};
 
 const Loader = ({
   ...rest
 }) => {
   return /*#__PURE__*/React__default.createElement("div", _extends({}, rest, {
-    className: styles$i.loadingWrapper
+    className: styles$j.loadingWrapper
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$i.ldsHourglass
+    className: styles$j.ldsHourglass
   }));
 };
 
-var styles$h = {"header":"HeaderCherxy-module_header__p1wdm","leftSide":"HeaderCherxy-module_leftSide__EBweP","hambuger":"HeaderCherxy-module_hambuger__Umqrn","overlay":"HeaderCherxy-module_overlay__-X7Sq","menu":"HeaderCherxy-module_menu__aaThr","slideInLeft":"HeaderCherxy-module_slideInLeft__cBezf","searchInput":"HeaderCherxy-module_searchInput__l-5mX","search":"HeaderCherxy-module_search__yA6bt","searchIcon":"HeaderCherxy-module_searchIcon__GfXiv","links":"HeaderCherxy-module_links__3M4Ma","items":"HeaderCherxy-module_items__E8rxt","rightSide":"HeaderCherxy-module_rightSide__ADpXM","logo":"HeaderCherxy-module_logo__E0Zou","cheryx":"HeaderCherxy-module_cheryx__WT3B-","slogan":"HeaderCherxy-module_slogan__MyVr1","nav":"HeaderCherxy-module_nav__xeK49","selectedLink":"HeaderCherxy-module_selectedLink__NJDtu"};
+var styles$i = {"header":"HeaderCherxy-module_header__p1wdm","leftSide":"HeaderCherxy-module_leftSide__EBweP","hambuger":"HeaderCherxy-module_hambuger__Umqrn","overlay":"HeaderCherxy-module_overlay__-X7Sq","menu":"HeaderCherxy-module_menu__aaThr","slideInLeft":"HeaderCherxy-module_slideInLeft__cBezf","searchInput":"HeaderCherxy-module_searchInput__l-5mX","search":"HeaderCherxy-module_search__yA6bt","searchIcon":"HeaderCherxy-module_searchIcon__GfXiv","links":"HeaderCherxy-module_links__3M4Ma","items":"HeaderCherxy-module_items__E8rxt","rightSide":"HeaderCherxy-module_rightSide__ADpXM","logo":"HeaderCherxy-module_logo__E0Zou","cheryx":"HeaderCherxy-module_cheryx__WT3B-","slogan":"HeaderCherxy-module_slogan__MyVr1","nav":"HeaderCherxy-module_nav__xeK49","selectedLink":"HeaderCherxy-module_selectedLink__NJDtu"};
 
 const LinksIcon = ({
   url,
@@ -60922,7 +60922,7 @@ const LinksIcon = ({
   }));
 };
 
-var styles$g = {"hambuger":"LeftSideMenu-module_hambuger__yYPB4","overlay":"LeftSideMenu-module_overlay__8lrgX","menu":"LeftSideMenu-module_menu__ptqh0","slideInLeft":"LeftSideMenu-module_slideInLeft__yNIM5","searchInput":"LeftSideMenu-module_searchInput__KcMQt","search":"LeftSideMenu-module_search__-KQb9","searchIcon":"LeftSideMenu-module_searchIcon__bkFlv","links":"LeftSideMenu-module_links__36Vv-","items":"LeftSideMenu-module_items__2XpnR"};
+var styles$h = {"hambuger":"LeftSideMenu-module_hambuger__yYPB4","overlay":"LeftSideMenu-module_overlay__8lrgX","menu":"LeftSideMenu-module_menu__ptqh0","slideInLeft":"LeftSideMenu-module_slideInLeft__yNIM5","searchInput":"LeftSideMenu-module_searchInput__KcMQt","search":"LeftSideMenu-module_search__-KQb9","searchIcon":"LeftSideMenu-module_searchIcon__bkFlv","links":"LeftSideMenu-module_links__36Vv-","items":"LeftSideMenu-module_items__2XpnR"};
 
 const LeftSideMenu = ({
   menuText = 'Menu',
@@ -60936,7 +60936,7 @@ const LeftSideMenu = ({
       setIsShowMenu(true);
       document.body.style.overflowY = 'hidden';
     },
-    className: styles$g.hambuger
+    className: styles$h.hambuger
   }, /*#__PURE__*/React__default.createElement("img", {
     width: "22px",
     height: "24px",
@@ -60946,26 +60946,26 @@ const LeftSideMenu = ({
     onTouchStart: () => {
       setTimeout(() => setIsShowMenu(false), 100);
     },
-    className: styles$g.overlay
+    className: styles$h.overlay
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$g.menu,
+    className: styles$h.menu,
     onTouchStart: e => {
       e.stopPropagation();
     }
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$g.searchInput
+    className: styles$h.searchInput
   }, /*#__PURE__*/React__default.createElement("input", {
-    className: styles$g.search
+    className: styles$h.search
   }), /*#__PURE__*/React__default.createElement("img", {
     alt: "Search",
-    className: styles$g.searchIcon,
+    className: styles$h.searchIcon,
     src: "/images/search.svg"
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$g.links
+    className: styles$h.links
   }, links.map((item, index) => /*#__PURE__*/React__default.createElement(LinksIcon, _extends({
     key: index
   }, item)))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$g.items
+    className: styles$h.items
   }, menuData.map((item, index) => /*#__PURE__*/React__default.createElement(Link, {
     key: index,
     href: item.url
@@ -61048,9 +61048,9 @@ const HeaderCherxy = ({
       width: '100%'
     }
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$h.header
+    className: styles$i.header
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$h.leftSide
+    className: styles$i.leftSide
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
     target: "_blank",
@@ -61111,7 +61111,7 @@ const HeaderCherxy = ({
     links: links,
     menuData: MenuData
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$h.rightSide
+    className: styles$i.rightSide
   }, /*#__PURE__*/React__default.createElement(Link, {
     href: isAdmin ? '/dashboard' : '/login'
   }, /*#__PURE__*/React__default.createElement("a", {
@@ -61124,14 +61124,14 @@ const HeaderCherxy = ({
     alt: "user",
     src: "/images/user.png"
   }))))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$h.logo
+    className: styles$i.logo
   }, /*#__PURE__*/React__default.createElement(Link, {
     href: '/'
   }, /*#__PURE__*/React__default.createElement("a", null, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$h.cheryx,
+    className: styles$i.cheryx,
     style: cheryxStyle
   })))), showNavigator && /*#__PURE__*/React__default.createElement("nav", {
-    className: styles$h.nav,
+    className: styles$i.nav,
     style: {
       ..._styles
     }
@@ -61140,13 +61140,13 @@ const HeaderCherxy = ({
     href: item.url
   }, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
-    className: url === item.url ? styles$h.selectedLink : ''
+    className: url === item.url ? styles$i.selectedLink : ''
   }, item.text)))));
 };
 
 var homeStyles = {"homeFreePatternList":"Home-module_homeFreePatternList__BycET","mb30":"Home-module_mb30__gyYi3","imageHeaderHome":"Home-module_imageHeaderHome__MZu5H","mt55":"Home-module_mt55__-08as","main":"Home-module_main__bI9na","freePattern":"Home-module_freePattern__uCele","container":"Home-module_container__mEFCr","footer":"Home-module_footer__XGpF4","imageFooter":"Home-module_imageFooter__ZINru","dcma":"Home-module_dcma__4GW8-","title":"Home-module_title__txGd6","description":"Home-module_description__E20Wj","code":"Home-module_code__31aBI","grid":"Home-module_grid__EUFcv","card":"Home-module_card__601Yy","logo":"Home-module_logo__lK-7J","myPatterns":"Home-module_myPatterns__ftfzg","labby":"Home-module_labby__n6j7Y","images":"Home-module_images__poqmB","pumpkin":"Home-module_pumpkin__k5z5Z","reindeer":"Home-module_reindeer__Ah1XJ","lucy":"Home-module_lucy__hzRoe","alan":"Home-module_alan__i6oMq","mason":"Home-module_mason__RY-fc","jacky":"Home-module_jacky__L8AG5","jane":"Home-module_jane__a5v6P","bunny":"Home-module_bunny__uVy5m","seeMore":"Home-module_seeMore__7NlKP","iconSeeMore":"Home-module_iconSeeMore__eQYok","freePatterns":"Home-module_freePatterns__yiv-E","freeText":"Home-module_freeText__fPF5-","listPattern":"Home-module_listPattern__EWsic","pattern":"Home-module_pattern__YNovi","tips":"Home-module_tips__l5XMZ","mainLogo":"Home-module_mainLogo__N6oJC"};
 
-var styles$f = {"wrapper":"TitleCheryx2-module_wrapper__qmGmO","line":"TitleCheryx2-module_line__EPyjc","text":"TitleCheryx2-module_text__9xtyl"};
+var styles$g = {"wrapper":"TitleCheryx2-module_wrapper__qmGmO","line":"TitleCheryx2-module_line__EPyjc","text":"TitleCheryx2-module_text__9xtyl"};
 
 const TitleCheryx2 = ({
   text,
@@ -61157,21 +61157,21 @@ const TitleCheryx2 = ({
   }
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.wrapper,
+    className: styles$g.wrapper,
     style: wrapperStyle.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.line,
+    className: styles$g.line,
     style: wrapperStyle.line
   }), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.text,
+    className: styles$g.text,
     style: wrapperStyle.text
   }, text), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$f.line,
+    className: styles$g.line,
     style: wrapperStyle.line
   }));
 };
 
-var styles$e = {"wrapper":"ContentWithTitle-module_wrapper__p-sG2"};
+var styles$f = {"wrapper":"ContentWithTitle-module_wrapper__p-sG2"};
 
 const ContentWithTitle = ({
   content,
@@ -61180,7 +61180,7 @@ const ContentWithTitle = ({
   theme
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$e.wrapper} ${className}`
+    className: `${styles$f.wrapper} ${className}`
   }, /*#__PURE__*/React__default.createElement(TitleCheryx2, {
     wrapperStyle: {
       line: {
@@ -61194,7 +61194,7 @@ const ContentWithTitle = ({
   }), content);
 };
 
-var styles$d = {"items":"MySocialLink-module_items__129Nf","ravelry":"MySocialLink-module_ravelry__-2Y9f","lovescraft":"MySocialLink-module_lovescraft__2KkVr","fb":"MySocialLink-module_fb__jm-Lg","in":"MySocialLink-module_in__AUJht","yo":"MySocialLink-module_yo__rI64f","pi":"MySocialLink-module_pi__37U9a","$in$":"MySocialLink-module_in__AUJht"};
+var styles$e = {"items":"MySocialLink-module_items__129Nf","ravelry":"MySocialLink-module_ravelry__-2Y9f","lovescraft":"MySocialLink-module_lovescraft__2KkVr","fb":"MySocialLink-module_fb__jm-Lg","in":"MySocialLink-module_in__AUJht","yo":"MySocialLink-module_yo__rI64f","pi":"MySocialLink-module_pi__37U9a","$in$":"MySocialLink-module_in__AUJht"};
 
 const MySocialLink = ({
   isMobile,
@@ -61205,7 +61205,7 @@ const MySocialLink = ({
     title: title,
     theme: theme,
     content: /*#__PURE__*/React__default.createElement("div", {
-      className: styles$d.items
+      className: styles$e.items
     }, /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
       target: "_blank",
@@ -61214,7 +61214,7 @@ const MySocialLink = ({
       alt: "Facebook",
       width: isMobile ? '10px' : '15px',
       height: isMobile ? '21px' : '30px',
-      className: styles$d.fb,
+      className: styles$e.fb,
       src: "/images/fb1.png"
     })), /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
@@ -61224,7 +61224,7 @@ const MySocialLink = ({
       alt: "Ravelry",
       width: isMobile ? '87px' : '154px',
       height: isMobile ? '27px' : '49px',
-      className: styles$d.ravelry,
+      className: styles$e.ravelry,
       src: "/images/rv.svg"
     })), /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
@@ -61234,7 +61234,7 @@ const MySocialLink = ({
       alt: "Instagram",
       width: isMobile ? '21px' : '32px',
       height: isMobile ? '21px' : '34px',
-      className: styles$d.in,
+      className: styles$e.in,
       src: "/images/in1.png"
     })), /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
@@ -61242,7 +61242,7 @@ const MySocialLink = ({
       href: "https://www.youtube.com/channel/UCf0jCxiSGh_pBExFN3k1CIA"
     }, /*#__PURE__*/React__default.createElement("img", {
       alt: "Youtube",
-      className: styles$d.yo,
+      className: styles$e.yo,
       width: isMobile ? '23px' : '44px',
       height: isMobile ? '30px' : '34px',
       src: "/images/yo1.png"
@@ -61254,7 +61254,7 @@ const MySocialLink = ({
       alt: "Pinterest",
       width: isMobile ? '22px' : '34px',
       height: isMobile ? '22px' : '34px',
-      className: styles$d.pi,
+      className: styles$e.pi,
       src: "/images/pi.png"
     })))
   });
@@ -61369,7 +61369,7 @@ const CircularLoader = ({
   }, text));
 };
 
-var styles$c = {"leftMenu":"LeftMenu-module_leftMenu__6Umri","item":"LeftMenu-module_item__0YVyd","selected":"LeftMenu-module_selected__fNM9r","icon":"LeftMenu-module_icon__nn0rc"};
+var styles$d = {"leftMenu":"LeftMenu-module_leftMenu__6Umri","item":"LeftMenu-module_item__0YVyd","selected":"LeftMenu-module_selected__fNM9r","icon":"LeftMenu-module_icon__nn0rc"};
 
 const LeftMenu = ({
   data = [],
@@ -61384,20 +61384,20 @@ const LeftMenu = ({
 }) => {
   const makeItem = item => {
     return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("div", {
-      className: styles$c.icon,
+      className: styles$d.icon,
       style: {
         backgroundImage: `url('${item.icon}')`
       }
     }), /*#__PURE__*/React__default.createElement("div", null, item.title));
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$c.leftMenu
+    className: styles$d.leftMenu
   }, data.map((item, index) => {
     if (isAdmin) {
       return /*#__PURE__*/React__default.createElement("div", {
         key: index,
         onClick: () => onSelectedItem(item.key),
-        className: styles$c.item + ` ${item.key === selected ? styles$c.selected : ''}`
+        className: styles$d.item + ` ${item.key === selected ? styles$d.selected : ''}`
       }, makeItem(item));
     }
     return /*#__PURE__*/React__default.createElement(Link, {
@@ -61405,12 +61405,12 @@ const LeftMenu = ({
       href: item.url
     }, /*#__PURE__*/React__default.createElement("a", {
       href: item.url,
-      className: styles$c.item + ` ${item.key === selected ? styles$c.selected : ''}`
+      className: styles$d.item + ` ${item.key === selected ? styles$d.selected : ''}`
     }, makeItem(item)));
   }));
 };
 
-var styles$b = {"wrapper":"BestSeller-module_wrapper__DcZ-X","left":"BestSeller-module_left__48g-A","right":"BestSeller-module_right__yVRHM","image":"BestSeller-module_image__D8YrF","message":"BestSeller-module_message__RQ83C","description":"BestSeller-module_description__By2Bn","name":"BestSeller-module_name__K4Haa"};
+var styles$c = {"wrapper":"BestSeller-module_wrapper__DcZ-X","left":"BestSeller-module_left__48g-A","right":"BestSeller-module_right__yVRHM","image":"BestSeller-module_image__D8YrF","message":"BestSeller-module_message__RQ83C","description":"BestSeller-module_description__By2Bn","name":"BestSeller-module_name__K4Haa"};
 
 const BestSeller = ({
   useRouter = () => {},
@@ -61423,73 +61423,73 @@ const BestSeller = ({
     // data && data.ravelryUrl && !isAdmin && window.open(data.ravelryUrl);
   };
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$b.wrapper,
+    className: styles$c.wrapper,
     onClick: onClickPatternItem
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$b.left
+    className: styles$c.left
   }, /*#__PURE__*/React__default.createElement(PatternItem, _extends({
     useDispatch: useDispatch,
     useRouter: useRouter,
     isAdmin: isAdmin,
     key: data?.id
   }, data))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$b.right
+    className: styles$c.right
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$b.image
+    className: styles$c.image
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$b.message
+    className: styles$c.message
   }, message))));
 };
 
-var styles$a = {"logo":"CheryxLogo-module_logo__Ik2QT","cheryx":"CheryxLogo-module_cheryx__0-ARk","slogan":"CheryxLogo-module_slogan__jkJ4I"};
+var styles$b = {"logo":"CheryxLogo-module_logo__Ik2QT","cheryx":"CheryxLogo-module_cheryx__0-ARk","slogan":"CheryxLogo-module_slogan__jkJ4I"};
 
 const CheryxLogo = () => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$a.logo
+    className: styles$b.logo
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$a.cheryx
+    className: styles$b.cheryx
   }), /*#__PURE__*/React__default.createElement("img", {
     width: "143px",
     height: "18px",
     alt: process?.env?.NEXT_PUBLIC_SEO_mainTitle,
-    className: styles$a.slogan,
+    className: styles$b.slogan,
     src: "/images/cheryx-slogan.webp"
   }));
 };
 
-var styles$9 = {"linebase":"TagWithText-module_linebase__1fgWE","line":"TagWithText-module_line__jtXig","circle":"TagWithText-module_circle__DkgeV","middle":"TagWithText-module_middle__knogk","wrapper":"TagWithText-module_wrapper__J8uOx","line2":"TagWithText-module_line2__oJBu6","line1":"TagWithText-module_line1__mC6e3","inner":"TagWithText-module_inner__uzFrz"};
+var styles$a = {"linebase":"TagWithText-module_linebase__1fgWE","line":"TagWithText-module_line__jtXig","circle":"TagWithText-module_circle__DkgeV","middle":"TagWithText-module_middle__knogk","wrapper":"TagWithText-module_wrapper__J8uOx","line2":"TagWithText-module_line2__oJBu6","line1":"TagWithText-module_line1__mC6e3","inner":"TagWithText-module_inner__uzFrz"};
 
 const TagWithText = ({
   text
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.wrapper
+    className: styles$a.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.inner
+    className: styles$a.inner
   }, text), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.line1
+    className: styles$a.line1
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.circle
+    className: styles$a.circle
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.middle
+    className: styles$a.middle
   }))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.line2
+    className: styles$a.line2
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.circle
+    className: styles$a.circle
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$9.middle
+    className: styles$a.middle
   }))));
 };
 
-var styles$8 = {"wrapper":"HeaderWithImage-module_wrapper__OoGTf","tag":"HeaderWithImage-module_tag__Io2Ux"};
+var styles$9 = {"wrapper":"HeaderWithImage-module_wrapper__OoGTf","tag":"HeaderWithImage-module_tag__Io2Ux"};
 
 const HeaderWithImage = ({
   className
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$8.wrapper} ${className}`
+    className: `${styles$9.wrapper} ${className}`
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$8.tag
+    className: styles$9.tag
   }, /*#__PURE__*/React__default.createElement(TagWithText, {
     text: "\u1EDE \u0111\xE2y c\xF3 h\u01B0\u1EDBng d\u1EABn \u0111an len cho ng\u01B0\u1EDDi m\u1EDBi b\u1EAFt \u0111\u1EA7u!"
   })), /*#__PURE__*/React__default.createElement("img", {
@@ -61497,7 +61497,7 @@ const HeaderWithImage = ({
   }));
 };
 
-var styles$7 = {"section":"TitleCheryx-module_section__7ySU8"};
+var styles$8 = {"section":"TitleCheryx-module_section__7ySU8"};
 
 const TitleCheryx = ({
   text,
@@ -61505,11 +61505,11 @@ const TitleCheryx = ({
 }) => {
   return /*#__PURE__*/React__default.createElement("section", {
     style: wrapperStyle,
-    className: styles$7.section
+    className: styles$8.section
   }, /*#__PURE__*/React__default.createElement("header", null, text));
 };
 
-var styles$6 = {"wrapper":"TitleLink-module_wrapper__1aGkJ","text":"TitleLink-module_text__MXsWL"};
+var styles$7 = {"wrapper":"TitleLink-module_wrapper__1aGkJ","text":"TitleLink-module_text__MXsWL"};
 
 const TitleLink = ({
   text,
@@ -61521,15 +61521,15 @@ const TitleLink = ({
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
     style: wrapperStyle,
-    className: `${styles$6.wrapper} ${className}`
+    className: `${styles$7.wrapper} ${className}`
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$6.text
+    className: styles$7.text
   }, text), url && /*#__PURE__*/React__default.createElement(Link, {
     href: url
   }, /*#__PURE__*/React__default.createElement("a", null, linkText)));
 };
 
-var styles$5 = {"wrapper":"ListArticle-module_wrapper__fmN-H","left":"ListArticle-module_left__nerkw","bigImage":"ListArticle-module_bigImage__LUfHZ","title":"ListArticle-module_title__Rs6-W","right":"ListArticle-module_right__a5X7m","items":"ListArticle-module_items__KGSu6","item":"ListArticle-module_item__NnD6I","img":"ListArticle-module_img__94M5t","bigItem":"ListArticle-module_bigItem__iDH3C"};
+var styles$6 = {"wrapper":"ListArticle-module_wrapper__fmN-H","left":"ListArticle-module_left__nerkw","bigImage":"ListArticle-module_bigImage__LUfHZ","title":"ListArticle-module_title__Rs6-W","right":"ListArticle-module_right__a5X7m","items":"ListArticle-module_items__KGSu6","item":"ListArticle-module_item__NnD6I","img":"ListArticle-module_img__94M5t","bigItem":"ListArticle-module_bigItem__iDH3C"};
 
 const ListArticle = ({
   data = [],
@@ -61541,42 +61541,42 @@ const ListArticle = ({
   const bigItem = data.find(item => item.isBig === true);
   const listItems = data.filter(item => item.isBig !== true);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.wrapper
+    className: styles$6.wrapper
   }, !isMobile && bigItem && /*#__PURE__*/React__default.createElement(Link, {
     href: `/tip/${bigItem.id}`
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.left
+    className: styles$6.left
   }, /*#__PURE__*/React__default.createElement("a", {
     href: `/tip/${bigItem.id}`,
-    className: styles$5.bigImage
+    className: styles$6.bigImage
   }, bigItem && /*#__PURE__*/React__default.createElement(Image, {
     unoptimized: unoptimized,
     layout: "fill",
     alt: bigItem.title,
     src: transformImageSrc(bigItem.imgUrl)
   })), bigItem && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.title,
+    className: styles$6.title,
     style: {
       textAlign: 'center'
     }
   }, bigItem.title))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.right
+    className: styles$6.right
   }, listItems.map((item, index) => /*#__PURE__*/React__default.createElement("div", {
     key: index,
-    className: styles$5.items
+    className: styles$6.items
   }, /*#__PURE__*/React__default.createElement(Link, {
     href: `/tip/${item.id}`
   }, /*#__PURE__*/React__default.createElement("a", {
-    className: styles$5.item
+    className: styles$6.item
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.img
+    className: styles$6.img
   }, /*#__PURE__*/React__default.createElement(Image, {
     layout: "fill",
     unoptimized: unoptimized,
     alt: item.title,
     src: transformImageSrc(item.imgUrl)
   })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$5.title
+    className: styles$6.title
   }, item.title)))))));
 };
 
@@ -61686,7 +61686,7 @@ const Form = ({
       }
     `));
 
-var styles$4 = {"wrapper":"TipArticle-module_wrapper__fNzyi","editButtonZone":"TipArticle-module_editButtonZone__ddE5V","editButton":"TipArticle-module_editButton__PFnD3","deleteButton":"TipArticle-module_deleteButton__udde6","image":"TipArticle-module_image__NuPYd","imageMenu":"TipArticle-module_imageMenu__kGsYb","info":"TipArticle-module_info__WW9SS","title":"TipArticle-module_title__7TydJ","subTitle":"TipArticle-module_subTitle__4esJj","description":"TipArticle-module_description__897A8","seeMore":"TipArticle-module_seeMore__SbS1d"};
+var styles$5 = {"wrapper":"TipArticle-module_wrapper__fNzyi","editButtonZone":"TipArticle-module_editButtonZone__ddE5V","editButton":"TipArticle-module_editButton__PFnD3","deleteButton":"TipArticle-module_deleteButton__udde6","image":"TipArticle-module_image__NuPYd","imageMenu":"TipArticle-module_imageMenu__kGsYb","info":"TipArticle-module_info__WW9SS","title":"TipArticle-module_title__7TydJ","subTitle":"TipArticle-module_subTitle__4esJj","description":"TipArticle-module_description__897A8","seeMore":"TipArticle-module_seeMore__SbS1d"};
 
 const TipArticle = ({
   Image,
@@ -61796,31 +61796,31 @@ const TipArticle = ({
     });
   };
   return /*#__PURE__*/React__default.createElement("article", {
-    className: styles$4.wrapper
+    className: styles$5.wrapper
   }, isAdmin && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$4.editButtonZone
+    className: styles$5.editButtonZone
   }, !data.isPattern && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$4.checkIsBig
+    className: styles$5.checkIsBig
   }, /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement("span", null, "Big Item"), /*#__PURE__*/React__default.createElement("input", {
     checked: isBigItem,
     type: "checkbox",
     onChange: onChangeIsBig
   }))), !data.isPattern && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$4.checkIsBig
+    className: styles$5.checkIsBig
   }, /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement("span", null, "Show at home"), /*#__PURE__*/React__default.createElement("input", {
     checked: isShowAtHome,
     type: "checkbox",
     onChange: onChangeIsShowAtHome
   }))), /*#__PURE__*/React__default.createElement("div", {
     title: "Delete",
-    className: styles$4.deleteButton,
+    className: styles$5.deleteButton,
     onClick: onClickDelete
   }, "\uD83D\uDDD1")), /*#__PURE__*/React__default.createElement(Link, {
     href: `/tip/${data.id}`
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$4.image
+    className: styles$5.image
   }, isAdmin && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$4.imageMenu,
+    className: styles$5.imageMenu,
     onClick: e => e.stopPropagation()
   }, /*#__PURE__*/React__default.createElement("label", null, /*#__PURE__*/React__default.createElement("div", null, "Upload"), /*#__PURE__*/React__default.createElement("input", {
     hidden: "true",
@@ -61831,18 +61831,18 @@ const TipArticle = ({
     layout: "fill",
     src: transformImageSrc(data.imgUrl)
   }))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$4.info
+    className: styles$5.info
   }, /*#__PURE__*/React__default.createElement(Link, {
     href: `/tip/${data.id}`
   }, /*#__PURE__*/React__default.createElement("a", {
-    className: styles$4.title,
+    className: styles$5.title,
     style: titleStyle
   }, data.title)), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$4.description
+    className: styles$5.description
   }, getDescriptionFromContent(data.content))));
 };
 
-var styles$3 = {"wrapper":"PatternList-module_wrapper__XGei4","bottom":"PatternList-module_bottom__1xgHo"};
+var styles$4 = {"wrapper":"PatternList-module_wrapper__XGei4","bottom":"PatternList-module_bottom__1xgHo"};
 
 const PatternList = ({
   useRouter = () => {},
@@ -61854,7 +61854,7 @@ const PatternList = ({
   className
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$3.wrapper} ${isBottom ? `${styles$3.bottom} ${className}` : ''}`,
+    className: `${styles$4.wrapper} ${isBottom ? `${styles$4.bottom} ${className}` : ''}`,
     style: {
       ...style
     }
@@ -62000,7 +62000,7 @@ const useIsMobile = () => {
   return isMobile;
 };
 
-var styles$2 = {"images":"circle-group-module_images__7MJXz"};
+var styles$3 = {"images":"circle-group-module_images__7MJXz"};
 
 const CircleItem = ({
   isAdmin,
@@ -62041,7 +62041,7 @@ const CircleGroup = ({
 }) => {
   const urlsToShow = isMobile ? urls?.slice(0, 3) : urls;
   return /*#__PURE__*/React__default.createElement("div", {
-    className: `${styles$2.images}${wrapperClass ? ` ${wrapperClass}` : ''}`
+    className: `${styles$3.images}${wrapperClass ? ` ${wrapperClass}` : ''}`
   }, urlsToShow.map(url => /*#__PURE__*/React__default.createElement(CircleItem, {
     onChangeItem: data => {
       onChangeData(data);
@@ -62052,7 +62052,7 @@ const CircleGroup = ({
   })));
 };
 
-var styles$1 = {"inputContainer":"Input-module_inputContainer__C9-jm"};
+var styles$2 = {"inputContainer":"Input-module_inputContainer__C9-jm"};
 
 const Input = ({
   id,
@@ -62065,7 +62065,7 @@ const Input = ({
   return /*#__PURE__*/React__default.createElement("div", {
     key: id,
     style: rest.style ?? {},
-    className: styles$1.inputContainer
+    className: styles$2.inputContainer
   }, id ? /*#__PURE__*/React__default.createElement("label", {
     htmlFor: id
   }, id.charAt(0)?.toUpperCase() + id.slice(1)) : null, type === 'textarea' ? /*#__PURE__*/React__default.createElement("textarea", _extends({}, rest, {
@@ -62073,18 +62073,18 @@ const Input = ({
     value: value,
     onChange: onChange,
     required: required,
-    className: styles$1.textarea
+    className: styles$2.textarea
   })) : /*#__PURE__*/React__default.createElement("input", _extends({}, rest, {
     type: type,
     id: id,
     value: value,
     onChange: onChange,
     required: required,
-    className: styles$1.input
+    className: styles$2.input
   })));
 };
 
-var styles = {"modal":"Table-module_modal__x6PHZ","confirmDeleteModal":"Table-module_confirmDeleteModal__aTCQQ","modalContent":"Table-module_modalContent__4fA-4","buttonGroup":"Table-module_buttonGroup__mLW0m","yesButton":"Table-module_yesButton__LLOyV","noButton":"Table-module_noButton__Skj-A","closeButton":"Table-module_closeButton__5pa40","submitButton":"Table-module_submitButton__Cyelt","table-container":"Table-module_table-container__zwAaG","delete":"Table-module_delete__5sz2G","edit":"Table-module_edit__31Gu4","tableContainer":"Table-module_table-container__zwAaG","$delete$":"Table-module_delete__5sz2G"};
+var styles$1 = {"modal":"Table-module_modal__x6PHZ","confirmDeleteModal":"Table-module_confirmDeleteModal__aTCQQ","modalContent":"Table-module_modalContent__4fA-4","buttonGroup":"Table-module_buttonGroup__mLW0m","yesButton":"Table-module_yesButton__LLOyV","noButton":"Table-module_noButton__Skj-A","closeButton":"Table-module_closeButton__5pa40","submitButton":"Table-module_submitButton__Cyelt","table-container":"Table-module_table-container__zwAaG","delete":"Table-module_delete__5sz2G","edit":"Table-module_edit__31Gu4","tableContainer":"Table-module_table-container__zwAaG","$delete$":"Table-module_delete__5sz2G"};
 
 const Table = ({
   addButtonText = "Add",
@@ -62221,24 +62221,24 @@ const Table = ({
   }, errorMessage) : null, loading && /*#__PURE__*/React__default.createElement(Loader, {
     "data-testid": "loader"
   }), isShowConfirmDelete && /*#__PURE__*/React__default.createElement("div", {
-    className: styles.confirmDeleteModal
+    className: styles$1.confirmDeleteModal
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles.modalContent
+    className: styles$1.modalContent
   }, /*#__PURE__*/React__default.createElement("p", null, "Are you sure you want to delete?"), /*#__PURE__*/React__default.createElement("div", {
-    className: styles.buttonGroup
+    className: styles$1.buttonGroup
   }, /*#__PURE__*/React__default.createElement("button", {
-    className: styles.yesButton,
+    className: styles$1.yesButton,
     onClick: handleConfirmDelete
   }, "Yes"), /*#__PURE__*/React__default.createElement("button", {
-    className: styles.noButton,
+    className: styles$1.noButton,
     onClick: handleCancelDelete
   }, "No")))), isEdit ? /*#__PURE__*/React__default.createElement("div", {
     "data-testid": "edit-form",
-    className: styles.modal
+    className: styles$1.modal
   }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles.modalContent
+    className: styles$1.modalContent
   }, /*#__PURE__*/React__default.createElement("button", {
-    className: styles.closeButton,
+    className: styles$1.closeButton,
     onClick: () => {
       setIsEdit(false);
     }
@@ -62255,9 +62255,9 @@ const Table = ({
   })), /*#__PURE__*/React__default.createElement("button", {
     "data-testid": "form-submit",
     type: "submit",
-    className: styles.submitButton
+    className: styles$1.submitButton
   }, "Submit")))) : /*#__PURE__*/React__default.createElement("div", {
-    className: styles["table-container"]
+    className: styles$1["table-container"]
   }, addApi ? /*#__PURE__*/React__default.createElement("button", {
     "data-testid": "add-button",
     onClick: () => {
@@ -62277,12 +62277,12 @@ const Table = ({
     onClick: () => {
       onClickEdit(item._id);
     },
-    className: styles.edit
+    className: styles$1.edit
   }, "Edit") : null, deleteApi ? /*#__PURE__*/React__default.createElement("button", {
     onClick: () => {
       onClickDelete(item._id);
     },
-    className: styles.delete
+    className: styles$1.delete
   }, "Delete") : null)))))));
 };
 
@@ -63112,4 +63112,58 @@ const MainLayout = ({
   }));
 };
 
-export { AdBanner, AdminMenu, BestSeller, CIRCLE_IMAGE, CheryxLogo, CircleGroup, CircularLoader, ContentWithTitle, Footer, Form, HeaderCherxy as HeaderCheryx, HeaderPage, HeaderWithImage, IMAGE_SUBMENU, ImageUpload, ImageUploadable, Input, LeftMenu, ListArticle, Loader, MainLayout, MenuAddComponentPost, MultiImageConfig, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PageItem, PatternDetail, PatternItem, PatternList, PatternName, PatternPreview, PayPalCheckout, PostContent, PostVideo, RelatedToMenu, SubLink, Table, TipArticle, TipDetail, TitleCheryx, TitleLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles, useAuthenticate, useIsMobile, usePageData, withAuth };
+var styles = {"listVideo":"DetailLayout-module_listVideo__bkaF9","isPattern":"DetailLayout-module_isPattern__GUt9C","rightSide":"DetailLayout-module_rightSide__IaUU4"};
+
+const DetailLayout = ({
+  leftComponent,
+  rightComponent,
+  rightComponentWrapperStyle = {},
+  wrapperStyle = {},
+  isMobile,
+  bottomComponent,
+  isPattern
+}) => {
+  return /*#__PURE__*/React__default.createElement("div", {
+    className: `${styles.listVideo} ${isPattern ? styles.isPattern : ''}`,
+    style: {
+      ...wrapperStyle,
+      gridTemplateColumns: leftComponent ? '24.11% 1fr' : '1fr',
+      gridTemplateRows: leftComponent ? isMobile ? '101px 1fr' : '1fr' : '1fr'
+    }
+  }, leftComponent, /*#__PURE__*/React__default.createElement("section", {
+    className: styles.rightSide,
+    style: rightComponentWrapperStyle
+  }, rightComponent), bottomComponent);
+};
+
+function DashboardLayout({
+  children,
+  callBackCheckAuth,
+  callBackMessage = () => {},
+  callBackLoading = () => {},
+  patternType,
+  id,
+  isAdmin
+}) {
+  const checkAccess = async () => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        const data = await verifyToken(accessToken);
+        if (data.verified) {
+          if (typeof callBackCheckAuth === 'function') {
+            callBackCheckAuth(true);
+          }
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(async () => {
+    checkAccess();
+  }, []);
+  return /*#__PURE__*/React.createElement("div", null, children);
+}
+
+export { AdBanner, AdminMenu, BestSeller, CIRCLE_IMAGE, CheryxLogo, CircleGroup, CircularLoader, ContentWithTitle, DashboardLayout, DetailLayout, Footer, Form, HeaderCherxy as HeaderCheryx, HeaderPage, HeaderWithImage, IMAGE_SUBMENU, ImageUpload, ImageUploadable, Input, LeftMenu, ListArticle, Loader, MainLayout, MenuAddComponentPost, MultiImageConfig, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PageItem, PatternDetail, PatternItem, PatternList, PatternName, PatternPreview, PayPalCheckout, PostContent, PostVideo, RelatedToMenu, SubLink, Table, TipArticle, TipDetail, TitleCheryx, TitleLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles, useAuthenticate, useIsMobile, usePageData, withAuth };
