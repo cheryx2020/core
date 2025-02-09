@@ -55,7 +55,7 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
       _listFileUploaded = listFileUploaded;
     }
     const body = {
-      language: 'vi',
+      language: process?.env?.NEXT_PUBLIC_language || 'en',
       title: titleData,
       id: getPostId(titleData),
       category: isPatternDetail ? 'pattern-detail' : category,

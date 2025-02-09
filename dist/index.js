@@ -3862,10 +3862,90 @@ class YouTubeSubscribe extends Component {
   }
 }
 
-var styles$s = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu"};
+var styles$s = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu","subscribe":"PatternPreview-module_subscribe__UQhAQ","wrapperDownloadPdf":"PatternPreview-module_wrapperDownloadPdf__976cz","title":"PatternPreview-module_title__gMc1n","small":"PatternPreview-module_small__B4Lps","textEmailSubscription":"PatternPreview-module_textEmailSubscription__UETHA","submitSuscribe":"PatternPreview-module_submitSuscribe__-gfpJ","formInput":"PatternPreview-module_formInput__Fcufy","label":"PatternPreview-module_label__c-RNI"};
 
+axios$1.interceptors.request.use(function (config) {
+  try {
+    if (typeof localStorage === 'object') {
+      const token = localStorage.getItem('accessToken');
+      if (token && !config.headers.Authorization) {
+        config.headers.Authorization =  'Bearer ' + token;
+      }
+    }
+  } catch(e) {
+  }
+  return config;
+});
+const APIService = {
+  post: (url, data, cf) => {
+    return axios$1.post(`${process.env.NEXT_PUBLIC_apiBaseUrl}${url}`,data, cf);
+  },
+  put: (url, data, cf) => {
+    return axios$1.put(`${process.env.NEXT_PUBLIC_apiBaseUrl}${url}`,data, cf);
+  },
+  get: (url) => {
+    return axios$1.get(`${process.env.NEXT_PUBLIC_apiBaseUrl}${url}`);
+  },
+  delete : (url, data) => {
+    return axios$1.delete(`${process.env.NEXT_PUBLIC_apiBaseUrl}${url}`,data);
+  }
+};
+/**
+ * Handle api call error
+ */
+const handleApiError = (err, { callBackStatusCode, showAlert = true, callBackErrorMessage } = {}) => {
+  let message = 'Unknow error';
+  try {
+    if (typeof callBackStatusCode === 'function') {
+      callBackStatusCode(err.response.status);
+    }
+  } catch (e) { }
+  if (err.response && err.response.data && err.response.data.error) {
+    message = err.response.data.error;
+  }
+  if (typeof callBackErrorMessage === 'function') {
+    callBackErrorMessage(message);
+  }
+
+  if (showAlert) {
+    alert(message);
+  }
+};
+/**
+ * Show/hide loader for app
+ * @param {*} dispatch 
+ * @param {*} isLoading 
+ */
+const setShowLoading = (dispatch, isLoading) => {
+  if (typeof dispatch === 'function') {
+    dispatch({type: 'LOADING', payload: isLoading});
+  }
+};
+
+const FormInput = ({
+  label = "Label",
+  required = false,
+  name = "name",
+  type = "text",
+  placeholder = "Text"
+}) => {
+  return /*#__PURE__*/React__default.createElement("div", {
+    className: styles$s.formInput
+  }, /*#__PURE__*/React__default.createElement("div", {
+    for: name,
+    className: styles$s.label
+  }, label), /*#__PURE__*/React__default.createElement("input", {
+    required: required ? "true" : "",
+    type: type,
+    name: name,
+    placeholder: placeholder
+  }));
+};
 const PatternPreview = ({
+  useDispatch = () => {},
   isAdmin,
+  patternId,
+  isSubscribe,
   onChange = () => {},
   index,
   imageUrl: _imageUrl,
@@ -3874,7 +3954,10 @@ const PatternPreview = ({
   message = 'You can preview 3 pages of the knitting pattern!'
 }) => {
   const [imageUrl, setImageUrl] = useState(_imageUrl);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const dispatch = useDispatch();
   const [previewUrl, setPreviewUrl] = useState(_previewUrl);
+  const smallTitle = `${styles$s.title} ${styles$s.small}`;
   const onChangeBigImage = ({
     imgFile
   }) => {
@@ -3899,7 +3982,7 @@ const PatternPreview = ({
     setPreviewUrl(_previewUrl);
   }, [_imageUrl, _previewUrl]);
   return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$s.wrapper
+    className: `${styles$s.wrapper}${isSubscribe ? ` ${styles$s.subscribe}` : ''}`
   }, /*#__PURE__*/React__default.createElement("div", {
     className: styles$s.image
   }, /*#__PURE__*/React__default.createElement(ImageUploadable, {
@@ -3916,7 +3999,57 @@ const PatternPreview = ({
     src: imageUrl
   })), /*#__PURE__*/React__default.createElement("div", {
     className: styles$s.info
-  }, /*#__PURE__*/React__default.createElement("a", {
+  }, isSubscribe ? /*#__PURE__*/React__default.createElement("div", {
+    className: styles$s.wrapperDownloadPdf
+  }, isSubmitted ? /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("div", {
+    className: smallTitle
+  }, "Success!"), /*#__PURE__*/React__default.createElement("div", {
+    className: smallTitle
+  }, "Check your email in a few minutes!"), /*#__PURE__*/React__default.createElement("div", {
+    className: styles$s.textEmailSubscription
+  }, "To find my letter, simply search for a letter from Cheryx.", /*#__PURE__*/React__default.createElement("strong", null, " Also, double-check your junk/spam folder"), ". Be sure to mark it as 'not spam' so you won't miss any important updates from me in the future."), /*#__PURE__*/React__default.createElement("div", {
+    className: styles$s.textEmailSubscription
+  }, "If you can't seem to locate the email, please send me a message and I'll be happy to help you!")) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("div", {
+    className: styles$s.title
+  }, "Download PDF Pattern"), /*#__PURE__*/React__default.createElement("div", {
+    className: styles$s.textEmailSubscription
+  }, "This free pattern will be sent to the provided email. Please make sure you write your email address correctly."), /*#__PURE__*/React__default.createElement("form", {
+    method: "POST",
+    onSubmit: e => {
+      e.preventDefault();
+      const email = e?.target?.elements?.email?.value;
+      const name = e?.target?.elements?.name?.value;
+      setShowLoading(dispatch, true);
+      APIService.post("email-subscriptions/subscribe", {
+        email,
+        name,
+        type: "download",
+        id: patternId
+      }).then(res => {
+        console.log(res);
+        setIsSubmitted(true);
+      }).catch(err => {
+        console.log(err);
+      }).finally(() => {
+        setShowLoading(dispatch, false);
+      });
+    }
+  }, /*#__PURE__*/React__default.createElement(FormInput, {
+    required: true,
+    type: "email",
+    name: "email",
+    placeholder: "",
+    label: "Email address"
+  }), /*#__PURE__*/React__default.createElement(FormInput, {
+    type: "text",
+    name: "name",
+    placeholder: "",
+    label: "First name"
+  }), /*#__PURE__*/React__default.createElement("input", {
+    className: styles$s.submitSuscribe,
+    type: "submit",
+    value: "Get the pattern"
+  })))) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
     href: previewUrl,
     onClick: e => onClickLink(e, 'previewUrl'),
@@ -3925,7 +4058,7 @@ const PatternPreview = ({
   }, buttonText), /*#__PURE__*/React__default.createElement("div", {
     contentEditable: isAdmin ? "true" : "false",
     onBlur: () => {}
-  }, message)));
+  }, message))));
 };
 
 var styles$r = {"adminMenuBtn":"MenuAddComponentPost-module_adminMenuBtn__GaIEv","adminMenu":"MenuAddComponentPost-module_adminMenu__Yw2pt","hidden":"MenuAddComponentPost-module_hidden__HLj-8","menuItem":"MenuAddComponentPost-module_menuItem__gHxYw","subMenu":"MenuAddComponentPost-module_subMenu__oZH07"};
@@ -4033,6 +4166,7 @@ var styles$q = {"wrapper":"PatternDetail-module_wrapper__CFlmD","mainImage":"Pat
 const PatternDetail = ({
   name: _name,
   price: _price,
+  discount,
   ravelryUrl: _ravelryUrl = 'https://www.messenger.com/t/100004957155465',
   lovecraftsUrl: _lovecraftsUrl,
   bigImageUrl: _bigImageUrl,
@@ -4044,18 +4178,41 @@ const PatternDetail = ({
 }) => {
   const [imageList, setImageList] = useState([noImageUrl]);
   const [name, setName] = useState("Pattern name");
-  const [bigImageFile, setBigImageFile] = useState(null);
   const [bigImageUrl, setBigImageUrl] = useState('');
   const [price, setPrice] = useState(_price);
   const [ravelryUrl, setRavelryUrl] = useState(_ravelryUrl || 'https://www.messenger.com/t/100004957155465');
   const [lovecraftsUrl, setLovecraftsUrl] = useState(_lovecraftsUrl);
-  useState(false);
+  const [isShowPayPal, setIsShowPayPal] = useState(false);
+  let priceNumber = price;
+  let discountedPrice = price;
+  const priceMatch = price.match(/\d+/);
+  if (priceMatch) {
+    priceNumber = parseInt(priceMatch[0], 10);
+    discountedPrice = (priceNumber * (1 - discount / 100)).toFixed(2);
+  } else {
+    console.log("No number found.");
+  }
+  const isVi = process?.env?.NEXT_PUBLIC_language === 'vi';
   const onClickLink = (e, key) => {
     if (isAdmin) {
       e.preventDefault();
       let value = '';
       while (value == '') {
-        value = prompt(`Nhập đường dẫn tới tin nhắn riêng`);
+        if (isVi) {
+          value = prompt(`Nhập đường dẫn tới tin nhắn riêng`);
+        } else {
+          let defaultValue = "",
+            pageName = "";
+          if (key === 'ravelryUrl') {
+            defaultValue = ravelryUrl;
+            pageName = "Ravelry";
+          }
+          if (key === 'lovecraftsUrl') {
+            defaultValue = lovecraftsUrl;
+            pageName = "Lovecrafts";
+          }
+          value = prompt(`Nhập đường dẫn tới trang ${pageName}`, defaultValue);
+        }
       }
       if (value === null) {
         // User cancel
@@ -4074,7 +4231,7 @@ const PatternDetail = ({
   };
   useEffect(() => {
     setName(_name || "Pattern name");
-    setPrice(_price || "Học phí: 100.000");
+    setPrice(_price || (isVi ? "Học phí: 100.000" : "$ 6.3 USD"));
     setRavelryUrl(_ravelryUrl);
     setLovecraftsUrl(_lovecraftsUrl);
     if (Array.isArray(_imageList) && isAdmin && !_imageList.includes(noImageUrl)) {
@@ -4119,7 +4276,6 @@ const PatternDetail = ({
   const onChangeBigImage = ({
     imgFile
   }) => {
-    setBigImageFile(imgFile);
     onChange(imgFile, index, 'bigImageUrl');
   };
   const onChangeListImage = (imgFile, i) => {
@@ -4144,6 +4300,114 @@ const PatternDetail = ({
       onChange(_imageList, index, 'imageList');
     }
   };
+  const lockScroll = isLock => {
+    document.querySelector('html').setAttribute("style", `overflow-y: ${isLock ? 'hidden' : 'block'};`);
+  };
+  if (!isVi) {
+    return /*#__PURE__*/React__default.createElement("div", {
+      className: styles$q.wrapper
+    }, /*#__PURE__*/React__default.createElement("div", {
+      className: styles$q.mainImage
+    }, isAdmin ? /*#__PURE__*/React__default.createElement(ImageUploadable, {
+      wrapperStyle: {
+        width: '100%',
+        height: '100%'
+      },
+      onChangeImage: onChangeBigImage,
+      isAdmin: isAdmin,
+      isEdit: isAdmin,
+      src: bigImageUrl
+    }) : /*#__PURE__*/React__default.createElement("img", {
+      alt: name,
+      src: bigImageUrl
+    })), /*#__PURE__*/React__default.createElement("div", {
+      className: styles$q.rightInfo
+    }, /*#__PURE__*/React__default.createElement("h1", {
+      suppressContentEditableWarning: isAdmin,
+      onBlur: e => onChange(e, index, 'name'),
+      contenteditable: `${isAdmin ? "true" : "false"}`,
+      className: styles$q.title
+    }, name), /*#__PURE__*/React__default.createElement("div", {
+      className: styles$q.author
+    }, "By Cheryx"), /*#__PURE__*/React__default.createElement("div", {
+      suppressContentEditableWarning: isAdmin,
+      onBlur: e => onChange(e, index, 'price'),
+      contenteditable: `${isAdmin ? "true" : "false"}`,
+      className: styles$q.price
+    }, /*#__PURE__*/React__default.createElement("div", {
+      className: discount ? styles$q.lineThrough : ""
+    }, priceNumber, " USD"), discount && /*#__PURE__*/React__default.createElement("div", {
+      className: styles$q.discounted
+    }, discountedPrice, " USD ", /*#__PURE__*/React__default.createElement("div", {
+      className: styles$q.priceNote
+    }, "Coupon code ", /*#__PURE__*/React__default.createElement("strong", null, "CHERYX"), " on Ravelry")))), /*#__PURE__*/React__default.createElement("div", {
+      className: styles$q.storeInfo
+    }, !isShowPayPal && /*#__PURE__*/React__default.createElement("img", {
+      alt: "buy pattern here",
+      src: "/images/pattern-store.png"
+    }), /*#__PURE__*/React__default.createElement("div", {
+      className: `${styles$q.payPalWrapper}${isShowPayPal ? ` ${styles$q.show}` : ''}`
+    }, /*#__PURE__*/React__default.createElement("div", {
+      className: styles$q.closeLink,
+      onClick: () => {
+        lockScroll(false);
+        setIsShowPayPal(false);
+      }
+    }, "Close"), /*#__PURE__*/React__default.createElement("div", {
+      className: styles$q.payPal,
+      id: "paypal-button-container"
+    })), /*#__PURE__*/React__default.createElement("a", {
+      rel: "noreferrer",
+      style: {
+        position: "relative"
+      },
+      href: ravelryUrl,
+      onClick: e => onClickLink(e, 'ravelryUrl'),
+      target: "_blank",
+      className: `${styles$q.linkStore} ${styles$q.mb11}`
+    }, "Ravelry", discount && /*#__PURE__*/React__default.createElement("div", {
+      className: styles$q.discount
+    }, `-${discount}%`)), /*#__PURE__*/React__default.createElement("a", {
+      rel: "noreferrer",
+      href: lovecraftsUrl,
+      onClick: e => onClickLink(e, 'lovecraftsUrl'),
+      target: "_blank",
+      className: styles$q.linkStore
+    }, "Lovecrafts"), /*#__PURE__*/React__default.createElement("a", {
+      className: styles$q.emailMe,
+      href: "mailto:vungoc101230@gmail.com"
+    }, "If you prefer to buy directly from me instead of using Ravelry or Lovecrafts, you can click here to send me an email with your order details. I will reply to you as soon as possible and provide you with the payment and delivery options.")), /*#__PURE__*/React__default.createElement("div", {
+      className: styles$q.listSmallImage
+    }, Array.isArray(imageList) && imageList.map((img, i) => isAdmin ? /*#__PURE__*/React__default.createElement("div", {
+      style: {
+        position: 'relative'
+      }
+    }, i < imageList.length - 1 && /*#__PURE__*/React__default.createElement("div", {
+      className: styles$q.deleteButton,
+      onClick: () => {
+        removeImage(i);
+      }
+    }, "x"), /*#__PURE__*/React__default.createElement(ImageUploadable, {
+      key: i,
+      wrapperStyle: {
+        width: '243px',
+        height: '243px',
+        marginRight: 15
+      },
+      onChangeImage: ({
+        imgFile
+      }) => {
+        onChangeListImage(imgFile, i);
+      },
+      isAdmin: isAdmin,
+      isEdit: isAdmin,
+      src: img
+    })) : /*#__PURE__*/React__default.createElement("img", {
+      alt: name,
+      key: i,
+      src: img
+    }))));
+  }
   return /*#__PURE__*/React__default.createElement("div", {
     className: styles$q.wrapper
   }, /*#__PURE__*/React__default.createElement("div", {
@@ -4310,64 +4574,6 @@ const AdminMenu = ({
 };
 
 var styles$n = {"wrapper":"PatternItem-module_wrapper__daTgU","isBottom":"PatternItem-module_isBottom__HSWIq","discount":"PatternItem-module_discount__pzryu","image":"PatternItem-module_image__ar-yf","freeTag":"PatternItem-module_freeTag__HCPV8","editMenu":"PatternItem-module_editMenu__qU5cS","isFree":"PatternItem-module_isFree__8oSBd","button":"PatternItem-module_button__HGnTX","img":"PatternItem-module_img__AOqaq","description":"PatternItem-module_description__oyvqd","name":"PatternItem-module_name__22mva","content":"PatternItem-module_content__7DVSj","patternUpload":"PatternItem-module_patternUpload__KIKVj","label":"PatternItem-module_label__V17J4"};
-
-axios$1.interceptors.request.use(function (config) {
-  try {
-    if (typeof localStorage === 'object') {
-      const token = localStorage.getItem('accessToken');
-      if (token && !config.headers.Authorization) {
-        config.headers.Authorization =  'Bearer ' + token;
-      }
-    }
-  } catch(e) {
-  }
-  return config;
-});
-const APIService = {
-  post: (url, data, cf) => {
-    return axios$1.post(`${process.env.NEXT_PUBLIC_apiBaseUrl}${url}`,data, cf);
-  },
-  put: (url, data, cf) => {
-    return axios$1.put(`${process.env.NEXT_PUBLIC_apiBaseUrl}${url}`,data, cf);
-  },
-  get: (url) => {
-    return axios$1.get(`${process.env.NEXT_PUBLIC_apiBaseUrl}${url}`);
-  },
-  delete : (url, data) => {
-    return axios$1.delete(`${process.env.NEXT_PUBLIC_apiBaseUrl}${url}`,data);
-  }
-};
-/**
- * Handle api call error
- */
-const handleApiError = (err, { callBackStatusCode, showAlert = true, callBackErrorMessage } = {}) => {
-  let message = 'Unknow error';
-  try {
-    if (typeof callBackStatusCode === 'function') {
-      callBackStatusCode(err.response.status);
-    }
-  } catch (e) { }
-  if (err.response && err.response.data && err.response.data.error) {
-    message = err.response.data.error;
-  }
-  if (typeof callBackErrorMessage === 'function') {
-    callBackErrorMessage(message);
-  }
-
-  if (showAlert) {
-    alert(message);
-  }
-};
-/**
- * Show/hide loader for app
- * @param {*} dispatch 
- * @param {*} isLoading 
- */
-const setShowLoading = (dispatch, isLoading) => {
-  if (typeof dispatch === 'function') {
-    dispatch({type: 'LOADING', payload: isLoading});
-  }
-};
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -59634,11 +59840,13 @@ const renderItemByType = ({
   patternDetail = {},
   imageUrl,
   previewUrl,
+  patternId,
   buttonText,
   message,
   data = [],
   style = {},
-  expanded
+  expanded,
+  isSubscribe
 }, index, styles = {}, onDeleteContentItem = () => {}, onAddNewContentItem = () => {}, isMobile, isAdmin, contentData, onChangeContent = () => {}) => {
   let result = /*#__PURE__*/React__default.createElement("p", null, text),
     editComponent = /*#__PURE__*/React__default.createElement("p", {
@@ -59955,6 +60163,8 @@ const renderItemByType = ({
       break;
     case POST_ITEM_TYPE.PATTERN_PREVIEW:
       subContent = /*#__PURE__*/React__default.createElement(PatternPreview, {
+        patternId: patternId,
+        isSubscribe: isSubscribe,
         buttonText: buttonText,
         message: message,
         previewUrl: previewUrl,
@@ -60478,7 +60688,7 @@ const TipDetail = ({
       _listFileUploaded = listFileUploaded;
     }
     const body = {
-      language: 'vi',
+      language: process?.env?.NEXT_PUBLIC_language || 'en',
       title: titleData,
       id: getPostId(titleData),
       category: isPatternDetail ? 'pattern-detail' : category,

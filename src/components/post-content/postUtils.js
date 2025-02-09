@@ -547,7 +547,7 @@ const onCaptionChange = (e, index, contentData) => {
     }
     return [...currentContent];
 }
-const renderItemByType = ({ type, text, content, webWidth, webHeight, urlWeb, imageDescription = 'Image description', url, textLink, patternDetail = {}, imageUrl, previewUrl, buttonText, message, data = [], style = {}, expanded }, index, styles = {},
+const renderItemByType = ({ type, text, content, webWidth, webHeight, urlWeb, imageDescription = 'Image description', url, textLink, patternDetail = {}, imageUrl, previewUrl, patternId, buttonText, message, data = [], style = {}, expanded, isSubscribe }, index, styles = {},
     onDeleteContentItem = () => { },
     onAddNewContentItem = () => { },
     isMobile,
@@ -661,7 +661,7 @@ const renderItemByType = ({ type, text, content, webWidth, webHeight, urlWeb, im
             viewComponent = subContent;
             break;
         case POST_ITEM_TYPE.PATTERN_PREVIEW:
-            subContent = <PatternPreview buttonText={buttonText} message={message} previewUrl={previewUrl} onChange={(e, index, key) => onChangeContent(onChangePatternPreview(e, index, key, contentData))} imageUrl={imageUrl} index={index} isAdmin={isAdmin} />;
+            subContent = <PatternPreview patternId={patternId} isSubscribe={isSubscribe} buttonText={buttonText} message={message} previewUrl={previewUrl} onChange={(e, index, key) => onChangeContent(onChangePatternPreview(e, index, key, contentData))} imageUrl={imageUrl} index={index} isAdmin={isAdmin} />;
             editComponent = <div onDragStart={onDragStart} draggable="true">{subContent}</div>;
             viewComponent = subContent;
             break;
