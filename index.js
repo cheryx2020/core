@@ -24,6 +24,7 @@ import Note from "./src/components/note/note"
 import Loader from "./src/components/loader/loader"
 import HeaderCheryx from "./src/components/header-cheryx/header-cheryx"
 import Footer from "./src/components/footer"
+import CircularLoader from "./src/components/circular-loader/circular-loader"
 import ContentWithTitle from "./src/components/content-with-title/content-with-title"
 import LeftMenu from "./src/components/left-menu/left-menu"
 import BestSeller from "./src/components/best-seller/best-seller"
@@ -54,6 +55,7 @@ export {
     CIRCLE_IMAGE,
     CheryxLogo,
     CircleGroup,
+    CircularLoader,
     ContentWithTitle,
     Footer,
     Form,
