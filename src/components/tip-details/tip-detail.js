@@ -58,6 +58,7 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
       language: process?.env?.NEXT_PUBLIC_language || 'en',
       title: titleData,
       id: getPostId(titleData),
+      _id: data?._id,
       category: isPatternDetail ? 'pattern-detail' : category,
       isPattern: _isPattern,
       isFree: _isFree,

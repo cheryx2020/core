@@ -1,5 +1,5 @@
 import * as React$1 from 'react';
-import React__default, { useState, useRef, useEffect, Component, isValidElement, PureComponent, useCallback, forwardRef, useContext, useLayoutEffect, createContext, useMemo, Fragment, useReducer } from 'react';
+import React__default, { useState, useRef, useEffect, Component, isValidElement, PureComponent, useCallback, forwardRef, useContext, useLayoutEffect, createContext, useMemo, Fragment } from 'react';
 import publicIp from 'public-ip';
 import Linkify from 'linkify-react';
 
@@ -61398,8 +61398,8 @@ const renderItemByType = ({
   return result;
 };
 
-var __assign$3 = (undefined && undefined.__assign) || function () {
-    __assign$3 = Object.assign || function(t) {
+var __assign$2 = (undefined && undefined.__assign) || function () {
+    __assign$2 = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
             for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
@@ -61407,9 +61407,9 @@ var __assign$3 = (undefined && undefined.__assign) || function () {
         }
         return t;
     };
-    return __assign$3.apply(this, arguments);
+    return __assign$2.apply(this, arguments);
 };
-var __rest$2 = (undefined && undefined.__rest) || function (s, e) {
+var __rest$1 = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
         t[p] = s[p];
@@ -61422,8 +61422,8 @@ var __rest$2 = (undefined && undefined.__rest) || function (s, e) {
 };
 function createIcon(iconConfig) {
     var Icon = function (_a) {
-        var bgStyle = _a.bgStyle, borderRadius = _a.borderRadius, iconFillColor = _a.iconFillColor, round = _a.round, size = _a.size, rest = __rest$2(_a, ["bgStyle", "borderRadius", "iconFillColor", "round", "size"]);
-        return (React__default.createElement("svg", __assign$3({ viewBox: "0 0 64 64", width: size, height: size }, rest),
+        var bgStyle = _a.bgStyle, borderRadius = _a.borderRadius, iconFillColor = _a.iconFillColor, round = _a.round, size = _a.size, rest = __rest$1(_a, ["bgStyle", "borderRadius", "iconFillColor", "round", "size"]);
+        return (React__default.createElement("svg", __assign$2({ viewBox: "0 0 64 64", width: size, height: size }, rest),
             round ? (React__default.createElement("circle", { cx: "32", cy: "32", r: "31", fill: iconConfig.color, style: bgStyle })) : (React__default.createElement("rect", { width: "64", height: "64", rx: borderRadius, ry: borderRadius, fill: iconConfig.color, style: bgStyle })),
             React__default.createElement("path", { d: iconConfig.path, fill: iconFillColor })));
     };
@@ -61551,8 +61551,8 @@ var __extends$1 = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign$2 = (undefined && undefined.__assign) || function () {
-    __assign$2 = Object.assign || function(t) {
+var __assign$1 = (undefined && undefined.__assign) || function () {
+    __assign$1 = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
             for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
@@ -61560,7 +61560,7 @@ var __assign$2 = (undefined && undefined.__assign) || function () {
         }
         return t;
     };
-    return __assign$2.apply(this, arguments);
+    return __assign$1.apply(this, arguments);
 };
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -61598,7 +61598,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __rest$1 = (undefined && undefined.__rest) || function (s, e) {
+var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
         t[p] = s[p];
@@ -61621,8 +61621,8 @@ var getBoxPositionOnScreenCenter = function (width, height) { return ({
     left: (window.screen.width - width) / 2,
 }); };
 function windowOpen(url, _a, onClose) {
-    var height = _a.height, width = _a.width, configRest = __rest$1(_a, ["height", "width"]);
-    var config = __assign$2({ height: height, width: width, location: 'no', toolbar: 'no', status: 'no', directories: 'no', menubar: 'no', scrollbars: 'yes', resizable: 'no', centerscreen: 'yes', chrome: 'yes' }, configRest);
+    var height = _a.height, width = _a.width, configRest = __rest(_a, ["height", "width"]);
+    var config = __assign$1({ height: height, width: width, location: 'no', toolbar: 'no', status: 'no', directories: 'no', menubar: 'no', scrollbars: 'yes', resizable: 'no', centerscreen: 'yes', chrome: 'yes' }, configRest);
     var shareDialog = window.open(url, '', Object.keys(config)
         .map(function (key) { return "".concat(key, "=").concat(config[key]); })
         .join(', '));
@@ -61649,7 +61649,7 @@ var ShareButton = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.openShareDialog = function (link) {
             var _a = _this.props, onShareWindowClose = _a.onShareWindowClose, _b = _a.windowHeight, windowHeight = _b === void 0 ? 400 : _b, _c = _a.windowPosition, windowPosition = _c === void 0 ? 'windowCenter' : _c, _d = _a.windowWidth, windowWidth = _d === void 0 ? 550 : _d;
-            var windowConfig = __assign$2({ height: windowHeight, width: windowWidth }, (windowPosition === 'windowCenter'
+            var windowConfig = __assign$1({ height: windowHeight, width: windowWidth }, (windowPosition === 'windowCenter'
                 ? getBoxPositionOnWindowCenter(windowWidth, windowHeight)
                 : getBoxPositionOnScreenCenter(windowWidth, windowHeight)));
             windowOpen(link, windowConfig, onShareWindowClose);
@@ -61686,14 +61686,14 @@ var ShareButton = /** @class */ (function (_super) {
         return _this;
     }
     ShareButton.prototype.render = function () {
-        var _a = this.props; _a.beforeOnClick; var children = _a.children, className = _a.className, disabled = _a.disabled, disabledStyle = _a.disabledStyle, forwardedRef = _a.forwardedRef; _a.networkLink; var networkName = _a.networkName; _a.onShareWindowClose; _a.openShareDialogOnClick; _a.opts; var resetButtonStyle = _a.resetButtonStyle, style = _a.style; _a.url; _a.windowHeight; _a.windowPosition; _a.windowWidth; var rest = __rest$1(_a, ["beforeOnClick", "children", "className", "disabled", "disabledStyle", "forwardedRef", "networkLink", "networkName", "onShareWindowClose", "openShareDialogOnClick", "opts", "resetButtonStyle", "style", "url", "windowHeight", "windowPosition", "windowWidth"]);
+        var _a = this.props; _a.beforeOnClick; var children = _a.children, className = _a.className, disabled = _a.disabled, disabledStyle = _a.disabledStyle, forwardedRef = _a.forwardedRef; _a.networkLink; var networkName = _a.networkName; _a.onShareWindowClose; _a.openShareDialogOnClick; _a.opts; var resetButtonStyle = _a.resetButtonStyle, style = _a.style; _a.url; _a.windowHeight; _a.windowPosition; _a.windowWidth; var rest = __rest(_a, ["beforeOnClick", "children", "className", "disabled", "disabledStyle", "forwardedRef", "networkLink", "networkName", "onShareWindowClose", "openShareDialogOnClick", "opts", "resetButtonStyle", "style", "url", "windowHeight", "windowPosition", "windowWidth"]);
         var newClassName = cx('react-share__ShareButton', {
             'react-share__ShareButton--disabled': !!disabled,
             disabled: !!disabled,
         }, className);
         var newStyle = resetButtonStyle
-            ? __assign$2(__assign$2({ backgroundColor: 'transparent', border: 'none', padding: 0, font: 'inherit', color: 'inherit', cursor: 'pointer' }, style), (disabled && disabledStyle)) : __assign$2(__assign$2({}, style), (disabled && disabledStyle));
-        return (React__default.createElement("button", __assign$2({}, rest, { "aria-label": rest['aria-label'] || networkName, className: newClassName, onClick: this.handleClick, ref: forwardedRef, style: newStyle }), children));
+            ? __assign$1(__assign$1({ backgroundColor: 'transparent', border: 'none', padding: 0, font: 'inherit', color: 'inherit', cursor: 'pointer' }, style), (disabled && disabledStyle)) : __assign$1(__assign$1({}, style), (disabled && disabledStyle));
+        return (React__default.createElement("button", __assign$1({}, rest, { "aria-label": rest['aria-label'] || networkName, className: newClassName, onClick: this.handleClick, ref: forwardedRef, style: newStyle }), children));
     };
     ShareButton.defaultProps = {
         disabledStyle: { opacity: 0.6 },
@@ -61703,8 +61703,8 @@ var ShareButton = /** @class */ (function (_super) {
     return ShareButton;
 }(Component));
 
-var __assign$1 = (undefined && undefined.__assign) || function () {
-    __assign$1 = Object.assign || function(t) {
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
             for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
@@ -61712,18 +61712,18 @@ var __assign$1 = (undefined && undefined.__assign) || function () {
         }
         return t;
     };
-    return __assign$1.apply(this, arguments);
+    return __assign.apply(this, arguments);
 };
 function createShareButton(networkName, link, optsMap, defaultProps) {
     function CreatedButton(props, ref) {
         var opts = optsMap(props);
-        var passedProps = __assign$1({}, props);
+        var passedProps = __assign({}, props);
         // remove keys from passed props that are passed as opts
         var optsKeys = Object.keys(opts);
         optsKeys.forEach(function (key) {
             delete passedProps[key];
         });
-        return (React__default.createElement(ShareButton, __assign$1({}, defaultProps, passedProps, { forwardedRef: ref, networkName: networkName, networkLink: link, opts: optsMap(props) })));
+        return (React__default.createElement(ShareButton, __assign({}, defaultProps, passedProps, { forwardedRef: ref, networkName: networkName, networkLink: link, opts: optsMap(props) })));
     }
     CreatedButton.displayName = "ShareButton-".concat(networkName);
     return forwardRef(CreatedButton);
@@ -61886,6 +61886,7 @@ const TipDetail = ({
       language: process?.env?.NEXT_PUBLIC_language || 'en',
       title: titleData,
       id: getPostId(titleData),
+      _id: data?._id,
       category: isPatternDetail ? 'pattern-detail' : category,
       isPattern: _isPattern,
       isFree: _isFree,
@@ -63552,616 +63553,9 @@ const PageItem = ({
   }
 };
 
-/*!
- * react-paypal-js v8.7.0 (2024-09-16T17:52:54.237Z)
- * Copyright 2020-present, PayPal, Inc. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/**
- * Enum for the SDK script resolve status,
- *
- * @enum {string}
- */
-var SCRIPT_LOADING_STATE;
-(function (SCRIPT_LOADING_STATE) {
-  SCRIPT_LOADING_STATE["INITIAL"] = "initial";
-  SCRIPT_LOADING_STATE["PENDING"] = "pending";
-  SCRIPT_LOADING_STATE["REJECTED"] = "rejected";
-  SCRIPT_LOADING_STATE["RESOLVED"] = "resolved";
-})(SCRIPT_LOADING_STATE || (SCRIPT_LOADING_STATE = {}));
-/**
- * Enum for the PayPalScriptProvider context dispatch actions
- *
- * @enum {string}
- */
-var DISPATCH_ACTION;
-(function (DISPATCH_ACTION) {
-  DISPATCH_ACTION["LOADING_STATUS"] = "setLoadingStatus";
-  DISPATCH_ACTION["RESET_OPTIONS"] = "resetOptions";
-  DISPATCH_ACTION["SET_BRAINTREE_INSTANCE"] = "braintreeInstance";
-})(DISPATCH_ACTION || (DISPATCH_ACTION = {}));
-/**
- * Enum for all the available hosted fields
- *
- * @enum {string}
- */
-var PAYPAL_HOSTED_FIELDS_TYPES;
-(function (PAYPAL_HOSTED_FIELDS_TYPES) {
-  PAYPAL_HOSTED_FIELDS_TYPES["NUMBER"] = "number";
-  PAYPAL_HOSTED_FIELDS_TYPES["CVV"] = "cvv";
-  PAYPAL_HOSTED_FIELDS_TYPES["EXPIRATION_DATE"] = "expirationDate";
-  PAYPAL_HOSTED_FIELDS_TYPES["EXPIRATION_MONTH"] = "expirationMonth";
-  PAYPAL_HOSTED_FIELDS_TYPES["EXPIRATION_YEAR"] = "expirationYear";
-  PAYPAL_HOSTED_FIELDS_TYPES["POSTAL_CODE"] = "postalCode";
-})(PAYPAL_HOSTED_FIELDS_TYPES || (PAYPAL_HOSTED_FIELDS_TYPES = {}));
-var __assign = function () {
-  __assign = Object.assign || function __assign(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-    }
-    return t;
-  };
-  return __assign.apply(this, arguments);
-};
-function __rest(s, e) {
-  var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
-  }
-  return t;
-}
-function __spreadArray(to, from, pack) {
-  if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-    if (ar || !(i in from)) {
-      if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-      ar[i] = from[i];
-    }
-  }
-  return to.concat(ar || Array.prototype.slice.call(from));
-}
-typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
-  var e = new Error(message);
-  return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
-};
-
-/*********************************************
- * Common reference to the script identifier *
- *********************************************/
-// keep this script id value in kebab-case format
-var SCRIPT_ID = "data-react-paypal-script-id";
-var SDK_SETTINGS = {
-  DATA_JS_SDK_LIBRARY: "dataJsSdkLibrary",
-  DATA_LIBRARY_VALUE: "react-paypal-js",
-  DATA_NAMESPACE: "dataNamespace",
-  DATA_SDK_INTEGRATION_SOURCE: "dataSdkIntegrationSource"};
-var LOAD_SCRIPT_ERROR = "Failed to load the PayPal JS SDK script.";
-/*********************
- * PayPal namespaces *
- *********************/
-var DEFAULT_PAYPAL_NAMESPACE = "paypal";
-/*******************
- * Script Provider *
- *******************/
-var SCRIPT_PROVIDER_REDUCER_ERROR = "usePayPalScriptReducer must be used within a PayPalScriptProvider";
-
-/**
- * Get the namespace from the window in the browser
- * this is useful to get the paypal object from window
- * after load PayPal SDK script
- *
- * @param namespace the name space to return
- * @returns the namespace if exists or undefined otherwise
- */
-function getPayPalWindowNamespace$1(namespace) {
-  if (namespace === void 0) {
-    namespace = DEFAULT_PAYPAL_NAMESPACE;
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return window[namespace];
-}
-/**
- * Creates a string hash code based on the string argument
- *
- * @param str the source input string to hash
- * @returns string hash code
- */
-function hashStr(str) {
-  var hash = "";
-  for (var i = 0; i < str.length; i++) {
-    var total = str[i].charCodeAt(0) * i;
-    if (str[i + 1]) {
-      total += str[i + 1].charCodeAt(0) * (i - 1);
-    }
-    hash += String.fromCharCode(97 + Math.abs(total) % 26);
-  }
-  return hash;
-}
-function generateErrorMessage(_a) {
-  var reactComponentName = _a.reactComponentName,
-    sdkComponentKey = _a.sdkComponentKey,
-    _b = _a.sdkRequestedComponents,
-    sdkRequestedComponents = _b === void 0 ? "" : _b,
-    _c = _a.sdkDataNamespace,
-    sdkDataNamespace = _c === void 0 ? DEFAULT_PAYPAL_NAMESPACE : _c;
-  var requiredOptionCapitalized = sdkComponentKey.charAt(0).toUpperCase().concat(sdkComponentKey.substring(1));
-  var errorMessage = "Unable to render <".concat(reactComponentName, " /> because window.").concat(sdkDataNamespace, ".").concat(requiredOptionCapitalized, " is undefined.");
-  // The JS SDK only loads the buttons component by default.
-  // All other components like messages and marks must be requested using the "components" query parameter
-  var requestedComponents = typeof sdkRequestedComponents === "string" ? sdkRequestedComponents : sdkRequestedComponents.join(",");
-  if (!requestedComponents.includes(sdkComponentKey)) {
-    var expectedComponents = [requestedComponents, sdkComponentKey].filter(Boolean).join();
-    errorMessage += "\nTo fix the issue, add '".concat(sdkComponentKey, "' to the list of components passed to the parent PayPalScriptProvider:") + "\n`<PayPalScriptProvider options={{ components: '".concat(expectedComponents, "'}}>`.");
-  }
-  return errorMessage;
-}
-
-/**
- * Generate a new random identifier for react-paypal-js
- *
- * @returns the {@code string} containing the random library name
- */
-function getScriptID(options) {
-  // exclude the data-react-paypal-script-id value from the options hash
-  var _a = options,
-    _b = SCRIPT_ID;
-  _a[_b];
-  var paypalScriptOptions = __rest(_a, [_b + ""]);
-  return "react-paypal-js-".concat(hashStr(JSON.stringify(paypalScriptOptions)));
-}
-/**
- * Destroy the PayPal SDK from the document page
- *
- * @param reactPayPalScriptID the script identifier
- */
-function destroySDKScript(reactPayPalScriptID) {
-  var scriptNode = self.document.querySelector("script[".concat(SCRIPT_ID, "=\"").concat(reactPayPalScriptID, "\"]"));
-  if (scriptNode === null || scriptNode === void 0 ? void 0 : scriptNode.parentNode) {
-    scriptNode.parentNode.removeChild(scriptNode);
-  }
-}
-/**
- * Reducer function to handle complex state changes on the context
- *
- * @param state  the current state on the context object
- * @param action the action to be executed on the previous state
- * @returns a the same state if the action wasn't found, or a new state otherwise
- */
-function scriptReducer(state, action) {
-  var _a, _b;
-  switch (action.type) {
-    case DISPATCH_ACTION.LOADING_STATUS:
-      if (typeof action.value === "object") {
-        return __assign(__assign({}, state), {
-          loadingStatus: action.value.state,
-          loadingStatusErrorMessage: action.value.message
-        });
-      }
-      return __assign(__assign({}, state), {
-        loadingStatus: action.value
-      });
-    case DISPATCH_ACTION.RESET_OPTIONS:
-      // destroy existing script to make sure only one script loads at a time
-      destroySDKScript(state.options[SCRIPT_ID]);
-      return __assign(__assign({}, state), {
-        loadingStatus: SCRIPT_LOADING_STATE.PENDING,
-        options: __assign(__assign((_a = {}, _a[SDK_SETTINGS.DATA_SDK_INTEGRATION_SOURCE] = SDK_SETTINGS.DATA_LIBRARY_VALUE, _a), action.value), (_b = {}, _b[SCRIPT_ID] = "".concat(getScriptID(action.value)), _b))
-      });
-    case DISPATCH_ACTION.SET_BRAINTREE_INSTANCE:
-      return __assign(__assign({}, state), {
-        braintreePayPalCheckoutInstance: action.value
-      });
-    default:
-      {
-        return state;
-      }
-  }
-}
-// Create the React context to use in the script provider component
-var ScriptContext = createContext(null);
-
-/**
- * Check if the context is valid and ready to dispatch actions.
- *
- * @param scriptContext the result of connecting to the context provider
- * @returns strict context avoiding null values in the type
- */
-function validateReducer(scriptContext) {
-  if (typeof (scriptContext === null || scriptContext === void 0 ? void 0 : scriptContext.dispatch) === "function" && scriptContext.dispatch.length !== 0) {
-    return scriptContext;
-  }
-  throw new Error(SCRIPT_PROVIDER_REDUCER_ERROR);
-}
-
-/**
- * Custom hook to get access to the Script context and
- * dispatch actions to modify the state on the {@link ScriptProvider} component
- *
- * @returns a tuple containing the state of the context and
- * a dispatch function to modify the state
- */
-function usePayPalScriptReducer() {
-  var scriptContext = validateReducer(useContext(ScriptContext));
-  var derivedStatusContext = __assign(__assign({}, scriptContext), {
-    isInitial: scriptContext.loadingStatus === SCRIPT_LOADING_STATE.INITIAL,
-    isPending: scriptContext.loadingStatus === SCRIPT_LOADING_STATE.PENDING,
-    isResolved: scriptContext.loadingStatus === SCRIPT_LOADING_STATE.RESOLVED,
-    isRejected: scriptContext.loadingStatus === SCRIPT_LOADING_STATE.REJECTED
-  });
-  return [derivedStatusContext, scriptContext.dispatch];
-}
-
-// Create the React context to use in the PayPal hosted fields provider
-createContext({});
-
-/**
-This `<PayPalButtons />` component supports rendering [buttons](https://developer.paypal.com/docs/business/javascript-sdk/javascript-sdk-reference/#buttons) for PayPal, Venmo, and alternative payment methods.
-It relies on the `<PayPalScriptProvider />` parent component for managing state related to loading the JS SDK script.
-*/
-var PayPalButtons = function (_a) {
-  var _b;
-  var _c = _a.className,
-    className = _c === void 0 ? "" : _c,
-    _d = _a.disabled,
-    disabled = _d === void 0 ? false : _d,
-    children = _a.children,
-    _e = _a.forceReRender,
-    forceReRender = _e === void 0 ? [] : _e,
-    buttonProps = __rest(_a, ["className", "disabled", "children", "forceReRender"]);
-  var isDisabledStyle = disabled ? {
-    opacity: 0.38
-  } : {};
-  var classNames = "".concat(className, " ").concat(disabled ? "paypal-buttons-disabled" : "").trim();
-  var buttonsContainerRef = useRef(null);
-  var buttons = useRef(null);
-  var _f = usePayPalScriptReducer()[0],
-    isResolved = _f.isResolved,
-    options = _f.options;
-  var _g = useState(null),
-    initActions = _g[0],
-    setInitActions = _g[1];
-  var _h = useState(true),
-    isEligible = _h[0],
-    setIsEligible = _h[1];
-  var _j = useState(null),
-    setErrorState = _j[1];
-  function closeButtonsComponent() {
-    if (buttons.current !== null) {
-      buttons.current.close().catch(function () {
-        // ignore errors when closing the component
-      });
-    }
-  }
-  if ((_b = buttons.current) === null || _b === void 0 ? void 0 : _b.updateProps) {
-    buttons.current.updateProps({
-      message: buttonProps.message
-    });
-  }
-  // useEffect hook for rendering the buttons
-  useEffect(function () {
-    // verify the sdk script has successfully loaded
-    if (isResolved === false) {
-      return closeButtonsComponent;
-    }
-    var paypalWindowNamespace = getPayPalWindowNamespace$1(options.dataNamespace);
-    // verify dependency on window object
-    if (paypalWindowNamespace === undefined || paypalWindowNamespace.Buttons === undefined) {
-      setErrorState(function () {
-        throw new Error(generateErrorMessage({
-          reactComponentName: PayPalButtons.displayName,
-          sdkComponentKey: "buttons",
-          sdkRequestedComponents: options.components,
-          sdkDataNamespace: options[SDK_SETTINGS.DATA_NAMESPACE]
-        }));
-      });
-      return closeButtonsComponent;
-    }
-    var decoratedOnInit = function (data, actions) {
-      setInitActions(actions);
-      if (typeof buttonProps.onInit === "function") {
-        buttonProps.onInit(data, actions);
-      }
-    };
-    try {
-      buttons.current = paypalWindowNamespace.Buttons(__assign(__assign({}, buttonProps), {
-        onInit: decoratedOnInit
-      }));
-    } catch (err) {
-      return setErrorState(function () {
-        throw new Error("Failed to render <PayPalButtons /> component. Failed to initialize:  ".concat(err));
-      });
-    }
-    // only render the button when eligible
-    if (buttons.current.isEligible() === false) {
-      setIsEligible(false);
-      return closeButtonsComponent;
-    }
-    if (!buttonsContainerRef.current) {
-      return closeButtonsComponent;
-    }
-    buttons.current.render(buttonsContainerRef.current).catch(function (err) {
-      // component failed to render, possibly because it was closed or destroyed.
-      if (buttonsContainerRef.current === null || buttonsContainerRef.current.children.length === 0) {
-        // paypal buttons container is no longer in the DOM, we can safely ignore the error
-        return;
-      }
-      // paypal buttons container is still in the DOM
-      setErrorState(function () {
-        throw new Error("Failed to render <PayPalButtons /> component. ".concat(err));
-      });
-    });
-    return closeButtonsComponent;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, __spreadArray(__spreadArray([isResolved], forceReRender, true), [buttonProps.fundingSource], false));
-  // useEffect hook for managing disabled state
-  useEffect(function () {
-    if (initActions === null) {
-      return;
-    }
-    if (disabled === true) {
-      initActions.disable().catch(function () {
-        // ignore errors when disabling the component
-      });
-    } else {
-      initActions.enable().catch(function () {
-        // ignore errors when enabling the component
-      });
-    }
-  }, [disabled, initActions]);
-  return React__default.createElement(React__default.Fragment, null, isEligible ? React__default.createElement("div", {
-    ref: buttonsContainerRef,
-    style: isDisabledStyle,
-    className: classNames
-  }) : children);
-};
-PayPalButtons.displayName = "PayPalButtons";
-function findScript(url, attributes) {
-  var currentScript = document.querySelector("script[src=\"".concat(url, "\"]"));
-  if (currentScript === null) return null;
-  var nextScript = createScriptElement(url, attributes);
-  var currentScriptClone = currentScript.cloneNode();
-  delete currentScriptClone.dataset.uidAuto;
-  if (Object.keys(currentScriptClone.dataset).length !== Object.keys(nextScript.dataset).length) {
-    return null;
-  }
-  var isExactMatch = true;
-  Object.keys(currentScriptClone.dataset).forEach(function (key) {
-    if (currentScriptClone.dataset[key] !== nextScript.dataset[key]) {
-      isExactMatch = false;
-    }
-  });
-  return isExactMatch ? currentScript : null;
-}
-function insertScriptElement(_a) {
-  var url = _a.url,
-    attributes = _a.attributes,
-    onSuccess = _a.onSuccess,
-    onError = _a.onError;
-  var newScript = createScriptElement(url, attributes);
-  newScript.onerror = onError;
-  newScript.onload = onSuccess;
-  document.head.insertBefore(newScript, document.head.firstElementChild);
-}
-function processOptions(options) {
-  var environment = options.environment;
-  var sdkBaseUrl = environment === "sandbox" ? "https://www.sandbox.paypal.com/sdk/js" : "https://www.paypal.com/sdk/js";
-  delete options.environment;
-  if (options.sdkBaseUrl) {
-    sdkBaseUrl = options.sdkBaseUrl;
-    delete options.sdkBaseUrl;
-  }
-  var optionsWithStringIndex = options;
-  var _a = Object.keys(optionsWithStringIndex).filter(function (key) {
-      return typeof optionsWithStringIndex[key] !== "undefined" && optionsWithStringIndex[key] !== null && optionsWithStringIndex[key] !== "";
-    }).reduce(function (accumulator, key) {
-      var value = optionsWithStringIndex[key].toString();
-      key = camelCaseToKebabCase(key);
-      if (key.substring(0, 4) === "data" || key === "crossorigin") {
-        accumulator.attributes[key] = value;
-      } else {
-        accumulator.queryParams[key] = value;
-      }
-      return accumulator;
-    }, {
-      queryParams: {},
-      attributes: {}
-    }),
-    queryParams = _a.queryParams,
-    attributes = _a.attributes;
-  if (queryParams["merchant-id"] && queryParams["merchant-id"].indexOf(",") !== -1) {
-    attributes["data-merchant-id"] = queryParams["merchant-id"];
-    queryParams["merchant-id"] = "*";
-  }
-  return {
-    url: "".concat(sdkBaseUrl, "?").concat(objectToQueryString(queryParams)),
-    attributes: attributes
-  };
-}
-function camelCaseToKebabCase(str) {
-  var replacer = function (match, indexOfMatch) {
-    return (indexOfMatch ? "-" : "") + match.toLowerCase();
-  };
-  return str.replace(/[A-Z]+(?![a-z])|[A-Z]/g, replacer);
-}
-function objectToQueryString(params) {
-  var queryString = "";
-  Object.keys(params).forEach(function (key) {
-    if (queryString.length !== 0) queryString += "&";
-    queryString += key + "=" + params[key];
-  });
-  return queryString;
-}
-function createScriptElement(url, attributes) {
-  if (attributes === void 0) {
-    attributes = {};
-  }
-  var newScript = document.createElement("script");
-  newScript.src = url;
-  Object.keys(attributes).forEach(function (key) {
-    newScript.setAttribute(key, attributes[key]);
-    if (key === "data-csp-nonce") {
-      newScript.setAttribute("nonce", attributes["data-csp-nonce"]);
-    }
-  });
-  return newScript;
-}
-function loadScript(options, PromisePonyfill) {
-  if (PromisePonyfill === void 0) {
-    PromisePonyfill = Promise;
-  }
-  validateArguments(options, PromisePonyfill);
-  if (typeof document === "undefined") return PromisePonyfill.resolve(null);
-  var _a = processOptions(options),
-    url = _a.url,
-    attributes = _a.attributes;
-  var namespace = attributes["data-namespace"] || "paypal";
-  var existingWindowNamespace = getPayPalWindowNamespace(namespace);
-  if (!attributes["data-js-sdk-library"]) {
-    attributes["data-js-sdk-library"] = "paypal-js";
-  }
-  if (findScript(url, attributes) && existingWindowNamespace) {
-    return PromisePonyfill.resolve(existingWindowNamespace);
-  }
-  return loadCustomScript({
-    url: url,
-    attributes: attributes
-  }, PromisePonyfill).then(function () {
-    var newWindowNamespace = getPayPalWindowNamespace(namespace);
-    if (newWindowNamespace) {
-      return newWindowNamespace;
-    }
-    throw new Error("The window.".concat(namespace, " global variable is not available."));
-  });
-}
-function loadCustomScript(options, PromisePonyfill) {
-  if (PromisePonyfill === void 0) {
-    PromisePonyfill = Promise;
-  }
-  validateArguments(options, PromisePonyfill);
-  var url = options.url,
-    attributes = options.attributes;
-  if (typeof url !== "string" || url.length === 0) {
-    throw new Error("Invalid url.");
-  }
-  if (typeof attributes !== "undefined" && typeof attributes !== "object") {
-    throw new Error("Expected attributes to be an object.");
-  }
-  return new PromisePonyfill(function (resolve, reject) {
-    if (typeof document === "undefined") return resolve();
-    insertScriptElement({
-      url: url,
-      attributes: attributes,
-      onSuccess: function () {
-        return resolve();
-      },
-      onError: function () {
-        var defaultError = new Error("The script \"".concat(url, "\" failed to load. Check the HTTP status code and response body in DevTools to learn more."));
-        return reject(defaultError);
-      }
-    });
-  });
-}
-function getPayPalWindowNamespace(namespace) {
-  return window[namespace];
-}
-function validateArguments(options, PromisePonyfill) {
-  if (typeof options !== "object" || options === null) {
-    throw new Error("Expected an options object.");
-  }
-  var environment = options.environment;
-  if (environment && environment !== "production" && environment !== "sandbox") {
-    throw new Error('The `environment` option must be either "production" or "sandbox".');
-  }
-  if (typeof PromisePonyfill !== "undefined" && typeof PromisePonyfill !== "function") {
-    throw new Error("Expected PromisePonyfill to be a function.");
-  }
-}
-
-/**
-This `<PayPalScriptProvider />` component takes care of loading the JS SDK `<script>`.
-It manages state for script loading so children components like `<PayPalButtons />` know when it's safe to use the `window.paypal` global namespace.
-
-Note: You always should use this component as a wrapper for  `PayPalButtons`, `PayPalMarks`, `PayPalMessages` and `BraintreePayPalButtons` components.
- */
-var PayPalScriptProvider = function (_a) {
-  var _b;
-  var _c = _a.options,
-    options = _c === void 0 ? {
-      clientId: "test"
-    } : _c,
-    children = _a.children,
-    _d = _a.deferLoading,
-    deferLoading = _d === void 0 ? false : _d;
-  var _e = useReducer(scriptReducer, {
-      options: __assign(__assign({}, options), (_b = {}, _b[SDK_SETTINGS.DATA_JS_SDK_LIBRARY] = SDK_SETTINGS.DATA_LIBRARY_VALUE, _b[SDK_SETTINGS.DATA_SDK_INTEGRATION_SOURCE] = SDK_SETTINGS.DATA_LIBRARY_VALUE, _b[SCRIPT_ID] = "".concat(getScriptID(options)), _b)),
-      loadingStatus: deferLoading ? SCRIPT_LOADING_STATE.INITIAL : SCRIPT_LOADING_STATE.PENDING
-    }),
-    state = _e[0],
-    dispatch = _e[1];
-  useEffect(function () {
-    if (deferLoading === false && state.loadingStatus === SCRIPT_LOADING_STATE.INITIAL) {
-      return dispatch({
-        type: DISPATCH_ACTION.LOADING_STATUS,
-        value: SCRIPT_LOADING_STATE.PENDING
-      });
-    }
-    if (state.loadingStatus !== SCRIPT_LOADING_STATE.PENDING) {
-      return;
-    }
-    var isSubscribed = true;
-    loadScript(state.options).then(function () {
-      if (isSubscribed) {
-        dispatch({
-          type: DISPATCH_ACTION.LOADING_STATUS,
-          value: SCRIPT_LOADING_STATE.RESOLVED
-        });
-      }
-    }).catch(function (err) {
-      console.error("".concat(LOAD_SCRIPT_ERROR, " ").concat(err));
-      if (isSubscribed) {
-        dispatch({
-          type: DISPATCH_ACTION.LOADING_STATUS,
-          value: {
-            state: SCRIPT_LOADING_STATE.REJECTED,
-            message: String(err)
-          }
-        });
-      }
-    });
-    return function () {
-      isSubscribed = false;
-    };
-  }, [state.options, deferLoading, state.loadingStatus]);
-  return React__default.createElement(ScriptContext.Provider, {
-    value: __assign(__assign({}, state), {
-      dispatch: dispatch
-    })
-  }, children);
-};
-function ignore() {
-  return;
-}
-createContext({
-  cardFieldsForm: null,
-  fields: {},
-  registerField: ignore,
-  unregisterField: ignore // implementation is inside hook and passed through the provider
-});
-
 const PayPalCheckout = ({
+  PayPalButtons = () => {},
+  PayPalScriptProvider = () => {},
   clientId,
   itemId,
   instructionText = "Enter your email to receive the pattern",
