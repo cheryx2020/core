@@ -9,6 +9,8 @@ const PageItem = ({ data, ...rest }) => {
     switch (data?.id) {
         case "BEST_SELLER":
             return <BestSeller message={data?.message} {...rest} data={data?.[data.api] ?? {}}/>
+        case CIRCLE_IMAGE:
+            return <CircleGroup urls={data?.value || []} />;
         case "NOTE":
             return <Note {...rest} title={data.title} text={data.text}/>
         case "PATTERN_LIST":
@@ -19,8 +21,6 @@ const PageItem = ({ data, ...rest }) => {
                     data={data?.[data.api] ?? []}
                 />
             );
-        case CIRCLE_IMAGE:
-            return <CircleGroup urls={data?.value || []} />;
         default:
             return <div>Not implemented</div>;
     }    

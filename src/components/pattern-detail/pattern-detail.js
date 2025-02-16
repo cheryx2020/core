@@ -3,7 +3,7 @@ import ImageUploadable from '../image-uploadable/image-uploadable';
 import gtag from '../../../gtag';
 import styles from './PatternDetail.module.scss';
 const PatternDetail = ({name: _name, price: _price, discount, ravelryUrl: _ravelryUrl = 'https://www.messenger.com/t/100004957155465', lovecraftsUrl: _lovecraftsUrl, bigImageUrl: _bigImageUrl, imageList: _imageList,  isAdmin, onChange = () => {}, index, noImageUrl = '/images/no-image.png'}) => {
-  const [imageList,setImageList] = useState([noImageUrl]);
+  const [imageList,setImageList] = useState(_imageList ? _imageList : [noImageUrl]);
   const [name,setName] = useState("Pattern name");
   const [bigImageUrl, setBigImageUrl] = useState('');
   const [price,setPrice] = useState(_price);
@@ -55,6 +55,10 @@ const PatternDetail = ({name: _name, price: _price, discount, ravelryUrl: _ravel
     setPrice(_price || (isVi ? "Học phí: 100.000" : "$ 6.3 USD"));
     setRavelryUrl(_ravelryUrl);
     setLovecraftsUrl(_lovecraftsUrl);
+    setBigImageUrl(_bigImageUrl);
+  },[_price, _name, _lovecraftsUrl, _ravelryUrl, _bigImageUrl]);
+
+  useEffect(() => {
     if (Array.isArray(_imageList) && isAdmin && !_imageList.includes(noImageUrl)) {
       _imageList.push(noImageUrl);
     }
@@ -63,10 +67,9 @@ const PatternDetail = ({name: _name, price: _price, discount, ravelryUrl: _ravel
       _imageList.splice(idx, 1);
       setImageList(_imageList);
     } else {
-      setImageList(_imageList);
+      setImageList([..._imageList]);
     }
-    setBigImageUrl(_bigImageUrl);
-  },[_price, _name, _lovecraftsUrl, _ravelryUrl, _imageList, _bigImageUrl]);
+  }, [_imageList])
 
   useEffect(() => {
     if (window.paypal && window.paypal.Buttons) {

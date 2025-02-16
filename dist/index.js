@@ -4162,7 +4162,7 @@ const PatternDetail = ({
   index,
   noImageUrl = '/images/no-image.png'
 }) => {
-  const [imageList, setImageList] = useState([noImageUrl]);
+  const [imageList, setImageList] = useState(_imageList ? _imageList : [noImageUrl]);
   const [name, setName] = useState("Pattern name");
   const [bigImageUrl, setBigImageUrl] = useState('');
   const [price, setPrice] = useState(_price);
@@ -4220,6 +4220,9 @@ const PatternDetail = ({
     setPrice(_price || (isVi ? "Học phí: 100.000" : "$ 6.3 USD"));
     setRavelryUrl(_ravelryUrl);
     setLovecraftsUrl(_lovecraftsUrl);
+    setBigImageUrl(_bigImageUrl);
+  }, [_price, _name, _lovecraftsUrl, _ravelryUrl, _bigImageUrl]);
+  useEffect(() => {
     if (Array.isArray(_imageList) && isAdmin && !_imageList.includes(noImageUrl)) {
       _imageList.push(noImageUrl);
     } else if (Array.isArray(_imageList) && !isAdmin && _imageList.includes(noImageUrl)) {
@@ -4227,10 +4230,9 @@ const PatternDetail = ({
       _imageList.splice(idx, 1);
       setImageList(_imageList);
     } else {
-      setImageList(_imageList);
+      setImageList([..._imageList]);
     }
-    setBigImageUrl(_bigImageUrl);
-  }, [_price, _name, _lovecraftsUrl, _ravelryUrl, _imageList, _bigImageUrl]);
+  }, [_imageList]);
   useEffect(() => {
     if (window.paypal && window.paypal.Buttons) {
       console.count('Render');
@@ -60101,7 +60103,7 @@ const PatternItem = ({
   apiDelete = 'remove-pattern',
   apiEdit = 'edit-pattern',
   apiAdd = 'add-pattern',
-  onClickUrl = 'edit-pattern-detail'
+  onClickUrl = 'pattern-detail'
 }) => {
   const [imgSrc, setImgSrc] = useState(imageUrl);
   const [listPatternDetail, setListPatternDetail] = useState([]);
@@ -61856,13 +61858,6 @@ const TipDetail = ({
     setTitleData(defaultTitle);
     setContentData([]);
   };
-  const onClickEdit = () => {
-    try {
-      router.push(`/edit-post/` + id);
-    } catch (e) {
-      console.log(e);
-    }
-  };
   const onClickCancel = () => {
     router.back();
   };
@@ -61987,7 +61982,6 @@ const TipDetail = ({
     isEdit: isAdmin,
     onChangeData: onChangeContent,
     onSaveClick: onClickSave,
-    onEditClick: onClickEdit,
     onCancelClick: onClickCancel,
     linkComponent: Link
   })), /*#__PURE__*/React__default.createElement("div", {
@@ -62375,15 +62369,16 @@ const ContentWithTitle = ({
   className = '',
   theme
 }) => {
+  const backgroundColor = theme?.NAVIGATION?.backgroundColor ?? 'none';
   return /*#__PURE__*/React__default.createElement("div", {
     className: `${styles$f.wrapper} ${className}`
   }, /*#__PURE__*/React__default.createElement(TitleCheryx2, {
     wrapperStyle: {
       line: {
-        backgroundColor: theme?.NAVIGATION?.backgroundColor ?? 'none'
+        backgroundColor
       },
       text: {
-        backgroundColor: theme?.NAVIGATION?.backgroundColor ?? 'none'
+        backgroundColor
       }
     },
     text: title
@@ -63530,6 +63525,10 @@ const PageItem = ({
       }, rest, {
         data: data?.[data.api] ?? {}
       }));
+    case CIRCLE_IMAGE:
+      return /*#__PURE__*/React__default.createElement(CircleGroup, {
+        urls: data?.value || []
+      });
     case "NOTE":
       return /*#__PURE__*/React__default.createElement(Note, _extends({}, rest, {
         title: data.title,
@@ -63542,10 +63541,6 @@ const PageItem = ({
         },
         data: data?.[data.api] ?? []
       }));
-    case CIRCLE_IMAGE:
-      return /*#__PURE__*/React__default.createElement(CircleGroup, {
-        urls: data?.value || []
-      });
     default:
       return /*#__PURE__*/React__default.createElement("div", null, "Not implemented");
   }

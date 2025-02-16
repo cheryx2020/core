@@ -32,13 +32,6 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
     setTitleData(defaultTitle);
     setContentData([]);
   }
-  const onClickEdit = () => {
-    try {
-      router.push(`/edit-post/` + id);
-    } catch (e) {
-      console.log(e);
-    }
-  }
   const onClickCancel = () => {
     router.back();
   }
@@ -138,7 +131,6 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
         isEdit={isAdmin}
         onChangeData={onChangeContent}
         onSaveClick={onClickSave}
-        onEditClick={onClickEdit}
         onCancelClick={onClickCancel}
         linkComponent={Link}
       />

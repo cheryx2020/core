@@ -7,7 +7,7 @@ import Select from 'react-select'
 import { getListTips } from '@cheryx2020/utils';
 
 const NoImage = 'https://cheryx.com/images/no-image.png';
-const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontFamily = "", imageUrl = NoImage, discount = 0, language = 'vi', _id, description, name, nameColor = '#0A7BCA', ravelryUrl, patternId = '', order, isAdmin, isAddNew, isFree, isBottom, apiDelete = 'remove-pattern', apiEdit = 'edit-pattern', apiAdd = 'add-pattern', onClickUrl = 'edit-pattern-detail' }) => {
+const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontFamily = "", imageUrl = NoImage, discount = 0, language = 'vi', _id, description, name, nameColor = '#0A7BCA', ravelryUrl, patternId = '', order, isAdmin, isAddNew, isFree, isBottom, apiDelete = 'remove-pattern', apiEdit = 'edit-pattern', apiAdd = 'add-pattern', onClickUrl = 'pattern-detail' }) => {
   const [imgSrc, setImgSrc] = useState(imageUrl);
   const [listPatternDetail, setListPatternDetail] = useState([]);
   const [prNameColor, setPrNameColor] = useState(nameColor);
