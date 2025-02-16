@@ -15,7 +15,7 @@ const MainLayout = ({ theme, headerStyle, socialStyle = {}, mainImageUrl, Link, 
       })}/>
       {content}
     </main>
-    <Footer theme={theme} socialLinkStyle={socialStyle} socialTitle={footer?.socialTitle} isAdmin={isAdmin} image={footer.image} isMobile={isMobile} />
+    <Footer theme={theme} socialTitle={footer?.socialTitle} isAdmin={isAdmin} image={footer.image} isMobile={isMobile} />
   </div>
 }
 export default MainLayout;

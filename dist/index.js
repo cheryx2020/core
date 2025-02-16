@@ -62459,7 +62459,6 @@ const MySocialLink = ({
 const Footer = ({
   isMobile,
   theme,
-  socialLinkStyle = {},
   socialTitle = "Tài khoản cá nhân",
   image = "https://gocnhacolen.com/images/footer.webp",
   className,
@@ -62470,7 +62469,6 @@ const Footer = ({
   }, /*#__PURE__*/React__default.createElement(MySocialLink, {
     theme: theme,
     title: socialTitle,
-    style: socialLinkStyle,
     isMobile: isMobile
   }), /*#__PURE__*/React__default.createElement("div", {
     className: homeStyles.imageFooter
@@ -63690,7 +63688,6 @@ const MainLayout = ({
     }
   }), content), /*#__PURE__*/React__default.createElement(Footer, {
     theme: theme,
-    socialLinkStyle: socialStyle,
     socialTitle: footer?.socialTitle,
     isAdmin: isAdmin,
     image: footer.image,
