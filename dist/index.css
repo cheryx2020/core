@@ -528,6 +528,42 @@
     font-size: 20px;
   }
 }
+.PatternDetail-module_wrapper__CFlmD .PatternDetail-module_rightInfo__6J0eO .PatternDetail-module_price__JsXa9 {
+  color: #565555;
+  font-size: 28px;
+  display: flex;
+}
+@media (max-width: 641px) {
+  .PatternDetail-module_wrapper__CFlmD .PatternDetail-module_rightInfo__6J0eO .PatternDetail-module_price__JsXa9 {
+    font-size: 18px;
+  }
+}
+@media (min-width: 641px) and (max-width: 1023px) {
+  .PatternDetail-module_wrapper__CFlmD .PatternDetail-module_rightInfo__6J0eO .PatternDetail-module_price__JsXa9 {
+    font-size: 24px;
+  }
+}
+.PatternDetail-module_wrapper__CFlmD .PatternDetail-module_rightInfo__6J0eO .PatternDetail-module_price__JsXa9 .PatternDetail-module_lineThrough__trtoB {
+  text-decoration: line-through;
+  color: gray;
+  margin-right: 10px;
+}
+.PatternDetail-module_wrapper__CFlmD .PatternDetail-module_rightInfo__6J0eO .PatternDetail-module_price__JsXa9 .PatternDetail-module_discounted__6Bjph {
+  display: flex;
+  color: #d03333;
+}
+.PatternDetail-module_wrapper__CFlmD .PatternDetail-module_rightInfo__6J0eO .PatternDetail-module_price__JsXa9 .PatternDetail-module_discounted__6Bjph .PatternDetail-module_priceNote__T5ZM3 {
+  padding-left: 10px;
+  font-size: 18px;
+  flex-direction: column;
+  justify-content: end;
+  padding-top: 10px;
+}
+@media (max-width: 641px) {
+  .PatternDetail-module_wrapper__CFlmD .PatternDetail-module_rightInfo__6J0eO .PatternDetail-module_price__JsXa9 .PatternDetail-module_discounted__6Bjph .PatternDetail-module_priceNote__T5ZM3 {
+    padding-top: 0px;
+  }
+}
 .PatternDetail-module_wrapper__CFlmD .PatternDetail-module_storeInfo__IwaSl {
   grid-column: 3/5;
   grid-row: 2/5;
@@ -737,6 +773,29 @@
     width: 380px;
     height: 58px;
     font-size: 32px;
+  }
+}
+.PatternDetail-module_wrapper__CFlmD .PatternDetail-module_storeInfo__IwaSl .PatternDetail-module_linkStore__gf5UQ .PatternDetail-module_discount__Rwslv {
+  position: absolute;
+  top: 7px;
+  right: -44px;
+  font-size: 30px;
+  width: 190px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 15px 15px 15px;
+  background-image: url("/images/free2.webp");
+  background-size: cover;
+}
+@media (max-width: 641px) {
+  .PatternDetail-module_wrapper__CFlmD .PatternDetail-module_storeInfo__IwaSl .PatternDetail-module_linkStore__gf5UQ .PatternDetail-module_discount__Rwslv {
+    top: 4px;
+    width: 114px;
+    font-size: 15px;
+    right: -26px;
+    padding: 0px 15px 8px 15px;
   }
 }
 .PatternDetail-module_wrapper__CFlmD .PatternDetail-module_storeInfo__IwaSl .PatternDetail-module_mb11__sNoEg {

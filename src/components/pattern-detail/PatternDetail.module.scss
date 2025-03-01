@@ -101,6 +101,36 @@
         font-size: 20px;
       }
     }
+    .price {
+      color: $title-color;
+      font-size: 28px;
+      display: flex;
+      @include mobile {
+        font-size: 18px;
+      }
+      @include tablet {
+        font-size: 24px;
+      }
+      .lineThrough {
+        text-decoration: line-through;
+        color: gray;
+        margin-right: 10px;
+      }
+      .discounted {
+        display: flex;
+        color: #d03333;
+        .priceNote {
+          padding-left: 10px;
+          font-size: 18px;
+          flex-direction: column;
+          justify-content: end;
+          padding-top: 10px;
+          @include mobile {
+            padding-top: 0px;
+          }
+        }
+      }
+    }
   }
   .storeInfo {
     grid-column: 3/5;
@@ -280,6 +310,27 @@
         width: 380px;
         height: 58px;
         font-size: 32px;
+      }
+      .discount {
+        position: absolute;
+        top: 7px;
+        right: -44px;
+        font-size: 30px;
+        width: 190px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 15px 15px 15px;
+        background-image: url('/images/free2.webp');
+        background-size: cover;
+        @include mobile {
+          top: 4px;
+          width: 114px;
+          font-size: 15px;
+          right: -26px;
+          padding: 0px 15px 8px 15px;
+        }
       }
     }
     .mb11 {
