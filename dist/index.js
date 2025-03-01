@@ -3927,6 +3927,20 @@ const FormInput = ({
     placeholder: placeholder
   }));
 };
+const EmailSubscriptionSuccess = () => {
+  const smallTitle = `${styles$t.title} ${styles$t.small}`;
+  return /*#__PURE__*/React__default.createElement("div", {
+    className: styles$t.container
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: smallTitle
+  }, "Success!"), /*#__PURE__*/React__default.createElement("div", {
+    className: smallTitle
+  }, "Check your email in a few minutes!"), /*#__PURE__*/React__default.createElement("div", {
+    className: styles$t.textEmailSubscription
+  }, "To find my letter, simply search for a letter from Cheryx.", /*#__PURE__*/React__default.createElement("strong", null, " Also, double-check your junk/spam folder"), ". Be sure to mark it as 'not spam' so you won't miss any important updates from me in the future."), /*#__PURE__*/React__default.createElement("div", {
+    className: styles$t.textEmailSubscription
+  }, "If you can't seem to locate the email, please send me a message and I'll be happy to help you!"));
+};
 const PatternPreview = ({
   useDispatch = () => {},
   isAdmin,
@@ -3940,10 +3954,9 @@ const PatternPreview = ({
   message = 'You can preview 3 pages of the knitting pattern!'
 }) => {
   const [imageUrl, setImageUrl] = useState(_imageUrl);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(true);
   const dispatch = useDispatch();
   const [previewUrl, setPreviewUrl] = useState(_previewUrl);
-  const smallTitle = `${styles$t.title} ${styles$t.small}`;
   const onChangeBigImage = ({
     imgFile
   }) => {
@@ -3987,15 +4000,7 @@ const PatternPreview = ({
     className: styles$t.info
   }, isSubscribe ? /*#__PURE__*/React__default.createElement("div", {
     className: styles$t.wrapperDownloadPdf
-  }, isSubmitted ? /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("div", {
-    className: smallTitle
-  }, "Success!"), /*#__PURE__*/React__default.createElement("div", {
-    className: smallTitle
-  }, "Check your email in a few minutes!"), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$t.textEmailSubscription
-  }, "To find my letter, simply search for a letter from Cheryx.", /*#__PURE__*/React__default.createElement("strong", null, " Also, double-check your junk/spam folder"), ". Be sure to mark it as 'not spam' so you won't miss any important updates from me in the future."), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$t.textEmailSubscription
-  }, "If you can't seem to locate the email, please send me a message and I'll be happy to help you!")) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("div", {
+  }, isSubmitted ? /*#__PURE__*/React__default.createElement(EmailSubscriptionSuccess, null) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("div", {
     className: styles$t.title
   }, "Download PDF Pattern"), /*#__PURE__*/React__default.createElement("div", {
     className: styles$t.textEmailSubscription
@@ -62334,7 +62339,7 @@ const HeaderCherxy = ({
   }, item.text)))));
 };
 
-var homeStyles = {"main":"Home-module_main__bI9na","container":"Home-module_container__mEFCr","footer":"Home-module_footer__XGpF4","imageFooter":"Home-module_imageFooter__ZINru","dcma":"Home-module_dcma__4GW8-"};
+var homeStyles = {"banner":"Home-module_banner__FVc83","hide":"Home-module_hide__ascnW","show":"Home-module_show__wQjDl","bannerImgWrapper":"Home-module_bannerImgWrapper__HRN2C","closeBtn":"Home-module_closeBtn__-USGB","main":"Home-module_main__bI9na","container":"Home-module_container__mEFCr","footer":"Home-module_footer__XGpF4","imageFooter":"Home-module_imageFooter__ZINru","dcma":"Home-module_dcma__4GW8-"};
 
 var styles$g = {"wrapper":"TitleCheryx2-module_wrapper__qmGmO","line":"TitleCheryx2-module_line__EPyjc","text":"TitleCheryx2-module_text__9xtyl"};
 
@@ -62451,17 +62456,94 @@ const MySocialLink = ({
   });
 };
 
+const isAllowShowBanner = () => {
+  // return false;
+  let result = true;
+  try {
+    const pathname = window?.location?.pathname;
+    const listIgnorepage = ['/linktree'];
+    if (listIgnorepage.includes(pathname)) {
+      result = false;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  return result;
+};
+const isValidTimeShowBanner = () => {
+  const closedTime = localStorage.getItem('closedBannerAt'),
+    currentTime = new Date().getTime();
+  const timeoutMin = 1 * 60 * 24;
+  return !closedTime || closedTime && currentTime - parseInt(closedTime) > timeoutMin * 60 * 1000;
+};
 const Footer = ({
   isMobile,
   theme,
   socialTitle = "Tài khoản cá nhân",
   image = "https://gocnhacolen.com/images/footer.webp",
+  hasBanner,
   className,
   isAdmin
 }) => {
+  const [isShowBanner, setIsShowBanner] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [linkBanner, setLinkBanner] = useState('');
+  const [imageBanner, setImageBanner] = useState('');
+  useEffect(() => {
+    if (hasBanner) {
+      APIService.get('banner').then(res => {
+        if (res && res.data && res.data && res.data.data) {
+          const {
+            fromDate,
+            toDate,
+            image,
+            link
+          } = res.data.data;
+          if (isAllowShowBanner()) {
+            if (isValidTimeShowBanner() && link && image && new Date(fromDate).getTime() < new Date().getTime() && new Date(toDate).getTime() > new Date().getTime()) {
+              setIsShowBanner('true');
+              var img = new Image();
+              img.onload = function () {
+                setIsImageLoaded(true);
+              };
+              img.src = image;
+              setLinkBanner(link);
+              setImageBanner(image);
+            }
+          } else {
+            setIsShowBanner(false);
+            localStorage.setItem('closedBannerAt', new Date().getTime());
+          }
+        }
+      }).catch(e => {
+        console.log(e);
+      });
+    }
+  }, []);
+  const onClickClose = () => {
+    setIsShowBanner(false);
+    localStorage.setItem('closedBannerAt', new Date().getTime());
+  };
   return /*#__PURE__*/React__default.createElement("footer", {
     className: `${homeStyles.footer} ${className}`
-  }, /*#__PURE__*/React__default.createElement(MySocialLink, {
+  }, hasBanner ? /*#__PURE__*/React__default.createElement("div", {
+    className: `${homeStyles.banner} ${isShowBanner ? homeStyles.show : homeStyles.hide}`
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: homeStyles.bannerImgWrapper
+  }, isImageLoaded && /*#__PURE__*/React__default.createElement("div", {
+    className: homeStyles.closeBtn,
+    onClick: onClickClose
+  }, "x"), linkBanner && /*#__PURE__*/React__default.createElement("a", {
+    onClick: () => {
+      setIsShowBanner(false);
+      localStorage.setItem('closedBannerAt', new Date().getTime());
+    },
+    target: "_blank",
+    href: linkBanner
+  }, /*#__PURE__*/React__default.createElement("img", {
+    alt: process?.env?.NEXT_PUBLIC_SEO_mainTitle,
+    src: imageBanner
+  })))) : null, /*#__PURE__*/React__default.createElement(MySocialLink, {
     theme: theme,
     title: socialTitle,
     isMobile: isMobile
@@ -63686,6 +63768,7 @@ const MainLayout = ({
     socialTitle: footer?.socialTitle,
     isAdmin: isAdmin,
     image: footer.image,
+    hasBanner: footer.hasBanner,
     isMobile: isMobile
   }));
 };

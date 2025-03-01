@@ -1,3 +1,8 @@
+export const banner: string
+export const hide: string
+export const show: string
+export const bannerImgWrapper: string
+export const closeBtn: string
 export const homeFreePatternList: string
 export const mb30: string
 export const imageHeaderHome: string
@@ -34,6 +39,11 @@ export const pattern: string
 export const tips: string
 export const mainLogo: string
 interface Namespace {
+	"banner": string,
+	"hide": string,
+	"show": string,
+	"bannerImgWrapper": string,
+	"closeBtn": string,
 	"homeFreePatternList": string,
 	"mb30": string,
 	"imageHeaderHome": string,

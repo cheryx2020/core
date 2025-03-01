@@ -1,5 +1,48 @@
 @import './variables.scss';
 @import './mixin.scss';
+.banner {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  background-color: #000000bd;
+  justify-content: center;
+  align-items: center;
+  &.hide {
+    display: none;
+  }
+  &.show {
+    display: flex;
+  }
+  .bannerImgWrapper {
+    position: relative;
+    .closeBtn {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background-color: $main-color;
+      color: white;
+      width: 20px;
+      height: 20px;
+      border: solid 1px white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 10px;
+    }
+    img {
+      @include mobile {
+        height: auto;
+        width: 80vw;
+      }
+      height: 80vh;
+    }
+  }
+}
 .homeFreePatternList {
   // display: grid !important;
   // grid-template-columns: repeat( auto-fit, minmax(234px, 1fr) )!important;

@@ -8,12 +8,29 @@ const FormInput = ({ label = "Label", required = false, name = "name", type = "t
     <input required={required ? "true" : ""} type={type} name={name} placeholder={placeholder} />
   </div>
 }
+
+const EmailSubscriptionSuccess = () => {
+  const smallTitle = `${styles.title} ${styles.small}`;
+  return (
+    <div className={styles.container}>
+      <div className={smallTitle}>Success!</div>
+      <div className={smallTitle}>Check your email in a few minutes!</div>
+      <div className={styles.textEmailSubscription}>
+        To find my letter, simply search for a letter from Cheryx.
+        <strong> Also, double-check your junk/spam folder</strong>. Be sure to mark it as 'not spam' so you won't miss any important updates from me in the future.
+      </div>
+      <div className={styles.textEmailSubscription}>
+        If you can't seem to locate the email, please send me a message and I'll be happy to help you!
+      </div>
+    </div>
+  );
+};
+
 const PatternPreview = ({ useDispatch = () => {}, isAdmin, patternId, isSubscribe, onChange = () => { }, index, imageUrl: _imageUrl, previewUrl: _previewUrl, buttonText = "Look inside the pattern", message = 'You can preview 3 pages of the knitting pattern!' }) => {
   const [imageUrl, setImageUrl] = useState(_imageUrl);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(true);
   const dispatch = useDispatch();
   const [previewUrl, setPreviewUrl] = useState(_previewUrl);
-  const smallTitle = `${styles.title} ${styles.small}`;
   const onChangeBigImage = ({ imgFile }) => {
     onChange(imgFile, index, 'imageUrl');
   }
@@ -44,17 +61,7 @@ const PatternPreview = ({ useDispatch = () => {}, isAdmin, patternId, isSubscrib
     </div>
     <div className={styles.info}>
       {isSubscribe ? <div className={styles.wrapperDownloadPdf}>
-        {isSubmitted ? <>
-          <div className={smallTitle}>Success!</div>
-          <div className={smallTitle}>Check your email in a few minutes!</div>
-          <div className={styles.textEmailSubscription}>
-            To find my letter, simply search for a letter from Cheryx.
-            <strong> Also, double-check your junk/spam folder</strong>. Be sure to mark it as 'not spam' so you won't miss any important updates from me in the future.
-          </div>
-          <div className={styles.textEmailSubscription}>
-            If you can't seem to locate the email, please send me a message and I'll be happy to help you!
-          </div>
-        </> : <><div className={styles.title}>Download PDF Pattern</div>
+        {isSubmitted ? <EmailSubscriptionSuccess/> : <><div className={styles.title}>Download PDF Pattern</div>
           <div className={styles.textEmailSubscription}>
             This free pattern will be sent to the provided email. Please make sure you write your email address correctly.
           </div>
