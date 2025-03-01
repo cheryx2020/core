@@ -348,6 +348,62 @@
 .PatternPreview-module_wrapper__rtoPF.PatternPreview-module_subscribe__UQhAQ .PatternPreview-module_info__pn5aE div {
   max-width: unset;
 }
+
+.PatternPreview-module_title__gMc1n {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.PatternPreview-module_small__B4Lps {
+  font-size: 16px;
+}
+
+.PatternPreview-module_textEmailSubscription__UETHA {
+  font-size: 14px;
+  margin: 10px 0;
+}
+
+.PatternPreview-module_modalOverlay__eP3Ij {
+  position: fixed;
+  margin-top: 0px !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.PatternPreview-module_modalContent__K6-SZ {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  text-align: center;
+  position: relative;
+}
+
+.PatternPreview-module_affiliateLink__xdBUV {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.PatternPreview-module_closeButton__54i0T {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.PatternPreview-module_closeButton__54i0T:hover {
+  background: #0056b3;
+}
 .MenuAddComponentPost-module_adminMenuBtn__GaIEv {
   float: right;
   position: relative;

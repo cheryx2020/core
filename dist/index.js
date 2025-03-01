@@ -3848,7 +3848,7 @@ class YouTubeSubscribe extends Component {
   }
 }
 
-var styles$t = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu","subscribe":"PatternPreview-module_subscribe__UQhAQ","wrapperDownloadPdf":"PatternPreview-module_wrapperDownloadPdf__976cz","title":"PatternPreview-module_title__gMc1n","small":"PatternPreview-module_small__B4Lps","textEmailSubscription":"PatternPreview-module_textEmailSubscription__UETHA","submitSuscribe":"PatternPreview-module_submitSuscribe__-gfpJ","formInput":"PatternPreview-module_formInput__Fcufy","label":"PatternPreview-module_label__c-RNI"};
+var styles$t = {"wrapper":"PatternPreview-module_wrapper__rtoPF","image":"PatternPreview-module_image__jMSHM","info":"PatternPreview-module_info__pn5aE","previewUrl":"PatternPreview-module_previewUrl__ulKmu","subscribe":"PatternPreview-module_subscribe__UQhAQ","wrapperDownloadPdf":"PatternPreview-module_wrapperDownloadPdf__976cz","title":"PatternPreview-module_title__gMc1n","small":"PatternPreview-module_small__B4Lps","textEmailSubscription":"PatternPreview-module_textEmailSubscription__UETHA","submitSuscribe":"PatternPreview-module_submitSuscribe__-gfpJ","formInput":"PatternPreview-module_formInput__Fcufy","label":"PatternPreview-module_label__c-RNI","modalOverlay":"PatternPreview-module_modalOverlay__eP3Ij","modalContent":"PatternPreview-module_modalContent__K6-SZ","affiliateLink":"PatternPreview-module_affiliateLink__xdBUV"};
 
 axios.interceptors.request.use(function (config) {
   try {
@@ -3928,8 +3928,24 @@ const FormInput = ({
   }));
 };
 const EmailSubscriptionSuccess = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const smallTitle = `${styles$t.title} ${styles$t.small}`;
-  return /*#__PURE__*/React__default.createElement("div", {
+
+  // useEffect to open modal after 3 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsModalOpen(true);
+    }, 1000); // 3000ms = 3 seconds
+
+    // Cleanup the timer when the component unmounts
+    return () => clearTimeout(timer);
+  }, []); // Empty dependency array means it runs once on mount
+
+  // Function to close the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("div", {
     className: styles$t.container
   }, /*#__PURE__*/React__default.createElement("div", {
     className: smallTitle
@@ -3939,7 +3955,71 @@ const EmailSubscriptionSuccess = () => {
     className: styles$t.textEmailSubscription
   }, "To find my letter, simply search for a letter from Cheryx.", /*#__PURE__*/React__default.createElement("strong", null, " Also, double-check your junk/spam folder"), ". Be sure to mark it as 'not spam' so you won't miss any important updates from me in the future."), /*#__PURE__*/React__default.createElement("div", {
     className: styles$t.textEmailSubscription
-  }, "If you can't seem to locate the email, please send me a message and I'll be happy to help you!"));
+  }, "If you can't seem to locate the email, please send me a message and I'll be happy to help you!")), isModalOpen && /*#__PURE__*/React__default.createElement("div", {
+    className: styles$t.modalOverlay,
+    onClick: e => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.target === e.currentTarget) {
+        closeModal();
+      }
+    }
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: styles$t.modalContent
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: styles$t.textEmailSubscription
+  }, "While you wait, consider exploring this excellent product on Amazon:", " ", /*#__PURE__*/React__default.createElement("a", {
+    href: "https://www.amazon.com/s?k=yarn&crid=14JEDCTYI768F&sprefix=yarn%2Caps%2C312&linkCode=ll2&tag=cheryx07-20&linkId=336e658bb96b0c8d54158a58fd63c9a1&language=en_US&ref_=as_li_ss_tl",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    className: styles$t.affiliateLink
+  }, "Yarn Selection"), " ", "\u2013 a quality option that could enhance your experience. By using this link, you\u2019ll also provide a small contribution to support our community efforts."))));
+};
+const DownloadPatternForm = ({
+  dispatch,
+  patternId,
+  setIsSubmitted = () => {}
+}) => {
+  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("div", {
+    className: styles$t.title
+  }, "Download PDF Pattern"), /*#__PURE__*/React__default.createElement("div", {
+    className: styles$t.textEmailSubscription
+  }, "This free pattern will be sent to the provided email. Please make sure you write your email address correctly."), /*#__PURE__*/React__default.createElement("form", {
+    method: "POST",
+    onSubmit: e => {
+      e.preventDefault();
+      const email = e?.target?.elements?.email?.value;
+      const name = e?.target?.elements?.name?.value;
+      setShowLoading(dispatch, true);
+      APIService.post("email-subscriptions/subscribe", {
+        email,
+        name,
+        type: "download",
+        id: patternId
+      }).then(() => {
+        setIsSubmitted(true);
+      }).catch(err => {
+        console.log(err); // TODO handle error
+      }).finally(() => {
+        setShowLoading(dispatch, false);
+      });
+    }
+  }, /*#__PURE__*/React__default.createElement(FormInput, {
+    required: true,
+    type: "email",
+    name: "email",
+    placeholder: "",
+    label: "Email address"
+  }), /*#__PURE__*/React__default.createElement(FormInput, {
+    type: "text",
+    name: "name",
+    placeholder: "",
+    label: "First name"
+  }), /*#__PURE__*/React__default.createElement("input", {
+    className: styles$t.submitSuscribe,
+    type: "submit",
+    value: "Get the pattern"
+  })));
 };
 const PatternPreview = ({
   useDispatch = () => {},
@@ -4000,47 +4080,11 @@ const PatternPreview = ({
     className: styles$t.info
   }, isSubscribe ? /*#__PURE__*/React__default.createElement("div", {
     className: styles$t.wrapperDownloadPdf
-  }, isSubmitted ? /*#__PURE__*/React__default.createElement(EmailSubscriptionSuccess, null) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$t.title
-  }, "Download PDF Pattern"), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$t.textEmailSubscription
-  }, "This free pattern will be sent to the provided email. Please make sure you write your email address correctly."), /*#__PURE__*/React__default.createElement("form", {
-    method: "POST",
-    onSubmit: e => {
-      e.preventDefault();
-      const email = e?.target?.elements?.email?.value;
-      const name = e?.target?.elements?.name?.value;
-      setShowLoading(dispatch, true);
-      APIService.post("email-subscriptions/subscribe", {
-        email,
-        name,
-        type: "download",
-        id: patternId
-      }).then(res => {
-        console.log(res);
-        setIsSubmitted(true);
-      }).catch(err => {
-        console.log(err);
-      }).finally(() => {
-        setShowLoading(dispatch, false);
-      });
-    }
-  }, /*#__PURE__*/React__default.createElement(FormInput, {
-    required: true,
-    type: "email",
-    name: "email",
-    placeholder: "",
-    label: "Email address"
-  }), /*#__PURE__*/React__default.createElement(FormInput, {
-    type: "text",
-    name: "name",
-    placeholder: "",
-    label: "First name"
-  }), /*#__PURE__*/React__default.createElement("input", {
-    className: styles$t.submitSuscribe,
-    type: "submit",
-    value: "Get the pattern"
-  })))) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("a", {
+  }, isSubmitted ? /*#__PURE__*/React__default.createElement(EmailSubscriptionSuccess, null) : /*#__PURE__*/React__default.createElement(DownloadPatternForm, {
+    patternId: patternId,
+    setIsSubmitted: setIsSubmitted,
+    dispatch: dispatch
+  })) : /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("a", {
     rel: "noreferrer",
     href: previewUrl,
     onClick: e => onClickLink(e, 'previewUrl'),

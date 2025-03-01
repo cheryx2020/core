@@ -10,6 +10,10 @@ export const textEmailSubscription: string
 export const submitSuscribe: string
 export const formInput: string
 export const label: string
+export const modalOverlay: string
+export const modalContent: string
+export const affiliateLink: string
+export const closeButton: string
 interface Namespace {
 	"wrapper": string,
 	"image": string,
@@ -23,6 +27,10 @@ interface Namespace {
 	"submitSuscribe": string,
 	"formInput": string,
 	"label": string,
+	"modalOverlay": string,
+	"modalContent": string,
+	"affiliateLink": string,
+	"closeButton": string,
 }
 declare const patternPreviewModuleScss: Namespace
 export default patternPreviewModuleScss
