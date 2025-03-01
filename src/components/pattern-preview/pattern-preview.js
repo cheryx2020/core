@@ -28,7 +28,7 @@ const EmailSubscriptionSuccess = () => {
 
 const PatternPreview = ({ useDispatch = () => {}, isAdmin, patternId, isSubscribe, onChange = () => { }, index, imageUrl: _imageUrl, previewUrl: _previewUrl, buttonText = "Look inside the pattern", message = 'You can preview 3 pages of the knitting pattern!' }) => {
   const [imageUrl, setImageUrl] = useState(_imageUrl);
-  const [isSubmitted, setIsSubmitted] = useState(true);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const dispatch = useDispatch();
   const [previewUrl, setPreviewUrl] = useState(_previewUrl);
   const onChangeBigImage = ({ imgFile }) => {
