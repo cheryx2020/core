@@ -1336,6 +1336,27 @@
   background-size: contain;
   background-image: url("https://cheryx.com/images/picker.png");
 }
+.Input-module_inputContainer__C9-jm {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.Input-module_inputContainer__C9-jm label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+.Input-module_inputContainer__C9-jm input,
+.Input-module_inputContainer__C9-jm textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+.Input-module_inputContainer__C9-jm textarea {
+  resize: vertical;
+}
 .PostContent-module_wrapperGroupContent__yFH1p {
   display: flex;
   flex-direction: column;
@@ -3944,27 +3965,6 @@
     width: 126px;
     height: 126px;
   }
-}
-.Input-module_inputContainer__C9-jm {
-  margin-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
-}
-.Input-module_inputContainer__C9-jm label {
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-.Input-module_inputContainer__C9-jm input,
-.Input-module_inputContainer__C9-jm textarea {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-  width: 100%;
-  box-sizing: border-box;
-}
-.Input-module_inputContainer__C9-jm textarea {
-  resize: vertical;
 }
 .Table-module_modal__x6PHZ {
   display: flex;

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import PatternName from '../pattern-name/pattern-name';
 import Select from 'react-select'
 import { getListTips } from '@cheryx2020/utils';
+import Input from '../input';
 
 const NoImage = 'https://cheryx.com/images/no-image.png';
 const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontFamily = "", imageUrl = NoImage, discount = 0, language = 'vi', _id, description, name, nameColor = '#0A7BCA', ravelryUrl, patternId = '', order, isAdmin, isAddNew, isFree, isBottom, apiDelete = 'remove-pattern', apiEdit = 'edit-pattern', apiAdd = 'add-pattern', onClickUrl = 'pattern-detail' }) => {
@@ -240,8 +241,10 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
           <div onClick={onClickEdit} className={styles.button}>
             {isEdit ? 'Save' : 'Edit'}
           </div>
-          {!isAddNew && !isEdit && <div onClick={onClickDelete} className={styles.button}>Delete</div>}
-          {!isNew && !isEdit && <div onClick={onClickPatternDetail} className={styles.button}>Detail</div>}
+          {!isAddNew && !isEdit && <>
+            <div onClick={onClickDelete} className={styles.button}>Delete</div>
+            <div onClick={onClickPatternDetail} className={styles.button}>Detail</div>
+          </>}
         </div>
       )}
       {_isFree && <div className={`${styles.freeTag} ${isBottom ? styles.isBottom : ''}`}></div>}
@@ -252,7 +255,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
         src={imgSrc}
         onChangeImage={onChangeImage}
       />
-      {prDiscount && !_isFree && <div className={styles.discount}>-{prDiscount}%</div>}
+      {prDiscount && !_isFree ? <div className={styles.discount}>-{prDiscount}%</div> : null}
       <div className={styles.content}>{content}</div>
 
       {isEdit && (
@@ -267,8 +270,9 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
               isMulti={false}
             />
           </div>
-          <input placeholder="Thứ tự" value={prOrder} onChange={(e) => setPrOrder(e.target.value)} />
-          <input
+          <Input id={"Order"} placeholder="Thứ tự" value={prOrder} onChange={(e) => setPrOrder(e.target.value)} />
+          <Input
+            id={"Discount"}
             placeholder="Discount (%)"
             value={prDiscount}
             onChange={(e) => setPrDiscount(Number(e.target.value) || 0)}
