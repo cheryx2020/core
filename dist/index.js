@@ -60414,7 +60414,7 @@ const PatternItem = ({
   }, isEdit ? 'Save' : 'Edit'), !isAddNew && !isEdit && /*#__PURE__*/React__default.createElement("div", {
     onClick: onClickDelete,
     className: styles$o.button
-  }, "Delete"), !isAddNew && !isEdit && /*#__PURE__*/React__default.createElement("div", {
+  }, "Delete"), !isNew && !isEdit && /*#__PURE__*/React__default.createElement("div", {
     onClick: onClickPatternDetail,
     className: styles$o.button
   }, "Detail")), _isFree && /*#__PURE__*/React__default.createElement("div", {
@@ -60425,11 +60425,11 @@ const PatternItem = ({
     isEdit: isEdit,
     src: imgSrc,
     onChangeImage: onChangeImage
-  }), prDiscount && !_isFree ? /*#__PURE__*/React__default.createElement("div", {
+  }), prDiscount && !_isFree && /*#__PURE__*/React__default.createElement("div", {
     className: styles$o.discount
-  }, "-", prDiscount, "%") : null, /*#__PURE__*/React__default.createElement("div", {
+  }, "-", prDiscount, "%"), /*#__PURE__*/React__default.createElement("div", {
     className: styles$o.content
-  }, content), isEdit && /*#__PURE__*/React__default.createElement("div", {
+  }, content), isEdit && /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("div", {
     style: {
       marginBottom: 5
     }
@@ -60438,22 +60438,20 @@ const PatternItem = ({
     classNamePrefix: 'muti-select',
     value: selectedPatternDetail,
     options: listPatternDetail,
-    onChange: item => {
-      setSelectedPatternDetail(item);
-    },
+    onChange: item => setSelectedPatternDetail(item),
     isMulti: false
-  })), isEdit && /*#__PURE__*/React__default.createElement("input", {
+  })), /*#__PURE__*/React__default.createElement("input", {
     placeholder: "Th\u1EE9 t\u1EF1",
     value: prOrder,
     onChange: e => setPrOrder(e.target.value)
-  }), isEdit && /*#__PURE__*/React__default.createElement("input", {
+  }), /*#__PURE__*/React__default.createElement("input", {
     placeholder: "Discount (%)",
     value: prDiscount,
     onChange: e => setPrDiscount(Number(e.target.value) || 0),
     type: "number",
     min: "0",
     max: "100"
-  }));
+  })));
 };
 
 var styles$m = {"wrapperGroupContent":"PostContent-module_wrapperGroupContent__yFH1p","header":"PostContent-module_header__PsWMK","contentZone":"PostContent-module_contentZone__HUhpk","show":"PostContent-module_show__ZMf2A","edit":"PostContent-module_edit__Qe59Q","btnMenu":"PostContent-module_btnMenu__-mGU-","imageWrapper":"PostContent-module_imageWrapper__2Fk0j","bigTitle":"PostContent-module_bigTitle__iLoUj","wrapperAction":"PostContent-module_wrapperAction__-kVIX","deleteButton":"PostContent-module_deleteButton__iDrEN","addButton":"PostContent-module_addButton__sb98L","button":"PostContent-module_button__FKbWL","imageUpload":"PostContent-module_imageUpload__qkS0y","wrapper":"PostContent-module_wrapper__ahlNi","ads":"PostContent-module_ads__vHBWo","relatedTo":"PostContent-module_relatedTo__NKbLQ","arrow":"PostContent-module_arrow__ms8AO","textRelatedTo":"PostContent-module_textRelatedTo__IHBxX","dropZone":"PostContent-module_dropZone__8WDHC","subcribeMe":"PostContent-module_subcribeMe__3y1K-","imgWrapper":"PostContent-module_imgWrapper__4YZaL","imageDescription":"PostContent-module_imageDescription__19QTz"};

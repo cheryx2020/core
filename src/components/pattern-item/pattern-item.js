@@ -217,33 +217,68 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
     setImgWidth(width);
   }
 
-  return <div href={makeUrl(ravelryUrl)} className={`${styles.wrapper} ${isBottom ? styles.isBottom : ''}`} style={{
-    width: isAddNew ? '100%' : 'initial',
-    height: isAddNew ? '100%' : 'initial',
-    backgroundColor: isAddNew ? 'inherit' : 'inherit',
-    padding: isAddNew ? 5 : 0,
-  }} onClick={onClickPatternItem}>
-    {isAdmin && <div className={styles.editMenu}>
-      {isEdit && <label className={styles.isFree}><input type="checkbox" onChange={onChangeIsFree} checked={_isFree} /> Is Free</label>}
-      {isEdit && !isAddNew && <div className={styles.button} onClick={onClickCancel}>Cancel</div>}
-      <div onClick={onClickEdit} className={styles.button}>{isEdit ? 'Save' : 'Edit'}</div>
-      {!isAddNew && !isEdit && <div onClick={onClickDelete} className={styles.button}>Delete</div>}
-      {!isAddNew && !isEdit && <div onClick={onClickPatternDetail} className={styles.button}>Detail</div>}
-    </div>}
-    {_isFree && <div className={`${styles.freeTag} ${isBottom ? styles.isBottom : ''}`}></div>}
-    <ImageUploadable skipCheckFileSize={true} className={styles.image} isEdit={isEdit} src={imgSrc} onChangeImage={onChangeImage} />
-    {prDiscount && !_isFree ? <div className={styles.discount}>-{prDiscount}%</div> : null}
-    <div className={styles.content}>{content}</div>
-    {isEdit && <div style={{ marginBottom: 5 }}><Select
-      placeholder="Chọn bài viết"
-      classNamePrefix={'muti-select'}
-      value={selectedPatternDetail}
-      options={listPatternDetail}
-      onChange={item => { setSelectedPatternDetail(item); }}
-      isMulti={false}
-    /></div>}
-    {isEdit && <input placeholder="Thứ tự" value={prOrder} onChange={e => setPrOrder(e.target.value)} />}
-    {isEdit && <input placeholder="Discount (%)" value={prDiscount} onChange={e => setPrDiscount(Number(e.target.value) || 0)} type="number" min="0" max="100" />}
-  </div>
+  return (
+    <div
+      href={makeUrl(ravelryUrl)}
+      className={`${styles.wrapper} ${isBottom ? styles.isBottom : ''}`}
+      style={{
+        width: isAddNew ? '100%' : 'initial',
+        height: isAddNew ? '100%' : 'initial',
+        backgroundColor: isAddNew ? 'inherit' : 'inherit',
+        padding: isAddNew ? 5 : 0,
+      }}
+      onClick={onClickPatternItem}
+    >
+      {isAdmin && (
+        <div className={styles.editMenu}>
+          {isEdit && (
+            <label className={styles.isFree}>
+              <input type="checkbox" onChange={onChangeIsFree} checked={_isFree} /> Is Free
+            </label>
+          )}
+          {isEdit && !isAddNew && <div className={styles.button} onClick={onClickCancel}>Cancel</div>}
+          <div onClick={onClickEdit} className={styles.button}>
+            {isEdit ? 'Save' : 'Edit'}
+          </div>
+          {!isAddNew && !isEdit && <div onClick={onClickDelete} className={styles.button}>Delete</div>}
+          {!isNew && !isEdit && <div onClick={onClickPatternDetail} className={styles.button}>Detail</div>}
+        </div>
+      )}
+      {_isFree && <div className={`${styles.freeTag} ${isBottom ? styles.isBottom : ''}`}></div>}
+      <ImageUploadable
+        skipCheckFileSize={true}
+        className={styles.image}
+        isEdit={isEdit}
+        src={imgSrc}
+        onChangeImage={onChangeImage}
+      />
+      {prDiscount && !_isFree && <div className={styles.discount}>-{prDiscount}%</div>}
+      <div className={styles.content}>{content}</div>
+
+      {isEdit && (
+        <div>
+          <div style={{ marginBottom: 5 }}>
+            <Select
+              placeholder="Chọn bài viết"
+              classNamePrefix={'muti-select'}
+              value={selectedPatternDetail}
+              options={listPatternDetail}
+              onChange={(item) => setSelectedPatternDetail(item)}
+              isMulti={false}
+            />
+          </div>
+          <input placeholder="Thứ tự" value={prOrder} onChange={(e) => setPrOrder(e.target.value)} />
+          <input
+            placeholder="Discount (%)"
+            value={prDiscount}
+            onChange={(e) => setPrDiscount(Number(e.target.value) || 0)}
+            type="number"
+            min="0"
+            max="100"
+          />
+        </div>
+      )}
+    </div>
+  );
 }
 export default PatternItem
