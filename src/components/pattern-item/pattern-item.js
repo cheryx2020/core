@@ -21,6 +21,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
   const [prRavelryUrl, setPrRavelryUrl] = useState(ravelryUrl);
   const [selectedPatternDetail, setSelectedPatternDetail] = useState(null);
   const [prOrder, setPrOrder] = useState(order);
+  const [prDiscount, setPrDiscount] = useState(discount);
   const router = useRouter();
   const listVariable = {
     prNameColor,
@@ -32,7 +33,8 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
     name,
     ravelryUrl,
     _isFree,
-    prOrder
+    prOrder,
+    prDiscount
   }
   useEffect(() => {
     setPrName(name);
@@ -40,7 +42,8 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
     setDes(description);
     setPrNameColor(nameColor);
     setImgSrc(imageUrl || NoImage);
-  }, [name, isFree, description, nameColor, imageUrl]);
+    setPrDiscount(discount);
+  }, [name, isFree, description, nameColor, imageUrl, discount]);
   useEffect(() => {
     if (patternId && Array.isArray(listPatternDetail) && listPatternDetail.length > 0) {
       setSelectedPatternDetail(listPatternDetail.find(item => item.value === patternId));
@@ -118,7 +121,8 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
         prNameColor: 'nameColor',
         prRavelryUrl: 'ravelryUrl',
         _isFree: 'isFree',
-        prOrder: 'order'
+        prOrder: 'order',
+        prDiscount: 'discount',
       };
       for (const [key, value] of Object.entries(mapKeys)) {
         if (listVariable[key] != listVariable[value]) {
@@ -169,6 +173,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
       bodyFormData.set('nameColor', prNameColor);
       bodyFormData.set('ravelryUrl', prRavelryUrl);
       bodyFormData.set('language', language);
+      bodyFormData.set('discount', prDiscount);
       if (patternFile) {
         bodyFormData.set('patternFile', patternFile);
       }
@@ -204,6 +209,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
   }
   const onClickCancel = () => {
     setIsEdit(false);
+    setPrDiscount(discount);
   }
   const onChangeImage = async ({ imgSrc, imgFile, width }) => {
     setImgSrc(imgSrc);
@@ -226,7 +232,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
     </div>}
     {_isFree && <div className={`${styles.freeTag} ${isBottom ? styles.isBottom : ''}`}></div>}
     <ImageUploadable skipCheckFileSize={true} className={styles.image} isEdit={isEdit} src={imgSrc} onChangeImage={onChangeImage} />
-    {discount && !_isFree ? <div className={styles.discount}>-{discount}%</div> : null}
+    {prDiscount && !_isFree ? <div className={styles.discount}>-{prDiscount}%</div> : null}
     <div className={styles.content}>{content}</div>
     {isEdit && <div style={{ marginBottom: 5 }}><Select
       placeholder="Chọn bài viết"
@@ -237,6 +243,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
       isMulti={false}
     /></div>}
     {isEdit && <input placeholder="Thứ tự" value={prOrder} onChange={e => setPrOrder(e.target.value)} />}
+    {isEdit && <input placeholder="Discount (%)" value={prDiscount} onChange={e => setPrDiscount(Number(e.target.value) || 0)} type="number" min="0" max="100" />}
   </div>
 }
 export default PatternItem

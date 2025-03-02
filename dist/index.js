@@ -60167,6 +60167,7 @@ const PatternItem = ({
   const [prRavelryUrl, setPrRavelryUrl] = useState(ravelryUrl);
   const [selectedPatternDetail, setSelectedPatternDetail] = useState(null);
   const [prOrder, setPrOrder] = useState(order);
+  const [prDiscount, setPrDiscount] = useState(discount);
   const router = useRouter();
   const listVariable = {
     prNameColor,
@@ -60178,7 +60179,8 @@ const PatternItem = ({
     name,
     ravelryUrl,
     _isFree,
-    prOrder
+    prOrder,
+    prDiscount
   };
   useEffect(() => {
     setPrName(name);
@@ -60186,7 +60188,8 @@ const PatternItem = ({
     setDes(description);
     setPrNameColor(nameColor);
     setImgSrc(imageUrl || NoImage);
-  }, [name, isFree, description, nameColor, imageUrl]);
+    setPrDiscount(discount);
+  }, [name, isFree, description, nameColor, imageUrl, discount]);
   useEffect(() => {
     if (patternId && Array.isArray(listPatternDetail) && listPatternDetail.length > 0) {
       setSelectedPatternDetail(listPatternDetail.find(item => item.value === patternId));
@@ -60281,7 +60284,8 @@ const PatternItem = ({
         prNameColor: 'nameColor',
         prRavelryUrl: 'ravelryUrl',
         _isFree: 'isFree',
-        prOrder: 'order'
+        prOrder: 'order',
+        prDiscount: 'discount'
       };
       for (const [key, value] of Object.entries(mapKeys)) {
         if (listVariable[key] != listVariable[value]) {
@@ -60334,6 +60338,7 @@ const PatternItem = ({
       bodyFormData.set('nameColor', prNameColor);
       bodyFormData.set('ravelryUrl', prRavelryUrl);
       bodyFormData.set('language', language);
+      bodyFormData.set('discount', prDiscount);
       if (patternFile) {
         bodyFormData.set('patternFile', patternFile);
       }
@@ -60371,6 +60376,7 @@ const PatternItem = ({
   };
   const onClickCancel = () => {
     setIsEdit(false);
+    setPrDiscount(discount);
   };
   const onChangeImage = async ({
     imgSrc,
@@ -60419,9 +60425,9 @@ const PatternItem = ({
     isEdit: isEdit,
     src: imgSrc,
     onChangeImage: onChangeImage
-  }), discount && !_isFree ? /*#__PURE__*/React__default.createElement("div", {
+  }), prDiscount && !_isFree ? /*#__PURE__*/React__default.createElement("div", {
     className: styles$o.discount
-  }, "-", discount, "%") : null, /*#__PURE__*/React__default.createElement("div", {
+  }, "-", prDiscount, "%") : null, /*#__PURE__*/React__default.createElement("div", {
     className: styles$o.content
   }, content), isEdit && /*#__PURE__*/React__default.createElement("div", {
     style: {
@@ -60440,6 +60446,13 @@ const PatternItem = ({
     placeholder: "Th\u1EE9 t\u1EF1",
     value: prOrder,
     onChange: e => setPrOrder(e.target.value)
+  }), isEdit && /*#__PURE__*/React__default.createElement("input", {
+    placeholder: "Discount (%)",
+    value: prDiscount,
+    onChange: e => setPrDiscount(Number(e.target.value) || 0),
+    type: "number",
+    min: "0",
+    max: "100"
   }));
 };
 
@@ -63108,7 +63121,7 @@ const TipArticle = ({
       handleCheckBoxChange({
         ...articleData,
         isBig: false,
-        isShowAtHome: false // Assuming this should be false when unchecked
+        isShowAtHome: false
       });
     }
   };
