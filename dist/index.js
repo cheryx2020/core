@@ -63057,6 +63057,7 @@ const TipArticle = ({
       if (url) {
         // Call api update post
         APIService.post(`edit-post`, {
+          _id: data._id,
           id: data.id,
           imgUrl: url
         }).then(res => {
@@ -63086,25 +63087,34 @@ const TipArticle = ({
       handleApiError(err);
     });
   };
-  const onChangeIsBig = e => {
-    if (e.target.checked && confirm(`Bài viết '${data.title}' sẽ trở thành chủ đề lớn trên trang chính phải không?`)) {
+  const onChangeIsBig = event => {
+    const {
+      checked
+    } = event.target;
+    const articleData = {
+      _id: data._id,
+      id: data.id,
+      language: data.language
+    };
+    const confirmMessage = `Bài viết '${data.title}' sẽ trở thành chủ đề lớn trên trang chính phải không?`;
+    if (checked && window.confirm(confirmMessage)) {
       handleCheckBoxChange({
-        id: data.id,
+        ...articleData,
         isBig: true,
-        isShowAtHome: true,
-        language: data.language
+        isShowAtHome: true
       });
     } else {
-      e.target.checked = false;
+      event.target.checked = false;
       handleCheckBoxChange({
-        id: data.id,
+        ...articleData,
         isBig: false,
-        isShowAtHome
+        isShowAtHome: false // Assuming this should be false when unchecked
       });
     }
   };
   const onChangeIsShowAtHome = e => {
     handleCheckBoxChange({
+      _id: data._id,
       id: data.id,
       isShowAtHome: e.target.checked ? true : false,
       isBig: isBigItem

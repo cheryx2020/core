@@ -47,7 +47,7 @@ const TipArticle = ({Image, titleStyle = {}, Link, useDispatch = () => {}, data,
       }
       if (url) {
         // Call api update post
-        APIService.post(`edit-post`, {id: data.id ,imgUrl: url}).then(res => {
+        APIService.post(`edit-post`, {_id: data._id, id: data.id ,imgUrl: url}).then(res => {
           // Handle create post success
           alert('Cập nhật hình ảnh thành công');
           setShowLoading(dispatch, false);
@@ -74,16 +74,33 @@ const TipArticle = ({Image, titleStyle = {}, Link, useDispatch = () => {}, data,
       handleApiError(err);
     });
   }
-  const onChangeIsBig = e => {
-    if (e.target.checked && confirm(`Bài viết '${data.title}' sẽ trở thành chủ đề lớn trên trang chính phải không?`)) {
-      handleCheckBoxChange({ id: data.id ,isBig: true, isShowAtHome: true, language: data.language });
+  const onChangeIsBig = (event) => {
+    const { checked } = event.target;
+    const articleData = {
+      _id: data._id,
+      id: data.id,
+      language: data.language
+    };
+  
+    const confirmMessage = `Bài viết '${data.title}' sẽ trở thành chủ đề lớn trên trang chính phải không?`;
+  
+    if (checked && window.confirm(confirmMessage)) {
+      handleCheckBoxChange({
+        ...articleData,
+        isBig: true,
+        isShowAtHome: true
+      });
     } else {
-      e.target.checked = false;
-      handleCheckBoxChange({ id: data.id ,isBig: false, isShowAtHome });
+      event.target.checked = false;
+      handleCheckBoxChange({
+        ...articleData,
+        isBig: false,
+        isShowAtHome: false
+      });
     }
-  }
+  };
   const onChangeIsShowAtHome = e => {
-    handleCheckBoxChange({id: data.id ,isShowAtHome: e.target.checked ? true : false, isBig: isBigItem});
+    handleCheckBoxChange({_id: data._id, id: data.id ,isShowAtHome: e.target.checked ? true : false, isBig: isBigItem});
   }
   return <article className={styles.wrapper}>
     {isAdmin && <div className={styles.editButtonZone}>
