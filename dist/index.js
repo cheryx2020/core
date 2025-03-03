@@ -4340,10 +4340,41 @@ const PatternDetail = ({
   const lockScroll = isLock => {
     document.querySelector('html').setAttribute("style", `overflow-y: ${'block'};`);
   };
-  if (!isVi) {
+  const ListSmallImages = () => {
     return /*#__PURE__*/React__default.createElement("div", {
-      className: styles$r.wrapper
-    }, /*#__PURE__*/React__default.createElement("div", {
+      className: styles$r.listSmallImage
+    }, Array.isArray(imageList) && imageList.map((img, i) => isAdmin ? /*#__PURE__*/React__default.createElement("div", {
+      style: {
+        position: 'relative'
+      }
+    }, i < imageList.length - 1 && /*#__PURE__*/React__default.createElement("div", {
+      className: styles$r.deleteButton,
+      onClick: () => {
+        removeImage(i);
+      }
+    }, "x"), /*#__PURE__*/React__default.createElement(ImageUploadable, {
+      key: i,
+      wrapperStyle: {
+        width: '243px',
+        height: '243px',
+        marginRight: 15
+      },
+      onChangeImage: ({
+        imgFile
+      }) => {
+        onChangeListImage(imgFile, i);
+      },
+      isAdmin: isAdmin,
+      isEdit: isAdmin,
+      src: img
+    })) : /*#__PURE__*/React__default.createElement("img", {
+      alt: name,
+      key: i,
+      src: img
+    })));
+  };
+  const MainImage = () => {
+    return /*#__PURE__*/React__default.createElement("div", {
       className: styles$r.mainImage
     }, isAdmin ? /*#__PURE__*/React__default.createElement(ImageUploadable, {
       wrapperStyle: {
@@ -4357,29 +4388,54 @@ const PatternDetail = ({
     }) : /*#__PURE__*/React__default.createElement("img", {
       alt: name,
       src: bigImageUrl
-    })), /*#__PURE__*/React__default.createElement("div", {
+    }));
+  };
+  const RightInfo = ({
+    children
+  }) => {
+    return /*#__PURE__*/React__default.createElement("div", {
       className: styles$r.rightInfo
     }, /*#__PURE__*/React__default.createElement("h1", {
       suppressContentEditableWarning: isAdmin,
       onBlur: e => onChange(e, index, 'name'),
       contenteditable: `${isAdmin ? "true" : "false"}`,
       className: styles$r.title
-    }, name), /*#__PURE__*/React__default.createElement("div", {
-      className: styles$r.author
-    }, "By Cheryx"), /*#__PURE__*/React__default.createElement("div", {
+    }, name), children);
+  };
+  const StoreInfo = ({
+    children
+  }) => {
+    return /*#__PURE__*/React__default.createElement("div", {
+      className: styles$r.storeInfo
+    }, children);
+  };
+  const PatternDetailWrapper = ({
+    children
+  }) => {
+    return /*#__PURE__*/React__default.createElement("div", {
+      className: styles$r.wrapper
+    }, children);
+  };
+  const Price = ({
+    children
+  }) => {
+    return /*#__PURE__*/React__default.createElement("div", {
       suppressContentEditableWarning: isAdmin,
       onBlur: e => onChange(e, index, 'price'),
       contenteditable: `${isAdmin ? "true" : "false"}`,
       className: styles$r.price
-    }, /*#__PURE__*/React__default.createElement("div", {
+    }, children);
+  };
+  if (!isVi) {
+    return /*#__PURE__*/React__default.createElement(PatternDetailWrapper, null, /*#__PURE__*/React__default.createElement(MainImage, null), /*#__PURE__*/React__default.createElement(RightInfo, null, /*#__PURE__*/React__default.createElement("div", {
+      className: styles$r.author
+    }, "By Cheryx"), /*#__PURE__*/React__default.createElement(Price, null, /*#__PURE__*/React__default.createElement("div", {
       className: discount ? styles$r.lineThrough : ""
     }, priceNumber, " USD"), discount ? /*#__PURE__*/React__default.createElement("div", {
       className: styles$r.discounted
     }, discountedPrice, " USD ", /*#__PURE__*/React__default.createElement("div", {
       className: styles$r.priceNote
-    }, "Coupon code ", /*#__PURE__*/React__default.createElement("strong", null, "CHERYX"), " on Ravelry")) : null)), /*#__PURE__*/React__default.createElement("div", {
-      className: styles$r.storeInfo
-    }, !isShowPayPal && /*#__PURE__*/React__default.createElement("img", {
+    }, "Coupon code ", /*#__PURE__*/React__default.createElement("strong", null, "CHERYX"), " on Ravelry")) : null)), /*#__PURE__*/React__default.createElement(StoreInfo, null, !isShowPayPal && /*#__PURE__*/React__default.createElement("img", {
       alt: "buy pattern here",
       src: "/images/pattern-store.png"
     }), /*#__PURE__*/React__default.createElement("div", {
@@ -4413,63 +4469,9 @@ const PatternDetail = ({
     }, "Lovecrafts"), /*#__PURE__*/React__default.createElement("a", {
       className: styles$r.emailMe,
       href: "mailto:vungoc101230@gmail.com"
-    }, "If you prefer to buy directly from me instead of using Ravelry or Lovecrafts, you can click here to send me an email with your order details. I will reply to you as soon as possible and provide you with the payment and delivery options.")), /*#__PURE__*/React__default.createElement("div", {
-      className: styles$r.listSmallImage
-    }, Array.isArray(imageList) && imageList.map((img, i) => isAdmin ? /*#__PURE__*/React__default.createElement("div", {
-      style: {
-        position: 'relative'
-      }
-    }, i < imageList.length - 1 && /*#__PURE__*/React__default.createElement("div", {
-      className: styles$r.deleteButton,
-      onClick: () => {
-        removeImage(i);
-      }
-    }, "x"), /*#__PURE__*/React__default.createElement(ImageUploadable, {
-      key: i,
-      wrapperStyle: {
-        width: '243px',
-        height: '243px',
-        marginRight: 15
-      },
-      onChangeImage: ({
-        imgFile
-      }) => {
-        onChangeListImage(imgFile, i);
-      },
-      isAdmin: isAdmin,
-      isEdit: isAdmin,
-      src: img
-    })) : /*#__PURE__*/React__default.createElement("img", {
-      alt: name,
-      key: i,
-      src: img
-    }))));
+    }, "If you prefer to buy directly from me instead of using Ravelry or Lovecrafts, you can click here to send me an email with your order details. I will reply to you as soon as possible and provide you with the payment and delivery options.")), /*#__PURE__*/React__default.createElement(ListSmallImages, null));
   }
-  return /*#__PURE__*/React__default.createElement("div", {
-    className: styles$r.wrapper
-  }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles$r.mainImage
-  }, isAdmin ? /*#__PURE__*/React__default.createElement(ImageUploadable, {
-    wrapperStyle: {
-      width: '100%',
-      height: '100%'
-    },
-    onChangeImage: onChangeBigImage,
-    isAdmin: isAdmin,
-    isEdit: isAdmin,
-    src: bigImageUrl
-  }) : /*#__PURE__*/React__default.createElement("img", {
-    src: bigImageUrl
-  })), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$r.rightInfo
-  }, /*#__PURE__*/React__default.createElement("h1", {
-    suppressContentEditableWarning: isAdmin,
-    onBlur: e => onChange(e, index, 'name'),
-    contenteditable: `${isAdmin ? "true" : "false"}`,
-    className: styles$r.title
-  }, name)), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$r.storeInfo
-  }, /*#__PURE__*/React__default.createElement("div", {
+  return /*#__PURE__*/React__default.createElement(PatternDetailWrapper, null, /*#__PURE__*/React__default.createElement(MainImage, null), /*#__PURE__*/React__default.createElement(RightInfo, null), /*#__PURE__*/React__default.createElement(StoreInfo, null, /*#__PURE__*/React__default.createElement("div", {
     className: styles$r.blackCatWrapper
   }, /*#__PURE__*/React__default.createElement("div", {
     className: styles$r.blackCat
@@ -4493,45 +4495,11 @@ const PatternDetail = ({
     className: styles$r.triangleRight
   }), /*#__PURE__*/React__default.createElement("div", {
     className: styles$r.triangleRight
-  }), /*#__PURE__*/React__default.createElement("div", {
-    suppressContentEditableWarning: isAdmin,
-    onBlur: e => onChange(e, index, 'price'),
-    contenteditable: `${isAdmin ? "true" : "false"}`,
-    className: styles$r.price
-  }, price), /*#__PURE__*/React__default.createElement("div", {
+  }), /*#__PURE__*/React__default.createElement(Price, null, price), /*#__PURE__*/React__default.createElement("div", {
     className: styles$r.triangleLeft
   }), /*#__PURE__*/React__default.createElement("div", {
     className: styles$r.triangleLeft
-  }))), /*#__PURE__*/React__default.createElement("div", {
-    className: styles$r.listSmallImage
-  }, Array.isArray(imageList) && imageList.map((img, i) => isAdmin ? /*#__PURE__*/React__default.createElement("div", {
-    style: {
-      position: 'relative'
-    }
-  }, i < imageList.length - 1 && /*#__PURE__*/React__default.createElement("div", {
-    className: styles$r.deleteButton,
-    onClick: () => {
-      removeImage(i);
-    }
-  }, "x"), /*#__PURE__*/React__default.createElement(ImageUploadable, {
-    key: i,
-    wrapperStyle: {
-      width: '243px',
-      height: '243px',
-      marginRight: 15
-    },
-    onChangeImage: ({
-      imgFile
-    }) => {
-      onChangeListImage(imgFile, i);
-    },
-    isAdmin: isAdmin,
-    isEdit: isAdmin,
-    src: img
-  })) : /*#__PURE__*/React__default.createElement("img", {
-    key: i,
-    src: img
-  }))));
+  }))), /*#__PURE__*/React__default.createElement(ListSmallImages, null));
 };
 
 var styles$q = {"relatedTo":"RelatedToMenu-module_relatedTo__eRHql","menuLink":"RelatedToMenu-module_menuLink__8MBUA","deleteButton":"RelatedToMenu-module_deleteButton__Hqq16","arrow":"RelatedToMenu-module_arrow__njWAs","textRelatedTo":"RelatedToMenu-module_textRelatedTo__n7-3q"};
