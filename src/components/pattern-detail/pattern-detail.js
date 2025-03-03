@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ImageUploadable from '../image-uploadable/image-uploadable';
 import gtag from '../../../gtag';
 import styles from './PatternDetail.module.scss';
@@ -10,6 +10,7 @@ const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _rave
   const [ravelryUrl, setRavelryUrl] = useState(_ravelryUrl || 'https://www.messenger.com/t/100004957155465');
   const [lovecraftsUrl, setLovecraftsUrl] = useState(_lovecraftsUrl);
   const [isShowPayPal, setIsShowPayPal] = useState(false);
+  const mainImageRef = useRef();
   let priceNumber = price;
   let discountedPrice = price;
   const priceMatch = price.match(/\d+/);
@@ -132,12 +133,14 @@ const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _rave
       {Array.isArray(imageList) && imageList.map((img, i) => isAdmin ? <div style={{ position: 'relative' }}>
         {i < imageList.length - 1 && <div className={styles.deleteButton} onClick={() => { removeImage(i) }}>x</div>}
         <ImageUploadable key={i} wrapperStyle={{ width: '243px', height: '243px', marginRight: 15 }} onChangeImage={({ imgFile }) => { onChangeListImage(imgFile, i) }} isAdmin={isAdmin} isEdit={isAdmin} src={img} />
-      </div> : <img alt={name} key={i} src={img}></img>)}
+      </div> : <img alt={name} key={i} src={img} style={{ cursor: "pointer" }} onClick={(e) => {
+        mainImageRef.current.src = img;
+      }}></img>)}
     </div>
   }
   const MainImage = () => {
     return <div className={styles.mainImage}>
-      {isAdmin ? <ImageUploadable wrapperStyle={{ width: '100%', height: '100%' }} onChangeImage={onChangeBigImage} isAdmin={isAdmin} isEdit={isAdmin} src={bigImageUrl} /> : <img alt={name} src={bigImageUrl}></img>}
+      {isAdmin ? <ImageUploadable wrapperStyle={{ width: '100%', height: '100%' }} onChangeImage={onChangeBigImage} isAdmin={isAdmin} isEdit={isAdmin} src={bigImageUrl} /> : <img ref={mainImageRef} alt={name} src={bigImageUrl}></img>}
     </div>
   }
   const RightInfo = ({ children }) => {

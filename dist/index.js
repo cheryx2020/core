@@ -4218,6 +4218,7 @@ const PatternDetail = ({
   const [ravelryUrl, setRavelryUrl] = useState(_ravelryUrl || 'https://www.messenger.com/t/100004957155465');
   const [lovecraftsUrl, setLovecraftsUrl] = useState(_lovecraftsUrl);
   const [isShowPayPal, setIsShowPayPal] = useState(false);
+  const mainImageRef = useRef();
   let priceNumber = price;
   let discountedPrice = price;
   const priceMatch = price.match(/\d+/);
@@ -4370,7 +4371,13 @@ const PatternDetail = ({
     })) : /*#__PURE__*/React__default.createElement("img", {
       alt: name,
       key: i,
-      src: img
+      src: img,
+      style: {
+        cursor: "pointer"
+      },
+      onClick: e => {
+        mainImageRef.current.src = img;
+      }
     })));
   };
   const MainImage = () => {
@@ -4386,6 +4393,7 @@ const PatternDetail = ({
       isEdit: isAdmin,
       src: bigImageUrl
     }) : /*#__PURE__*/React__default.createElement("img", {
+      ref: mainImageRef,
       alt: name,
       src: bigImageUrl
     }));
