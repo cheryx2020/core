@@ -260,7 +260,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
 
       {isEdit && (
         <div>
-          <div style={{ marginBottom: 5 }}>
+          <div style={{ marginBottom: "1rem" }}>
             <Select
               placeholder="Chọn bài viết"
               classNamePrefix={'muti-select'}

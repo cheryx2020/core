@@ -4373,11 +4373,11 @@ const PatternDetail = ({
       className: styles$r.price
     }, /*#__PURE__*/React__default.createElement("div", {
       className: discount ? styles$r.lineThrough : ""
-    }, priceNumber, " USD"), discount && /*#__PURE__*/React__default.createElement("div", {
+    }, priceNumber, " USD"), discount ? /*#__PURE__*/React__default.createElement("div", {
       className: styles$r.discounted
     }, discountedPrice, " USD ", /*#__PURE__*/React__default.createElement("div", {
       className: styles$r.priceNote
-    }, "Coupon code ", /*#__PURE__*/React__default.createElement("strong", null, "CHERYX"), " on Ravelry")))), /*#__PURE__*/React__default.createElement("div", {
+    }, "Coupon code ", /*#__PURE__*/React__default.createElement("strong", null, "CHERYX"), " on Ravelry")) : null)), /*#__PURE__*/React__default.createElement("div", {
       className: styles$r.storeInfo
     }, !isShowPayPal && /*#__PURE__*/React__default.createElement("img", {
       alt: "buy pattern here",
@@ -4402,9 +4402,9 @@ const PatternDetail = ({
       onClick: e => onClickLink(e, 'ravelryUrl'),
       target: "_blank",
       className: `${styles$r.linkStore} ${styles$r.mb11}`
-    }, "Ravelry", discount && /*#__PURE__*/React__default.createElement("div", {
+    }, "Ravelry", discount ? /*#__PURE__*/React__default.createElement("div", {
       className: styles$r.discount
-    }, `-${discount}%`)), /*#__PURE__*/React__default.createElement("a", {
+    }, `-${discount}%`) : null), /*#__PURE__*/React__default.createElement("a", {
       rel: "noreferrer",
       href: lovecraftsUrl,
       onClick: e => onClickLink(e, 'lovecraftsUrl'),
@@ -60463,7 +60463,7 @@ const PatternItem = ({
     className: styles$o.content
   }, content), isEdit && /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("div", {
     style: {
-      marginBottom: 5
+      marginBottom: "1rem"
     }
   }, /*#__PURE__*/React__default.createElement(StateManagedSelect$1, {
     placeholder: "Ch\u1ECDn b\xE0i vi\u1EBFt",

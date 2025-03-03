@@ -137,7 +137,7 @@ const PatternDetail = ({name: _name, price: _price, discount, ravelryUrl: _ravel
         <div className={styles.author}>By Cheryx</div>
         <div suppressContentEditableWarning={isAdmin} onBlur={e => onChange(e, index, 'price')} contenteditable={`${isAdmin ? "true" : "false"}`} className={styles.price}>
           <div className={discount ? styles.lineThrough : ""}>{priceNumber} USD</div>
-          {discount && <div className={styles.discounted}>{discountedPrice} USD <div className={styles.priceNote}>Coupon code <strong>CHERYX</strong> on Ravelry</div></div>}
+          {discount ? <div className={styles.discounted}>{discountedPrice} USD <div className={styles.priceNote}>Coupon code <strong>CHERYX</strong> on Ravelry</div></div> : null}
         </div>
       </div>
       <div className={styles.storeInfo}>
@@ -148,7 +148,7 @@ const PatternDetail = ({name: _name, price: _price, discount, ravelryUrl: _ravel
         </div>
         {/* {!isShowPayPal && <div onClick={() => {setIsShowPayPal(true); lockScroll(true)}} className={`${styles.paypalButton} ${styles.linkStore} ${styles.mb11}`}>Download Direct with PayPal</div>} */}
         <a rel="noreferrer" style={{ position: "relative" }} href={ravelryUrl} onClick={e => onClickLink(e, 'ravelryUrl')} target="_blank" className={`${styles.linkStore} ${styles.mb11}`}>Ravelry
-          {discount && <div className={styles.discount}>{`-${discount}%`}</div>}
+          {discount ? <div className={styles.discount}>{`-${discount}%`}</div> : null}
         </a>
         <a rel="noreferrer" href={lovecraftsUrl} onClick={e => onClickLink(e, 'lovecraftsUrl')} target="_blank" className={styles.linkStore}>Lovecrafts</a>
         {/* <PayPalCheckout itemId={id} clientId="AdzCHyvdcsuBpt-S0UqRExMe417mqlbjLm2oKv3od36JBtc-4aPZ1VxyENkuY19YzxCO3fahG4XwhtTj" /> */}
