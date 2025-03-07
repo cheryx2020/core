@@ -8,9 +8,10 @@ import {
   TwitterIcon
 } from "react-share";
 import styles from './TipDetail.module.scss';
-import { getPostId, PostContent, uploadContentImageFiles } from '../post-content/postUtils';
+import { getPostId, PostContent } from '../post-content/postUtils';
 import { POST_ITEM_TYPE } from '../menu-add-component-post/menu-add-component-post';
 import { useMemo } from 'react';
+import { uploadContentImageFiles } from '../post-content/uploadContentImageFiles';
 
 const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = () => {}, data = { title: '', content: [], isPattern: false, isFree: false, seoTitle: '', seoDescription: '' }, isMobile, isAdmin, category, isPatternDetail }) => {
   const defaultTitle = data?.title || 'Post title';

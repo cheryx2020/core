@@ -60579,17 +60579,20 @@ const ImageConfig = ({
   onChange = () => {}
 }) => {
   return /*#__PURE__*/React__default.createElement("div", {
+    "data-testid": "wrapper",
     style: {
       display: 'flex',
       alignItems: 'center',
       marginBottom: 5
     }
   }, /*#__PURE__*/React__default.createElement("label", {
+    "data-testid": "label",
     style: {
       marginRight: 5,
       minWidth: 50
     }
   }, title, ": "), /*#__PURE__*/React__default.createElement("input", {
+    "data-testid": "input",
     type: "number",
     value: value,
     onChange: e => {
@@ -60614,6 +60617,7 @@ const MultiImageConfig = ({
       position: 'relative'
     }
   }, /*#__PURE__*/React__default.createElement("div", {
+    "data-testid": "link-width-height",
     style: {
       position: 'absolute',
       left: -10,
@@ -60721,12 +60725,22 @@ const getContentByType = (type, textDefault = 'Edit this text', currentIndex = -
     type: type,
     text: textDefault
   };
+  const defaultImage = {
+    url: 'https://i.pinimg.com/564x/dd/ac/bf/ddacbf7737f2d60fa199fc2e764773be.jpg',
+    description: 'Image description'
+  };
   const currentContent = [...contentData];
   const imgStyles = {
     width: 250,
     height: 250,
     marginLeft: 10,
     marginRight: 10
+  };
+  const imgCommon = {
+    ...result,
+    style: {
+      ...imgStyles
+    }
   };
   switch (type) {
     case POST_ITEM_TYPE.PATTERN_PREVIEW:
@@ -60736,57 +60750,21 @@ const getContentByType = (type, textDefault = 'Edit this text', currentIndex = -
       };
       break;
     case POST_ITEM_TYPE_SUBMENU.IMAGE[0]:
-      // result = {
-      //     ...result,
-      //     webWidth: 435,
-      //     webHeight: 652,
-      //     mobileWidth: 299,
-      //     mobileHeight: 212,
-      //     urlWeb: 'https://i.pinimg.com/564x/dd/ac/bf/ddacbf7737f2d60fa199fc2e764773be.jpg',
-      //     urlMobile: ''
-      // }
       result = {
-        ...result,
-        style: {
-          ...imgStyles
-        },
-        data: [{
-          url: 'https://i.pinimg.com/564x/dd/ac/bf/ddacbf7737f2d60fa199fc2e764773be.jpg',
-          description: 'Image description'
-        }]
+        ...imgCommon,
+        data: [defaultImage]
       };
       break;
     case POST_ITEM_TYPE_SUBMENU.IMAGE[1]:
       result = {
-        ...result,
-        style: {
-          ...imgStyles
-        },
-        data: [{
-          url: 'https://i.pinimg.com/564x/dd/ac/bf/ddacbf7737f2d60fa199fc2e764773be.jpg',
-          description: 'Image description'
-        }, {
-          url: 'https://i.pinimg.com/564x/dd/ac/bf/ddacbf7737f2d60fa199fc2e764773be.jpg',
-          description: 'Image description'
-        }]
+        ...imgCommon,
+        data: [defaultImage, defaultImage]
       };
       break;
     case POST_ITEM_TYPE_SUBMENU.IMAGE[2]:
       result = {
-        ...result,
-        style: {
-          ...imgStyles
-        },
-        data: [{
-          url: 'https://i.pinimg.com/564x/dd/ac/bf/ddacbf7737f2d60fa199fc2e764773be.jpg',
-          description: 'Image description'
-        }, {
-          url: 'https://i.pinimg.com/564x/dd/ac/bf/ddacbf7737f2d60fa199fc2e764773be.jpg',
-          description: 'Image description'
-        }, {
-          url: 'https://i.pinimg.com/564x/dd/ac/bf/ddacbf7737f2d60fa199fc2e764773be.jpg',
-          description: 'Image description'
-        }]
+        ...imgCommon,
+        data: [defaultImage, defaultImage, defaultImage]
       };
       break;
     case POST_ITEM_TYPE.RELATED_TOPIC:
@@ -60830,70 +60808,6 @@ const getContentByType = (type, textDefault = 'Edit this text', currentIndex = -
     });
     return [...currentContent];
   }
-};
-const uploadContentImageFiles = _contentData => {
-  return new Promise(async resolve => {
-    const __contentData = [..._contentData];
-    let listFileUploaded = [];
-    let patternName = '';
-    if (Array.isArray(__contentData)) {
-      for (let i = 0; i < __contentData.length; i++) {
-        if (typeof __contentData[i].patternDetail === 'object' && typeof __contentData[i].patternDetail.bigImageUrl === 'object' && typeof __contentData[i].patternDetail.bigImageUrl.name === 'string') {
-          patternName = __contentData[i].patternDetail.name;
-          __contentData[i].patternDetail.bigImageUrl = await uploadFile(__contentData[i].patternDetail.bigImageUrl, process.env.NEXT_PUBLIC_publicImagesPath, true, `pattern_detail_bigImage_${__contentData[i].patternDetail.name}`, true);
-          if (__contentData[i].patternDetail.bigImageUrl) {
-            listFileUploaded.push(__contentData[i].patternDetail.bigImageUrl);
-          }
-        }
-        if (typeof __contentData[i].patternDetail === 'object' && Array.isArray(__contentData[i].patternDetail.imageList)) {
-          for (let j = 0; j < __contentData[i].patternDetail.imageList.length; j++) {
-            if (typeof __contentData[i].patternDetail.imageList[j] === 'object' && __contentData[i].patternDetail.imageList[j].name) {
-              __contentData[i].patternDetail.imageList[j] = await uploadFile(__contentData[i].patternDetail.imageList[j], process.env.NEXT_PUBLIC_publicImagesPath, true, `pattern_detail_smallImage_${j}${__contentData[i].patternDetail.name}`, true);
-              if (__contentData[i].patternDetail.imageList[j]) {
-                listFileUploaded.push(__contentData[i].patternDetail.imageList[j]);
-              }
-            }
-          }
-        }
-        /** 
-         * Handle upload image preview
-        */
-        if (typeof __contentData[i].imageUrl === 'object' && typeof __contentData[i].imageUrl.name === 'string') {
-          __contentData[i].imageUrl = await uploadFile(__contentData[i].imageUrl, process.env.NEXT_PUBLIC_publicImagesPath, true, `pattern_detail_imageUrl_${patternName || new Date().getTime()}`, true);
-          if (__contentData[i].imageUrl) {
-            listFileUploaded.push(__contentData[i].imageUrl);
-          }
-        }
-        /**
-         * Handle upload 2, 3 images component
-         */
-        if (Array.isArray(__contentData[i].data)) {
-          for (let j = 0; j < __contentData[i].data.length; j++) {
-            if (typeof __contentData[i].data[j] === 'object' && typeof __contentData[i].data[j].imgFile === 'object') {
-              __contentData[i].data[j].url = await uploadFile(__contentData[i].data[j].imgFile, process.env.NEXT_PUBLIC_publicImagesPath, true, `post-images-${new Date().getTime()}`, true);
-              delete __contentData[i].data[j].imgFile;
-            }
-          }
-        }
-        /**
-         * Handle upload images for group component
-         */
-        if (Array.isArray(__contentData[i].content)) {
-          const groupContentResponse = await uploadContentImageFiles(__contentData[i].content);
-          if (groupContentResponse && Array.isArray(groupContentResponse.updatedContent)) {
-            __contentData[i].content = groupContentResponse.updatedContent;
-          }
-          if (groupContentResponse && Array.isArray(groupContentResponse.listFileUploaded)) {
-            listFileUploaded = [...listFileUploaded, ...groupContentResponse.listFileUploaded];
-          }
-        }
-      }
-    }
-    resolve({
-      updatedContent: __contentData,
-      listFileUploaded
-    });
-  });
 };
 const wrapperActionAdmin = (item, index, styles = {}, onDeleteContentItem = () => {}, onAddNewContentItem = () => {}) => {
   return /*#__PURE__*/React__default.createElement("div", {
@@ -61468,6 +61382,71 @@ const renderItemByType = ({
     result = viewComponent;
   }
   return result;
+};
+
+const uploadContentImageFiles = _contentData => {
+  return new Promise(async resolve => {
+    const __contentData = [..._contentData];
+    let listFileUploaded = [];
+    let patternName = '';
+    if (Array.isArray(__contentData)) {
+      for (let i = 0; i < __contentData.length; i++) {
+        if (typeof __contentData[i].patternDetail === 'object' && typeof __contentData[i].patternDetail.bigImageUrl === 'object' && typeof __contentData[i].patternDetail.bigImageUrl.name === 'string') {
+          patternName = __contentData[i].patternDetail.name;
+          __contentData[i].patternDetail.bigImageUrl = await uploadFile(__contentData[i].patternDetail.bigImageUrl, process.env.NEXT_PUBLIC_publicImagesPath, true, `pattern_detail_bigImage_${__contentData[i].patternDetail.name}`, true);
+          if (__contentData[i].patternDetail.bigImageUrl) {
+            listFileUploaded.push(__contentData[i].patternDetail.bigImageUrl);
+          }
+        }
+        if (typeof __contentData[i].patternDetail === 'object' && Array.isArray(__contentData[i].patternDetail.imageList)) {
+          for (let j = 0; j < __contentData[i].patternDetail.imageList.length; j++) {
+            if (typeof __contentData[i].patternDetail.imageList[j] === 'object' && __contentData[i].patternDetail.imageList[j].name) {
+              __contentData[i].patternDetail.imageList[j] = await uploadFile(__contentData[i].patternDetail.imageList[j], process.env.NEXT_PUBLIC_publicImagesPath, true, `pattern_detail_smallImage_${j}${__contentData[i].patternDetail.name}`, true);
+              if (__contentData[i].patternDetail.imageList[j]) {
+                listFileUploaded.push(__contentData[i].patternDetail.imageList[j]);
+              }
+            }
+          }
+        }
+        /** 
+         * Handle upload image preview
+        */
+        if (typeof __contentData[i].imageUrl === 'object' && typeof __contentData[i].imageUrl.name === 'string') {
+          __contentData[i].imageUrl = await uploadFile(__contentData[i].imageUrl, process.env.NEXT_PUBLIC_publicImagesPath, true, `pattern_detail_imageUrl_${patternName || new Date().getTime()}`, true);
+          if (__contentData[i].imageUrl) {
+            listFileUploaded.push(__contentData[i].imageUrl);
+          }
+        }
+        /**
+         * Handle upload 2, 3 images component
+         */
+        if (Array.isArray(__contentData[i].data)) {
+          for (let j = 0; j < __contentData[i].data.length; j++) {
+            if (typeof __contentData[i].data[j] === 'object' && typeof __contentData[i].data[j].imgFile === 'object') {
+              __contentData[i].data[j].url = await uploadFile(__contentData[i].data[j].imgFile, process.env.NEXT_PUBLIC_publicImagesPath, true, `post-images-${new Date().getTime()}`, true);
+              delete __contentData[i].data[j].imgFile;
+            }
+          }
+        }
+        /**
+         * Handle upload images for group component
+         */
+        if (Array.isArray(__contentData[i].content)) {
+          const groupContentResponse = await uploadContentImageFiles(__contentData[i].content);
+          if (groupContentResponse && Array.isArray(groupContentResponse.updatedContent)) {
+            __contentData[i].content = groupContentResponse.updatedContent;
+          }
+          if (groupContentResponse && Array.isArray(groupContentResponse.listFileUploaded)) {
+            listFileUploaded = [...listFileUploaded, ...groupContentResponse.listFileUploaded];
+          }
+        }
+      }
+    }
+    resolve({
+      updatedContent: __contentData,
+      listFileUploaded
+    });
+  });
 };
 
 var __assign$2 = (undefined && undefined.__assign) || function () {

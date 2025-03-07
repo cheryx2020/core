@@ -8,5 +8,5 @@ export default {
     '^.+\\.(css|scss)$': 'jest-css-modules-transform',
   },
   testEnvironment: "jsdom",
-  testMatch: ["**/*.test.js"]
+  testMatch: ["**/*.test.js"],
 };
