@@ -60758,13 +60758,19 @@ const getContentByType = (type, textDefault = 'Edit this text', currentIndex = -
     case POST_ITEM_TYPE_SUBMENU.IMAGE[1]:
       result = {
         ...imgCommon,
-        data: [defaultImage, defaultImage]
+        data: [defaultImage, {
+          ...defaultImage
+        }]
       };
       break;
     case POST_ITEM_TYPE_SUBMENU.IMAGE[2]:
       result = {
         ...imgCommon,
-        data: [defaultImage, defaultImage, defaultImage]
+        data: [defaultImage, {
+          ...defaultImage
+        }, {
+          ...defaultImage
+        }]
       };
       break;
     case POST_ITEM_TYPE.RELATED_TOPIC:
