@@ -1,9 +1,10 @@
 import React from 'react';
 import { POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU } from '../menu-add-component-post/menu-add-component-post';
-import { getContentByType, ImageConfig, MultiImageConfig } from './postUtils';
+import { getContentByType, ImageConfig, MultiImageConfig, PostContent } from './postUtils';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { expect, jest } from '@jest/globals';
+import { describe, expect, jest } from '@jest/globals';
+import { type } from '@testing-library/user-event/dist/cjs/utility/type.js';
 const gId = screen.getByTestId;
 const gT = screen.getByText;
 
@@ -193,7 +194,7 @@ describe('getContentByType', () => {
 describe('ImageConfig Component', () => {
     it('renders correctly with given props', () => {
         const mockOnChange = jest.fn();
-        render(<ImageConfig title="Width" value={100} onChange={mockOnChange}/>);
+        render(<ImageConfig title="Width" value={100} onChange={mockOnChange} />);
         expect(gId('wrapper')).toBeInTheDocument();
         const lb = gId('label');
         const ip = gId('input');
@@ -216,7 +217,7 @@ describe('ImageConfig Component', () => {
 describe('MultiImageConfig Component', () => {
     it('renders correctly', () => {
         const mockOnChange = jest.fn();
-        render(<MultiImageConfig data={{ width: 100, height: 200, marginLeft: 10 }} onChange={mockOnChange}/>);
+        render(<MultiImageConfig data={{ width: 100, height: 200, marginLeft: 10 }} onChange={mockOnChange} />);
         const linkWH = gId("link-width-height");
         const color1 = 'black';
         const color2 = 'lightgray';
@@ -230,7 +231,7 @@ describe('MultiImageConfig Component', () => {
         expect(linkWH.firstChild).toHaveStyle(firstLastStyle(color2));
         expect(linkWH.children[1]).toHaveStyle(middleStyle(color2));
         expect(linkWH.children[2]).toHaveStyle(firstLastStyle(color2));
-        
+
         const widthEl = gT('Width:');
         const widthInput = widthEl.parentElement.querySelector("input");
         fireEvent.change(widthInput, { target: { value: '75' } });
@@ -257,55 +258,269 @@ describe('MultiImageConfig Component', () => {
         fireEvent.change(heightInput, { target: { value: '75' } });
         expect(mockOnChange).toHaveBeenCalledWith({ width: 75, height: 75, marginLeft: 10 });
     });
-
-    // it('toggles isLinkWidthHeight state when clicking the toggle button', () => {
-    //     render(<MultiImageConfig data={{ width: 100, height: 200, marginLeft: 10 }} />);
-        
-    //     const toggleButton = screen.getByRole('button', { hidden: true }); // The div acting as a toggle
-        
-    //     // Initially, the line should be "black" (linked state)
-    //     expect(toggleButton.firstChild).toHaveStyle('background-color: black');
-        
-    //     // Click to toggle
-    //     fireEvent.click(toggleButton);
-        
-    //     // After clicking, it should change to "lightgray" (unlinked state)
-    //     expect(toggleButton.firstChild).toHaveStyle('background-color: lightgray');
-    // });
-
-    // it('calls onChange when width is changed', () => {
-    //     const mockOnChange = jest.fn();
-    //     render(<MultiImageConfig data={{ width: 100, height: 200, marginLeft: 10 }} onChange={mockOnChange} />);
-        
-    //     const widthInput = screen.getByLabelText('Width:');
-        
-    //     // Change width value
-    //     fireEvent.change(widthInput, { target: { value: '150' } });
-        
-    //     expect(mockOnChange).toHaveBeenCalledWith({ width: 150, height: 150, marginLeft: 10 });
-    // });
-
-    // it('calls onChange when height is changed', () => {
-    //     const mockOnChange = jest.fn();
-    //     render(<MultiImageConfig data={{ width: 100, height: 200, marginLeft: 10 }} onChange={mockOnChange} />);
-        
-    //     const heightInput = screen.getByLabelText('Height:');
-        
-    //     // Change height value
-    //     fireEvent.change(heightInput, { target: { value: '250' } });
-        
-    //     expect(mockOnChange).toHaveBeenCalledWith({ width: 100, height: 250, marginLeft: 10 });
-    // });
-
-    // it('calls onChange when gap is changed', () => {
-    //     const mockOnChange = jest.fn();
-    //     render(<MultiImageConfig data={{ width: 100, height: 200, marginLeft: 10 }} onChange={mockOnChange} />);
-        
-    //     const gapInput = screen.getByLabelText('Gap:');
-        
-    //     // Change gap value
-    //     fireEvent.change(gapInput, { target: { value: '40' } });
-        
-    //     expect(mockOnChange).toHaveBeenCalledWith({ width: 100, height: 200, marginLeft: 20, marginRight: 20 });
-    // });
 });
+
+const verifyElement = (element, expectedClass, expectedTag, expectedText) => {
+    expect(element.className).toBe(expectedClass);
+    expect(element.tagName).toBe(expectedTag);
+    expect(element.innerHTML).toBe(expectedText);
+};
+
+const POST_TYPES = {
+    TITLE: {
+        type: 'TITLE',
+        className: 'bigTitle',
+        tagName: 'DIV'
+    },
+    BIG_HEADER: {
+        type: 'BIG_HEADER',
+        className: '',
+        tagName: 'H2'
+    },
+    MEDIUM_HEADER: {
+        type: 'MEDIUM_HEADER',
+        className: '',
+        tagName: 'H3'
+    },
+    SMALL_HEADER: {
+        type: 'SMALL_HEADER',
+        className: '',
+        tagName: 'H4'
+    },
+    RELATED_TOPIC: {
+        type: 'RELATED_TOPIC',
+        className: 'relatedTo',
+        tagName: 'DIV'
+    },
+    [POST_ITEM_TYPE_SUBMENU.IMAGE[0]]: {
+        type: POST_ITEM_TYPE_SUBMENU.IMAGE[0],
+        className: '',
+        tagName: 'DIV'
+    },
+    [POST_ITEM_TYPE.ADS]: {
+        type: POST_ITEM_TYPE.ADS,
+        className: 'adsbygoogle adbanner-customize',
+        tagName: 'INS'
+    },
+    [POST_ITEM_TYPE.VIDEO]: {
+        type: POST_ITEM_TYPE.VIDEO,
+        className: 'imgWrapper',
+        tagName: 'DIV'
+    },
+    [POST_ITEM_TYPE.SUBCRIBE_ME]: {
+        type: POST_ITEM_TYPE.SUBCRIBE_ME,
+        className: 'subcribeMe',
+        tagName: 'DIV'
+    },
+    [POST_ITEM_TYPE.BUY_ME_A_COFFEE]: {
+        type: POST_ITEM_TYPE.BUY_ME_A_COFFEE,
+        className: '',
+        tagName: 'DIV'
+    },
+    [POST_ITEM_TYPE.PATTERN]: {
+        type: POST_ITEM_TYPE.PATTERN,
+        className: 'wrapper',
+        tagName: 'DIV'
+    },
+    [POST_ITEM_TYPE.PATTERN_PREVIEW]: {
+        type: POST_ITEM_TYPE.PATTERN_PREVIEW,
+        className: 'wrapper subscribe',
+        tagName: 'DIV'
+    },
+    [POST_ITEM_TYPE.GROUP]: {
+        type: POST_ITEM_TYPE.GROUP,
+        className: 'wrapperGroupContent',
+        tagName: 'DIV'
+    }
+};
+
+describe('PostContent component', () => {
+    const verifyElement = (element, expectedClass, expectedTag, expectedText) => {
+        expect(element.className).toBe(expectedClass);
+        expect(element.tagName).toBe(expectedTag);
+        expect(element.innerHTML).toBe(expectedText);
+    };
+
+    const titleText = 'title test';
+    const { TITLE, BIG_HEADER, MEDIUM_HEADER, SMALL_HEADER, RELATED_TOPIC, ADS, VIDEO, SUBCRIBE_ME, BUY_ME_A_COFFEE, PATTERN, PATTERN_PREVIEW, GROUP } = POST_ITEM_TYPE;
+    const data = [{
+        type: TITLE,
+        text: titleText
+    }, {
+        type: BIG_HEADER,
+        text: titleText
+    }, {
+        type: MEDIUM_HEADER,
+        text: titleText
+    }, {
+        type: SMALL_HEADER,
+        text: titleText
+    }, {
+        type: RELATED_TOPIC,
+        text: titleText,
+        textLink: 'https://cheryx.com'
+    }, {
+        type: POST_ITEM_TYPE_SUBMENU.IMAGE[0],
+        data: [{ url: "test-image.png", description: "img description" }]
+    }, {
+        type: POST_ITEM_TYPE_SUBMENU.IMAGE[0],
+        urlWeb: "test url web",
+        data: [{ url: "test-image.png", description: "img description" }]
+    }, {
+        type: ADS
+    }, {
+        type: VIDEO,
+        text: "video test",
+        url: "1234"
+    }, {
+        type: SUBCRIBE_ME,
+    }, {
+        type: BUY_ME_A_COFFEE
+    }, {
+        type: PATTERN,
+        patternDetail: {
+            name: "pattern name",
+            price: "100",
+            ravelryUrl: "ravelryUrl",
+            lovecraftsUrl: "lovecraftsUrl",
+            bigImageUrl: "bigImageUrl",
+            imageList: ['image1.png', 'image2.png']
+        }
+    }, {
+        type: PATTERN_PREVIEW,
+        patternId: 'patternId',
+        isSubscribe: true,
+        buttonText: 'buttonText',
+        message: 'message',
+        previewUrl: 'previewUrl',
+        imageUrl: 'imageUrl'
+    }, {
+        type: GROUP,
+        expanded: true,
+        text: "text",
+        content: [
+            {
+                type: BIG_HEADER,
+                text: titleText
+            }
+        ]
+    }]
+    it('Render view mode correctly', () => {
+        const { container } = render(<PostContent data={data} />);
+        const wrapper = container.children[0];
+        expect(wrapper.children.length).toBe(data.length);
+        verifyElement(
+            wrapper.children[0],
+            POST_TYPES.TITLE.className,
+            POST_TYPES.TITLE.tagName,
+            titleText
+        );
+
+        verifyElement(
+            wrapper.children[1],
+            POST_TYPES.BIG_HEADER.className,
+            POST_TYPES.BIG_HEADER.tagName,
+            titleText
+        );
+
+        verifyElement(
+            wrapper.children[2],
+            POST_TYPES.MEDIUM_HEADER.className,
+            POST_TYPES.MEDIUM_HEADER.tagName,
+            titleText
+        );
+
+        verifyElement(
+            wrapper.children[3],
+            POST_TYPES.SMALL_HEADER.className,
+            POST_TYPES.SMALL_HEADER.tagName,
+            titleText
+        );
+
+        verifyElement(
+            wrapper.children[4],
+            POST_TYPES.RELATED_TOPIC.className,
+            POST_TYPES.RELATED_TOPIC.tagName,
+            '<div class=\"arrow\"></div><div class=\"textRelatedTo\">title test</div><a>https://cheryx.com</a>'
+        );
+
+        const postTypeImage0 = POST_TYPES[POST_ITEM_TYPE_SUBMENU.IMAGE[0]];
+
+        verifyElement(
+            wrapper.children[5],
+            postTypeImage0.className,
+            postTypeImage0.tagName,
+            '<div class=\"imageWrapper\"><div><div class=\"image imageUpload\"><img src=\"test-image.png\"></div><figcaption class=\"imageDescription\">img description</figcaption></div></div>'
+        );
+
+        verifyElement(
+            wrapper.children[6],
+            'imgWrapper',
+            postTypeImage0.tagName,
+            '<img alt=\"Image description\" src=\"test url web\"><figcaption class=\"imageDescription\">Image description</figcaption>'
+        );
+
+        verifyElement(
+            wrapper.children[7],
+            POST_TYPES[ADS].className,
+            POST_TYPES[ADS].tagName,
+            ''
+        );
+
+        verifyElement(
+            wrapper.children[8],
+            POST_TYPES[VIDEO].className,
+            POST_TYPES[VIDEO].tagName,
+            '<iframe title=\"video test\" src=\"https://www.youtube.com/embed/1234\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"\"></iframe><figcaption class=\"imageDescription\">video test</figcaption>'
+        );
+
+        verifyElement(
+            wrapper.children[9],
+            POST_TYPES[SUBCRIBE_ME].className,
+            POST_TYPES[SUBCRIBE_ME].tagName,
+            '<section class=\"youtubeSubscribe\"><div class=\"g-ytsubscribe\" data-theme=\"default\" data-layout=\"full\" data-count=\"hidden\" data-channel=\"\" data-channelid=\"UCf0jCxiSGh_pBExFN3k1CIA\"></div><script src=\"https://apis.google.com/js/platform.js\"></script></section><img alt=\"Subcribe me\" src=\"/images/subcribe-me.png\">'
+        )
+
+        verifyElement(
+            wrapper.children[10],
+            POST_TYPES[BUY_ME_A_COFFEE].className,
+            POST_TYPES[BUY_ME_A_COFFEE].tagName,
+            '<a href=\"https://www.buymeacoffee.com/cheryx\" target=\"_blank\"><img src=\"https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png\" alt=\"Buy Me A Coffee\" style=\"height: 60px; width: 217px;\"></a>'
+        )
+
+        verifyElement(
+            wrapper.children[11],
+            POST_TYPES[PATTERN].className,
+            POST_TYPES[PATTERN].tagName,
+            '<div class=\"mainImage\"><img alt=\"pattern name\" src=\"bigImageUrl\"></div><div class=\"rightInfo\"><h1 contenteditable=\"false\" class=\"title\">pattern name</h1><div class=\"author\">By Cheryx</div><div contenteditable=\"false\" class=\"price\"><div class=\"\">100 USD</div></div></div><div class=\"storeInfo\"><img alt=\"buy pattern here\" src=\"/images/pattern-store.png\"><div class=\"payPalWrapper\"><div class=\"closeLink\">Close</div><div class=\"payPal\" id=\"paypal-button-container\"></div></div><a rel=\"noreferrer\" style=\"position: relative;\" href=\"ravelryUrl\" target=\"_blank\" class=\"linkStore mb11\">Ravelry</a><a rel=\"noreferrer\" href=\"lovecraftsUrl\" target=\"_blank\" class=\"linkStore\">Lovecrafts</a><a class=\"emailMe\" href=\"mailto:vungoc101230@gmail.com\">If you prefer to buy directly from me instead of using Ravelry or Lovecrafts, you can click here to send me an email with your order details. I will reply to you as soon as possible and provide you with the payment and delivery options.</a></div><div class=\"listSmallImage\"><img alt=\"pattern name\" src=\"image1.png\" style=\"cursor: pointer;\"><img alt=\"pattern name\" src=\"image2.png\" style=\"cursor: pointer;\"></div>'
+        )
+
+        verifyElement(
+            wrapper.children[12],
+            POST_TYPES[PATTERN_PREVIEW].className,
+            POST_TYPES[PATTERN_PREVIEW].tagName,
+            `<div class="image"><div class="image " style="width: 100%; height: 100%; min-width: 100%;"><img src="imageUrl"></div></div><div class="info"><div class="wrapperDownloadPdf"><div class="title">Download PDF Pattern</div><div class="textEmailSubscription">This free pattern will be sent to the provided email. Please make sure you write your email address correctly.</div><form method="POST"><div class="formInput"><div for="email" class="label">Email address</div><input required="" type="email" name="email" placeholder=""></div><div class="formInput"><div for="name" class="label">First name</div><input type="text" name="name" placeholder=""></div><input class="submitSuscribe" type="submit" value="Get the pattern"></form></div></div>`
+        )
+
+        verifyElement(
+            wrapper.children[13],
+            POST_TYPES[GROUP].className,
+            POST_TYPES[GROUP].tagName,
+            `<div contenteditable=\"false\" class=\"header\">text</div><div class=\"contentZone edit show\"><div class=\"wrapper\"><h2>title test</h2></div></div>`
+        )
+    });
+
+    it('Render edit mode correctly', () => {
+        const mockOnChangeContent = jest.fn();
+        const { container } = render(<PostContent data={data} onChangeData={mockOnChangeContent} isEdit={true}/>);
+        const wrapper = container.children[0];
+        expect(wrapper.children.length).toBe(data.length);
+
+        const editableDiv = wrapper.children[1].children[1];
+        fireEvent.input(editableDiv, {
+            target: { textContent: 'Updated Text' },
+        });
+        fireEvent.blur(editableDiv);
+        expect(mockOnChangeContent).toHaveBeenCalled();
+    })
+})
