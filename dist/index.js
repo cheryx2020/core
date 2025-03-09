@@ -60466,6 +60466,27 @@ const PatternItem = ({
 
 var styles$l = {"wrapperGroupContent":"PostContent-module_wrapperGroupContent__yFH1p","header":"PostContent-module_header__PsWMK","contentZone":"PostContent-module_contentZone__HUhpk","show":"PostContent-module_show__ZMf2A","edit":"PostContent-module_edit__Qe59Q","btnMenu":"PostContent-module_btnMenu__-mGU-","imageWrapper":"PostContent-module_imageWrapper__2Fk0j","bigTitle":"PostContent-module_bigTitle__iLoUj","wrapperAction":"PostContent-module_wrapperAction__-kVIX","deleteButton":"PostContent-module_deleteButton__iDrEN","addButton":"PostContent-module_addButton__sb98L","button":"PostContent-module_button__FKbWL","imageUpload":"PostContent-module_imageUpload__qkS0y","wrapper":"PostContent-module_wrapper__ahlNi","ads":"PostContent-module_ads__vHBWo","relatedTo":"PostContent-module_relatedTo__NKbLQ","arrow":"PostContent-module_arrow__ms8AO","textRelatedTo":"PostContent-module_textRelatedTo__IHBxX","dropZone":"PostContent-module_dropZone__8WDHC","subcribeMe":"PostContent-module_subcribeMe__3y1K-","imgWrapper":"PostContent-module_imgWrapper__4YZaL","imageDescription":"PostContent-module_imageDescription__19QTz"};
 
+const onChangeImage = async (e, index, contentData) => {
+  if (!contentData) {
+    return [];
+  }
+  if (e && e.target && e.target.files && e.target.files[0] && index < contentData.length) {
+    if (isBigFile(e?.target?.files[0])) {
+      alert('Kích thước file không được vượt quá 500KB');
+      return;
+    }
+    let url = '';
+    try {
+      url = await uploadFile(e.target.files[0], process.env.NEXT_PUBLIC_publicImagesPath, false, `post_${new Date().getTime()}_image`, true);
+    } catch (e) {
+      url = '';
+      alert('Có lỗi xảy ra khi tải ảnh lên.');
+    }
+    contentData[index].urlWeb = url;
+  }
+  return [...contentData];
+};
+
 const getSelectionText = () => {
   var text = "";
   if (window.getSelection) {
@@ -60825,6 +60846,7 @@ const onChangeImageMultiple = ({
   data,
   style
 }, index, key, contentData) => {
+  if (!contentData) return [];
   const currentContent = [...contentData];
   if (index < currentContent.length) {
     let _data = currentContent[index][key];
@@ -60852,30 +60874,19 @@ const onChangeUrl = (key, e, index, contentData) => {
   return [...currentContent];
 };
 const onImageResize = (size, index, contentData) => {
+  if (!contentData) {
+    return [];
+  }
   if (index < contentData.length && size.width && size.height) {
     contentData[index].webWidth = size.width;
     contentData[index].webHeight = size.height;
   }
   return [...contentData];
 };
-const onChangeImage = async (e, index, contentData) => {
-  if (e && e.target && e.target.files && e.target.files[0] && index < contentData.length) {
-    if (isBigFile(e?.target?.files[0])) {
-      alert('Kích thước file không được vượt quá 500KB');
-      return;
-    }
-    let url = '';
-    try {
-      url = await uploadFile(e.target.files[0], process.env.NEXT_PUBLIC_publicImagesPath, false, `post_${new Date().getTime()}_image`, true);
-    } catch (e) {
-      url = '';
-      alert('Có lỗi xảy ra khi tải ảnh lên.');
-    }
-    contentData[index].urlWeb = url;
-  }
-  return [...contentData];
-};
 const onChangePatternPreview = (e, index, key, contentData) => {
+  if (!contentData) {
+    return [];
+  }
   const currentContent = [...contentData];
   if (Array.isArray(currentContent) && currentContent.length > index) {
     if (typeof currentContent[index] === 'object' && key && typeof key === 'string') {
@@ -60889,6 +60900,9 @@ const onChangePatternPreview = (e, index, key, contentData) => {
   return [...currentContent];
 };
 const onChangePatternDetail = (e, index, key, contentData) => {
+  if (!contentData) {
+    return [];
+  }
   const currentContent = [...contentData];
   if (Array.isArray(currentContent) && currentContent.length > index) {
     if (typeof currentContent[index] === 'object' && typeof currentContent[index].patternDetail === 'object' && key && typeof key === 'string') {
@@ -60905,6 +60919,9 @@ const onChangePatternDetail = (e, index, key, contentData) => {
   return [...currentContent];
 };
 const onChangeGroupDetail = (e, index, key, contentData) => {
+  if (!contentData) {
+    return [];
+  }
   const currentContent = [...contentData];
   if (Array.isArray(currentContent) && currentContent.length > index) {
     if (typeof currentContent[index] === 'object' && key && typeof key === 'string') {

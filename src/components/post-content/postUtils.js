@@ -13,8 +13,9 @@ import { POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU } from "../menu-add-component-po
 import Linkify from "linkify-react";
 import styles from "./PostContent.module.scss";
 import React, { useEffect, useState } from "react";
+import { onChangeImage } from "./onChangeImage";
 
-const getSelectionText = () => {
+export const getSelectionText = () => {
     var text = "";
     if (window.getSelection) {
         text = window.getSelection().toString();
@@ -126,7 +127,7 @@ export const getPostId = titleData => {
     }
     return result
 }
-const onDragStart = e => {
+export const onDragStart = e => {
     try {
         e.dataTransfer.setData("itemIndex", e.target.dataset.index);
     } catch (err) {
@@ -140,7 +141,7 @@ const makeContentOnChangeText = (e, index, contentData) => {
         return [...currentContent];
     }
 }
-const makeContentDataOnDrop = (e, contentData) => {
+export const makeContentDataOnDrop = (e, contentData) => {
     const indexStart = parseInt(e.dataTransfer.getData('itemIndex'));
     const indexEnd = parseInt(e.target.id);
     if (indexStart > -1 && indexEnd > -1) {
@@ -151,12 +152,12 @@ const makeContentDataOnDrop = (e, contentData) => {
     e.target.style.height = '1px';
     return contentData;
 }
-const onDragOver = e => {
+export const onDragOver = e => {
     e.target.style.backgroundColor = 'blue';
     e.target.style.height = '30px';
     e.preventDefault();
 }
-const onDragLeave = e => {
+export const onDragLeave = e => {
     e.target.style.backgroundColor = 'white';
     e.target.style.height = '1px';
 }
@@ -263,10 +264,11 @@ const wrapperActionAdmin = (item, index, styles = {}, onDeleteContentItem = () =
 const onChangeText = (e, index, contentData) => {
     return [...makeContentOnChangeText(e, index, contentData)];
 }
-const onDrop = (e, contentData) => {
+export const onDrop = (e, contentData) => {
     return [...makeContentDataOnDrop(e, contentData)];
 }
-const onChangeImageMultiple = ({ imgIndex, data, style }, index, key, contentData) => {
+export const onChangeImageMultiple = ({ imgIndex, data, style }, index, key, contentData) => {
+    if (!contentData) return [];
     const currentContent = [...contentData];
     if (index < currentContent.length) {
         let _data = currentContent[index][key];
@@ -291,32 +293,20 @@ const onChangeUrl = (key, e, index, contentData) => {
     }
     return [...currentContent];
 }
-const onImageResize = (size, index, contentData) => {
+export const onImageResize = (size, index, contentData) => {
+    if (!contentData) {
+        return [];
+    }
     if (index < contentData.length && size.width && size.height) {
         contentData[index].webWidth = size.width;
         contentData[index].webHeight = size.height;
     }
     return [...contentData];
 }
-const onChangeImage = async (e, index, contentData) => {
-    if (e && e.target && e.target.files && e.target.files[0] && index < contentData.length) {
-        if (isBigFile(e?.target?.files[0])) {
-            alert('Kích thước file không được vượt quá 500KB');
-            return;
-        }
-        let url = '';
-        try {
-            url = await uploadFile(e.target.files[0], process.env.NEXT_PUBLIC_publicImagesPath, false, `post_${(new Date()).getTime()}_image`, true);
-        } catch (e) {
-
-            url = '';
-            alert('Có lỗi xảy ra khi tải ảnh lên.');
-        }
-        contentData[index].urlWeb = url;
+export const onChangePatternPreview = (e, index, key, contentData) => {
+    if (!contentData) {
+        return [];
     }
-    return [...contentData];
-}
-const onChangePatternPreview = (e, index, key, contentData) => {
     const currentContent = [...contentData];
     if (Array.isArray(currentContent) && currentContent.length > index) {
         if (typeof currentContent[index] === 'object' && key && typeof key === 'string') {
@@ -329,7 +319,10 @@ const onChangePatternPreview = (e, index, key, contentData) => {
     }
     return [...currentContent];
 }
-const onChangePatternDetail = (e, index, key, contentData) => {
+export const onChangePatternDetail = (e, index, key, contentData) => {
+    if (!contentData) {
+        return [];
+    }
     const currentContent = [...contentData];
     if (Array.isArray(currentContent) && currentContent.length > index) {
         if (typeof currentContent[index] === 'object' && typeof currentContent[index].patternDetail === 'object' && key && typeof key === 'string') {
@@ -345,7 +338,10 @@ const onChangePatternDetail = (e, index, key, contentData) => {
     }
     return [...currentContent];
 }
-const onChangeGroupDetail = (e, index, key, contentData) => {
+export const onChangeGroupDetail = (e, index, key, contentData) => {
+    if (!contentData) {
+        return [];
+    }
     const currentContent = [...contentData];
     if (Array.isArray(currentContent) && currentContent.length > index) {
         if (typeof currentContent[index] === 'object' && key && typeof key === 'string') {
@@ -411,7 +407,7 @@ const onKeyDownParagraph = (e, addNewContentItem) => {
         e.preventDefault();
     }
 }
-const onCaptionChange = (e, index, contentData) => {
+export const onCaptionChange = (e, index, contentData) => {
     const currentContent = [...contentData];
     if (index < currentContent.length) {
         currentContent[index].imageDescription = e.target.innerText;

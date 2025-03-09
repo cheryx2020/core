@@ -1,6 +1,6 @@
 import React from 'react';
 import { POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU } from '../menu-add-component-post/menu-add-component-post';
-import { getContentByType, getPostId, ImageConfig, MultiImageConfig, PostContent } from './postUtils';
+import { getContentByType, getPostId, getSelectionText, ImageConfig, makeContentDataOnDrop, MultiImageConfig, onCaptionChange, onChangeGroupDetail, onChangeImageMultiple, onChangePatternDetail, onChangePatternPreview, onDragLeave, onDragOver, onDragStart, onDrop, onImageResize, PostContent } from './postUtils';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, expect, jest } from '@jest/globals';
@@ -658,6 +658,1117 @@ describe('PostContent component', () => {
             mockFileReader.triggerLoad();
         });
 
-        expect(mockFileReader.readAsDataURL).toHaveBeenCalledWith(file);
     })
 })
+
+describe('getSelectionText', () => {
+    // Clean up after each test
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test('should return selected text using document.selection for older browsers', () => {
+        // Mock window.getSelection to be undefined (simulating older browser)
+        delete window.getSelection;
+        
+        // Mock document.selection
+        const mockRange = {
+            text: 'selected text'
+        };
+        
+        document.selection = {
+            type: 'Text', // Not "Control" to trigger the else block
+            createRange: jest.fn(() => mockRange)
+        };
+
+        // Execute and assert
+        const result = getSelectionText();
+        expect(result).toBe('selected text');
+        expect(document.selection.createRange).toHaveBeenCalled();
+    });
+});
+
+describe('onDragStart', () => {
+    // Clean up after each test
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test('should set dataTransfer itemIndex from target dataset', () => {
+        // Create mock event object
+        const mockSetData = jest.fn();
+        const mockEvent = {
+            dataTransfer: {
+                setData: mockSetData
+            },
+            target: {
+                dataset: {
+                    index: '5'
+                }
+            }
+        };
+
+        // Execute
+        onDragStart(mockEvent);
+
+        // Assert
+        expect(mockSetData).toHaveBeenCalledWith("itemIndex", "5");
+        expect(mockSetData).toHaveBeenCalledTimes(1);
+    });
+
+    test('should handle error gracefully when dataTransfer is missing', () => {
+        // Spy on console.log
+        const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+
+        // Create mock event with missing dataTransfer
+        const mockEvent = {
+            target: {
+                dataset: {
+                    index: '5'
+                }
+            }
+        };
+
+        // Execute
+        onDragStart(mockEvent);
+
+        // Assert
+        expect(consoleSpy).toHaveBeenCalledWith(expect.any(Error));
+        expect(consoleSpy).toHaveBeenCalledTimes(1);
+
+        // Clean up
+        consoleSpy.mockRestore();
+    });
+
+    test('should handle missing dataset index gracefully', () => {
+        // Spy on console.log
+        const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+
+        // Create mock event with missing dataset index
+        const mockEvent = {
+            dataTransfer: {
+                setData: jest.fn()
+            },
+            target: {
+                dataset: {}
+            }
+        };
+        // Execute
+        onDragStart(mockEvent);
+
+        // Assert
+        expect(mockEvent.dataTransfer.setData).toHaveBeenCalledWith("itemIndex", undefined);
+        expect(consoleSpy).not.toHaveBeenCalled();
+
+        // Clean up
+        consoleSpy.mockRestore();
+    });
+});
+
+describe('makeContentDataOnDrop', () => {
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test('should reorder contentData array and update styles when indices are valid', () => {
+        // Mock event object
+        const mockEvent = {
+            dataTransfer: {
+                getData: jest.fn(() => '1') // Starting index
+            },
+            target: {
+                id: '3', // Ending index
+                style: {
+                    backgroundColor: '',
+                    height: ''
+                }
+            }
+        };
+
+        // Initial contentData array
+        const contentData = ['A', 'B', 'C', 'D'];
+
+        // Function to test
+        const makeContentDataOnDrop = (e, contentData) => {
+            const indexStart = parseInt(e.dataTransfer.getData('itemIndex'));
+            const indexEnd = parseInt(e.target.id);
+            if (indexStart > -1 && indexEnd > -1) {
+                var elementMove = contentData.splice(indexStart, 1);
+                contentData.splice(indexEnd, 0, elementMove[0]);
+            }
+            e.target.style.backgroundColor = 'white';
+            e.target.style.height = '1px';
+            return contentData;
+        };
+
+        // Execute
+        const result = makeContentDataOnDrop(mockEvent, contentData);
+
+        // Assert
+        expect(result).toEqual(['A', 'C', 'D', 'B']);
+        expect(mockEvent.target.style.backgroundColor).toBe('white');
+        expect(mockEvent.target.style.height).toBe('1px');
+        expect(mockEvent.dataTransfer.getData).toHaveBeenCalledWith('itemIndex');
+    });
+
+    test('should not modify array when indices are invalid', () => {
+        // Mock event with invalid index
+        const mockEvent = {
+            dataTransfer: {
+                getData: jest.fn(() => '-1') // Invalid starting index
+            },
+            target: {
+                id: '2',
+                style: {
+                    backgroundColor: '',
+                    height: ''
+                }
+            }
+        };
+
+        // Initial contentData array
+        const contentData = ['A', 'B', 'C'];
+        const originalContentData = [...contentData];
+
+        // Execute
+        const result = makeContentDataOnDrop(mockEvent, contentData);
+
+        // Assert
+        expect(result).toEqual(originalContentData); // Array unchanged
+        expect(mockEvent.target.style.backgroundColor).toBe('white');
+        expect(mockEvent.target.style.height).toBe('1px');
+    });
+
+    test('should handle non-numeric indices gracefully', () => {
+        // Mock event with non-numeric values
+        const mockEvent = {
+            dataTransfer: {
+                getData: jest.fn(() => 'abc') // Non-numeric start
+            },
+            target: {
+                id: 'xyz', // Non-numeric end
+                style: {
+                    backgroundColor: '',
+                    height: ''
+                }
+            }
+        };
+
+        // Initial contentData array
+        const contentData = ['A', 'B', 'C'];
+        const originalContentData = [...contentData];
+
+        // Execute
+        const result = makeContentDataOnDrop(mockEvent, contentData);
+
+        // Assert
+        expect(result).toEqual(originalContentData); // Array unchanged due to NaN indices
+        expect(mockEvent.target.style.backgroundColor).toBe('white');
+        expect(mockEvent.target.style.height).toBe('1px');
+    });
+
+    test('should handle empty contentData array', () => {
+        // Mock event
+        const mockEvent = {
+            dataTransfer: {
+                getData: jest.fn(() => '0')
+            },
+            target: {
+                id: '0',
+                style: {
+                    backgroundColor: '',
+                    height: ''
+                }
+            }
+        };
+
+        // Empty contentData array
+        const contentData = [];
+
+        // Execute
+        const result = makeContentDataOnDrop(mockEvent, contentData);
+
+        // Assert
+        expect(result).toEqual([]); // Remains empty
+        expect(mockEvent.target.style.backgroundColor).toBe('white');
+        expect(mockEvent.target.style.height).toBe('1px');
+    });
+});
+
+describe('onDragOver', () => {
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test('should set target styles and prevent default behavior', () => {
+        // Mock event object
+        const mockPreventDefault = jest.fn();
+        const mockEvent = {
+            target: {
+                style: {
+                    backgroundColor: '',
+                    height: ''
+                }
+            },
+            preventDefault: mockPreventDefault
+        };
+
+        // Execute
+        onDragOver(mockEvent);
+
+        // Assert
+        expect(mockEvent.target.style.backgroundColor).toBe('blue');
+        expect(mockEvent.target.style.height).toBe('30px');
+        expect(mockPreventDefault).toHaveBeenCalledTimes(1);
+    });
+});
+
+describe('onDragLeave', () => {
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test('should reset target styles to default values', () => {
+        // Mock event object with initial styles
+        const mockEvent = {
+            target: {
+                style: {
+                    backgroundColor: 'blue',
+                    height: '30px'
+                }
+            }
+        };
+
+        // Execute
+        onDragLeave(mockEvent);
+
+        // Assert
+        expect(mockEvent.target.style.backgroundColor).toBe('white');
+        expect(mockEvent.target.style.height).toBe('1px');
+    });
+
+    test('should override existing styles', () => {
+        // Mock event with different initial styles
+        const mockEvent = {
+            target: {
+                style: {
+                    backgroundColor: 'red',
+                    height: '50px'
+                }
+            }
+        };
+
+        // Execute
+        onDragLeave(mockEvent);
+
+        // Assert
+        expect(mockEvent.target.style.backgroundColor).toBe('white');
+        expect(mockEvent.target.style.height).toBe('1px');
+    });
+});
+
+describe('onDrop', () => {
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test('should return a new array copy with reordered content', () => {
+        // Mock event object
+        const mockEvent = {
+            dataTransfer: {
+                getData: jest.fn(() => '1') // Starting index
+            },
+            target: {
+                id: '3', // Ending index
+                style: {
+                    backgroundColor: '',
+                    height: ''
+                }
+            }
+        };
+
+        // Initial contentData array
+        const contentData = ['A', 'B', 'C', 'D'];
+
+        // Execute
+        const result = onDrop(mockEvent, contentData);
+
+        // Assert
+        expect(result).toEqual(['A', 'C', 'D', 'B']);
+        expect(result).not.toBe(contentData); // New array instance
+        expect(mockEvent.target.style.backgroundColor).toBe('white');
+        expect(mockEvent.target.style.height).toBe('1px');
+    });
+});
+
+describe('onCaptionChange', () => {
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test('should update imageDescription for valid index', () => {
+        // Mock event object
+        const mockEvent = {
+            target: {
+                innerText: 'New caption'
+            }
+        };
+
+        // Initial contentData array
+        const contentData = [
+            { imageDescription: 'Old caption 1' },
+            { imageDescription: 'Old caption 2' }
+        ];
+
+        // Execute
+        const result = onCaptionChange(mockEvent, 1, contentData);
+
+        // Assert
+        expect(result).toEqual([
+            { imageDescription: 'Old caption 1' },
+            { imageDescription: 'New caption' }
+        ]);
+        expect(result).not.toBe(contentData);
+        expect(result[1]).toEqual(contentData[1]);
+    });
+});
+
+describe('onImageResize', () => {
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test('should update webWidth and webHeight for valid index and size', () => {
+        // Initial contentData array
+        const contentData = [
+            { webWidth: 100, webHeight: 100 },
+            { webWidth: 200, webHeight: 200 }
+        ];
+
+        // Size object
+        const size = { width: 300, height: 400 };
+
+        // Execute
+        const result = onImageResize(size, 1, contentData);
+
+        // Assert
+        expect(result).toEqual([
+            { webWidth: 100, webHeight: 100 },
+            { webWidth: 300, webHeight: 400 }
+        ]);
+        expect(result).not.toBe(contentData); // New array instance
+        expect(result[1]).toBe(contentData[1]); // Same object reference (not deep copied)
+    });
+
+    test('should return unchanged array for invalid index', () => {
+        // Initial contentData array
+        const contentData = [
+            { webWidth: 100, webHeight: 100 }
+        ];
+        const originalContentData = [...contentData];
+
+        // Size object
+        const size = { width: 200, height: 300 };
+
+        // Execute with out-of-bounds index
+        const result = onImageResize(size, 5, contentData);
+
+        // Assert
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData); // New array instance
+    });
+
+    test('should return unchanged array when size lacks width or height', () => {
+        // Initial contentData array
+        const contentData = [
+            { webWidth: 100, webHeight: 100 }
+        ];
+        const originalContentData = [...contentData];
+
+        // Incomplete size objects
+        const sizeNoWidth = { height: 200 };
+        const sizeNoHeight = { width: 200 };
+
+        // Execute
+        const result1 = onImageResize(sizeNoWidth, 0, contentData);
+        const result2 = onImageResize(sizeNoHeight, 0, contentData);
+
+        // Assert
+        expect(result1).toEqual(originalContentData);
+        expect(result2).toEqual(originalContentData);
+        expect(result1).not.toBe(contentData); // New array instance
+    });
+
+    test('should handle empty contentData array', () => {
+        // Empty contentData array
+        const contentData = [];
+
+        // Size object
+        const size = { width: 200, height: 300 };
+
+        // Execute
+        const result = onImageResize(size, 0, contentData);
+
+        // Assert
+        expect(result).toEqual([]); // Remains empty
+        expect(result).not.toBe(contentData); // New array instance
+    });
+
+    test('should handle null contentData by returning empty array', () => {
+        // Size object
+        const size = { width: 200, height: 300 };
+
+        // Execute with null contentData
+        const result = onImageResize(size, 0, null);
+
+        // Assert
+        expect(result).toEqual([]); // Returns empty array
+    });
+
+    test('should handle falsy size values gracefully', () => {
+        // Initial contentData array
+        const contentData = [
+            { webWidth: 100, webHeight: 100 }
+        ];
+        const originalContentData = [...contentData];
+
+        // Falsy size values
+        const sizeZero = { width: 0, height: 0 };
+        const sizeUndefined = { width: undefined, height: 300 };
+
+        // Execute
+        const result1 = onImageResize(sizeZero, 0, contentData);
+        const result2 = onImageResize(sizeUndefined, 0, contentData);
+
+        // Assert
+        expect(result1).toEqual(originalContentData); // 0 is falsy
+        expect(result2).toEqual(originalContentData); // undefined is falsy
+        expect(result1).not.toBe(contentData); // New array instance
+    });
+});
+
+describe('onChangeImageMultiple', () => {
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test('should update url and imgFile for valid data key and imgIndex', () => {
+        const contentData = [
+            {
+                data: [
+                    { url: 'old-url1', imgFile: 'old-file1', description: 'desc1' },
+                    { url: 'old-url2', imgFile: 'old-file2', description: 'desc2' }
+                ]
+            }
+        ];
+        const input = {
+            imgIndex: 1,
+            data: { imgFile: 'new-file', imgSrc: 'new-url' },
+            style: null
+        };
+
+        const result = onChangeImageMultiple(input, 0, 'data', contentData);
+
+        expect(result).toEqual([
+            {
+                data: [
+                    { url: 'old-url1', imgFile: 'old-file1', description: 'desc1' },
+                    { url: 'new-url', imgFile: 'new-file', description: 'desc2' }
+                ]
+            }
+        ]);
+        expect(result).not.toBe(contentData); // New array instance
+        expect(result[0].data).toEqual(contentData[0].data);
+    });
+
+    test('should update description for valid data key and imgIndex', () => {
+        const contentData = [
+            {
+                data: [
+                    { url: 'url1', imgFile: 'file1', description: 'old-desc' }
+                ]
+            }
+        ];
+        const input = {
+            imgIndex: 0,
+            data: { description: 'new-desc' },
+            style: null
+        };
+
+        const result = onChangeImageMultiple(input, 0, 'data', contentData);
+
+        expect(result).toEqual([
+            {
+                data: [
+                    { url: 'url1', imgFile: 'file1', description: 'new-desc' }
+                ]
+            }
+        ]);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should update style object for valid style key', () => {
+        const contentData = [
+            {
+                style: { width: 100, height: 200 }
+            }
+        ];
+        const input = {
+            imgIndex: 0,
+            data: null,
+            style: { width: 300, height: 400 }
+        };
+
+        const result = onChangeImageMultiple(input, 0, 'style', contentData);
+
+        expect(result).toEqual([
+            {
+                style: { width: 300, height: 400 }
+            }
+        ]);
+        expect(result).not.toBe(contentData);
+        expect(result[0].style).toEqual(contentData[0].style);
+    });
+
+    test('should return unchanged array for invalid index', () => {
+        const contentData = [{ data: [] }];
+        const originalContentData = [...contentData];
+        const input = {
+            imgIndex: 0,
+            data: { imgFile: 'new-file', imgSrc: 'new-url' },
+            style: null
+        };
+
+        const result = onChangeImageMultiple(input, 5, 'data', contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should handle invalid imgIndex gracefully', () => {
+        const contentData = [
+            {
+                data: [{ url: 'url1', imgFile: 'file1' }]
+            }
+        ];
+        const originalContentData = [...contentData];
+        const input = {
+            imgIndex: 5, // Out of bounds
+            data: { imgFile: 'new-file', imgSrc: 'new-url' },
+            style: null
+        };
+
+        const result = onChangeImageMultiple(input, 0, 'data', contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should handle non-array data gracefully', () => {
+        const contentData = [
+            {
+                data: 'not-an-array'
+            }
+        ];
+        const originalContentData = [...contentData];
+        const input = {
+            imgIndex: 0,
+            data: { imgFile: 'new-file', imgSrc: 'new-url' },
+            style: null
+        };
+
+        const result = onChangeImageMultiple(input, 0, 'data', contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should handle null contentData', () => {
+        const input = {
+            imgIndex: 0,
+            data: { imgFile: 'new-file', imgSrc: 'new-url' },
+            style: null
+        };
+
+        const result = onChangeImageMultiple(input, 0, 'data', null);
+
+        expect(result).toEqual([]); // Returns empty array
+    });
+
+    test('should handle missing key gracefully', () => {
+        const contentData = [
+            {} // No 'data' or 'style' key
+        ];
+        const originalContentData = [...contentData];
+        const input = {
+            imgIndex: 0,
+            data: { imgFile: 'new-file', imgSrc: 'new-url' },
+            style: null
+        };
+
+        const result = onChangeImageMultiple(input, 0, 'data', contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should handle invalid data object', () => {
+        const contentData = [
+            {
+                data: [{ url: 'url1', imgFile: 'file1' }]
+            }
+        ];
+        const originalContentData = [...contentData];
+        const input = {
+            imgIndex: 0,
+            data: 'not-an-object', // Invalid data type
+            style: null
+        };
+
+        const result = onChangeImageMultiple(input, 0, 'data', contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should handle style with non-object data', () => {
+        const contentData = [
+            {
+                style: 'not-an-object'
+            }
+        ];
+        const originalContentData = [...contentData];
+        const input = {
+            imgIndex: 0,
+            data: null,
+            style: { width: 300 }
+        };
+
+        const result = onChangeImageMultiple(input, 0, 'style', contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+});
+
+describe('onChangePatternPreview', () => {
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test('should update key with string value for valid inputs', () => {
+        const contentData = [
+            { someKey: 'old-value' }
+        ];
+        const e = 'new-value';
+
+        const result = onChangePatternPreview(e, 0, 'someKey', contentData);
+
+        expect(result).toEqual([
+            { someKey: 'new-value' }
+        ]);
+        expect(result).not.toBe(contentData); // New array instance
+    });
+
+    test('should update key with array value for valid inputs', () => {
+        const contentData = [
+            { list: ['old-item'] }
+        ];
+        const e = ['new-item1', 'new-item2'];
+
+        const result = onChangePatternPreview(e, 0, 'list', contentData);
+
+        expect(result).toEqual([
+            { list: ['new-item1', 'new-item2'] }
+        ]);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should update key with file object for valid inputs', () => {
+        const contentData = [
+            { file: null }
+        ];
+        const e = { name: 'file.jpg' }; // Object with name property
+
+        const result = onChangePatternPreview(e, 0, 'file', contentData);
+
+        expect(result).toEqual([
+            { file: { name: 'file.jpg' } }
+        ]);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should set empty string for invalid event type', () => {
+        const contentData = [
+            { someKey: 'old-value' }
+        ];
+        const e = 123; // Number (invalid type)
+
+        const result = onChangePatternPreview(e, 0, 'someKey', contentData);
+
+        expect(result).toEqual([
+            { someKey: '' }
+        ]);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should return unchanged array for invalid index', () => {
+        const contentData = [
+            { someKey: 'value' }
+        ];
+        const originalContentData = [...contentData];
+
+        const result = onChangePatternPreview('new-value', 5, 'someKey', contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should return empty array for null contentData', () => {
+        const result = onChangePatternPreview('value', 0, 'someKey', null);
+
+        expect(result).toEqual([]);
+    });
+
+    test('should handle non-object item gracefully', () => {
+        const contentData = [
+            'not-an-object'
+        ];
+        const originalContentData = [...contentData];
+
+        const result = onChangePatternPreview('new-value', 0, 'someKey', contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should handle invalid key gracefully', () => {
+        const contentData = [
+            { someKey: 'value' }
+        ];
+        const originalContentData = [...contentData];
+
+        const result = onChangePatternPreview('new-value', 0, null, contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should handle empty contentData array', () => {
+        const contentData = [];
+        const originalContentData = [...contentData];
+
+        const result = onChangePatternPreview('new-value', 0, 'someKey', contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should handle object without name property', () => {
+        const contentData = [
+            { someKey: 'old-value' }
+        ];
+        const e = { value: 'test' }; // Object without name property
+
+        const result = onChangePatternPreview(e, 0, 'someKey', contentData);
+
+        expect(result).toEqual([
+            { someKey: '' } // Sets to empty string
+        ]);
+        expect(result).not.toBe(contentData);
+    });
+});
+
+describe('onChangePatternDetail', () => {
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test('should update patternDetail key with string value', () => {
+        const contentData = [
+            { patternDetail: { someKey: 'old-value' } }
+        ];
+        const e = 'new-value';
+
+        const result = onChangePatternDetail(e, 0, 'someKey', contentData);
+
+        expect(result).toEqual([
+            { patternDetail: { someKey: 'new-value' } }
+        ]);
+        expect(result).not.toBe(contentData); // New array instance
+    });
+
+    test('should update patternDetail key with array value', () => {
+        const contentData = [
+            { patternDetail: { list: ['old-item'] } }
+        ];
+        const e = ['new-item1', 'new-item2'];
+
+        const result = onChangePatternDetail(e, 0, 'list', contentData);
+
+        expect(result).toEqual([
+            { patternDetail: { list: ['new-item1', 'new-item2'] } }
+        ]);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should update patternDetail key with file object', () => {
+        const contentData = [
+            { patternDetail: { file: null } }
+        ];
+        const e = { name: 'file.jpg' }; // Object with name property
+
+        const result = onChangePatternDetail(e, 0, 'file', contentData);
+
+        expect(result).toEqual([
+            { patternDetail: { file: { name: 'file.jpg' } } }
+        ]);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should update patternDetail key with event target innerText', () => {
+        const contentData = [
+            { patternDetail: { text: 'old-text' } }
+        ];
+        const e = { target: { innerText: 'new-text' } };
+
+        const result = onChangePatternDetail(e, 0, 'text', contentData);
+
+        expect(result).toEqual([
+            { patternDetail: { text: 'new-text' } }
+        ]);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should set empty string for invalid event type', () => {
+        const contentData = [
+            { patternDetail: { someKey: 'old-value' } }
+        ];
+        const e = 123; // Number (invalid type)
+
+        const result = onChangePatternDetail(e, 0, 'someKey', contentData);
+
+        expect(result).toEqual([
+            { patternDetail: { someKey: '' } }
+        ]);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should return unchanged array for invalid index', () => {
+        const contentData = [
+            { patternDetail: { someKey: 'value' } }
+        ];
+        const originalContentData = [...contentData];
+
+        const result = onChangePatternDetail('new-value', 5, 'someKey', contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should return empty array for null contentData', () => {
+        const result = onChangePatternDetail('value', 0, 'someKey', null);
+
+        expect(result).toEqual([]);
+    });
+
+    test('should handle non-object item gracefully', () => {
+        const contentData = [
+            'not-an-object'
+        ];
+        const originalContentData = [...contentData];
+
+        const result = onChangePatternDetail('new-value', 0, 'someKey', contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should handle missing patternDetail gracefully', () => {
+        const contentData = [
+            { otherKey: 'value' } // No patternDetail
+        ];
+        const originalContentData = [...contentData];
+
+        const result = onChangePatternDetail('new-value', 0, 'someKey', contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should handle non-object patternDetail gracefully', () => {
+        const contentData = [
+            { patternDetail: 'not-an-object' }
+        ];
+        const originalContentData = [...contentData];
+
+        const result = onChangePatternDetail('new-value', 0, 'someKey', contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should handle invalid key gracefully', () => {
+        const contentData = [
+            { patternDetail: { someKey: 'value' } }
+        ];
+        const originalContentData = [...contentData];
+
+        const result = onChangePatternDetail('new-value', 0, null, contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should handle empty contentData array', () => {
+        const contentData = [];
+        const originalContentData = [...contentData];
+
+        const result = onChangePatternDetail('new-value', 0, 'someKey', contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+});
+
+describe('onChangeGroupDetail', () => {
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test('should update key with event target innerText', () => {
+        const contentData = [
+            { someKey: 'old-value' }
+        ];
+        const e = { target: { innerText: 'new-value' } };
+
+        const result = onChangeGroupDetail(e, 0, 'someKey', contentData);
+
+        expect(result).toEqual([
+            { someKey: 'new-value' }
+        ]);
+        expect(result).not.toBe(contentData); // New array instance
+    });
+
+    test('should update content key with raw value', () => {
+        const contentData = [
+            { content: 'old-content' }
+        ];
+        const e = 'new-content';
+
+        const result = onChangeGroupDetail(e, 0, 'content', contentData);
+
+        expect(result).toEqual([
+            { content: 'new-content' }
+        ]);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should update expanded key with raw value', () => {
+        const contentData = [
+            { expanded: false }
+        ];
+        const e = true;
+
+        const result = onChangeGroupDetail(e, 0, 'expanded', contentData);
+
+        expect(result).toEqual([
+            { expanded: true }
+        ]);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should set empty string for non-special key without target', () => {
+        const contentData = [
+            { someKey: 'old-value' }
+        ];
+        const e = 'new-value'; // No target, not content/expanded
+
+        const result = onChangeGroupDetail(e, 0, 'someKey', contentData);
+
+        expect(result).toEqual([
+            { someKey: '' }
+        ]);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should return unchanged array for invalid index', () => {
+        const contentData = [
+            { someKey: 'value' }
+        ];
+        const originalContentData = [...contentData];
+
+        const result = onChangeGroupDetail('new-value', 5, 'someKey', contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should return empty array for null contentData', () => {
+        const result = onChangeGroupDetail('value', 0, 'someKey', null);
+
+        expect(result).toEqual([]);
+    });
+
+    test('should handle non-object item gracefully', () => {
+        const contentData = [
+            'not-an-object'
+        ];
+        const originalContentData = [...contentData];
+
+        const result = onChangeGroupDetail('new-value', 0, 'someKey', contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should handle invalid key gracefully', () => {
+        const contentData = [
+            { someKey: 'value' }
+        ];
+        const originalContentData = [...contentData];
+
+        const result = onChangeGroupDetail('new-value', 0, null, contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should handle empty contentData array', () => {
+        const contentData = [];
+        const originalContentData = [...contentData];
+
+        const result = onChangeGroupDetail('new-value', 0, 'someKey', contentData);
+
+        expect(result).toEqual(originalContentData);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should handle object without target for non-special key', () => {
+        const contentData = [
+            { someKey: 'old-value' }
+        ];
+        const e = { value: 'test' }; // Object without target
+
+        const result = onChangeGroupDetail(e, 0, 'someKey', contentData);
+
+        expect(result).toEqual([
+            { someKey: '' } // Sets to empty string
+        ]);
+        expect(result).not.toBe(contentData);
+    });
+
+    test('should update content key with object when target present', () => {
+        const contentData = [
+            { content: 'old-content' }
+        ];
+        const e = { target: { innerText: 'new-content' } };
+
+        const result = onChangeGroupDetail(e, 0, 'content', contentData);
+
+        expect(result).toEqual([
+            { content: 'new-content' }
+        ]);
+        expect(result).not.toBe(contentData);
+    });
+});

@@ -9,7 +9,7 @@ const FormInput = ({ label = "Label", required = false, name = "name", type = "t
   </div>
 }
 
-const EmailSubscriptionSuccess = () => {
+export const EmailSubscriptionSuccess = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const smallTitle = `${styles.title} ${styles.small}`;
 
@@ -68,7 +68,7 @@ const EmailSubscriptionSuccess = () => {
   </>);
 };
 
-const DownloadPatternForm = ({ dispatch, patternId, setIsSubmitted = () => { } }) => {
+export const DownloadPatternForm = ({ dispatch, patternId, setIsSubmitted = () => { } }) => {
   return (<><div className={styles.title}>Download PDF Pattern</div>
     <div className={styles.textEmailSubscription}>
       This free pattern will be sent to the provided email. Please make sure you write your email address correctly.
