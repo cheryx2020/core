@@ -60479,17 +60479,14 @@ const PostContent = ({
   data = [],
   onChangeData = () => {},
   onSaveClick = () => {},
-  onEditClick = () => {},
   onCancelClick = () => {},
   isMobile,
   isEdit,
   isShowBigMenu = false,
   menuBtnClass = ''
 }) => {
-  const [isShowMenu, setIsShowMenu] = useState(false);
   const [_isShowBigMenu, setIsShowBigMenu] = useState(isShowBigMenu);
   const [_isEdit, setIsEdit] = useState(isEdit);
-  const [_isPreview, setIsPreview] = useState(false);
   useEffect(() => {
     setIsShowBigMenu(isShowBigMenu);
   }, [isShowBigMenu]);
@@ -60498,14 +60495,6 @@ const PostContent = ({
   }, [isEdit]);
   const addNewContentItem = (type, textDefault = 'Edit this text', currentIndex = -1) => {
     onChangeData([...getContentByType(type, textDefault, currentIndex, data)]);
-  };
-  const onEditBtnClick = () => {
-    if (_isPreview) {
-      setIsEdit(true);
-      setIsPreview(false);
-    } else {
-      onEditClick();
-    }
   };
   const onDeleteContentItem = index => {
     if (confirm('Bạn có chắn chắn muốn xoá dòng này?')) {
@@ -60523,14 +60512,9 @@ const PostContent = ({
     }
   }), _isShowBigMenu && /*#__PURE__*/React__default.createElement(AdminMenu, {
     isEdit: _isEdit,
-    text: isShowMenu ? 'X' : 'Menu',
+    text: 'Menu',
     onSaveClick: onSaveClick,
-    onEditClick: onEditBtnClick,
-    onCancelClick: onCancelClick,
-    onPreviewClick: () => {
-      setIsEdit(!_isEdit);
-      setIsPreview(!_isPreview);
-    }
+    onCancelClick: onCancelClick
   }));
 };
 const GroupContent = ({
@@ -60601,8 +60585,8 @@ const ImageConfig = ({
   }));
 };
 const MultiImageConfig = ({
-  data = {},
-  onChange = () => {}
+  data,
+  onChange
 }) => {
   const [isLinkWidthHeight, setIsLinkWidthHeight] = useState(true);
   return /*#__PURE__*/React__default.createElement("div", {
@@ -60935,54 +60919,34 @@ const onChangeGroupDetail = (e, index, key, contentData) => {
   }
   return [...currentContent];
 };
-const onKeyDownParagraph = (e, addNewContentItem = () => {}) => {
+const onKeyDownParagraph = (e, addNewContentItem) => {
   if (e.keyCode === 38) {
     // Key Up press => Move to top parrent p
     setTimeout(() => {
-      try {
-        const pElement = e.target.parentElement.previousElementSibling.querySelector('p');
-        if (pElement) {
-          e.target.blur();
-          pElement.focus();
-        }
-      } catch (e) {
-        console.log(e);
+      const pElement = e?.target?.parentElement?.previousElementSibling?.querySelector('p');
+      if (pElement) {
+        e.target.blur();
+        pElement.focus();
       }
     }, 100);
   }
   if (e.keyCode === 40) {
     // Key Up press => Move to down parrent p
     setTimeout(() => {
-      try {
-        const pElement = e.target.parentElement.nextElementSibling.querySelector('p');
-        if (pElement) {
-          e.target.blur();
-          pElement.focus();
-        }
-      } catch (e) {
-        console.log(e);
+      const pElement = e?.target?.parentElement?.nextElementSibling?.querySelector('p');
+      if (pElement) {
+        e.target.blur();
+        pElement.focus();
       }
     }, 100);
-  }
-  if (e.shiftKey && e.keyCode === 8) {
-    // Handle delete when detect Shift + Delete
-    try {
-      e.target.parentNode.lastElementChild.click();
-    } catch (e) {
-      console.log(e);
-    }
   }
   if (e && e.keyCode === 13) {
     //Enter key press detected
     // Add new blank paragraph
     // Get current item index
-    try {
-      const currentItemIndex = parseInt(e.target.getAttribute('data-index'));
-      if (typeof currentItemIndex === 'number') {
-        addNewContentItem(POST_ITEM_TYPE.PARAGRAPH, getSelectionText(), currentItemIndex);
-      }
-    } catch (e) {
-      console.log(e);
+    const currentItemIndex = parseInt(e?.target?.getAttribute('data-index'));
+    if (typeof currentItemIndex === 'number') {
+      addNewContentItem(POST_ITEM_TYPE.PARAGRAPH, getSelectionText(), currentItemIndex);
     }
     setTimeout(() => {
       if (e && e.target && e.target.blur) {
@@ -60990,7 +60954,7 @@ const onKeyDownParagraph = (e, addNewContentItem = () => {}) => {
         const listParagraph = document.querySelectorAll('p');
         if (listParagraph.length > 0) {
           // Focus to next sibling
-          const item = e.target.parentElement.nextElementSibling.querySelector('p');
+          const item = e?.target?.parentElement?.nextElementSibling?.querySelector('p');
           if (item && item.focus) {
             item.focus();
             if (window.getSelection) {
@@ -61034,7 +60998,7 @@ const renderItemByType = ({
   style = {},
   expanded,
   isSubscribe
-}, index, styles = {}, onDeleteContentItem = () => {}, onAddNewContentItem = () => {}, isMobile, isAdmin, contentData, onChangeContent = () => {}) => {
+}, index, styles = {}, onDeleteContentItem = () => {}, onAddNewContentItem = () => {}, isMobile, isAdmin, contentData, onChangeContent) => {
   let result = /*#__PURE__*/React__default.createElement("p", null, text),
     editComponent = /*#__PURE__*/React__default.createElement("p", {
       onDragStart: onDragStart,

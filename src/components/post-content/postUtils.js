@@ -28,17 +28,14 @@ export const PostContent = ({
     data = [],
     onChangeData = () => { },
     onSaveClick = () => { },
-    onEditClick = () => { },
     onCancelClick = () => { },
     isMobile,
     isEdit,
     isShowBigMenu = false,
     menuBtnClass = '',
 }) => {
-    const [isShowMenu, setIsShowMenu] = useState(false);
     const [_isShowBigMenu, setIsShowBigMenu] = useState(isShowBigMenu);
     const [_isEdit, setIsEdit] = useState(isEdit);
-    const [_isPreview, setIsPreview] = useState(false);
     useEffect(() => {
         setIsShowBigMenu(isShowBigMenu);
     }, [isShowBigMenu]);
@@ -47,14 +44,6 @@ export const PostContent = ({
     }, [isEdit]);
     const addNewContentItem = (type, textDefault = 'Edit this text', currentIndex = -1) => {
         onChangeData([...getContentByType(type, textDefault, currentIndex, data)]);
-    }
-    const onEditBtnClick = () => {
-        if (_isPreview) {
-            setIsEdit(true);
-            setIsPreview(false);
-        } else {
-            onEditClick();
-        }
     }
     const onDeleteContentItem = index => {
         if (confirm('Bạn có chắn chắn muốn xoá dòng này?')) {
@@ -81,11 +70,9 @@ export const PostContent = ({
         />}
         {_isShowBigMenu && <AdminMenu
             isEdit={_isEdit}
-            text={isShowMenu ? 'X' : 'Menu'}
+            text={'Menu'}
             onSaveClick={onSaveClick}
-            onEditClick={onEditBtnClick}
             onCancelClick={onCancelClick}
-            onPreviewClick={() => { setIsEdit(!_isEdit); setIsPreview(!_isPreview); }}
         />}
     </div>
 }
@@ -111,7 +98,7 @@ export const ImageConfig = ({ title, value, onChange = () => { } }) => {
     return <div data-testid="wrapper" style={{ display: 'flex', alignItems: 'center', marginBottom: 5 }}><label data-testid="label" style={{ marginRight: 5, minWidth: 50 }}>{title}: </label><input data-testid="input" type="number" value={value} onChange={e => { onChange(parseInt(e.target.value)) }} /></div>
 }
 
-export const MultiImageConfig = ({ data = {}, onChange = () => { } }) => {
+export const MultiImageConfig = ({ data , onChange }) => {
     const [isLinkWidthHeight, setIsLinkWidthHeight] = useState(true);
     return <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
@@ -373,54 +360,34 @@ const onChangeGroupDetail = (e, index, key, contentData) => {
     }
     return [...currentContent];
 }
-const onKeyDownParagraph = (e, addNewContentItem = () => { }) => {
+const onKeyDownParagraph = (e, addNewContentItem) => {
     if (e.keyCode === 38) {
         // Key Up press => Move to top parrent p
         setTimeout(() => {
-            try {
-                const pElement = e.target.parentElement.previousElementSibling.querySelector('p');
-                if (pElement) {
-                    e.target.blur();
-                    pElement.focus();
-                }
-            } catch (e) {
-                console.log(e);
+            const pElement = e?.target?.parentElement?.previousElementSibling?.querySelector('p');
+            if (pElement) {
+                e.target.blur();
+                pElement.focus();
             }
         }, 100);
     }
     if (e.keyCode === 40) {
         // Key Up press => Move to down parrent p
         setTimeout(() => {
-            try {
-                const pElement = e.target.parentElement.nextElementSibling.querySelector('p');
-                if (pElement) {
-                    e.target.blur();
-                    pElement.focus();
-                }
-            } catch (e) {
-                console.log(e);
+            const pElement = e?.target?.parentElement?.nextElementSibling?.querySelector('p');
+            if (pElement) {
+                e.target.blur();
+                pElement.focus();
             }
         }, 100);
-    }
-    if (e.shiftKey && e.keyCode === 8) {
-        // Handle delete when detect Shift + Delete
-        try {
-            e.target.parentNode.lastElementChild.click();
-        } catch (e) {
-            console.log(e);
-        }
     }
     if (e && e.keyCode === 13) {
         //Enter key press detected
         // Add new blank paragraph
         // Get current item index
-        try {
-            const currentItemIndex = parseInt(e.target.getAttribute('data-index'));
-            if (typeof currentItemIndex === 'number') {
-                addNewContentItem(POST_ITEM_TYPE.PARAGRAPH, getSelectionText(), currentItemIndex);
-            }
-        } catch (e) {
-            console.log(e);
+        const currentItemIndex = parseInt(e?.target?.getAttribute('data-index'));
+        if (typeof currentItemIndex === 'number') {
+            addNewContentItem(POST_ITEM_TYPE.PARAGRAPH, getSelectionText(), currentItemIndex);
         }
         setTimeout(() => {
             if (e && e.target && e.target.blur) {
@@ -428,7 +395,7 @@ const onKeyDownParagraph = (e, addNewContentItem = () => { }) => {
                 const listParagraph = document.querySelectorAll('p');
                 if (listParagraph.length > 0) {
                     // Focus to next sibling
-                    const item = e.target.parentElement.nextElementSibling.querySelector('p');
+                    const item = e?.target?.parentElement?.nextElementSibling?.querySelector('p');
                     if (item && item.focus) {
                         item.focus();
                         if (window.getSelection) {
@@ -456,7 +423,7 @@ const renderItemByType = ({ type, text, content, webWidth, webHeight, urlWeb, im
     onAddNewContentItem = () => { },
     isMobile,
     isAdmin,
-    contentData, onChangeContent = () => { }) => {
+    contentData, onChangeContent) => {
     let result = <p>{text}</p>,
         editComponent = <p onDragStart={onDragStart} draggable="true" suppressContentEditableWarning={true} contentEditable="true" onBlur={e => onChangeContent(onChangeText(e, index, contentData))} onKeyDown={e => onKeyDownParagraph(e, onAddNewContentItem)} data-index={index}>{text}</p>,
         viewComponent = <Linkify as="p" options={{ target: '_blank' }}>{text}</Linkify>;
