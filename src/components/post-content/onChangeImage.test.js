@@ -8,9 +8,6 @@ jest.unstable_mockModule('@cheryx2020/utils', async () => {
     };
 });
 
-// const { uploadFile } = await import('@cheryx2020/utils');
-// const { onChangeImage } = await import('./onChangeImage');
-
 describe('onChangeImage', () => {
     let uploadFile;
     let isBigFile;
