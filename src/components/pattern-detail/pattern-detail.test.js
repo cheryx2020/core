@@ -17,6 +17,27 @@ global.window.paypal = {
 
 global.prompt = jest.fn();
 
+const testLinkClick = (linkText, url) => {
+  const linkEl = screen.getByText(linkText, { selector: `a[href="${url}"]` });
+  expect(linkEl).toBeInTheDocument();
+  fireEvent.click(linkEl);
+  expect(global.prompt).toHaveBeenCalledWith(`Nhập đường dẫn tới trang ${linkText}`, url);
+};
+
+const testLinkClickAnalytics = (gtag, linkText, url, value) => {
+  const linkEl = screen.getByText(linkText, { selector: `a[href="${url}"]` });
+  expect(linkEl).toBeInTheDocument();
+  
+  fireEvent.click(linkEl);
+  const commonEvent = { 
+    action: "pattern_store_click", 
+    category: "engagement", 
+    label: "pattern_store_click", 
+    value 
+  };
+  expect(gtag.event).toHaveBeenCalledWith(commonEvent);
+};
+
 describe('PatternDetail Component', () => {
   let gtag;
   let PatternDetail;
@@ -58,36 +79,20 @@ describe('PatternDetail Component', () => {
     imageList.forEach(img => {
       expect(getImg(img)).toBeInTheDocument();
     })
-    const ravelryLinkEl = screen.getByText('Ravelry', { selector: 'a[href="https://ravelry.com/test"]' });
-    expect(ravelryLinkEl).toBeInTheDocument();
-    
-    fireEvent.click(ravelryLinkEl);
-    const commonEvent = { action: "pattern_store_click", category: "engagement", label: "pattern_store_click", value: `ravelryUrl - Test Pattern` };
-    expect(gtag.event).toHaveBeenCalledWith(commonEvent);
-    const loveScraftLinkEl = screen.getByText('Lovecrafts', { selector: 'a[href="https://lovecrafts.com/test"]' });
-    expect(loveScraftLinkEl).toBeInTheDocument();
-    fireEvent.click(loveScraftLinkEl);
-    expect(gtag.event).toHaveBeenCalledWith({...commonEvent, value: `lovecraftsUrl - Test Pattern`});
+    testLinkClickAnalytics(gtag, 'Ravelry', 'https://ravelry.com/test', 'ravelryUrl - Test Pattern');
+    testLinkClickAnalytics(gtag, 'Lovecrafts', 'https://lovecrafts.com/test', 'lovecraftsUrl - Test Pattern');
   });
 
-  test('renders cheryx pattern details correctly for admin', () => {
+  test('renders cheryx pattern details correctly for admin', async () => {
     const { container } = render(<PatternDetail {...defaultProps} isAdmin />);
-    const ravelryLinkEl = screen.getByText('Ravelry', { selector: 'a[href="https://ravelry.com/test"]' });
-    expect(ravelryLinkEl).toBeInTheDocument();
-    fireEvent.click(ravelryLinkEl);
-
-    expect(global.prompt).toHaveBeenCalledWith(
-      `Nhập đường dẫn tới trang Ravelry`,
-      'https://ravelry.com/test'
-    );
-    
-    const loveScraftLinkEl = screen.getByText('Lovecrafts', { selector: 'a[href="https://lovecrafts.com/test"]' });
-    expect(loveScraftLinkEl).toBeInTheDocument();
-    fireEvent.click(loveScraftLinkEl);
-    expect(global.prompt).toHaveBeenCalledWith(
-      `Nhập đường dẫn tới trang Lovecrafts`,
-      'https://lovecrafts.com/test'
-    );
+    testLinkClick('Ravelry', 'https://ravelry.com/test');
+    testLinkClick('Lovecrafts', 'https://lovecrafts.com/test');
+    // const mainImageWrapperEl = container.querySelector('.mainImage');
+    // const fileInput = mainImageWrapperEl.querySelector('input[type="file"]');
+    // const file = new File(['test image content'], 'test.png', { type: 'image/png' });
+    // fireEvent.change(fileInput, {
+    //   target: { files: [file] }
+    // });
   });
 
 });
