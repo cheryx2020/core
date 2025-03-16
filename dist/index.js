@@ -63726,8 +63726,6 @@ const PayPalCheckout = ({
 
 const MainLayout = ({
   theme,
-  headerStyle,
-  socialStyle = {},
   mainImageUrl,
   Link,
   Head,
@@ -63757,7 +63755,9 @@ const MainLayout = ({
   }), /*#__PURE__*/React__default.createElement("main", {
     className: homeStyles.main
   }, /*#__PURE__*/React__default.createElement(HeaderCherxy, {
-    styles: headerStyle,
+    styles: theme ? {
+      backgroundColor: theme?.NAVIGATION?.backgroundColor
+    } : undefined,
     mainImageUrl: mainImageUrl,
     MenuData: MenuData,
     Link: Link,
