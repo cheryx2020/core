@@ -13,7 +13,7 @@ import { POST_ITEM_TYPE } from '../menu-add-component-post/menu-add-component-po
 import { useMemo } from 'react';
 import { uploadContentImageFiles } from '../post-content/uploadContentImageFiles';
 
-const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = () => {}, data = { title: '', content: [], isPattern: false, isFree: false, seoTitle: '', seoDescription: '' }, isMobile, isAdmin, category, isPatternDetail }) => {
+const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = () => {}, seo, data = { title: '', content: [], isPattern: false, isFree: false, seoTitle: '', seoDescription: '' }, isMobile, isAdmin, category, isPatternDetail }) => {
   const defaultTitle = data?.title || 'Post title';
   const defaultContent = data?.content || [];
   const { title, content, seoTitle, seoDescription, id } = data;
@@ -111,7 +111,7 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
     }
     return _title;
   },[video,title])
-  const siteName = process?.env?.NEXT_PUBLIC_SEO_pageName || 'Cheryx';
+  const siteName = seo?.site_name || 'Cheryx';
   return <><article className={styles.wrapper}>
     {isAdmin && <div className={styles.adminTopHeader}>
       {!isPatternDetail && <input value={getPostId(titleData)} disabled={true} className={styles.adminMenuInputPostId}></input>}
