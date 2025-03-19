@@ -32,17 +32,14 @@ export const PostContent = ({
     onCancelClick = () => { },
     isMobile,
     isEdit,
+    setIsEdit = () => {},
     isShowBigMenu = false,
     menuBtnClass = '',
 }) => {
     const [_isShowBigMenu, setIsShowBigMenu] = useState(isShowBigMenu);
-    const [_isEdit, setIsEdit] = useState(isEdit);
     useEffect(() => {
         setIsShowBigMenu(isShowBigMenu);
     }, [isShowBigMenu]);
-    useEffect(() => {
-        setIsEdit(isEdit);
-    }, [isEdit]);
     const addNewContentItem = (type, textDefault = 'Edit this text', currentIndex = -1) => {
         onChangeData([...getContentByType(type, textDefault, currentIndex, data)]);
     }
@@ -60,20 +57,21 @@ export const PostContent = ({
         onDeleteContentItem,
         addNewContentItem,
         isMobile,
-        _isEdit,
+        isEdit,
         data,
         onChangeData))}
-        {_isEdit && (Array.isArray(data) && data.length == 0) && <MenuAddComponentPost
+        {isEdit && (Array.isArray(data) && data.length == 0) && <MenuAddComponentPost
             btnClass={`${menuBtnClass ? ' ' + menuBtnClass : ''}`}
             onClickMenuItem={item => {
                 addNewContentItem(item)
             }}
         />}
         {_isShowBigMenu && <AdminMenu
-            isEdit={_isEdit}
+            isEdit={isEdit}
             text={'Menu'}
             onSaveClick={onSaveClick}
             onCancelClick={onCancelClick}
+            onEditClick={e => { setIsEdit(true); }}
         />}
     </div>
 }

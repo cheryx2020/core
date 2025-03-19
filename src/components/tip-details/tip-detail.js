@@ -13,7 +13,7 @@ import { POST_ITEM_TYPE } from '../menu-add-component-post/menu-add-component-po
 import { useMemo } from 'react';
 import { uploadContentImageFiles } from '../post-content/uploadContentImageFiles';
 
-const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = () => {}, seo, data = { title: '', content: [], isPattern: false, isFree: false, seoTitle: '', seoDescription: '' }, isMobile, isAdmin, category, isPatternDetail }) => {
+const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, setIsEdit = () => {}, useRouter = () => {}, seo, data = { title: '', content: [], isPattern: false, isFree: false, seoTitle: '', seoDescription: '' }, isMobile, isAdmin, isEdit, category, isPatternDetail }) => {
   const defaultTitle = data?.title || 'Post title';
   const defaultContent = data?.content || [];
   const { title, content, seoTitle, seoDescription, id } = data;
@@ -26,7 +26,7 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
       setTitleData(defaultTitle);
       setContentData(defaultContent)
     }
-  }, [isAdmin, data]);
+  }, [isEdit, data]);
   const router = useRouter();
   const dispatch = useDispatch();
   const resetData = () => {
@@ -34,7 +34,7 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
     setContentData([]);
   }
   const onClickCancel = () => {
-    router.back();
+    setIsEdit(false);
   }
   const onClickSave = async () => {
     if (!category && !isPatternDetail) {
@@ -113,7 +113,7 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
   },[video,title])
   const siteName = seo?.site_name || 'Cheryx';
   return <><article className={styles.wrapper}>
-    {isAdmin && <div className={styles.adminTopHeader}>
+    {isEdit && <div className={styles.adminTopHeader}>
       {!isPatternDetail && <input value={getPostId(titleData)} disabled={true} className={styles.adminMenuInputPostId}></input>}
       <div className={styles.actionButtons}>
         {!isPatternDetail && _isPattern && <label className={styles.checkBox}><span>Is Free</span><input checked={_isFree} type="checkbox" onChange={() => setIsFree(!_isFree)} /></label>}
@@ -121,15 +121,16 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, useRouter = ()
       </div>
     </div>}
     {!isPatternDetail && <header>
-      {isAdmin ? <h1 suppressContentEditableWarning={true} contentEditable="true" onBlur={(e) => { setTitleData(e.target.innerText) }}>{titleData}</h1> : <h1 itemProp="headline name">{postTitle}</h1>}
-      {isAdmin ? null : (video ? <PostContent data={[video]}/> : null)}
+      {isEdit ? <h1 suppressContentEditableWarning={true} contentEditable="true" onBlur={(e) => { setTitleData(e.target.innerText) }}>{titleData}</h1> : <h1 itemProp="headline name">{postTitle}</h1>}
+      {isEdit ? null : (video ? <PostContent data={[video]}/> : null)}
     </header>}
     <div itemProp="text">
     <PostContent
         isShowBigMenu={isAdmin}
         data={isAdmin ? contentData : ((video && !isPatternDetail) ? content?.filter(item => item.type !== POST_ITEM_TYPE.VIDEO) : content)}
         isMobile={isMobile}
-        isEdit={isAdmin}
+        isEdit={isEdit}
+        setIsEdit={setIsEdit}
         onChangeData={onChangeContent}
         onSaveClick={onClickSave}
         onCancelClick={onClickCancel}

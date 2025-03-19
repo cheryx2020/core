@@ -9,6 +9,7 @@ function usePageData({ page, pageName, router, domain = getDomain(), language = 
     const [urlChanges, setUrlChanges] = useState({});
     const [loading, setLoading] = useState(false);
     const [isDurty, setIsDurty] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
     const onDataPageChange = (id, data) => {
         setIsDurty(true);
         let file = data.data.imgFile;
@@ -70,6 +71,8 @@ function usePageData({ page, pageName, router, domain = getDomain(), language = 
         onClickSave,
         loading,
         isDurty,
+        isEdit,
+        setIsEdit,
     };
 }
 
