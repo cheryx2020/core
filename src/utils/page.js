@@ -9,8 +9,7 @@ import AdminMenu from "../components/admin-menu/admin-menu";
 const PageItem = ({ data, ...rest }) => {
     switch (data?.id) {
         case "ADMIN_MENU":
-            const { onClickSave, setIsEdit, useRouter, isAdmin, isEdit } = rest;
-            const router = typeof useRouter === 'function' ? useRouter() : null;
+            const { onClickSave, setIsEdit, isAdmin, isEdit } = rest;
             return isAdmin && <AdminMenu
                 isEdit={isEdit}
                 text="Menu"

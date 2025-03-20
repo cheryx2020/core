@@ -11,10 +11,10 @@ const CircleItem = ({ isAdmin, url, onChangeItem = () => { } }) => {
     return isAdmin ? <ImageUploadable wrapperStyle={{width: imgWidth, height: imgWidth}} onChangeImage={(data) => { onChangeItem({ data, url }) }} imgStyle={{ width: "100%" }} src={url} isEdit={true} /> : <div style={style}></div>
 }
 
-const CircleGroup = ({ isAdmin, urls = [], isMobile, onChangeData = () => { }, wrapperClass }) => {
+const CircleGroup = ({ isEdit, urls = [], isMobile, onChangeData = () => { }, wrapperClass }) => {
     const urlsToShow = isMobile ? urls?.slice(0, 3) : urls;
     return <div className={`${styles.images}${wrapperClass ? ` ${wrapperClass}` : ''}`}>
-        {urlsToShow.map(url => <CircleItem onChangeItem={(data) => { onChangeData(data) }} isAdmin={isAdmin} key={url} url={url} />)}
+        {urlsToShow.map(url => <CircleItem onChangeItem={(data) => { onChangeData(data) }} isAdmin={isEdit} key={url} url={url} />)}
     </div>
 }
 
