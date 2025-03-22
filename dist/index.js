@@ -1461,6 +1461,9 @@ const defaults = {
     const isFormData = utils$1.isFormData(data);
 
     if (isFormData) {
+      if (!hasJSONContentType) {
+        return data;
+      }
       return hasJSONContentType ? JSON.stringify(formDataToJSON(data)) : data;
     }
 
@@ -2572,7 +2575,7 @@ function dispatchRequest(config) {
   });
 }
 
-const headersToObject = (thing) => thing instanceof AxiosHeaders$1 ? { ...thing } : thing;
+const headersToObject = (thing) => thing instanceof AxiosHeaders$1 ? thing.toJSON() : thing;
 
 /**
  * Config-specific merge-function which creates a new config-object
@@ -2674,7 +2677,7 @@ function mergeConfig$1(config1, config2) {
   return config;
 }
 
-const VERSION$1 = "1.6.8";
+const VERSION$1 = "1.6.5";
 
 const validators$1 = {};
 
@@ -2789,31 +2792,7 @@ let Axios$1 = class Axios {
    *
    * @returns {Promise} The Promise to be fulfilled
    */
-  async request(configOrUrl, config) {
-    try {
-      return await this._request(configOrUrl, config);
-    } catch (err) {
-      if (err instanceof Error) {
-        let dummy;
-
-        Error.captureStackTrace ? Error.captureStackTrace(dummy = {}) : (dummy = new Error());
-
-        // slice off the Error: ... line
-        const stack = dummy.stack ? dummy.stack.replace(/^.+\n/, '') : '';
-
-        if (!err.stack) {
-          err.stack = stack;
-          // match without the 2 top stack lines
-        } else if (stack && !String(err.stack).endsWith(stack.replace(/^.+\n.+\n/, ''))) {
-          err.stack += '\n' + stack;
-        }
-      }
-
-      throw err;
-    }
-  }
-
-  _request(configOrUrl, config) {
+  request(configOrUrl, config) {
     /*eslint no-param-reassign:0*/
     // Allow for axios('example/url'[, config]) a la fetch API
     if (typeof configOrUrl === 'string') {
@@ -60511,6 +60490,181 @@ const PatternItem = ({
   })));
 };
 
+const Compress = ({
+  FFmpeg,
+  fetchFile,
+  coreURL,
+  wasmURL
+}) => {
+  const [outputPreview, setOutputPreview] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [conversionType, setConversionType] = useState("gif");
+  const inputRef = useRef(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+  const [inputFileSize, setInputFileSize] = useState(0);
+  const [outputFileSize, setOutputFileSize] = useState(0);
+  const ffmpegRef = useRef(null);
+  useEffect(() => {
+    if (!isRunning) return;
+    const interval = setInterval(() => setElapsedTime(prev => prev + 1), 1000);
+    return () => clearInterval(interval);
+  }, [isRunning]);
+  const startTimer = () => setIsRunning(true);
+  const stopTimer = () => setIsRunning(false);
+  const loadFFmpeg = async () => {
+    const ffmpeg = new FFmpeg();
+    await ffmpeg.load({
+      coreURL,
+      wasmURL
+    });
+    ffmpegRef.current = ffmpeg;
+  };
+  const getFileSize = (data, isFromLength = false) => {
+    const size = isFromLength ? data.length : data.size;
+    return (size / (1024 * 1024)).toFixed(2);
+  };
+  const convertVideoToGIF = async file => {
+    setLoading(true);
+    startTimer();
+    setInputFileSize(getFileSize(file));
+    if (!ffmpegRef.current) {
+      await loadFFmpeg();
+    }
+    const ffmpeg = ffmpegRef.current;
+    ffmpeg.on("progress", ({
+      progress
+    }) => setProgress(progress));
+    const inputVideoFileName = file.name;
+    const outputGifFileName = `${file.name.split(".")[0]}.gif`;
+    await ffmpeg.writeFile(inputVideoFileName, await fetchFile(file));
+    await ffmpeg.exec(["-i", inputVideoFileName, "-vf", "fps=10", outputGifFileName]);
+    const fileData = await ffmpeg.readFile(outputGifFileName);
+    setOutputFileSize(getFileSize(fileData, true));
+    const gifBlob = new Blob([new Uint8Array(fileData).buffer], {
+      type: "image/gif"
+    });
+    setOutputPreview(URL.createObjectURL(gifBlob));
+    setLoading(false);
+    stopTimer();
+  };
+  const compressVideo = async file => {
+    setLoading(true);
+    startTimer();
+    setInputFileSize(getFileSize(file));
+    try {
+      if (!ffmpegRef.current) {
+        await loadFFmpeg();
+      }
+      const ffmpeg = ffmpegRef.current;
+      ffmpeg.on("progress", ({
+        progress
+      }) => setProgress(progress));
+      const inputVideoFileName = file.name;
+      const outputVideoFileName = `${file.name.split(".")[0]}_compressed.mov`;
+      await ffmpeg.writeFile(inputVideoFileName, await fetchFile(file));
+      await ffmpeg.exec(["-i", inputVideoFileName, "-vcodec", "libx264", "-crf", "28", "-preset", "fast", "-acodec", "aac", "-b:a", "128k", outputVideoFileName]);
+      const fileData = await ffmpeg.readFile(outputVideoFileName);
+      setOutputFileSize(getFileSize(fileData, true));
+      const videoBlob = new Blob([new Uint8Array(fileData).buffer], {
+        type: "video/quicktime"
+      });
+      setOutputPreview(URL.createObjectURL(videoBlob));
+    } catch (error) {
+      console.error("Error during video compression:", error);
+    } finally {
+      setLoading(false);
+      stopTimer();
+    }
+  };
+  const handleFileChange = e => {
+    const file = e.target.files?.[0];
+    if (file) conversionType === "gif" ? convertVideoToGIF(file) : compressVideo(file);
+  };
+  const handleDownload = () => {
+    if (outputPreview) {
+      const link = document.createElement("a");
+      link.href = outputPreview;
+      link.download = conversionType === "gif" ? "output.gif" : "compressed_video.mp4";
+      link.click();
+    }
+  };
+  const reset = () => {
+    setOutputPreview(null);
+    setProgress(0);
+    inputRef.current && (inputRef.current.value = "");
+    setElapsedTime(0);
+    setInputFileSize(0);
+    setOutputFileSize(0);
+  };
+  const percentageDone = (progress * 100).toFixed(0);
+  const minutes = Math.floor(elapsedTime / 60);
+  const seconds = elapsedTime % 60;
+  return /*#__PURE__*/React.createElement("div", {
+    className: "container my-4"
+  }, /*#__PURE__*/React.createElement("h1", {
+    className: "text-center mb-4"
+  }, "Video Converter"), /*#__PURE__*/React.createElement("div", {
+    className: "mb-3"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "form-check form-check-inline"
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "form-check-input",
+    type: "radio",
+    name: "conversionType",
+    checked: conversionType === "gif",
+    onChange: () => {
+      setConversionType("gif");
+      reset();
+    }
+  }), /*#__PURE__*/React.createElement("label", {
+    className: "form-check-label"
+  }, "Convert to GIF")), /*#__PURE__*/React.createElement("div", {
+    className: "form-check form-check-inline"
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "form-check-input",
+    type: "radio",
+    name: "conversionType",
+    checked: conversionType === "compress",
+    onChange: () => {
+      setConversionType("compress");
+      reset();
+    }
+  }), /*#__PURE__*/React.createElement("label", {
+    className: "form-check-label"
+  }, "Compress Video"))), /*#__PURE__*/React.createElement("input", {
+    type: "file",
+    ref: inputRef,
+    accept: "video/*",
+    onChange: handleFileChange,
+    className: "form-control mb-3"
+  }), loading && /*#__PURE__*/React.createElement("div", {
+    className: "progress"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "progress-bar",
+    role: "progressbar",
+    style: {
+      width: `${percentageDone}%`
+    }
+  }, `${percentageDone}%`)), /*#__PURE__*/React.createElement("h2", {
+    className: "display-4 fw-bold text-primary"
+  }, "\u23F3 ", minutes, ":", seconds < 10 ? "0" : "", seconds), outputPreview && !loading && /*#__PURE__*/React.createElement("div", {
+    className: "text-center"
+  }, /*#__PURE__*/React.createElement("h3", null, "Preview:"), /*#__PURE__*/React.createElement("div", null, "Input size: ", inputFileSize, " MB"), /*#__PURE__*/React.createElement("div", null, "Output size: ", outputFileSize, " MB"), conversionType === "gif" ? /*#__PURE__*/React.createElement("img", {
+    src: outputPreview,
+    alt: "GIF",
+    className: "img-fluid mb-3"
+  }) : /*#__PURE__*/React.createElement("video", {
+    src: outputPreview,
+    controls: true,
+    className: "img-fluid mb-3"
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: handleDownload,
+    className: "btn btn-success"
+  }, "Download")));
+};
+
 var styles$l = {"wrapperGroupContent":"PostContent-module_wrapperGroupContent__yFH1p","header":"PostContent-module_header__PsWMK","contentZone":"PostContent-module_contentZone__HUhpk","show":"PostContent-module_show__ZMf2A","edit":"PostContent-module_edit__Qe59Q","btnMenu":"PostContent-module_btnMenu__-mGU-","imageWrapper":"PostContent-module_imageWrapper__2Fk0j","bigTitle":"PostContent-module_bigTitle__iLoUj","wrapperAction":"PostContent-module_wrapperAction__-kVIX","deleteButton":"PostContent-module_deleteButton__iDrEN","addButton":"PostContent-module_addButton__sb98L","button":"PostContent-module_button__FKbWL","imageUpload":"PostContent-module_imageUpload__qkS0y","wrapper":"PostContent-module_wrapper__ahlNi","ads":"PostContent-module_ads__vHBWo","relatedTo":"PostContent-module_relatedTo__NKbLQ","arrow":"PostContent-module_arrow__ms8AO","textRelatedTo":"PostContent-module_textRelatedTo__IHBxX","dropZone":"PostContent-module_dropZone__8WDHC","subcribeMe":"PostContent-module_subcribeMe__3y1K-","imgWrapper":"PostContent-module_imgWrapper__4YZaL","imageDescription":"PostContent-module_imageDescription__19QTz"};
 
 const onChangeImage = async (e, index, contentData) => {
@@ -63913,4 +64067,4 @@ function DashboardLayout({
   return /*#__PURE__*/React.createElement("div", null, children);
 }
 
-export { AdBanner, AdminMenu, BestSeller, CIRCLE_IMAGE, CheryxLogo, CircleGroup, CircularLoader, ContentWithTitle, DashboardLayout, DetailLayout, Footer, Form, HeaderCherxy as HeaderCheryx, HeaderPage, HeaderWithImage, IMAGE_SUBMENU, ImageUpload, ImageUploadable, Input, LeftMenu, ListArticle, Loader, MainLayout, MenuAddComponentPost, MultiImageConfig, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PageItem, PatternDetail, PatternItem, PatternList, PatternName, PatternPreview, PayPalCheckout, PostContent, PostVideo, RelatedToMenu, SubLink, Table, TipArticle, TipDetail, TitleCheryx, TitleLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles, useAuthenticate, useIsMobile, usePageData, withAuth };
+export { AdBanner, AdminMenu, BestSeller, CIRCLE_IMAGE, CheryxLogo, CircleGroup, CircularLoader, Compress, ContentWithTitle, DashboardLayout, DetailLayout, Footer, Form, HeaderCherxy as HeaderCheryx, HeaderPage, HeaderWithImage, IMAGE_SUBMENU, ImageUpload, ImageUploadable, Input, LeftMenu, ListArticle, Loader, MainLayout, MenuAddComponentPost, MultiImageConfig, Note, POST_ITEM_TYPE, POST_ITEM_TYPE_SUBMENU, PageItem, PatternDetail, PatternItem, PatternList, PatternName, PatternPreview, PayPalCheckout, PostContent, PostVideo, RelatedToMenu, SubLink, Table, TipArticle, TipDetail, TitleCheryx, TitleLink, YouTubeSubscribe, getPostId, gtag, noImageUrl, uploadContentImageFiles, useAuthenticate, useIsMobile, usePageData, withAuth };

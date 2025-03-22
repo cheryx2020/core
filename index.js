@@ -12,6 +12,7 @@ import RelatedToMenu from "./src/components/related-to-menu/related-to-menu"
 import AdminMenu from "./src/components/admin-menu/admin-menu"
 import PatternItem from "./src/components/pattern-item/pattern-item"
 import PatternName from "./src/components/pattern-name/pattern-name"
+import Compress from "./src/components/compress/compress"
 import {
     PostContent,
     noImageUrl,
@@ -60,6 +61,7 @@ export {
     CheryxLogo,
     CircleGroup,
     CircularLoader,
+    Compress,
     ContentWithTitle,
     DashboardLayout,
     DetailLayout,
