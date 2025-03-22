@@ -60601,15 +60601,15 @@ const Compress = ({
   const percentageDone = (progress * 100).toFixed(0);
   const minutes = Math.floor(elapsedTime / 60);
   const seconds = elapsedTime % 60;
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React__default.createElement("div", {
     className: "container my-4"
-  }, /*#__PURE__*/React.createElement("h1", {
+  }, /*#__PURE__*/React__default.createElement("h1", {
     className: "text-center mb-4"
-  }, "Video Converter"), /*#__PURE__*/React.createElement("div", {
+  }, "Video Converter"), /*#__PURE__*/React__default.createElement("div", {
     className: "mb-3"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React__default.createElement("div", {
     className: "form-check form-check-inline"
-  }, /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React__default.createElement("input", {
     className: "form-check-input",
     type: "radio",
     name: "conversionType",
@@ -60618,11 +60618,11 @@ const Compress = ({
       setConversionType("gif");
       reset();
     }
-  }), /*#__PURE__*/React.createElement("label", {
+  }), /*#__PURE__*/React__default.createElement("label", {
     className: "form-check-label"
-  }, "Convert to GIF")), /*#__PURE__*/React.createElement("div", {
+  }, "Convert to GIF")), /*#__PURE__*/React__default.createElement("div", {
     className: "form-check form-check-inline"
-  }, /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React__default.createElement("input", {
     className: "form-check-input",
     type: "radio",
     name: "conversionType",
@@ -60631,35 +60631,35 @@ const Compress = ({
       setConversionType("compress");
       reset();
     }
-  }), /*#__PURE__*/React.createElement("label", {
+  }), /*#__PURE__*/React__default.createElement("label", {
     className: "form-check-label"
-  }, "Compress Video"))), /*#__PURE__*/React.createElement("input", {
+  }, "Compress Video"))), /*#__PURE__*/React__default.createElement("input", {
     type: "file",
     ref: inputRef,
     accept: "video/*",
     onChange: handleFileChange,
     className: "form-control mb-3"
-  }), loading && /*#__PURE__*/React.createElement("div", {
+  }), loading && /*#__PURE__*/React__default.createElement("div", {
     className: "progress"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React__default.createElement("div", {
     className: "progress-bar",
     role: "progressbar",
     style: {
       width: `${percentageDone}%`
     }
-  }, `${percentageDone}%`)), /*#__PURE__*/React.createElement("h2", {
+  }, `${percentageDone}%`)), /*#__PURE__*/React__default.createElement("h2", {
     className: "display-4 fw-bold text-primary"
-  }, "\u23F3 ", minutes, ":", seconds < 10 ? "0" : "", seconds), outputPreview && !loading && /*#__PURE__*/React.createElement("div", {
+  }, "\u23F3 ", minutes, ":", seconds < 10 ? "0" : "", seconds), outputPreview && !loading && /*#__PURE__*/React__default.createElement("div", {
     className: "text-center"
-  }, /*#__PURE__*/React.createElement("h3", null, "Preview:"), /*#__PURE__*/React.createElement("div", null, "Input size: ", inputFileSize, " MB"), /*#__PURE__*/React.createElement("div", null, "Output size: ", outputFileSize, " MB"), conversionType === "gif" ? /*#__PURE__*/React.createElement("img", {
+  }, /*#__PURE__*/React__default.createElement("h3", null, "Preview:"), /*#__PURE__*/React__default.createElement("div", null, "Input size: ", inputFileSize, " MB"), /*#__PURE__*/React__default.createElement("div", null, "Output size: ", outputFileSize, " MB"), conversionType === "gif" ? /*#__PURE__*/React__default.createElement("img", {
     src: outputPreview,
     alt: "GIF",
     className: "img-fluid mb-3"
-  }) : /*#__PURE__*/React.createElement("video", {
+  }) : /*#__PURE__*/React__default.createElement("video", {
     src: outputPreview,
     controls: true,
     className: "img-fluid mb-3"
-  }), /*#__PURE__*/React.createElement("button", {
+  }), /*#__PURE__*/React__default.createElement("button", {
     onClick: handleDownload,
     className: "btn btn-success"
   }, "Download")));

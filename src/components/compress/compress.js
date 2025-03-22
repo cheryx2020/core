@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const Compress = ({ FFmpeg, fetchFile, coreURL, wasmURL }) => {
   const [outputPreview, setOutputPreview] = useState(null);
