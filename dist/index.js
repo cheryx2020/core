@@ -60532,36 +60532,7 @@ const Compress = ({
     const size = isGetFromLength ? data.length : data.size;
     return (size / (1024 * 1024)).toFixed(2);
   };
-  const convertVideoToGIF = async file => {
-    setLoading(true);
-    startTimer();
-    setInputFileSize(getFileSize(file));
-    if (!ffmpegRef.current) {
-      await loadFFmpeg();
-    }
-    const ffmpeg = ffmpegRef.current;
-    ffmpeg.on("progress", ({
-      progress
-    }) => {
-      setProgress(progress);
-    });
-    const inputVideoFileName = file.name;
-    const fileNameWithoutExtension = file.name.split(".")[0];
-    const outputGifFileName = `${fileNameWithoutExtension}.gif`;
-    await ffmpeg.writeFile(inputVideoFileName, await fetchFile(file));
-    await ffmpeg.exec(["-i", inputVideoFileName, "-vf", "fps=10", outputGifFileName]);
-    const fileData = await ffmpeg.readFile(outputGifFileName);
-    setOutputFileSize(getFileSize(fileData, true));
-    const data = new Uint8Array(fileData);
-    const gifBlob = new Blob([data.buffer], {
-      type: "image/gif"
-    });
-    const outputURL = URL.createObjectURL(gifBlob);
-    setOutputPreview(outputURL);
-    setLoading(false);
-    stopTimer();
-  };
-  const compressVideo = async file => {
+  const compress = async (file, isCompressVideo) => {
     setLoading(true);
     startTimer();
     setInputFileSize(getFileSize(file));
@@ -60577,40 +60548,47 @@ const Compress = ({
       });
       const inputVideoFileName = file.name;
       const fileNameWithoutExtension = file.name.split(".")[0];
-      const outputVideoFileName = `${fileNameWithoutExtension}_compressed.mov`;
-
-      // Write the video file to FFmpeg's virtual file system
+      let outputFileName = `${fileNameWithoutExtension}.gif`;
       await ffmpeg.writeFile(inputVideoFileName, await fetchFile(file));
-
-      // Run the FFmpeg command with your options
-
-      await ffmpeg.exec(["-i", inputVideoFileName, "-vcodec", "libx264",
-      // Use H.264 video codec
-      "-crf", "28",
-      // Set CRF for video quality/size tradeoff
-      "-preset", "fast",
-      // Use fast encoding preset
-      "-acodec", "aac",
-      // Use AAC audio codec
-      "-b:a", "128k",
-      // Set audio bitrate
-      outputVideoFileName]);
-
-      // Read the compressed video file from the virtual file system
-      const fileData = await ffmpeg.readFile(outputVideoFileName);
+      if (isCompressVideo) {
+        outputFileName = `${fileNameWithoutExtension}_compressed.mov`;
+        await ffmpeg.exec(["-i", inputVideoFileName, "-vcodec", "libx264",
+        // Use H.264 video codec
+        "-crf", "28",
+        // Set CRF for video quality/size tradeoff
+        "-preset", "fast",
+        // Use fast encoding preset
+        "-acodec", "aac",
+        // Use AAC audio codec
+        "-b:a", "128k",
+        // Set audio bitrate
+        outputFileName]);
+      } else {
+        await ffmpeg.exec(["-i", inputVideoFileName, "-vf", "fps=10", outputFileName]);
+      }
+      const fileData = await ffmpeg.readFile(outputFileName);
       setOutputFileSize(getFileSize(fileData, true));
       const data = new Uint8Array(fileData);
-      const videoBlob = new Blob([data.buffer], {
-        type: "video/quicktime"
+      let blob = new Blob([data.buffer], {
+        type: "image/gif"
       });
-      const outputURL = URL.createObjectURL(videoBlob);
+      if (isCompressVideo) {
+        blob = new Blob([data.buffer], {
+          type: "video/quicktime"
+        });
+      }
+      const outputURL = URL.createObjectURL(blob);
       setOutputPreview(outputURL);
-    } catch (error) {
-      console.error("Error during video compression:", error);
-    } finally {
+    } catch (err) {} finally {
       setLoading(false);
       stopTimer();
     }
+  };
+  const convertVideoToGIF = async file => {
+    await compress(file);
+  };
+  const compressVideo = async file => {
+    await compress(file, true);
   };
   const handleFileChange = e => {
     const file = e.target.files?.[0];
