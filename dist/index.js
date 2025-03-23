@@ -60505,6 +60505,10 @@ const logEvent = eventData => {
     });
   }
 };
+const COMPRESS_TYPE = {
+  COMPRESS: "compress",
+  GIF: "gif"
+};
 const Compress = ({
   FFmpeg,
   fetchFile,
@@ -60512,9 +60516,13 @@ const Compress = ({
   wasmURL
 }) => {
   const [outputPreview, setOutputPreview] = useState(null);
+  const {
+    COMPRESS,
+    GIF
+  } = COMPRESS_TYPE;
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [conversionType, setConversionType] = useState("gif");
+  const [conversionType, setConversionType] = useState(COMPRESS);
   const inputRef = useRef(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
@@ -60633,7 +60641,7 @@ const Compress = ({
   const handleFileChange = e => {
     const file = e.target.files?.[0];
     if (file) {
-      if (conversionType === "gif") {
+      if (conversionType === GIF) {
         convertVideoToGIF(file);
       } else {
         compressVideo(file);
@@ -60649,7 +60657,7 @@ const Compress = ({
       });
       const downloadLink = document.createElement("a");
       downloadLink.href = outputPreview;
-      downloadLink.download = conversionType === "gif" ? "output.gif" : "compressed_video.mp4";
+      downloadLink.download = conversionType === GIF ? "output.gif" : "compressed_video.mp4";
       downloadLink.click();
     }
   };
@@ -60679,33 +60687,33 @@ const Compress = ({
     className: "form-check-input",
     type: "radio",
     name: "conversionType",
-    id: "gifRadio",
-    value: "gif",
-    checked: conversionType === "gif",
-    onChange: () => {
-      setConversionType("gif");
-      reset();
-    }
-  }), /*#__PURE__*/React__default.createElement("label", {
-    className: "form-check-label",
-    htmlFor: "gifRadio"
-  }, "Convert to GIF")), /*#__PURE__*/React__default.createElement("div", {
-    className: "form-check form-check-inline"
-  }, /*#__PURE__*/React__default.createElement("input", {
-    className: "form-check-input",
-    type: "radio",
-    name: "conversionType",
     id: "compressRadio",
-    value: "compress",
-    checked: conversionType === "compress",
+    value: COMPRESS,
+    checked: conversionType === COMPRESS,
     onChange: () => {
-      setConversionType("compress");
+      setConversionType(COMPRESS);
       reset();
     }
   }), /*#__PURE__*/React__default.createElement("label", {
     className: "form-check-label",
     htmlFor: "compressRadio"
-  }, "Compress Video"))), /*#__PURE__*/React__default.createElement("input", {
+  }, "Compress Video")), /*#__PURE__*/React__default.createElement("div", {
+    className: "form-check form-check-inline"
+  }, /*#__PURE__*/React__default.createElement("input", {
+    className: "form-check-input",
+    type: "radio",
+    name: "conversionType",
+    id: "gifRadio",
+    value: GIF,
+    checked: conversionType === GIF,
+    onChange: () => {
+      setConversionType(GIF);
+      reset();
+    }
+  }), /*#__PURE__*/React__default.createElement("label", {
+    className: "form-check-label",
+    htmlFor: "gifRadio"
+  }, "Convert to GIF"))), /*#__PURE__*/React__default.createElement("input", {
     type: "file",
     ref: inputRef,
     accept: "video/*",
@@ -60745,7 +60753,7 @@ const Compress = ({
   }, "Show Details"), /*#__PURE__*/React__default.createElement("button", {
     onClick: handleDownload,
     className: "btn btn-success ms-1"
-  }, "Download ", conversionType === "gif" ? "GIF" : "Compressed Video")), /*#__PURE__*/React__default.createElement("div", {
+  }, "Download ", conversionType === GIF ? "GIF" : "Compressed Video")), /*#__PURE__*/React__default.createElement("div", {
     className: "collapse mt-3",
     id: "compressionDetails"
   }, /*#__PURE__*/React__default.createElement("div", {
@@ -60768,7 +60776,7 @@ const Compress = ({
     className: "fw-bold"
   }, formattedTime)), /*#__PURE__*/React__default.createElement("div", {
     className: "text-center"
-  }, /*#__PURE__*/React__default.createElement("h3", null, "Preview:"), conversionType === "gif" ? /*#__PURE__*/React__default.createElement("img", {
+  }, /*#__PURE__*/React__default.createElement("h3", null, "Preview:"), conversionType === GIF ? /*#__PURE__*/React__default.createElement("img", {
     src: outputPreview,
     alt: "Converted GIF",
     className: "img-fluid mb-3",

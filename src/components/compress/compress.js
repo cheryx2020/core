@@ -12,11 +12,17 @@ const logEvent = (eventData) => {
   }
 };
 
+const COMPRESS_TYPE = {
+  COMPRESS: "compress",
+  GIF: "gif",
+};
+
 const Compress = ({ FFmpeg, fetchFile, coreURL, wasmURL }) => {
   const [outputPreview, setOutputPreview] = useState(null);
+  const { COMPRESS, GIF } = COMPRESS_TYPE;
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [conversionType, setConversionType] = useState("gif");
+  const [conversionType, setConversionType] = useState(COMPRESS);
   const inputRef = useRef(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
@@ -149,7 +155,7 @@ const Compress = ({ FFmpeg, fetchFile, coreURL, wasmURL }) => {
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (conversionType === "gif") {
+      if (conversionType === GIF) {
         convertVideoToGIF(file);
       } else {
         compressVideo(file);
@@ -167,7 +173,7 @@ const Compress = ({ FFmpeg, fetchFile, coreURL, wasmURL }) => {
       const downloadLink = document.createElement("a");
       downloadLink.href = outputPreview;
       downloadLink.download =
-        conversionType === "gif" ? "output.gif" : "compressed_video.mp4";
+        conversionType === GIF ? "output.gif" : "compressed_video.mp4";
       downloadLink.click();
     }
   };
@@ -203,16 +209,16 @@ const Compress = ({ FFmpeg, fetchFile, coreURL, wasmURL }) => {
             className="form-check-input"
             type="radio"
             name="conversionType"
-            id="gifRadio"
-            value="gif"
-            checked={conversionType === "gif"}
+            id="compressRadio"
+            value={COMPRESS}
+            checked={conversionType === COMPRESS}
             onChange={() => {
-              setConversionType("gif");
+              setConversionType(COMPRESS);
               reset();
             }}
           />
-          <label className="form-check-label" htmlFor="gifRadio">
-            Convert to GIF
+          <label className="form-check-label" htmlFor="compressRadio">
+            Compress Video
           </label>
         </div>
         <div className="form-check form-check-inline">
@@ -220,16 +226,16 @@ const Compress = ({ FFmpeg, fetchFile, coreURL, wasmURL }) => {
             className="form-check-input"
             type="radio"
             name="conversionType"
-            id="compressRadio"
-            value="compress"
-            checked={conversionType === "compress"}
+            id="gifRadio"
+            value={GIF}
+            checked={conversionType === GIF}
             onChange={() => {
-              setConversionType("compress");
+              setConversionType(GIF);
               reset();
             }}
           />
-          <label className="form-check-label" htmlFor="compressRadio">
-            Compress Video
+          <label className="form-check-label" htmlFor="gifRadio">
+            Convert to GIF
           </label>
         </div>
       </div>
@@ -284,7 +290,7 @@ const Compress = ({ FFmpeg, fetchFile, coreURL, wasmURL }) => {
                 Show Details
               </button>
               <button onClick={handleDownload} className="btn btn-success ms-1">
-                Download {conversionType === "gif" ? "GIF" : "Compressed Video"}
+                Download {conversionType === GIF ? "GIF" : "Compressed Video"}
               </button>
             </div>
 
@@ -314,7 +320,7 @@ const Compress = ({ FFmpeg, fetchFile, coreURL, wasmURL }) => {
                 </div>
                 <div className="text-center">
                   <h3>Preview:</h3>
-                  {conversionType === "gif" ? (
+                  {conversionType === GIF ? (
                     <img
                       src={outputPreview}
                       alt="Converted GIF"
