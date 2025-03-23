@@ -1,5 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 
+const logEvent = (eventData) => {
+  if (typeof window.gtag === "function") {
+    const { eventAction, event_category, event_label, value } = eventData;
+
+    window.gtag("event", eventAction, {
+      event_category,
+      event_label,
+      value,
+    });
+  }
+};
+
 const Compress = ({ FFmpeg, fetchFile, coreURL, wasmURL }) => {
   const [outputPreview, setOutputPreview] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -95,7 +107,19 @@ const Compress = ({ FFmpeg, fetchFile, coreURL, wasmURL }) => {
       }
       const outputURL = URL.createObjectURL(blob);
       setOutputPreview(outputURL);
+      logEvent({
+        eventAction: "compress_success",
+        event_category: "Compress Result",
+        event_label: "Compress Success",
+        value: inputFileSize + " MB",
+      });
     } catch (err) {
+      logEvent({
+        eventAction: "compress_error",
+        event_category: "Compress Result",
+        event_label: "Compress Error",
+        value: inputFileSize + " MB",
+      });
     } finally {
       setLoading(false);
       stopTimer();
@@ -103,10 +127,22 @@ const Compress = ({ FFmpeg, fetchFile, coreURL, wasmURL }) => {
   };
 
   const convertVideoToGIF = async (file) => {
+    logEvent({
+      eventAction: "click",
+      event_category: "Convert Video To Gif",
+      event_label: "Change File",
+      value: getFileSize(file) + " MB",
+    });
     await compress(file);
   };
 
   const compressVideo = async (file) => {
+    logEvent({
+      eventAction: "click",
+      event_category: "Convert Video",
+      event_label: "Change File",
+      value: getFileSize(file) + " MB",
+    });
     await compress(file, true);
   };
 
@@ -123,6 +159,11 @@ const Compress = ({ FFmpeg, fetchFile, coreURL, wasmURL }) => {
 
   const handleDownload = () => {
     if (outputPreview) {
+      logEvent({
+        eventAction: "click",
+        event_category: "Download Result",
+        event_label: "Download Result",
+      });
       const downloadLink = document.createElement("a");
       downloadLink.href = outputPreview;
       downloadLink.download =
@@ -141,8 +182,15 @@ const Compress = ({ FFmpeg, fetchFile, coreURL, wasmURL }) => {
   };
 
   const percentageDone = parseFloat(`${progress * 100}`).toFixed(0);
-  const minutes = Math.floor(elapsedTime / 60);
+  const hours = Math.floor(elapsedTime / 3600);
+  const minutes = Math.floor((elapsedTime % 3600) / 60);
   const seconds = elapsedTime % 60;
+  const padTime = (value) => String(value).padStart(2, "0");
+
+  const formattedTime =
+    (hours > 0 ? `${padTime(hours)}:` : "") +
+    `${padTime(minutes)}:` +
+    `${padTime(seconds)}`;
 
   return (
     <div className="container my-4">
@@ -196,63 +244,96 @@ const Compress = ({ FFmpeg, fetchFile, coreURL, wasmURL }) => {
       />
 
       {loading && (
-        <div>
-          <div className="progress">
-            <div
-              className="progress-bar"
-              role="progressbar"
-              style={{ width: `${progress * 100}%` }}
-              aria-valuenow={percentageDone}
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              {`${percentageDone}%`}
+        <>
+          <div>
+            <div className="progress">
+              <div
+                className="progress-bar"
+                role="progressbar"
+                style={{ width: `${progress * 100}%` }}
+                aria-valuenow={percentageDone}
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                {`${percentageDone}%`}
+              </div>
             </div>
           </div>
-        </div>
+          <h2 className="display-4 fw-bold text-primary">⏳ {formattedTime}</h2>
+        </>
       )}
-      <h2 className="display-4 fw-bold text-primary">
-        ⏳ {minutes}:{seconds < 10 ? "0" : ""}
-        {seconds}
-      </h2>
       {outputPreview && !loading && (
-        <div className="text-center">
-          <h3>Preview:</h3>
-          <div className="text-muted mb-2">
-            Input file size: <span className="fw-bold">{inputFileSize} MB</span>
+        <>
+          <div className="mb-3">
+            <div className="d-flex flex-row">
+              <button
+                className="btn btn-outline-primary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#compressionDetails"
+                aria-expanded="false"
+                aria-controls="compressionDetails"
+                onClick={() => {
+                  logEvent({
+                    eventAction: "click",
+                    event_category: "Behavior",
+                    event_label: "Show Details",
+                  });
+                }}
+              >
+                Show Details
+              </button>
+              <button onClick={handleDownload} className="btn btn-success ms-1">
+                Download {conversionType === "gif" ? "GIF" : "Compressed Video"}
+              </button>
+            </div>
+
+            <div className="collapse mt-3" id="compressionDetails">
+              <div className="card card-body text-muted">
+                <div className="mb-2">
+                  Input file size:{" "}
+                  <span className="fw-bold">{inputFileSize} MB</span>
+                </div>
+                <div className="mb-2">
+                  Output file size:{" "}
+                  <span className="fw-bold">{outputFileSize} MB</span>
+                </div>
+                <div className="mb-2">
+                  Compression:{" "}
+                  <span className="fw-bold">
+                    {inputFileSize && outputFileSize
+                      ? `${((1 - outputFileSize / inputFileSize) * 100).toFixed(
+                          2
+                        )}%`
+                      : "N/A"}
+                  </span>
+                </div>
+                <div className="mb-2">
+                  Computation time:{" "}
+                  <span className="fw-bold">{formattedTime}</span>
+                </div>
+                <div className="text-center">
+                  <h3>Preview:</h3>
+                  {conversionType === "gif" ? (
+                    <img
+                      src={outputPreview}
+                      alt="Converted GIF"
+                      className="img-fluid mb-3"
+                      style={{ maxWidth: "90%" }}
+                    />
+                  ) : (
+                    <video
+                      src={outputPreview}
+                      controls
+                      className="img-fluid mb-3"
+                      style={{ maxWidth: "90%" }}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="text-muted mb-2">
-            Output file size:{" "}
-            <span className="fw-bold">{outputFileSize} MB</span>
-          </div>
-          <div className="text-muted mb-2">
-            Compression:{" "}
-            <span className="fw-bold">
-              {inputFileSize && outputFileSize
-                ? `${((1 - outputFileSize / inputFileSize) * 100).toFixed(2)}%`
-                : "N/A"}
-            </span>
-          </div>
-          {conversionType === "gif" ? (
-            <img
-              src={outputPreview}
-              alt="Converted GIF"
-              className="img-fluid mb-3"
-              style={{ maxWidth: "90vw" }}
-            />
-          ) : (
-            <video
-              src={outputPreview}
-              controls
-              className="img-fluid mb-3"
-              style={{ maxWidth: "90vw" }}
-            />
-          )}
-          <br />
-          <button onClick={handleDownload} className="btn btn-success">
-            Download {conversionType === "gif" ? "GIF" : "Compressed Video"}
-          </button>
-        </div>
+        </>
       )}
     </div>
   );

@@ -60490,6 +60490,21 @@ const PatternItem = ({
   })));
 };
 
+const logEvent = eventData => {
+  if (typeof window.gtag === "function") {
+    const {
+      eventAction,
+      event_category,
+      event_label,
+      value
+    } = eventData;
+    window.gtag("event", eventAction, {
+      event_category,
+      event_label,
+      value
+    });
+  }
+};
 const Compress = ({
   FFmpeg,
   fetchFile,
@@ -60579,15 +60594,40 @@ const Compress = ({
       }
       const outputURL = URL.createObjectURL(blob);
       setOutputPreview(outputURL);
-    } catch (err) {} finally {
+      logEvent({
+        eventAction: "compress_success",
+        event_category: "Compress Result",
+        event_label: "Compress Success",
+        value: inputFileSize + " MB"
+      });
+    } catch (err) {
+      logEvent({
+        eventAction: "compress_error",
+        event_category: "Compress Result",
+        event_label: "Compress Error",
+        value: inputFileSize + " MB"
+      });
+    } finally {
       setLoading(false);
       stopTimer();
     }
   };
   const convertVideoToGIF = async file => {
+    logEvent({
+      eventAction: "click",
+      event_category: "Convert Video To Gif",
+      event_label: "Change File",
+      value: getFileSize(file) + " MB"
+    });
     await compress(file);
   };
   const compressVideo = async file => {
+    logEvent({
+      eventAction: "click",
+      event_category: "Convert Video",
+      event_label: "Change File",
+      value: getFileSize(file) + " MB"
+    });
     await compress(file, true);
   };
   const handleFileChange = e => {
@@ -60602,6 +60642,11 @@ const Compress = ({
   };
   const handleDownload = () => {
     if (outputPreview) {
+      logEvent({
+        eventAction: "click",
+        event_category: "Download Result",
+        event_label: "Download Result"
+      });
       const downloadLink = document.createElement("a");
       downloadLink.href = outputPreview;
       downloadLink.download = conversionType === "gif" ? "output.gif" : "compressed_video.mp4";
@@ -60617,8 +60662,11 @@ const Compress = ({
     setOutputFileSize(0);
   };
   const percentageDone = parseFloat(`${progress * 100}`).toFixed(0);
-  const minutes = Math.floor(elapsedTime / 60);
+  const hours = Math.floor(elapsedTime / 3600);
+  const minutes = Math.floor(elapsedTime % 3600 / 60);
   const seconds = elapsedTime % 60;
+  const padTime = value => String(value).padStart(2, "0");
+  const formattedTime = (hours > 0 ? `${padTime(hours)}:` : "") + `${padTime(minutes)}:` + `${padTime(seconds)}`;
   return /*#__PURE__*/React__default.createElement("div", {
     className: "container my-4"
   }, /*#__PURE__*/React__default.createElement("h1", {
@@ -60663,7 +60711,7 @@ const Compress = ({
     accept: "video/*",
     onChange: handleFileChange,
     className: "form-control mb-3"
-  }), loading && /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("div", {
+  }), loading && /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("div", {
     className: "progress"
   }, /*#__PURE__*/React__default.createElement("div", {
     className: "progress-bar",
@@ -60676,38 +60724,65 @@ const Compress = ({
     "aria-valuemax": "100"
   }, `${percentageDone}%`))), /*#__PURE__*/React__default.createElement("h2", {
     className: "display-4 fw-bold text-primary"
-  }, "\u23F3 ", minutes, ":", seconds < 10 ? "0" : "", seconds), outputPreview && !loading && /*#__PURE__*/React__default.createElement("div", {
-    className: "text-center"
-  }, /*#__PURE__*/React__default.createElement("h3", null, "Preview:"), /*#__PURE__*/React__default.createElement("div", {
-    className: "text-muted mb-2"
-  }, "Input file size: ", /*#__PURE__*/React__default.createElement("span", {
+  }, "\u23F3 ", formattedTime)), outputPreview && !loading && /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("div", {
+    className: "mb-3"
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: "d-flex flex-row"
+  }, /*#__PURE__*/React__default.createElement("button", {
+    className: "btn btn-outline-primary",
+    type: "button",
+    "data-bs-toggle": "collapse",
+    "data-bs-target": "#compressionDetails",
+    "aria-expanded": "false",
+    "aria-controls": "compressionDetails",
+    onClick: () => {
+      logEvent({
+        eventAction: "click",
+        event_category: "Behavior",
+        event_label: "Show Details"
+      });
+    }
+  }, "Show Details"), /*#__PURE__*/React__default.createElement("button", {
+    onClick: handleDownload,
+    className: "btn btn-success ms-1"
+  }, "Download ", conversionType === "gif" ? "GIF" : "Compressed Video")), /*#__PURE__*/React__default.createElement("div", {
+    className: "collapse mt-3",
+    id: "compressionDetails"
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: "card card-body text-muted"
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: "mb-2"
+  }, "Input file size:", " ", /*#__PURE__*/React__default.createElement("span", {
     className: "fw-bold"
   }, inputFileSize, " MB")), /*#__PURE__*/React__default.createElement("div", {
-    className: "text-muted mb-2"
+    className: "mb-2"
   }, "Output file size:", " ", /*#__PURE__*/React__default.createElement("span", {
     className: "fw-bold"
   }, outputFileSize, " MB")), /*#__PURE__*/React__default.createElement("div", {
-    className: "text-muted mb-2"
+    className: "mb-2"
   }, "Compression:", " ", /*#__PURE__*/React__default.createElement("span", {
     className: "fw-bold"
-  }, inputFileSize && outputFileSize ? `${((1 - outputFileSize / inputFileSize) * 100).toFixed(2)}%` : "N/A")), conversionType === "gif" ? /*#__PURE__*/React__default.createElement("img", {
+  }, inputFileSize && outputFileSize ? `${((1 - outputFileSize / inputFileSize) * 100).toFixed(2)}%` : "N/A")), /*#__PURE__*/React__default.createElement("div", {
+    className: "mb-2"
+  }, "Computation time:", " ", /*#__PURE__*/React__default.createElement("span", {
+    className: "fw-bold"
+  }, formattedTime)), /*#__PURE__*/React__default.createElement("div", {
+    className: "text-center"
+  }, /*#__PURE__*/React__default.createElement("h3", null, "Preview:"), conversionType === "gif" ? /*#__PURE__*/React__default.createElement("img", {
     src: outputPreview,
     alt: "Converted GIF",
     className: "img-fluid mb-3",
     style: {
-      maxWidth: "90vw"
+      maxWidth: "90%"
     }
   }) : /*#__PURE__*/React__default.createElement("video", {
     src: outputPreview,
     controls: true,
     className: "img-fluid mb-3",
     style: {
-      maxWidth: "90vw"
+      maxWidth: "90%"
     }
-  }), /*#__PURE__*/React__default.createElement("br", null), /*#__PURE__*/React__default.createElement("button", {
-    onClick: handleDownload,
-    className: "btn btn-success"
-  }, "Download ", conversionType === "gif" ? "GIF" : "Compressed Video")));
+  })))))));
 };
 
 var styles$l = {"wrapperGroupContent":"PostContent-module_wrapperGroupContent__yFH1p","header":"PostContent-module_header__PsWMK","contentZone":"PostContent-module_contentZone__HUhpk","show":"PostContent-module_show__ZMf2A","edit":"PostContent-module_edit__Qe59Q","btnMenu":"PostContent-module_btnMenu__-mGU-","imageWrapper":"PostContent-module_imageWrapper__2Fk0j","bigTitle":"PostContent-module_bigTitle__iLoUj","wrapperAction":"PostContent-module_wrapperAction__-kVIX","deleteButton":"PostContent-module_deleteButton__iDrEN","addButton":"PostContent-module_addButton__sb98L","button":"PostContent-module_button__FKbWL","imageUpload":"PostContent-module_imageUpload__qkS0y","wrapper":"PostContent-module_wrapper__ahlNi","ads":"PostContent-module_ads__vHBWo","relatedTo":"PostContent-module_relatedTo__NKbLQ","arrow":"PostContent-module_arrow__ms8AO","textRelatedTo":"PostContent-module_textRelatedTo__IHBxX","dropZone":"PostContent-module_dropZone__8WDHC","subcribeMe":"PostContent-module_subcribeMe__3y1K-","imgWrapper":"PostContent-module_imgWrapper__4YZaL","imageDescription":"PostContent-module_imageDescription__19QTz"};
