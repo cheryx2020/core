@@ -146,7 +146,7 @@ const Compress = ({ FFmpeg, fetchFile, coreURL, wasmURL }) => {
 
   return (
     <div className="container my-4">
-      <h1 className="text-center mb-4">Video Converter</h1>
+      <h1 className="text-center mb-4">Video Compressor</h1>
 
       {/* Conversion type selection */}
       <div className="mb-3">

@@ -60623,7 +60623,7 @@ const Compress = ({
     className: "container my-4"
   }, /*#__PURE__*/React__default.createElement("h1", {
     className: "text-center mb-4"
-  }, "Video Converter"), /*#__PURE__*/React__default.createElement("div", {
+  }, "Video Compressor"), /*#__PURE__*/React__default.createElement("div", {
     className: "mb-3"
   }, /*#__PURE__*/React__default.createElement("div", {
     className: "form-check form-check-inline"
