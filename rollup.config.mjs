@@ -1,4 +1,5 @@
 import { babel } from '@rollup/plugin-babel';
+import { terser } from "rollup-plugin-terser";
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from '@rollup/plugin-node-resolve';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
@@ -23,10 +24,12 @@ export default {
       presets: ["@babel/preset-react"],
       extensions: [".js"],
     }),
+    terser(),
     postcss({
       extract: true,  // extracts to `${basename(dest)}.css`
       plugins: [autoprefixer()],
       writeDefinitions: true,
+      minimize: true,
       // modules: { ... }
     }),
     copy({

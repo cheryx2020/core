@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import styles from "./compress.module.scss";
 
 const logEvent = (eventData) => {
   if (typeof window.gtag === "function") {
@@ -197,9 +198,10 @@ const Compress = ({ FFmpeg, fetchFile, coreURL, wasmURL }) => {
     (hours > 0 ? `${padTime(hours)}:` : "") +
     `${padTime(minutes)}:` +
     `${padTime(seconds)}`;
+  const { wrapper } = styles ?? {};
 
   return (
-    <div className="container my-4">
+    <div className={`container my-4 ${wrapper}`}>
       <h1 className="text-center mb-4">Video Compressor</h1>
 
       {/* Conversion type selection */}
