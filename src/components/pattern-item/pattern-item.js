@@ -8,7 +8,7 @@ import { getListTips } from '@cheryx2020/utils';
 import Input from '../input';
 
 const NoImage = 'https://cheryx.com/images/no-image.png';
-const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontFamily = "", imageUrl = NoImage, discount = 0, language = 'vi', _id, description, name, nameColor = '#0A7BCA', ravelryUrl, patternId = '', order, isAdmin, isAddNew, isFree, isBottom, apiDelete = 'remove-pattern', apiEdit = 'edit-pattern', apiAdd = 'add-pattern', onClickUrl = 'pattern-detail' }) => {
+const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontFamily = "", imageUrl = NoImage, discount = 0, googleDriveFileId, language = 'vi', _id, description, name, nameColor = '#0A7BCA', ravelryUrl, patternId = '', order, isAdmin, isAddNew, isFree, isBottom, apiDelete = 'remove-pattern', apiEdit = 'edit-pattern', apiAdd = 'add-pattern', onClickUrl = 'pattern-detail' }) => {
   const [imgSrc, setImgSrc] = useState(imageUrl);
   const [listPatternDetail, setListPatternDetail] = useState([]);
   const [prNameColor, setPrNameColor] = useState(nameColor);
@@ -218,6 +218,13 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
     setImgWidth(width);
   }
 
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      setPatternFile(selectedFile);
+    }
+  };
+
   return (
     <div
       href={makeUrl(ravelryUrl)}
@@ -280,6 +287,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
             min="0"
             max="100"
           />
+          {_isFree && <Input id={`Pattern File${googleDriveFileId ? ` (${googleDriveFileId})`: ''}`} type="file" onChange={handleFileChange}/>}
         </div>
       )}
     </div>
