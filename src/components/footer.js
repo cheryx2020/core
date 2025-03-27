@@ -9,7 +9,7 @@ const isAllowShowBanner = () => {
   let result = true;
   try {
     const pathname = window?.location?.pathname;
-    const listIgnorepage = ['/linktree'];
+    const listIgnorepage = ['/linktree', 'download'];
     if (listIgnorepage.includes(pathname)) {
       result = false;
     }
