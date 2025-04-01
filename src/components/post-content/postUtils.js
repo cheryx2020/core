@@ -26,6 +26,7 @@ export const getSelectionText = () => {
 }
 
 export const PostContent = ({
+    useDispatch = () => {},
     data = [],
     onChangeData = () => { },
     onSaveClick = () => { },
@@ -56,6 +57,7 @@ export const PostContent = ({
         styles,
         onDeleteContentItem,
         addNewContentItem,
+        useDispatch,
         isMobile,
         isEdit,
         data,
@@ -415,6 +417,7 @@ export const onCaptionChange = (e, index, contentData) => {
 const renderItemByType = ({ type, text, content, webWidth, webHeight, urlWeb, imageDescription = 'Image description', url, textLink, patternDetail = {}, imageUrl, previewUrl, patternId, buttonText, message, data = [], style = {}, expanded, isSubscribe }, index, styles = {},
     onDeleteContentItem = () => { },
     onAddNewContentItem = () => { },
+    useDispatch = () => {},
     isMobile,
     isAdmin,
     contentData, onChangeContent) => {
@@ -526,7 +529,7 @@ const renderItemByType = ({ type, text, content, webWidth, webHeight, urlWeb, im
             viewComponent = subContent;
             break;
         case POST_ITEM_TYPE.PATTERN_PREVIEW:
-            subContent = <PatternPreview patternId={patternId} isSubscribe={isSubscribe} buttonText={buttonText} message={message} previewUrl={previewUrl} onChange={(e, index, key) => onChangeContent(onChangePatternPreview(e, index, key, contentData))} imageUrl={imageUrl} index={index} isAdmin={isAdmin} />;
+            subContent = <PatternPreview useDispatch={useDispatch} patternId={patternId} isSubscribe={isSubscribe} buttonText={buttonText} message={message} previewUrl={previewUrl} onChange={(e, index, key) => onChangeContent(onChangePatternPreview(e, index, key, contentData))} imageUrl={imageUrl} index={index} isAdmin={isAdmin} />;
             editComponent = <div onDragStart={onDragStart} draggable="true">{subContent}</div>;
             viewComponent = subContent;
             break;

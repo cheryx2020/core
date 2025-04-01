@@ -68,7 +68,8 @@ export const EmailSubscriptionSuccess = () => {
   </>);
 };
 
-export const DownloadPatternForm = ({ dispatch, patternId, setIsSubmitted = () => { } }) => {
+export const DownloadPatternForm = ({ useDispatch = () => { }, patternId, setIsSubmitted = () => { } }) => {
+  const dispatch = useDispatch();
   return (<><div className={styles.title}>Download PDF Pattern</div>
     <div className={styles.textEmailSubscription}>
       This free pattern will be sent to the provided email. Please make sure you write your email address correctly.
@@ -95,7 +96,6 @@ export const DownloadPatternForm = ({ dispatch, patternId, setIsSubmitted = () =
 const PatternPreview = ({ useDispatch = () => { }, isAdmin, patternId, isSubscribe, onChange = () => { }, index, imageUrl: _imageUrl, previewUrl: _previewUrl, buttonText = "Look inside the pattern", message = 'You can preview 3 pages of the knitting pattern!' }) => {
   const [imageUrl, setImageUrl] = useState(_imageUrl);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const dispatch = useDispatch();
   const [previewUrl, setPreviewUrl] = useState(_previewUrl);
   const onChangeBigImage = ({ imgFile }) => {
     onChange(imgFile, index, 'imageUrl');
@@ -127,7 +127,7 @@ const PatternPreview = ({ useDispatch = () => { }, isAdmin, patternId, isSubscri
     </div>
     <div className={styles.info}>
       {isSubscribe ? <div className={styles.wrapperDownloadPdf}>
-        {isSubmitted ? <EmailSubscriptionSuccess /> : <DownloadPatternForm patternId={patternId} setIsSubmitted={setIsSubmitted} dispatch={dispatch} />}
+        {isSubmitted ? <EmailSubscriptionSuccess /> : <DownloadPatternForm patternId={patternId} setIsSubmitted={setIsSubmitted} useDispatch={useDispatch} />}
       </div> : <>
         <a rel="noreferrer" href={previewUrl} onClick={e => onClickLink(e, 'previewUrl')} target="_blank" className={styles.previewUrl}>{buttonText}</a>
         <div contentEditable={isAdmin ? "true" : "false"} onBlur={() => { }}>{message}</div>

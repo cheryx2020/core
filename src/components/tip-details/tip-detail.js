@@ -122,10 +122,11 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, setIsEdit = ()
     </div>}
     {!isPatternDetail && <header>
       {isEdit ? <h1 suppressContentEditableWarning={true} contentEditable="true" onBlur={(e) => { setTitleData(e.target.innerText) }}>{titleData}</h1> : <h1 itemProp="headline name">{postTitle}</h1>}
-      {isEdit ? null : (video ? <PostContent data={[video]}/> : null)}
+      {isEdit ? null : (video ? <PostContent useDispatch={useDispatch} data={[video]}/> : null)}
     </header>}
     <div itemProp="text">
     <PostContent
+        useDispatch={useDispatch}
         isShowBigMenu={isAdmin}
         data={isAdmin ? contentData : ((video && !isPatternDetail) ? content?.filter(item => item.type !== POST_ITEM_TYPE.VIDEO) : content)}
         isMobile={isMobile}
