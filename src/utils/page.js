@@ -29,6 +29,7 @@ const PageItem = ({ data, ...rest }) => {
                 <PatternList
                     {...rest}
                     style={{ marginTop: rest.isMobile ? 20 : 40 }}
+                    api={data.api}
                     data={data?.[data.api] ?? []}
                 />
             );
