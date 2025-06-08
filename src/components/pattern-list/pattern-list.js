@@ -8,7 +8,7 @@ import { APIService } from '@cheryx2020/api-service';
 const PatternList = ({ useRouter = () => { }, useDispatch = () => { }, data, isEdit, style = {}, isBottom, className, language, api }) => {
     const [_data, setData] = useState(data);
     useEffect(() => {
-        api && APIService.get(api).then(res => {
+        isEdit && api && APIService.get(api).then(res => {
             setData(res?.data?.data ?? []);
         })
     }, [isEdit]);
