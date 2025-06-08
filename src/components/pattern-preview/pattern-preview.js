@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './PatternPreview.module.scss';
 import { APIService, setShowLoading } from '@cheryx2020/api-service';
 import ImageUploadable from '../image-uploadable/image-uploadable';
+import { uploadFile } from '@cheryx2020/utils';
 const FormInput = ({ label = "Label", required = false, name = "name", type = "text", placeholder = "Text" }) => {
   return <div className={styles.formInput}>
     <div for={name} className={styles.label}>{label}</div>
@@ -100,6 +101,19 @@ const PatternPreview = ({ useDispatch = () => { }, isAdmin, patternId, isSubscri
   const onChangeBigImage = ({ imgFile }) => {
     onChange(imgFile, index, 'imageUrl');
   }
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      try {
+        const previewUpload = await uploadFile
+          (file, 'public/pattern-previews', true, `pattern_preview`, true, previewUrl);
+          setPreviewUrl(previewUpload);
+          onChange(previewUpload, index, "previewUrl")
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
   const onClickLink = (e, key) => {
     if (isAdmin) {
       e.preventDefault();
@@ -129,7 +143,7 @@ const PatternPreview = ({ useDispatch = () => { }, isAdmin, patternId, isSubscri
       {isSubscribe ? <div className={styles.wrapperDownloadPdf}>
         {isSubmitted ? <EmailSubscriptionSuccess /> : <DownloadPatternForm patternId={patternId} setIsSubmitted={setIsSubmitted} useDispatch={useDispatch} />}
       </div> : <>
-        <a rel="noreferrer" href={previewUrl} onClick={e => onClickLink(e, 'previewUrl')} target="_blank" className={styles.previewUrl}>{buttonText}</a>
+        {isAdmin ? <div><input type='file' onChange={handleFileChange}/><div>{previewUrl ?? 'No preview file'}</div></div> : <a rel="noreferrer" href={previewUrl} onClick={e => onClickLink(e, 'previewUrl')} target="_blank" className={styles.previewUrl}>{buttonText}</a>}
         <div contentEditable={isAdmin ? "true" : "false"} onBlur={() => { }}>{message}</div>
       </>}
     </div>

@@ -1033,26 +1033,19 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cheryx2020/api-service@^1.0.19":
-  version "1.0.19"
-  resolved "https://registry.npmjs.org/@cheryx2020/api-service/-/api-service-1.0.19.tgz"
-  integrity sha512-JD5IPDfLK0/6vn51Mi/Yvkj/CfoExlSP1IfrQHYnZO27Dj2tPk4XFaZWGBYU4Vz9RLUuRcPnhNuNyYdJIs8biA==
+"@cheryx2020/api-service@^1.0.20":
+  version "1.0.20"
+  resolved "https://registry.yarnpkg.com/@cheryx2020/api-service/-/api-service-1.0.20.tgz#e9ebd016b89bd68f0177df42973926e9f9bc155b"
+  integrity sha512-gjFtNi7poFvb8mXrj647VCWQgDsv6MWG2BJ4fkOvfOu3gtmrIYm5zz1cu8llW0c7tsT7YmPdYnrf6TNfyTkSdg==
   dependencies:
-    axios "^1.5.1"
+    axios "^1.9.0"
 
-"@cheryx2020/api-service@^1.0.8":
-  version "1.0.13"
-  resolved "https://registry.npmjs.org/@cheryx2020/api-service/-/api-service-1.0.13.tgz"
-  integrity sha512-PeIw/gSFx25zC7vARw0hwNHfNVeQwgDvUyN7lrKniwWAAWQTeOfY0v6QgMr3SUJ1zml2aaeQkgTQOf3GdU11VQ==
+"@cheryx2020/utils@^1.5.13":
+  version "1.5.13"
+  resolved "https://registry.yarnpkg.com/@cheryx2020/utils/-/utils-1.5.13.tgz#4b0dab3da48e9276652a7f18796b3df6bca1b4e7"
+  integrity sha512-LpO/TBUkNc+4EhhE1lE+LC0GXuCRYbaDSHlDCZXCchdZ7mBcEBxpRgOew7/hzzUQ6gHgX92H8P8NKIpzGmHNcw==
   dependencies:
-    axios "^1.5.1"
-
-"@cheryx2020/utils@^1.5.6":
-  version "1.5.6"
-  resolved "https://registry.npmjs.org/@cheryx2020/utils/-/utils-1.5.6.tgz"
-  integrity sha512-ewsqIBjSSL1////7XKTqUI0+4l1WCCuG2KrN4h5Jp1KyeFlqzr/R/N84aMZVhAaPnVhHbVpBYfckuyPIpcx5Jg==
-  dependencies:
-    "@cheryx2020/api-service" "^1.0.8"
+    "@cheryx2020/api-service" "^1.0.20"
     public-ip "^5.0.0"
 
 "@emotion/babel-plugin@^11.11.0":
@@ -1989,10 +1982,10 @@ autoprefixer@^10.4.16:
     picocolors "^1.0.0"
     postcss-value-parser "^4.2.0"
 
-axios@^1.5.1:
-  version "1.8.4"
-  resolved "https://registry.npmjs.org/axios/-/axios-1.8.4.tgz"
-  integrity sha512-eBSYY4Y68NNlHbHBMdeDmKNtDgXWhQsJcGqzO3iLUM0GraQFSS9cVgPX5I9b3lbdFKyYoAEGAZF1DwhTaljNAw==
+axios@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.9.0.tgz#25534e3b72b54540077d33046f77e3b8d7081901"
+  integrity sha512-re4CqKTJaURpzbLHtIi6XpDv20/CnpXOtjRY5/CU32L8gU8ek9UIivcfvSWvmKEngmVbrUtPpdDwWDWL7DNHvg==
   dependencies:
     follow-redirects "^1.15.6"
     form-data "^4.0.0"

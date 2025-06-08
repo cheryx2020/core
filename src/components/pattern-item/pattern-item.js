@@ -266,7 +266,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
       <div className={styles.content}>{content}</div>
 
       {isEdit && (
-        <div>
+        <div style={{ marginTop: 25 }}>
           <div style={{ marginBottom: "1rem" }}>
             <Select
               placeholder="Chọn bài viết"
