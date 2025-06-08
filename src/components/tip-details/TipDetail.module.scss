@@ -231,6 +231,8 @@
     color: #565555;
     font-weight: 400;
     margin: 0 0 20px 0;
+    white-space: pre-wrap;
+    line-height: 40px;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */
@@ -240,7 +242,7 @@
                                   supported by Chrome, Edge, Opera and Firefox */
     @media (max-width: $mobile-breakpoint) {
       font-size: 1.2rem;
-      line-height: 28px;
+      line-height: 35px;
       margin-bottom: 14px;
     }
   }
