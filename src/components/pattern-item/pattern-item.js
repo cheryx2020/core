@@ -95,9 +95,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
     }
   }
   const onClickPatternDetail = () => {
-    if (patternId) {
-      router.push(`${onClickUrl}/${patternId}`);
-    }
+    router.push(`${patternId ? onClickUrl : ''}/${patternId ? patternId : 'add-pattern-detail'}`);
   }
 
   const dispatch = useDispatch();
@@ -250,7 +248,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
           </div>
           {!isAddNew && !isEdit && <>
             <div onClick={onClickDelete} className={styles.button}>Delete</div>
-            <div onClick={onClickPatternDetail} className={styles.button}>Detail</div>
+            <div onClick={onClickPatternDetail} className={styles.button}>{patternId ? `Detail` : `Add detail`}</div>
           </>}
         </div>
       )}

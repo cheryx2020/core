@@ -19,7 +19,7 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, setIsEdit = ()
   const { title, content, seoTitle, seoDescription, id } = data;
   const [titleData, setTitleData] = useState(defaultTitle);
   const [contentData, setContentData] = useState(defaultContent);
-  const [_isPattern, setIsPattern] = useState(data.isPattern ? true : false);
+  const [_isPattern, setIsPattern] = useState((data.isPattern || isPatternDetail) ? true : false);
   const [_isFree, setIsFree] = useState(data.isFree ? true : false);
   useEffect(() => {
     if (data?._id) {
@@ -27,6 +27,10 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, setIsEdit = ()
       setContentData(defaultContent)
     }
   }, [isEdit, data]);
+
+  useEffect(() => {
+    setIsPattern(isPatternDetail ?? false);
+  }, [isPatternDetail])
   const router = useRouter();
   const dispatch = useDispatch();
   const resetData = () => {

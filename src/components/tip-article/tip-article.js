@@ -102,6 +102,7 @@ const TipArticle = ({Image, titleStyle = {}, Link, useDispatch = () => {}, data,
   const onChangeIsShowAtHome = e => {
     handleCheckBoxChange({_id: data._id, id: data.id ,isShowAtHome: e.target.checked ? true : false, isBig: isBigItem});
   }
+  const link = `/${data.isPattern ? 'pattern-detail' : 'tip'}/${data.id}`;
   return <article className={styles.wrapper}>
     {isAdmin && <div className={styles.editButtonZone}>
       {!data.isPattern && <div className={styles.checkIsBig}>
@@ -112,7 +113,7 @@ const TipArticle = ({Image, titleStyle = {}, Link, useDispatch = () => {}, data,
       </div>}
       <div title='Delete' className={styles.deleteButton} onClick={onClickDelete}>🗑</div>
     </div>}
-    <Link href={`/tip/${data.id}`}>
+    <Link href={link}>
       <div className={styles.image}>
         {isAdmin && <div className={styles.imageMenu} onClick={e => e.stopPropagation()}>
           <label><div>Upload</div><input hidden="true" type="file" onChange={onChangeImage}></input></label>
@@ -121,7 +122,7 @@ const TipArticle = ({Image, titleStyle = {}, Link, useDispatch = () => {}, data,
       </div>
     </Link>
     <div className={styles.info}>
-      <Link href={`/tip/${data.id}`}><a className={styles.title} style={titleStyle}>{data.title}</a></Link>
+      <Link href={link}><a className={styles.title} style={titleStyle}>{data.title}</a></Link>
       <div className={styles.description}>{getDescriptionFromContent(data.content)}</div>
       {/* <div className={styles.seeMore}>{`See more >>`}</div> */}
     </div>
