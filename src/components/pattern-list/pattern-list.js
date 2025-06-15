@@ -7,8 +7,8 @@ import { useState } from 'react';
 import { APIService } from '@cheryx2020/api-service';
 
 const PatternList = ({
-  useRouter = () => {},
-  useDispatch = () => {},
+  useRouter = () => { },
+  useDispatch = () => { },
   data,
   isEdit,
   style = {},
@@ -18,6 +18,7 @@ const PatternList = ({
   api
 }) => {
   const [_data, setData] = useState(data);
+  const [isDragEnabled, setIsDragEnabled] = useState(false);
 
   useEffect(() => {
     if (isEdit && api) {
@@ -44,32 +45,18 @@ const PatternList = ({
   };
 
   const renderList = () => {
-    return _data.map((item, index) => {
-      if (isEdit) {
-        return (
-          <Draggable key={item.id || index} draggableId={String(item.id || index)} index={index}>
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-              >
-                <PatternItem
-                  language={language}
-                  useDispatch={useDispatch}
-                  useRouter={useRouter}
-                  isBottom={isBottom}
-                  isAdmin={isEdit}
-                  {...item}
-                />
-              </div>
-            )}
-          </Draggable>
-        );
-      } else {
+    const listWithAddNew = isEdit
+      ? [..._data, { id: 'add-new', isAddNew: true }]
+      : _data;
+
+    return listWithAddNew.map((item, index) => {
+      const key = item.id || `item-${index}`;
+
+      // If not edit mode OR drag is disabled → render as plain list
+      if (!isEdit || !isDragEnabled) {
         return (
           <PatternItem
-            key={item.id || index}
+            key={key}
             language={language}
             useDispatch={useDispatch}
             useRouter={useRouter}
@@ -79,45 +66,72 @@ const PatternList = ({
           />
         );
       }
+
+      // If isEdit AND isDragEnabled → use Draggable
+      return (
+        <Draggable
+          key={key}
+          draggableId={String(key)}
+          index={index}
+          isDragDisabled={item.isAddNew}
+        >
+          {(provided) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...(!item.isAddNew ? provided.dragHandleProps : {})}
+            >
+              <PatternItem
+                language={language}
+                useDispatch={useDispatch}
+                useRouter={useRouter}
+                isBottom={isBottom}
+                isAdmin={isEdit}
+                {...item}
+              />
+            </div>
+          )}
+        </Draggable>
+      );
     });
   };
 
-  return (
-    <div
-      className={`${styles.wrapper} ${
-        isBottom ? `${styles.bottom} ${className}` : ''
-      }`}
-      style={style}
-    >
-      {isEdit ? (
-        <DragDropContext onDragEnd={handleDragEnd}>
-          <Droppable droppableId="pattern-list">
-            {(provided) => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
-                {renderList()}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-      ) : (
-        renderList()
-      )}
 
+  return (
+    <>
       {isEdit && (
-        <PatternItem
-          language={language}
-          useDispatch={useDispatch}
-          useRouter={useRouter}
-          name="Pattern Name"
-          description="Description"
-          isEditing={true}
-          isAdmin={isEdit}
-          isAddNew={true}
-        />
+        <div style={{ marginBottom: 10, display: 'flex', width: '100%' }}>
+          <label>
+            <input
+              type="checkbox"
+              checked={isDragEnabled}
+              onChange={(e) => setIsDragEnabled(e.target.checked)}
+            />
+            Enable drag and drop
+          </label>
+        </div>
       )}
-    </div>
-  );
+      <div
+        className={`${styles.wrapper} ${isBottom ? `${styles.bottom} ${className}` : ''
+          }`}
+        style={style}
+      >
+        {isEdit && isDragEnabled ? (
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="pattern-list">
+              {(provided) => (
+                <div ref={provided.innerRef} {...provided.droppableProps}>
+                  {renderList()}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        ) : (
+          renderList()
+        )}
+      </div>
+    </>);
 };
 
 export default PatternList;
