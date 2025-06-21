@@ -52,6 +52,8 @@ import PayPalCheckout from "./src/components/paypal-checkout/paypal-checkout";
 import MainLayout from "./src/layouts/main";
 import DetailLayout from "./src/layouts/detail";
 import DashboardLayout from "./src/layouts/dashboard-layout";
+import DashboardItem from "./src/components/dashboard-item/dashboard-item";
+import DashboardWrapper from "./src/components/dashboard-wrapper/dashboard-wrapper";
 
 export {
     AdBanner,
@@ -63,7 +65,9 @@ export {
     CircularLoader,
     Compress,
     ContentWithTitle,
+    DashboardItem,
     DashboardLayout,
+    DashboardWrapper,
     DetailLayout,
     Footer,
     Form,
