@@ -41,6 +41,30 @@ function usePageData({ page, pageName, router, domain = getDomain(), language = 
 
     const onClickSave = (e) => {
         e?.stopPropagation();
+        const saveAPI = e?.target?.dataset?.saveapi;
+        if (saveAPI) {
+            const saveBodyDataKey = e?.target?.dataset?.savebodydatakey;
+            let bodyData = localStorage.getItem(saveBodyDataKey);
+            if (bodyData) {
+                try {
+                    bodyData = JSON.parse(bodyData);
+                } catch (e) {
+                    console.log("Error when parsing bodyData", e);
+                }
+                setLoading(true);
+                APIService.post(saveAPI, bodyData).then(res => {
+                    console.log("Success", res);
+                }).catch(err => {
+                    console.error("Error", err);
+                }).finally(() => {
+                    localStorage.removeItem(saveBodyDataKey);
+                    setLoading(false);
+                });
+            } else {
+                console.log("Not found bodyData");
+            }
+            return;
+        } 
         const content = JSON.stringify(pageData);
         const removedImages = JSON.stringify(Object.keys(urlChanges));
         const bodyFormData = new FormData();

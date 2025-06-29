@@ -6,7 +6,7 @@ const BUTTON_TYPES = {
     CANCEL: "CANCEL"
 }
 const { CANCEL, EDIT_SAVE } = BUTTON_TYPES;
-const AdminMenu = ({text, onSaveClick = () => {}, onEditClick = () => {}, onCancelClick = ()=> {}, isEdit, nosave}) => {
+const AdminMenu = ({ text, onSaveClick = () => { }, onEditClick = () => { }, onCancelClick = () => { }, isEdit, nosave, saveAPI, saveBodyDataKey }) => {
     const [isShowMenu, setIsShowMenu] = useState(false);
     const onEditBtnClick = (e) => {
         onEditClick(e);
@@ -26,7 +26,7 @@ const AdminMenu = ({text, onSaveClick = () => {}, onEditClick = () => {}, onCanc
     return <div onClick={() => { setIsShowMenu(!isShowMenu) }} className={`${styles.bigMenu}${isShowMenu ? ' ' + styles.menuActive : ''}`}>
         <span>{text}</span>
         {!isEdit && <div onClick={(e) => { onClickButton(e, EDIT_SAVE); }} className={makeBtnStyle('top')}>Edit</div>}
-        {isEdit && !nosave && <div onClick={(e) => { onClickButton(e, EDIT_SAVE); }} className={makeBtnStyle('top')}>Save</div>}
+        {isEdit && !nosave && <div data-saveapi={saveAPI} data-savebodydatakey={saveBodyDataKey} onClick={(e) => { onClickButton(e, EDIT_SAVE); }} className={makeBtnStyle('top')}>Save</div>}
         {isEdit && <div onClick={(e) => { onClickButton(e, CANCEL); }} className={makeBtnStyle('bottom')}>Cancel</div>}
     </div>
 }

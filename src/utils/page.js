@@ -13,8 +13,10 @@ const PageItem = ({ data, ...rest }) => {
             return isAdmin && <AdminMenu
                 isEdit={isEdit}
                 text="Menu"
-                nosave={!!data?.nosave}
-                onSaveClick={!data?.nosave && onClickSave ? onClickSave : () => {}}
+                saveBodyDataKey={data?.saveBodyDataKey}
+                saveAPI={data?.saveAPI}
+                nosave={data?.nosave === "true" ? true : false}
+                onSaveClick={!(data?.nosave === "true") && onClickSave ? onClickSave : () => { }}
                 onEditClick={(e) => { setIsEdit(true) }}
                 onCancelClick={(e) => { setIsEdit(false); }}
             />

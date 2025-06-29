@@ -41,6 +41,11 @@ const PatternList = ({
     newItems.splice(result.destination.index, 0, moved);
 
     const updated = newItems.map((item, index) => ({ ...item, order: index }));
+    try {
+      localStorage.setItem('orderedPattern', JSON.stringify(updated.map(({ _id, order }) => { return { _id, order } })));
+    } catch (e) {
+      console.log("Error when setting orderedPattern to the localStorage", updated)
+    }
     setData(updated);
   };
 
