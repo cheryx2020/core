@@ -1,5 +1,5 @@
 import React from "react";
-import AdminMenu from "../../src/components/admin-menu/admin-menu";
+import { AdminMenu } from "@cheryx2020/core";
 
 const Index = () => {
     return <div>

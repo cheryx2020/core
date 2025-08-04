@@ -265,7 +265,7 @@
     width: calc( 1025/#{$body-max-width-value} *100%); 
     margin-top: 24px;
     height: 317px;
-    background: url('/images/labby.png');
+    background: url('https://cheryx.com/images/labby.png');
     background-size: cover;
     background-repeat: no-repeat;
     @media (max-width: $mobile-breakpoint) {
@@ -280,28 +280,28 @@
   }
   .images {
     .pumpkin {
-      background: url('/images/pumpkin.png');
+      background: url('https://cheryx.com/images/pumpkin.png');
     }
     .reindeer {
-      background: url('/images/reindeer.png');
+      background: url('https://cheryx.com/images/reindeer.png');
     }
     .lucy {
-      background: url('/images/lucy.png');
+      background: url('https://cheryx.com/images/lucy.png');
     }
     .alan {
-      background: url('/images/alan.png');
+      background: url('https://cheryx.com/images/alan.png');
     }
     .mason {
-      background: url('/images/mason.png');
+      background: url('https://cheryx.com/images/mason.png');
     }
     .jacky {
-      background: url('/images/jacky.png');
+      background: url('https://cheryx.com/images/jacky.png');
     }
     .jane {
-      background: url('/images/jane.png');
+      background: url('https://cheryx.com/images/jane.png');
     }
     .bunny {
-      background: url('/images/bunny.png');
+      background: url('https://cheryx.com/images/bunny.png');
       @include tablet {
         display: none;
       }
@@ -347,7 +347,7 @@
   .iconSeeMore {
     width: 116px;
     height: 29px;
-    background-image: url('/images/see-more.png');
+    background-image: url('https://cheryx.com/images/see-more.png');
     background-size: contain;
     background-repeat: no-repeat;
     display: flex;
@@ -361,7 +361,7 @@
     padding: 0px 0px 6px 5px;
     cursor: pointer;
     @media (max-width: $mobile-breakpoint) {
-      background-image: url('/images/see-more.png');
+      background-image: url('https://cheryx.com/images/see-more.png');
       height: 18px;
       width: 80px;
       margin-bottom: -8px;
@@ -461,13 +461,13 @@
   margin: 20px 0px; 
   height: 507px;
   width: 62%;
-  background: url('/images/main-logo.png') no-repeat center;
+  background: url('https://cheryx.com/images/main-logo.png') no-repeat center;
   background-size: contain;
   @include tablet {
     height: 320px;
   }
   @include mobile {
-    background: url('/images/main-logo.png') no-repeat center;
+    background: url('https://cheryx.com/images/main-logo.png') no-repeat center;
     width: 100%;
     max-height: 271px;
     max-width: 373px;

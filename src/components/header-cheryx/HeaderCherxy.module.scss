@@ -118,7 +118,7 @@
   .cheryx {
     width: 394px;
     height: 98px;
-    background-image: url('/images/cheryx-slogan.webp');
+    background-image: url('https://cheryx.com/images/cheryx-slogan.webp');
     background-size: contain;
     background-repeat: no-repeat;
     @media (max-width: $mobile-breakpoint) {
@@ -126,7 +126,7 @@
       height: 66.75px;
       background-size: contain;
       background-repeat: no-repeat;
-      background-image: url('/images/cheryx-slogan.webp');
+      background-image: url('https://cheryx.com/images/cheryx-slogan.webp');
     }
   }
   .slogan {

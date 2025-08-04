@@ -175,7 +175,7 @@
         height: 186px;
         background-size: contain;
         background-repeat: no-repeat;
-        background-image: url('/images/cat-detail.png');
+        background-image: url('https://cheryx.com/images/cat-detail.png');
         @include mobile {
           width: 140px;
           height: 112px;
@@ -191,7 +191,7 @@
           height: 122px;
           background-size: contain;
           background-repeat: no-repeat;
-          background-image: url('/images/mess_bg.png');
+          background-image: url('https://cheryx.com/images/mess_bg.png');
           font-size: 1.2rem;
           @include mobile {
             width: 145px;
@@ -322,7 +322,7 @@
         justify-content: center;
         align-items: center;
         padding: 0px 15px 15px 15px;
-        background-image: url('/images/free2.webp');
+        background-image: url('https://cheryx.com/images/free2.webp');
         background-size: cover;
         @include mobile {
           top: 4px;

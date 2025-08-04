@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Optional: your custom global styles below */
+body {
+  font-family: 'Inter', sans-serif;
+}

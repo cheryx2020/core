@@ -5,7 +5,7 @@ const PayPalCheckout = ({PayPalButtons = () => {}, PayPalScriptProvider = () => 
   const [email, setEmail] = useState(""); // Email input state
   const [isEmailValid, setIsEmailValid] = useState(false); // Track email validity
   const [isShowEmailInput, setIsShowEmailInput] = useState(false); // Control showing email input
-  const [isSuccess, setIsSuccess] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(false);
   const _styles = {
     width: "100%",
     ...styles,

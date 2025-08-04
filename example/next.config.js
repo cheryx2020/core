@@ -20,6 +20,24 @@ module.exports = {
                 "sass-loader",
             ],
         })
+        config.module.rules.push({
+            test: /\.css$/i,
+            use: [
+                'style-loader',
+                'css-loader',
+                {
+                    loader: 'postcss-loader',
+                    options: {
+                        postcssOptions: {
+                            plugins: [
+                                require('@tailwindcss/postcss'),
+                                require('autoprefixer'),
+                            ],
+                        },
+                    },
+                },
+            ],
+        });
         return config
     },
     async headers() {

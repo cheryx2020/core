@@ -12,7 +12,7 @@ const Input = ({ id, type, value, onChange, required, ...rest }) => {
                     value={value}
                     onChange={onChange}
                     required={required}
-                    className={styles.textarea}
+                    className={`${rest.className} ${styles.textarea}`}
                 />
             ) : (
                 <input
@@ -22,7 +22,7 @@ const Input = ({ id, type, value, onChange, required, ...rest }) => {
                     value={value}
                     onChange={onChange}
                     required={required}
-                    className={styles.input}
+                    className={`${rest.className} ${styles.input}`}
                 />
             )}
         </div>

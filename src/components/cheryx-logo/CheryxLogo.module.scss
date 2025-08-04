@@ -4,14 +4,14 @@
   .cheryx {
     width: 217px;
     height: 69px;
-    background-image: url('/images/cheryx-logo.svg');
+    background-image: url('https://cheryx.com/images/cheryx-logo.svg');
     background-size: contain;
     @include mobile {
       width: 33vw;
       height: 10.56vw;
       background-size: contain;
       background-repeat: no-repeat;
-      background-image: url('/images/cheryx-logo-mb.png');
+      background-image: url('https://cheryx.com/images/cheryx-logo-mb.png');
     }
   }
   .slogan {
