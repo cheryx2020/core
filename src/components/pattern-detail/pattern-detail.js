@@ -10,6 +10,7 @@ const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _rave
   const [ravelryUrl, setRavelryUrl] = useState(_ravelryUrl || 'https://www.messenger.com/t/100004957155465');
   const [lovecraftsUrl, setLovecraftsUrl] = useState(_lovecraftsUrl);
   const [isShowPayPal, setIsShowPayPal] = useState(false);
+  const [isOtherPopupVisible, setIsOtherPopupVisible] = useState(false);
   const mainImageRef = useRef();
   let priceNumber = price;
   let discountedPrice = price;
@@ -150,8 +151,8 @@ const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _rave
     </div>
   }
 
-  const StoreInfo = ({ children }) => {
-    return <div className={styles.storeInfo}>{children}</div>
+  const StoreInfo = ({ children, style }) => {
+    return <div className={styles.storeInfo} style={style ?? {}}>{children}</div>
   }
 
   const PatternDetailWrapper = ({ children }) => {
@@ -172,7 +173,7 @@ const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _rave
           {discount ? <div className={styles.discounted}>{discountedPrice} USD <div className={styles.priceNote}>Coupon code <strong>CHERYX</strong> on Ravelry</div></div> : null}
         </Price>
       </RightInfo>
-      <StoreInfo>
+      <StoreInfo style={{paddingTop: 0}}>
         {!isShowPayPal && <img alt='buy pattern here' src="/images/pattern-store.png"></img>}
         <div className={`${styles.payPalWrapper}${isShowPayPal ? ` ${styles.show}` : ''}`}>
           <div className={styles.closeLink} onClick={() => { lockScroll(false); setIsShowPayPal(false); }}>Close</div>
@@ -182,11 +183,39 @@ const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _rave
         <a rel="noreferrer" style={{ position: "relative" }} href={ravelryUrl} onClick={e => onClickLink(e, 'ravelryUrl')} target="_blank" className={`${styles.linkStore} ${styles.mb11}`}>Ravelry
           {discount ? <div className={styles.discount}>{`-${discount}%`}</div> : null}
         </a>
-        <a rel="noreferrer" href={lovecraftsUrl} onClick={e => onClickLink(e, 'lovecraftsUrl')} target="_blank" className={styles.linkStore}>Lovecrafts</a>
+        <a rel="noreferrer" href={lovecraftsUrl} onClick={e => onClickLink(e, 'lovecraftsUrl')} target="_blank" className={`${styles.linkStore} ${styles.mb11}`}>Lovecrafts</a>
+        <div
+          onClick={() => {
+            setIsOtherPopupVisible(true);
+            lockScroll(true);
+          }}
+          className={styles.linkStore}
+          style={{ cursor: 'pointer' }}
+        >
+          Other
+        </div>
         {/* <PayPalCheckout itemId={id} clientId="AdzCHyvdcsuBpt-S0UqRExMe417mqlbjLm2oKv3od36JBtc-4aPZ1VxyENkuY19YzxCO3fahG4XwhtTj" /> */}
-        <a className={styles.emailMe} href="mailto:vungoc101230@gmail.com">If you prefer to buy directly from me instead of using Ravelry or Lovecrafts, you can click here to send me an email with your order details. I will reply to you as soon as possible and provide you with the payment and delivery options.</a>
       </StoreInfo>
       <ListSmallImages />
+      {/* Conditionally rendered popup */}
+      {isOtherPopupVisible && (
+        <div className={styles.popupOverlay}>
+          <div className={styles.popupContent}>
+            <div
+              className={styles.popupClose}
+              onClick={() => {
+                setIsOtherPopupVisible(false);
+                lockScroll(false);
+              }}
+            >
+              ×
+            </div>
+            <a className={styles.emailMe} href="mailto:vungoc101230@gmail.com">
+              If you prefer to buy directly from me instead of using Ravelry or Lovecrafts, you can click here to send me an email with your order details. I will reply to you as soon as possible and provide you with the payment and delivery options.
+            </a>
+          </div>
+        </div>
+      )}
     </PatternDetailWrapper>
   }
   return <PatternDetailWrapper>

@@ -27,6 +27,10 @@ export const listSmallImage: string
 export const deleteButton: string
 export const triangleLeft: string
 export const triangleRight: string
+export const popupOverlay: string
+export const popupContent: string
+export const emailMe: string
+export const popupClose: string
 interface Namespace {
 	"wrapper": string,
 	"mainImage": string,
@@ -57,6 +61,10 @@ interface Namespace {
 	"deleteButton": string,
 	"triangleLeft": string,
 	"triangleRight": string,
+	"popupOverlay": string,
+	"popupContent": string,
+	"emailMe": string,
+	"popupClose": string,
 }
 declare const patternDetailModuleScss: Namespace
 export default patternDetailModuleScss
