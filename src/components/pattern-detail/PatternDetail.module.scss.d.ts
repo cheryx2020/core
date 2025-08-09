@@ -31,6 +31,9 @@ export const popupOverlay: string
 export const popupContent: string
 export const emailMe: string
 export const popupClose: string
+export const languageSelector: string
+export const flagButton: string
+export const active: string
 interface Namespace {
 	"wrapper": string,
 	"mainImage": string,
@@ -65,6 +68,9 @@ interface Namespace {
 	"popupContent": string,
 	"emailMe": string,
 	"popupClose": string,
+	"languageSelector": string,
+	"flagButton": string,
+	"active": string,
 }
 declare const patternDetailModuleScss: Namespace
 export default patternDetailModuleScss

@@ -2,6 +2,30 @@ import React, { useEffect, useRef, useState } from 'react';
 import ImageUploadable from '../image-uploadable/image-uploadable';
 import gtag from '../../../gtag';
 import styles from './PatternDetail.module.scss';
+const translations = {
+  en: "If you prefer to buy directly from me instead of using Ravelry or Lovecrafts, you can click here to send me an email with your order details. I will reply to you as soon as possible and provide you with the payment and delivery options.",
+  es: "Si prefiere comprarme directamente en lugar de usar Ravelry o Lovecrafts, puede hacer clic aquí para enviarme un correo electrónico con los detalles de su pedido. Le responderé lo antes posible y le proporcionaré las opciones de pago y entrega.",
+  fr: "Si vous préférez m'acheter directement au lieu d'utiliser Ravelry ou Lovecrafts, vous pouvez cliquer ici pour m'envoyer un e-mail avec les détails de votre commande. Je vous répondrai dans les plus brefs délais et vous fournirai les options de paiement et de livraison.",
+  de: "Wenn Sie es vorziehen, direkt bei mir zu kaufen, anstatt Ravelry oder Lovecrafts zu verwenden, können Sie hier klicken, um mir eine E-Mail mit Ihren Bestelldetails zu senden. Ich werde Ihnen so schnell wie möglich antworten und Ihnen die Zahlungs- und Lieferoptionen mitteilen.",
+  vi: "Nếu bạn muốn mua trực tiếp từ tôi thay vì sử dụng Ravelry hoặc Lovecrafts, bạn có thể nhấp vào đây để gửi email cho tôi với chi tiết đơn hàng của bạn. Tôi sẽ trả lời bạn sớm nhất có thể và cung cấp cho bạn các tùy chọn thanh toán và giao hàng.",
+  ko: "Ravelry나 Lovecrafts를 사용하는 대신 저에게 직접 구매하시는 것을 선호하신다면, 여기를 클릭하여 주문 세부 정보와 함께 이메일을 보내주세요. 가능한 한 빨리 회신하여 결제 및 배송 옵션을 안내해 드리겠습니다.",
+  ja: "RavelryやLovecraftsを利用する代わりに、私から直接購入することをご希望の場合は、こちらをクリックしてご注文の詳細をメールでお送りください。できるだけ早く返信し、お支払いと配送のオプションをご案内します。",
+  zh: "如果您希望直接向我购买，而不是通过 Ravelry 或 Lovecrafts，您可以点击此处发送电子邮件并附上您的订单详情。我会尽快回复您，并提供付款和交付选项。",
+  ru: "Если вы предпочитаете покупать напрямую у меня, а не через Ravelry или Lovecrafts, вы можете нажать здесь, чтобы отправить мне электронное письмо с деталями вашего заказа. Я отвечу вам как можно скорее и предоставлю варианты оплаты и доставки."
+};
+
+const supportedLanguages = [
+    { code: 'en', name: 'English', flag: '🇬🇧' },
+    { code: 'es', name: 'Español', flag: '🇪🇸' },
+    { code: 'fr', name: 'Français', flag: '🇫🇷' },
+    { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+    { code: 'ja', name: '日本語', flag: '🇯🇵' },
+    { code: 'ko', name: '한국어', flag: '🇰🇷' },
+    { code: 'zh', name: '中文', flag: '🇨🇳' },
+    { code: 'ru', name: 'Русский', flag: '🇷🇺' },
+    { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' },
+];
+
 const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _ravelryUrl = 'https://www.messenger.com/t/100004957155465', lovecraftsUrl: _lovecraftsUrl, bigImageUrl: _bigImageUrl, imageList: _imageList, isAdmin, onChange = () => { }, index, noImageUrl = '/images/no-image.png' }) => {
   const [imageList, setImageList] = useState(_imageList ? _imageList : [noImageUrl]);
   const [name, setName] = useState("Pattern name");
@@ -11,6 +35,8 @@ const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _rave
   const [lovecraftsUrl, setLovecraftsUrl] = useState(_lovecraftsUrl);
   const [isShowPayPal, setIsShowPayPal] = useState(false);
   const [isOtherPopupVisible, setIsOtherPopupVisible] = useState(false);
+  const [popupText, setPopupText] = useState(translations.en);
+  const [currentLangCode, setCurrentLangCode] = useState('en');
   const mainImageRef = useRef();
   let priceNumber = price;
   let discountedPrice = price;
@@ -99,6 +125,28 @@ const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _rave
       }).render('#paypal-button-container');
     }
   }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.navigator) {
+      const userLang = navigator.language || navigator.userLanguage; 
+      const baseLang = userLang.split('-')[0];
+
+      // Find a matching language from our supported list
+      const initialLang = supportedLanguages.find(l => l.code === userLang) 
+                         || supportedLanguages.find(l => l.code === baseLang) 
+                         || supportedLanguages.find(l => l.code === 'en');
+      
+      if (initialLang) {
+        setCurrentLangCode(initialLang.code);
+        setPopupText(translations[initialLang.code]);
+      }
+    }
+  }, []);
+
+  const handleLanguageChange = (langCode) => {
+    setCurrentLangCode(langCode);
+    setPopupText(translations[langCode] || translations.en);
+  };
 
   const onChangeBigImage = ({ imgFile }) => {
     onChange(imgFile, index, 'bigImageUrl');
@@ -210,8 +258,20 @@ const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _rave
             >
               ×
             </div>
+            <div className={styles.languageSelector}>
+                {supportedLanguages.map((lang) => (
+                    <button
+                        key={lang.code}
+                        className={`${styles.flagButton} ${currentLangCode === lang.code ? styles.active : ''}`}
+                        title={lang.name}
+                        onClick={() => handleLanguageChange(lang.code)}
+                    >
+                        {lang.flag}
+                    </button>
+                ))}
+            </div>
             <a className={styles.emailMe} href="mailto:vungoc101230@gmail.com">
-              If you prefer to buy directly from me instead of using Ravelry or Lovecrafts, you can click here to send me an email with your order details. I will reply to you as soon as possible and provide you with the payment and delivery options.
+              {popupText}
             </a>
           </div>
         </div>

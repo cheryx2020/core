@@ -482,3 +482,41 @@
     color: #000;
   }
 }
+
+.languageSelector {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.flagButton {
+  background: none;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 5px;
+  font-size: 1.8rem; // Makes emoji flags larger
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  opacity: 0.7;
+
+  &:hover {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  
+  // Style for the currently selected language
+  &.active {
+    border-color: #007bff; // A nice highlight color
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    opacity: 1;
+  }
+}
+
+// Ensure the email link text is nicely spaced
+.emailMe {
+  display: block; // Ensures it takes its own space
+  line-height: 1.6;
+}
