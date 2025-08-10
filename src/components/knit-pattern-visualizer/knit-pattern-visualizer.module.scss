@@ -1,0 +1,129 @@
+/* ==========================================================================
+   Variables (Không đổi)
+   ========================================================================== */
+// Colors
+$color-text: #2c3e50;
+$color-text-light: #7f8c8d;
+$panel-bg: white;
+$panel-border: #ecf0f1;
+$panel-shadow: rgba(0, 0, 0, 0.08);
+$slider-track-color: #f5f5f5;
+
+// Màu "len"
+$yarn-color-primary: #f07b83; // Màu đỏ tươi cho các mũi đan (chữ V)
+$yarn-color-secondary: #8a2432; // Màu đỏ sẫm cho nền
+$yarn-hover-color: #a12020; // Màu đỏ đậm hơn khi hover
+
+// Sizing & Spacing
+$spacing-unit: 1rem;
+$border-radius: 12px;
+
+// Fonts
+$font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+/* ==========================================================================
+   Layout (Không đổi)
+   ========================================================================== */
+.visualizerContainer { font-family: $font-family; color: $color-text; padding-top: $spacing-unit * 2; }
+.row { display: flex; flex-wrap: wrap; margin: 0 -15px; }
+.column { width: 100%; padding: 0 15px; }
+@media (min-width: 768px) { .colMd4 { flex: 0 0 33.3333%; max-width: 33.3333%; } .colMd8 { flex: 0 0 66.6667%; max-width: 66.6667%; } }
+
+/* ==========================================================================
+   Controls Panel Styles (Không đổi)
+   ========================================================================== */
+.controlsPanel { background-color: $panel-bg; border-radius: $border-radius; box-shadow: 0 4px 25px $panel-shadow; border: 1px solid $panel-border; overflow: hidden; }
+.panelHeader { padding: $spacing-unit * 1.5; border-bottom: 1px solid $panel-border; .title { font-size: 1.5rem; font-weight: 600; margin: 0 0 0.25rem 0; } .subtitle { font-size: 0.9rem; color: $color-text-light; margin: 0; } }
+.panelBody { padding: $spacing-unit * 1.5; display: flex; flex-direction: column; gap: $spacing-unit * 1.75; }
+.formGroup { display: flex; flex-direction: column; }
+.controlLabel { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; font-size: 1rem; font-weight: 500; i { color: $color-text-light; font-size: 0.9em; } }
+.inputGroup { display: flex; align-items: center; gap: 1rem; }
+.stitchTypeSelector { display: flex; border: 1px solid $panel-border; border-radius: 8px; overflow: hidden; }
+.stitchTypeOption { flex: 1; position: relative; display: block; input { position: absolute; opacity: 0; width: 0; height: 0; } span { display: block; padding: 0.6rem; text-align: center; cursor: pointer; font-weight: 500; background-color: $panel-bg; transition: background-color 0.2s ease, color 0.2s ease; user-select: none; } input:checked + span { background-color: $yarn-color-primary; color: white; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); } &:first-child span { border-right: 1px solid $panel-border; } }
+.slider { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; background: $slider-track-color; outline: none; border-radius: 3px; cursor: pointer; &::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: $yarn-color-primary; border: 3px solid white; box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); transition: transform 0.2s ease; } &:hover::-webkit-slider-thumb { transform: scale(1.1); } &::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: $yarn-color-primary; border: 3px solid white; box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); transition: transform 0.2s ease; } &:hover::-moz-range-thumb { transform: scale(1.1); } }
+.numberInput { width: 60px; height: 40px; text-align: center; border: 1px solid $panel-border; border-radius: 8px; font-size: 1rem; font-weight: 500; -moz-appearance: textfield; &::-webkit-outer-spin-button, &::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; } &:focus { outline: none; border-color: $yarn-color-primary; box-shadow: 0 0 0 3px rgba($yarn-color-primary, 0.2); } }
+.submitButton { background-color: $yarn-color-primary; color: white; font-size: 1rem; font-weight: 600; border: none; border-radius: 8px; padding: 0.8rem 1rem; cursor: pointer; transition: background-color 0.2s ease, transform 0.1s ease; display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-top: $spacing-unit * 0.5; &:hover { background-color: $yarn-hover-color; } &:active { transform: scale(0.98); } }
+
+/* ==========================================================================
+   Canvas & Stitch Styles
+   ========================================================================== */
+.canvasWrapper { padding: 30px; border-radius: 10px; box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.1); min-height: 500px; display: flex; justify-content: center; align-items: center; overflow: hidden; perspective: 900px; }
+.canvas { display: flex; flex-direction: column-reverse; align-items: center; transform-style: preserve-3d; transition: transform 0.1s linear; cursor: grab; &:active { cursor: grabbing; } }
+
+.knittingRow {
+    display: flex;
+    // THAY ĐỔI: Đặt margin-bottom về 0 để các dòng không đè lên nhau
+    margin-bottom: -15px;
+    &.staggered {
+        &:nth-child(even) {
+            transform: translateX(12.5px); // Dịch sang phải 1/2 chiều rộng mũi đan
+        }
+    }
+}
+
+/* Style cho mũi Knit (K) */
+.stitch {
+    width: 25px;
+    height: 30px;
+    position: relative;
+    
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        width: 8px;
+        height: 100%; 
+        top: 0;
+        background-color: $yarn-color-primary;
+        border-radius: 50%; 
+        box-shadow: none;
+        transition: all 0.2s ease;
+        transform-origin: center center;
+
+        // THAY ĐỔI: Thêm viền cho mỗi "sợi len" và dùng box-sizing
+        // Viền có màu giống nền để tạo hiệu ứng tách biệt
+        border: 1px solid $yarn-color-secondary;
+        box-sizing: border-box;
+    }
+
+    &::before { left: 2px; transform: rotate(-28deg); z-index: 2; }
+    &::after { right: 2px; transform: rotate(28deg); z-index: 1; }
+
+    &:hover {
+        &::before, &::after { background-color: $yarn-hover-color; }
+        &::before { transform: rotate(-28deg) scale(1.05); }
+        &::after { transform: rotate(28deg) scale(1.05); }
+    }
+}
+
+/* Style cho mũi Purl (P) */
+.purlStitch {
+    width: 25px;
+    height: 30px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &::before {
+        content: '';
+        width: 18px;
+        height: 7px;
+        background-color: $yarn-color-primary;
+        border-radius: 4px;
+        box-shadow: none;
+        transform: translateY(2px);
+        transition: all 0.3s ease;
+
+        // THAY ĐỔI: Thêm viền cho mũi Purl
+        border: 1px solid $yarn-color-secondary;
+        box-sizing: border-box;
+    }
+
+    &:hover::before {
+        background-color: $yarn-hover-color;
+        transform: translateY(2px) scale(1.1);
+    }
+}
+
+.textDanger { color: #e53e3e; }

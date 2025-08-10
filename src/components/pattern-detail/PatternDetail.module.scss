@@ -449,6 +449,8 @@
 }
 
 .popupContent {
+  overflow-y: overlay;
+  max-height: 100dvh;
   position: relative;
   background: white;
   padding: 40px 20px 20px 20px;
@@ -519,4 +521,19 @@
 .emailMe {
   display: block; // Ensures it takes its own space
   line-height: 1.6;
+}
+
+.sendEmailButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  margin-top: 20px;
+  background-color: $main-color;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  text-align: center;
 }

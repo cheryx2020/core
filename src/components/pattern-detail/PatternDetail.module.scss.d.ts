@@ -34,6 +34,7 @@ export const popupClose: string
 export const languageSelector: string
 export const flagButton: string
 export const active: string
+export const sendEmailButton: string
 interface Namespace {
 	"wrapper": string,
 	"mainImage": string,
@@ -71,6 +72,7 @@ interface Namespace {
 	"languageSelector": string,
 	"flagButton": string,
 	"active": string,
+	"sendEmailButton": string,
 }
 declare const patternDetailModuleScss: Namespace
 export default patternDetailModuleScss

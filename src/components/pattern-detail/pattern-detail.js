@@ -2,28 +2,131 @@ import React, { useEffect, useRef, useState } from 'react';
 import ImageUploadable from '../image-uploadable/image-uploadable';
 import gtag from '../../../gtag';
 import styles from './PatternDetail.module.scss';
+
+// The contact email is now a constant
+const contactEmail = 'vungoc101230@gmail.com';
+
+// --- Helper Components for the Popup ---
+
+// Reusable component for the inline email link and copy button
+const EmailWithCopy = ({ onCopy, isCopied }) => (
+  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', backgroundColor: '#f0f0f0', padding: '2px 8px', borderRadius: '6px' }}>
+    <a href={`mailto:${contactEmail}`} style={{ fontWeight: 'bold', textDecoration: 'underline', color: '#0056b3' }}>
+      {contactEmail}
+    </a>
+    <button
+      onClick={onCopy}
+      title="Copy email address"
+      style={{
+        background: 'none',
+        border: '1px solid #ccc',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        padding: '2px 6px',
+        fontSize: '12px',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '4px'
+      }}
+    >
+      {isCopied ? (
+        'Copied!'
+      ) : (
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+          <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+        </svg>
+      )}
+    </button>
+  </span>
+);
+
+// The translations object now contains functions that accept the EmailComponent
 const translations = {
-  en: "If you prefer to buy directly from me instead of using Ravelry or Lovecrafts, you can click here to send me an email with your order details. I will reply to you as soon as possible and provide you with the payment and delivery options.",
-  es: "Si prefiere comprarme directamente en lugar de usar Ravelry o Lovecrafts, puede hacer clic aquí para enviarme un correo electrónico con los detalles de su pedido. Le responderé lo antes posible y le proporcionaré las opciones de pago y entrega.",
-  fr: "Si vous préférez m'acheter directement au lieu d'utiliser Ravelry ou Lovecrafts, vous pouvez cliquer ici pour m'envoyer un e-mail avec les détails de votre commande. Je vous répondrai dans les plus brefs délais et vous fournirai les options de paiement et de livraison.",
-  de: "Wenn Sie es vorziehen, direkt bei mir zu kaufen, anstatt Ravelry oder Lovecrafts zu verwenden, können Sie hier klicken, um mir eine E-Mail mit Ihren Bestelldetails zu senden. Ich werde Ihnen so schnell wie möglich antworten und Ihnen die Zahlungs- und Lieferoptionen mitteilen.",
-  vi: "Nếu bạn muốn mua trực tiếp từ tôi thay vì sử dụng Ravelry hoặc Lovecrafts, bạn có thể nhấp vào đây để gửi email cho tôi với chi tiết đơn hàng của bạn. Tôi sẽ trả lời bạn sớm nhất có thể và cung cấp cho bạn các tùy chọn thanh toán và giao hàng.",
-  ko: "Ravelry나 Lovecrafts를 사용하는 대신 저에게 직접 구매하시는 것을 선호하신다면, 여기를 클릭하여 주문 세부 정보와 함께 이메일을 보내주세요. 가능한 한 빨리 회신하여 결제 및 배송 옵션을 안내해 드리겠습니다.",
-  ja: "RavelryやLovecraftsを利用する代わりに、私から直接購入することをご希望の場合は、こちらをクリックしてご注文の詳細をメールでお送りください。できるだけ早く返信し、お支払いと配送のオプションをご案内します。",
-  zh: "如果您希望直接向我购买，而不是通过 Ravelry 或 Lovecrafts，您可以点击此处发送电子邮件并附上您的订单详情。我会尽快回复您，并提供付款和交付选项。",
-  ru: "Если вы предпочитаете покупать напрямую у меня, а не через Ravelry или Lovecrafts, вы можете нажать здесь, чтобы отправить мне электронное письмо с деталями вашего заказа. Я отвечу вам как можно скорее и предоставлю варианты оплаты и доставки."
+  en: ({ EmailComponent }) => (
+    <>
+      <p>Can’t buy on Ravelry or Lovecrafts?</p>
+      <p>No worries! Just email me at {EmailComponent} and let me know which patterns you’d like to buy.</p>
+      <p>I’ll send you my PayPal info so you can make the payment directly and send me the payment receipt.</p>
+      <p>Once I receive it, I’ll email you the PDF right away.</p>
+    </>
+  ),
+  es: ({ EmailComponent }) => (
+    <>
+      <p>¿No puedes comprar en Ravelry o Lovecrafts?</p>
+      <p>¡No te preocupes! Simplemente envíame un correo a {EmailComponent} y dime qué patrones te gustaría comprar.</p>
+      <p>Te enviaré mi información de PayPal para que puedas realizar el pago directamente y enviarme el recibo de pago.</p>
+      <p>Una vez que lo reciba, te enviaré el PDF de inmediato.</p>
+    </>
+  ),
+  fr: ({ EmailComponent }) => (
+    <>
+      <p>Vous ne pouvez pas acheter sur Ravelry ou Lovecrafts ?</p>
+      <p>Pas de souci ! Envoyez-moi simplement un e-mail à {EmailComponent} en m'indiquant les patrons que vous souhaitez acheter.</p>
+      <p>Je vous enverrai mes informations PayPal pour que vous puissiez effectuer le paiement directement et m'envoyer le reçu.</p>
+      <p>Une fois reçu, je vous enverrai le PDF immédiatement par e-mail.</p>
+    </>
+  ),
+  de: ({ EmailComponent }) => (
+    <>
+      <p>Sie können nicht auf Ravelry oder Lovecrafts kaufen?</p>
+      <p>Keine Sorge! Senden Sie mir einfach eine E-Mail an {EmailComponent} und teilen Sie mir mit, welche Anleitungen Sie kaufen möchten.</p>
+      <p>Ich sende Ihnen meine PayPal-Informationen, damit Sie die Zahlung direkt vornehmen und mir den Zahlungsbeleg senden können.</p>
+      <p>Sobald ich ihn erhalten habe, sende ich Ihnen das PDF umgehend per E-Mail zu.</p>
+    </>
+  ),
+  vi: ({ EmailComponent }) => (
+    <>
+      <p>Bạn không thể mua trên Ravelry hoặc Lovecrafts?</p>
+      <p>Đừng lo! Chỉ cần gửi email cho tôi tại {EmailComponent} và cho tôi biết bạn muốn mua mẫu nào.</p>
+      <p>Tôi sẽ gửi cho bạn thông tin PayPal của tôi để bạn có thể thanh toán trực tiếp và gửi cho tôi biên lai thanh toán.</p>
+      <p>Khi nhận được, tôi sẽ gửi cho bạn tệp PDF ngay lập tức.</p>
+    </>
+  ),
+  ko: ({ EmailComponent }) => (
+    <>
+      <p>Ravelry나 Lovecrafts에서 구매할 수 없나요?</p>
+      <p>걱정 마세요! {EmailComponent}(으)로 구매하고 싶은 패턴을 알려주는 이메일을 보내주세요.</p>
+      <p>직접 결제하실 수 있도록 제 PayPal 정보를 보내드리고 결제 영수증을 보내주시면 됩니다.</p>
+      <p>영수증을 받으면 바로 PDF를 이메일로 보내드리겠습니다.</p>
+    </>
+  ),
+  ja: ({ EmailComponent }) => (
+    <>
+      <p>RavelryやLovecraftsで購入できませんか？</p>
+      <p>ご心配なく！ {EmailComponent} にメールで、どのパターンを購入したいかお知らせください。</p>
+      <p>直接お支払いいただけるように、私のPayPal情報をお送りしますので、支払い領収書を私に送ってください。</p>
+      <p>受け取り次第、すぐにPDFをメールでお送りします。</p>
+    </>
+  ),
+  zh: ({ EmailComponent }) => (
+    <>
+      <p>无法在 Ravelry 或 Lovecrafts 上购买？</p>
+      <p>别担心！只需发送电子邮件至 {EmailComponent}，告诉我您想购买哪些图样。</p>
+      <p>我会将我的 PayPal 信息发送给您，以便您直接付款，并将付款收据发送给我。</p>
+      <p>收到后，我会立即通过电子邮件将 PDF 发送给您。</p>
+    </>
+  ),
+  ru: ({ EmailComponent }) => (
+    <>
+      <p>Не можете купить на Ravelry или Lovecrafts?</p>
+      <p>Без проблем! Просто напишите мне на {EmailComponent} и сообщите, какие выкройки вы хотите купить.</p>
+      <p>Я пришлю вам свою информацию PayPal, чтобы вы могли произвести оплату напрямую и прислать мне квитанцию об оплате.</p>
+      <p>Как только я ее получу, я сразу же вышлю вам PDF по электронной почте.</p>
+    </>
+  )
 };
 
 const supportedLanguages = [
-    { code: 'en', name: 'English', flag: '🇬🇧' },
-    { code: 'es', name: 'Español', flag: '🇪🇸' },
-    { code: 'fr', name: 'Français', flag: '🇫🇷' },
-    { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
-    { code: 'ja', name: '日本語', flag: '🇯🇵' },
-    { code: 'ko', name: '한국어', flag: '🇰🇷' },
-    { code: 'zh', name: '中文', flag: '🇨🇳' },
-    { code: 'ru', name: 'Русский', flag: '🇷🇺' },
-    { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' },
+  { code: 'en', name: 'English', flag: '🇬🇧' },
+  { code: 'es', name: 'Español', flag: '🇪🇸' },
+  { code: 'fr', name: 'Français', flag: '🇫🇷' },
+  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+  { code: 'ja', name: '日本語', flag: '🇯🇵' },
+  { code: 'ko', name: '한국어', flag: '🇰🇷' },
+  { code: 'zh', name: '中文', flag: '🇨🇳' },
+  { code: 'ru', name: 'Русский', flag: '🇷🇺' },
+  { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' },
 ];
 
 const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _ravelryUrl = 'https://www.messenger.com/t/100004957155465', lovecraftsUrl: _lovecraftsUrl, bigImageUrl: _bigImageUrl, imageList: _imageList, isAdmin, onChange = () => { }, index, noImageUrl = '/images/no-image.png' }) => {
@@ -35,8 +138,10 @@ const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _rave
   const [lovecraftsUrl, setLovecraftsUrl] = useState(_lovecraftsUrl);
   const [isShowPayPal, setIsShowPayPal] = useState(false);
   const [isOtherPopupVisible, setIsOtherPopupVisible] = useState(false);
-  const [popupText, setPopupText] = useState(translations.en);
+  // State now holds the translation function, not the rendered text
+  const [popupTextFn, setPopupTextFn] = useState(() => translations.en);
   const [currentLangCode, setCurrentLangCode] = useState('en');
+  const [isEmailCopied, setIsEmailCopied] = useState(false);
   const mainImageRef = useRef();
   let priceNumber = price;
   let discountedPrice = price;
@@ -104,7 +209,6 @@ const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _rave
       console.count('Render')
       window.paypal.Buttons({
         createOrder: function (data, actions) {
-          // This function sets up the details of the transaction, including the amount and line item details.
           return actions.order.create({
             purchase_units: [{
               amount: {
@@ -114,11 +218,8 @@ const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _rave
           });
         },
         onApprove: function (data, actions) {
-          // This function captures the funds from the transaction.
           return actions.order.capture().then(function (details) {
             const { id } = details;
-            // This function shows a transaction success message to your buyer.
-
             window.open(`https://api.cheryx.com/verify-order?order=${id}`);
           });
         }
@@ -128,24 +229,34 @@ const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _rave
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.navigator) {
-      const userLang = navigator.language || navigator.userLanguage; 
+      const userLang = navigator.language || navigator.userLanguage;
       const baseLang = userLang.split('-')[0];
 
-      // Find a matching language from our supported list
-      const initialLang = supportedLanguages.find(l => l.code === userLang) 
-                         || supportedLanguages.find(l => l.code === baseLang) 
-                         || supportedLanguages.find(l => l.code === 'en');
-      
+      const initialLang = supportedLanguages.find(l => l.code === userLang)
+        || supportedLanguages.find(l => l.code === baseLang)
+        || supportedLanguages.find(l => l.code === 'en');
+
       if (initialLang) {
         setCurrentLangCode(initialLang.code);
-        setPopupText(translations[initialLang.code]);
+        setPopupTextFn(() => translations[initialLang.code]);
       }
     }
   }, []);
 
   const handleLanguageChange = (langCode) => {
     setCurrentLangCode(langCode);
-    setPopupText(translations[langCode] || translations.en);
+    setPopupTextFn(() => translations[langCode] || translations.en);
+  };
+
+  const handleCopyEmail = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(contactEmail).then(() => {
+      setIsEmailCopied(true);
+      setTimeout(() => setIsEmailCopied(false), 2000); // Reset after 2 seconds
+    }).catch(err => {
+      console.error('Failed to copy email: ', err);
+    });
   };
 
   const onChangeBigImage = ({ imgFile }) => {
@@ -221,13 +332,12 @@ const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _rave
           {discount ? <div className={styles.discounted}>{discountedPrice} USD <div className={styles.priceNote}>Coupon code <strong>CHERYX</strong> on Ravelry</div></div> : null}
         </Price>
       </RightInfo>
-      <StoreInfo style={{paddingTop: 0}}>
+      <StoreInfo style={{ paddingTop: 0 }}>
         {!isShowPayPal && <img alt='buy pattern here' src="/images/pattern-store.png"></img>}
         <div className={`${styles.payPalWrapper}${isShowPayPal ? ` ${styles.show}` : ''}`}>
           <div className={styles.closeLink} onClick={() => { lockScroll(false); setIsShowPayPal(false); }}>Close</div>
           <div className={styles.payPal} id="paypal-button-container"></div>
         </div>
-        {/* {!isShowPayPal && <div onClick={() => {setIsShowPayPal(true); lockScroll(true)}} className={`${styles.paypalButton} ${styles.linkStore} ${styles.mb11}`}>Download Direct with PayPal</div>} */}
         <a rel="noreferrer" style={{ position: "relative" }} href={ravelryUrl} onClick={e => onClickLink(e, 'ravelryUrl')} target="_blank" className={`${styles.linkStore} ${styles.mb11}`}>Ravelry
           {discount ? <div className={styles.discount}>{`-${discount}%`}</div> : null}
         </a>
@@ -242,7 +352,6 @@ const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _rave
         >
           Other
         </div>
-        {/* <PayPalCheckout itemId={id} clientId="AdzCHyvdcsuBpt-S0UqRExMe417mqlbjLm2oKv3od36JBtc-4aPZ1VxyENkuY19YzxCO3fahG4XwhtTj" /> */}
       </StoreInfo>
       <ListSmallImages />
       {/* Conditionally rendered popup */}
@@ -259,19 +368,30 @@ const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _rave
               ×
             </div>
             <div className={styles.languageSelector}>
-                {supportedLanguages.map((lang) => (
-                    <button
-                        key={lang.code}
-                        className={`${styles.flagButton} ${currentLangCode === lang.code ? styles.active : ''}`}
-                        title={lang.name}
-                        onClick={() => handleLanguageChange(lang.code)}
-                    >
-                        {lang.flag}
-                    </button>
-                ))}
+              {supportedLanguages.map((lang) => (
+                <button
+                  key={lang.code}
+                  className={`${styles.flagButton} ${currentLangCode === lang.code ? styles.active : ''}`}
+                  title={lang.name}
+                  onClick={() => handleLanguageChange(lang.code)}
+                >
+                  {lang.flag}
+                </button>
+              ))}
             </div>
-            <a className={styles.emailMe} href="mailto:vungoc101230@gmail.com">
-              {popupText}
+            <div className={styles.emailMe}>
+              {/* Render the text by calling the translation function */}
+              {popupTextFn({ EmailComponent: <EmailWithCopy onCopy={handleCopyEmail} isCopied={isEmailCopied} /> })}
+            </div>
+
+            <a
+              href={`mailto:${contactEmail}`}
+              className={styles.sendEmailButton}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V6.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 6.383v4.722Z" />
+              </svg>
+              Send Email
             </a>
           </div>
         </div>
