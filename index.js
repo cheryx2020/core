@@ -82,6 +82,7 @@ export {
     IMAGE_SUBMENU,
     Input,
     KnitPatternVisualizer,
+    LeftMenu,
     ListArticle,
     Loader,
     MainLayout,
