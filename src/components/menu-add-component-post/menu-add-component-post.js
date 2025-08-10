@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 export const POST_ITEM_TYPE = {
     TITLE: 'title',
@@ -34,13 +34,31 @@ import styles from './MenuAddComponentPost.module.scss'
 const MenuAddComponentPost = ({ onClickMenuItem = () => {}, btnClass='', menuItems = Object.keys(POST_ITEM_TYPE) }) => {
     const [hoverItem, setHoverItem] = useState('');
     const [showMenu, setShowMenu] = useState(false);
+    const menuRef = useRef(null);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setShowMenu(false);
+            }
+        }
+        
+        if (showMenu) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [showMenu]);
+
     const onMenuMouseOver = (item) => {
         setHoverItem(item);
     }
     const hasSubMenu = (item) => {
         return Array.isArray(POST_ITEM_TYPE_SUBMENU[item]);
     }
-    return <div className={`${styles.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`} onClick={() => { setShowMenu(!showMenu) }}>
+    return <div ref={menuRef} className={`${styles.adminMenuBtn}${btnClass ? ' ' + btnClass : ''}`} onClick={() => { setShowMenu(!showMenu) }}>
         {showMenu ? 'X' : 'Add'}
         <div style={{ position: 'relative' }}>
           <div className={styles.adminMenu + ` ${!showMenu ? styles.hidden : ''}`}>

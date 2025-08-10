@@ -1,45 +1,100 @@
 .adminMenuBtn {
-    float: right;
-    position: relative;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: solid 1px gray;
-    z-index: 1;
-    border-radius: 4px;
-    &:hover {
-      color: white;
-      background-color: #F08C5F;
-      border: none;
+  // --- Core Layout & Sizing ---
+  float: right;
+  position: relative;
+  width: auto; // Let padding define the width
+  height: 34px;
+  padding: 0 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+
+  // --- Apple-like Aesthetics ---
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+  font-weight: 500;
+  color: #F08C5F;
+  background-color: #f5f5f7; // A common light gray background
+  border: 1px solid rgba(0, 0, 0, 0.1); // Subtle border
+  border-radius: 8px;
+  cursor: pointer;
+  // Smooth transitions for hover and active states
+  transition: background-color 0.2s ease-out, transform 0.1s ease-in-out;
+
+  // --- Interaction States ---
+  &:hover {
+    background-color: #e9e9ed; // Slightly darker gray on hover
+  }
+  
+  &:active {
+    transform: scale(0.96); // Adds a "press" effect
+  }
+
+  // --- The Dropdown Menu Container ---
+  .adminMenu {
+    // --- Positioning ---
+    position: absolute;
+    // Position it cleanly below the button with a small gap
+    top: calc(100% + 6px); 
+    right: 0;
+    z-index: 10;
+    min-width: 220px;
+
+    // --- Apple "Frosted Glass" / Material Style ---
+    // Fallback for browsers that don't support backdrop-filter
+    background-color: rgba(249, 249, 249, 0.98); 
+    // The "blur" effect, a hallmark of Apple's UI
+    @supports (backdrop-filter: blur(16px)) or (-webkit-backdrop-filter: blur(16px)) {
+      background-color: rgba(249, 249, 249, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
-    cursor: pointer;
-    .adminMenu {
-      position: absolute;
-      top: -12px;
-      right: 18px;
-      z-index: 10;
-      border: solid 1px gray;
-      background-color: white;
-      color: black;
-      &.hidden {
-        display: none;
+    
+    // --- Borders, Shadows, and Spacing ---
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    // A soft, diffused shadow for depth
+    box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.2); 
+    padding: 6px; // Internal padding around the list of items
+    color: #1d1d1f; // Standard dark text color
+    text-align: left; // Ensure text is aligned left
+    
+    // --- Visibility ---
+    // NOTE: The current JS uses `display: none`, which prevents animation.
+    // For a fade/scale animation, the JS would need to toggle a class that
+    // controls opacity/transform instead of display.
+    &.hidden {
+      display: none;
+    }
+
+    // --- Individual Menu Item ---
+    .menuItem {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 8px 10px;
+      font-size: 14px;
+      border-radius: 6px;
+      // Prevent text selection when clicking quickly
+      user-select: none; 
+      transition: background-color 0.15s ease-out, color 0.15s ease-out;
+
+      &:hover {
+        background-color: #F08C5F; // Highlight with the accent color
+        color: white; // Text becomes white on hover
       }
-      .menuItem {
-        position: relative;
-        padding: 5px 5px 5px 5px;
-        display: flex;
-        align-items: center;
-        &:hover {
-          background-color: gray;
-        }
-        .subMenu {
-            top: 0;
-            position: absolute;
-            left: -82px;
-            right: unset;
-        }
+      
+      // --- Sub-menu Styling ---
+      .subMenu {
+        // Since the sub-menu also has the .adminMenu class, it inherits all the
+        // beautiful styling. We just need to override the positioning here.
+        position: absolute;
+        top: -7px; // Align with the parent menu's padding
+        // Position to the left of the parent item with a small gap
+        left: calc(-100% - 5px); 
+        right: unset;
       }
     }
   }
+}
