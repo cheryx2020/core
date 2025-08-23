@@ -8,7 +8,18 @@ import { getListTips } from '@cheryx2020/utils';
 import Input from '../input';
 
 const NoImage = 'https://cheryx.com/images/no-image.png';
-const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontFamily = "", imageUrl = NoImage, discount = 0, googleDriveFileId, language = 'vi', _id, description, name, nameColor = '#0A7BCA', ravelryUrl, patternId = '', order, isAdmin, isAddNew, isFree, isBottom, apiDelete = 'remove-pattern', apiEdit = 'edit-pattern', apiAdd = 'add-pattern', onClickUrl = 'pattern-detail' }) => {
+
+const formatDateForInput = (date) => {
+  if (!date) return '';
+  try {
+    // Returns date in "YYYY-MM-DD" format, which is required for <input type="date">
+    return new Date(date).toISOString().split('T')[0];
+  } catch (error) {
+    console.error("Invalid date value:", date, error);
+    return '';
+  }
+};
+const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontFamily = "", imageUrl = NoImage, discount = 0, discountStartDate = '', discountEndDate = '', googleDriveFileId, language = 'vi', _id, description, name, nameColor = '#0A7BCA', ravelryUrl, patternId = '', order, isAdmin, isAddNew, isFree, isBottom, apiDelete = 'remove-pattern', apiEdit = 'edit-pattern', apiAdd = 'add-pattern', onClickUrl = 'pattern-detail' }) => {
   const [imgSrc, setImgSrc] = useState(imageUrl);
   const [listPatternDetail, setListPatternDetail] = useState([]);
   const [prNameColor, setPrNameColor] = useState(nameColor);
@@ -23,6 +34,8 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
   const [selectedPatternDetail, setSelectedPatternDetail] = useState(null);
   const [prOrder, setPrOrder] = useState(order);
   const [prDiscount, setPrDiscount] = useState(discount);
+  const [prDiscountStartDate, setPrDiscountStartDate] = useState(discountStartDate);
+  const [prDiscountEndDate, setPrDiscountEndDate] = useState(discountEndDate);
   const router = useRouter();
   const listVariable = {
     prNameColor,
@@ -35,7 +48,11 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
     ravelryUrl,
     _isFree,
     prOrder,
-    prDiscount
+    prDiscount,
+    prDiscountStartDate,
+    prDiscountEndDate,
+    discountStartDate,
+    discountEndDate,
   }
   useEffect(() => {
     setPrName(name);
@@ -44,7 +61,9 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
     setPrNameColor(nameColor);
     setImgSrc(imageUrl || NoImage);
     setPrDiscount(discount);
-  }, [name, isFree, description, nameColor, imageUrl, discount]);
+    setPrDiscountStartDate(discountStartDate);
+    setPrDiscountEndDate(discountEndDate);
+  }, [name, isFree, description, nameColor, imageUrl, discount, discountStartDate, discountEndDate]);
   useEffect(() => {
     if (patternId && Array.isArray(listPatternDetail) && listPatternDetail.length > 0) {
       setSelectedPatternDetail(listPatternDetail.find(item => item.value === patternId));
@@ -122,6 +141,8 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
         _isFree: 'isFree',
         prOrder: 'order',
         prDiscount: 'discount',
+        prDiscountStartDate: 'discountStartDate',
+        prDiscountEndDate: 'discountEndDate',
       };
       for (const [key, value] of Object.entries(mapKeys)) {
         if (listVariable[key] != listVariable[value]) {
@@ -173,6 +194,8 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
       bodyFormData.set('ravelryUrl', prRavelryUrl);
       bodyFormData.set('language', language);
       bodyFormData.set('discount', prDiscount);
+      bodyFormData.set('discountStartDate', prDiscountStartDate);
+      bodyFormData.set('discountEndDate', prDiscountEndDate);
       if (patternFile) {
         bodyFormData.set('patternFile', patternFile);
       }
@@ -209,6 +232,8 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
   const onClickCancel = () => {
     setIsEdit(false);
     setPrDiscount(discount);
+    setPrDiscountStartDate(discountStartDate);
+    setPrDiscountEndDate(discountEndDate);
   }
   const onChangeImage = async ({ imgSrc, imgFile, width }) => {
     setImgSrc(imgSrc);
@@ -285,6 +310,26 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
             min="0"
             max="100"
           />
+          {prDiscount > 0 && !_isFree && (
+            <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+              <div style={{ flex: 1 }}>
+                <label style={{ display: 'block', marginBottom: '0.25rem' }}>Start Date</label>
+                <Input
+                  type="date"
+                  value={formatDateForInput(prDiscountStartDate)}
+                  onChange={(e) => setPrDiscountStartDate(e.target.value)}
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <label style={{ display: 'block', marginBottom: '0.25rem' }}>End Date</label>
+                <Input
+                  type="date"
+                  value={formatDateForInput(prDiscountEndDate)}
+                  onChange={(e) => setPrDiscountEndDate(e.target.value)}
+                />
+              </div>
+            </div>
+          )}
           {_isFree && <Input id={`Pattern File${googleDriveFileId ? ` (${googleDriveFileId})`: ''}`} type="file" onChange={handleFileChange}/>}
         </div>
       )}
