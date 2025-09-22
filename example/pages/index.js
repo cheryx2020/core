@@ -23,6 +23,7 @@ const Index = () => {
             { href: "/PayPalCheckout", label: "PayPal Checkout" },
             { href: "/KnitPatternVisualizer", label: "Simulator" },
             { href: "/MenuAddComponentPost", label: "Menu Add Component Post" },
+            { href: "/PageEditor", label: "Page Editor" },
           ].map(({ href, label }) => (
             <Link
               key={href}
