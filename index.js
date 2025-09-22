@@ -35,6 +35,7 @@ import CheryxLogo from "./src/components/cheryx-logo/cheryx-logo"
 import HeaderWithImage from "./src/components/header-with-image/header-with-image"
 import TitleCheryx from "./src/components/title/title"
 import TitleLink from "./src/components/title-link/title-link"
+import LayoutEditor from "./src/components/layout-editor/layout-editor"
 import ListArticle from "./src/components/list-article/list-article"
 import HeaderPage from "./src/components/header-page"
 import Form from "./src/components/form"
@@ -82,6 +83,7 @@ export {
     IMAGE_SUBMENU,
     Input,
     KnitPatternVisualizer,
+    LayoutEditor,
     LeftMenu,
     ListArticle,
     Loader,
