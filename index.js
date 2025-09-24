@@ -57,6 +57,7 @@ import DashboardLayout from "./src/layouts/dashboard-layout";
 import DashboardItem from "./src/components/dashboard-item/dashboard-item";
 import DashboardWrapper from "./src/components/dashboard-wrapper/dashboard-wrapper";
 import KnitPatternVisualizer from "./src/components/knit-pattern-visualizer/knit-pattern-visualizer"
+import JsonEditor from "./src/components/json-editor/json-editor"
 
 export {
     AdBanner,
@@ -83,6 +84,7 @@ export {
     ImageUploadable,
     IMAGE_SUBMENU,
     Input,
+    JsonEditor,
     KnitPatternVisualizer,
     LayoutEditor,
     LeftMenu,
