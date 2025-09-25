@@ -24,6 +24,7 @@ const Index = () => {
             { href: "/KnitPatternVisualizer", label: "Simulator" },
             { href: "/MenuAddComponentPost", label: "Menu Add Component Post" },
             { href: "/PageEditor", label: "Page Editor" },
+            { href: "/PostEditor", label: "Post Editor" },
           ].map(({ href, label }) => (
             <Link
               key={href}

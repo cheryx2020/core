@@ -3,6 +3,7 @@ import Select from "react-select";
 import { APIService } from "@cheryx2020/api-service";
 import Loader from "../loader/loader";
 import JsonEditor from "../json-editor/json-editor";
+import PageItem from "../../utils/page";
 
 export default function PageEditor({ domain, language }) {
     const [domains, setDomains] = useState([]);
@@ -13,6 +14,9 @@ export default function PageEditor({ domain, language }) {
     const [selectedDomain, setSelectedDomain] = useState(domain ? { value: domain, label: domain } : null);
     const [selectedLanguage, setSelectedLanguage] = useState(language ? { value: language, label: language } : null);
     const [selectedPage, setSelectedPage] = useState(null);
+
+    // New state for adding a new page
+    const [newPageName, setNewPageName] = useState("");
 
     const [loadingDomains, setLoadingDomains] = useState(false);
     const [loadingLanguages, setLoadingLanguages] = useState(false);
@@ -42,11 +46,11 @@ export default function PageEditor({ domain, language }) {
     // Fetch languages when domain changes or use provided language
     useEffect(() => {
         const currentDomain = selectedDomain?.value;
-        if (!currentDomain || language) {
-            if (language) {
+        if (!currentDomain) {
+             if (language) {
                 setLanguages([{ value: language, label: language }]);
-            }
-            return;
+             }
+             return;
         }
 
         const fetchLanguages = async () => {
@@ -113,7 +117,8 @@ export default function PageEditor({ domain, language }) {
                 setContent(res.data);
             } catch (err) {
                 console.error("Error fetching page content:", err);
-                setContent(null);
+                // If fetching fails (e.g., 404 for a new page), initialize with an empty array
+                setContent([]);
             } finally {
                 setLoadingContent(false);
             }
@@ -121,11 +126,36 @@ export default function PageEditor({ domain, language }) {
         fetchContent();
     }, [selectedPage, selectedDomain, selectedLanguage, domain, language]);
 
+    // --- NEW FUNCTION to handle adding a new page ---
+    const handleAddNewPage = () => {
+        const trimmedName = newPageName.trim();
+        if (!trimmedName) {
+            setMessage("❌ Page name cannot be empty.");
+            return;
+        }
+
+        // Check if page already exists
+        const pageExists = pages.some(p => p.value.toLowerCase() === trimmedName.toLowerCase());
+        if (pageExists) {
+            setMessage(`❌ Page "${trimmedName}" already exists.`);
+            return;
+        }
+
+        const newPageOption = { value: trimmedName, label: trimmedName };
+
+        // Add to the list of pages, select it, and clear the input
+        setPages(prevPages => [...prevPages, newPageOption]);
+        setSelectedPage(newPageOption);
+        setNewPageName("");
+        setMessage(`✅ Now editing new page: "${trimmedName}". Add content and save.`);
+        // The useEffect for fetching content will automatically run and set content to []
+    };
+
     const handleSave = async () => {
         const currentDomain = selectedDomain?.value || domain;
         const currentLanguage = selectedLanguage?.value || language;
 
-        if (!currentDomain || !currentLanguage || !selectedPage || !content) {
+        if (!currentDomain || !currentLanguage || !selectedPage || content === null) {
             setMessage("Please select domain, language, page, and provide content.");
             return;
         }
@@ -168,28 +198,24 @@ export default function PageEditor({ domain, language }) {
 
     // Function to add new content item
     const addNewItem = () => {
+        const newItem = { id: `item-${Date.now()}`, type: "default", content: {} };
         if (!Array.isArray(content)) {
-            setContent([{ id: `item-${Date.now()}`, content: {} }]);
+            setContent([newItem]);
             return;
         }
-        const newContent = [...content, { id: `item-${Date.now()}`, content: {} }];
-        setContent(newContent);
+        setContent([...content, newItem]);
     };
 
     // Function to delete content item
     const deleteItem = (index) => {
         if (!Array.isArray(content)) return;
-        if (content.length === 1) {
-            setContent(null);
-            return;
-        }
         const newContent = content.filter((_, i) => i !== index);
-        setContent(newContent);
+        setContent(newContent.length > 0 ? newContent : []);
     };
 
     return (
-        <div style={{ maxWidth: 800, margin: "0 auto", padding: 20 }}>
-            <h2>Select Page</h2>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: 20 }}>
+            <h2>Page Editor</h2>
 
             {!domain && (
                 <div style={{ marginBottom: 20 }}>
@@ -197,7 +223,14 @@ export default function PageEditor({ domain, language }) {
                     <Select
                         options={domains}
                         value={selectedDomain}
-                        onChange={setSelectedDomain}
+                        onChange={(option) => {
+                            setSelectedDomain(option);
+                            // Reset downstream selections
+                            setSelectedLanguage(null);
+                            setSelectedPage(null);
+                            setPages([]);
+                            setContent(null);
+                        }}
                         placeholder="Select a domain..."
                         isSearchable
                         isLoading={loadingDomains}
@@ -211,7 +244,13 @@ export default function PageEditor({ domain, language }) {
                     <Select
                         options={languages}
                         value={selectedLanguage}
-                        onChange={setSelectedLanguage}
+                        onChange={(option) => {
+                            setSelectedLanguage(option);
+                            // Reset downstream selections
+                            setSelectedPage(null);
+                            setPages([]);
+                            setContent(null);
+                        }}
                         placeholder="Select a language..."
                         isSearchable
                         isLoading={loadingLanguages}
@@ -226,18 +265,36 @@ export default function PageEditor({ domain, language }) {
                         options={pages}
                         value={selectedPage}
                         onChange={setSelectedPage}
-                        placeholder="Select a page..."
+                        placeholder="Select a page to edit..."
                         isSearchable
                         isLoading={loadingPages}
                     />
+                    {/* --- NEW UI for adding a page --- */}
+                    <div style={{ marginTop: 10, display: "flex", gap: 10 }}>
+                        <input
+                            type="text"
+                            value={newPageName}
+                            onChange={(e) => setNewPageName(e.target.value)}
+                            placeholder="Enter new page name (e.g., about-us)"
+                            style={{ flex: 1, padding: "8px 12px", border: "1px solid #ccc", borderRadius: 4 }}
+                        />
+                        <button
+                            onClick={handleAddNewPage}
+                            style={{ padding: "8px 16px", backgroundColor: "#28a745", color: "white", border: "none", borderRadius: 4, cursor: "pointer" }}
+                        >
+                            Add New Page
+                        </button>
+                    </div>
                 </div>
             )}
 
             {loadingContent && <Loader />}
 
-            {!loadingContent && content && (
-                <div style={{ marginTop: 30 }}>
-                    <h3>Page Content</h3>
+            {!loadingContent && content !== null && (
+                <div style={{ marginTop: 30, borderTop: '2px solid #eee', paddingTop: 20 }}>
+                    <h3>
+                        {selectedPage ? `Editing Content for: "${selectedPage.label}"` : 'Page Content'}
+                    </h3>
 
                     {Array.isArray(content) ? (
                         <>
@@ -246,18 +303,19 @@ export default function PageEditor({ domain, language }) {
                                 style={{
                                     marginBottom: 20,
                                     padding: "8px 16px",
-                                    backgroundColor: "#28a745",
+                                    backgroundColor: "#17a2b8",
                                     color: "white",
                                     border: "none",
                                     borderRadius: 4,
                                     cursor: "pointer"
                                 }}
                             >
-                                Add New Item
+                                Add Content Item
                             </button>
+                            {content.length === 0 && <p style={{color: '#666'}}>This page is empty. Click "Add Content Item" to get started.</p>}
                             {content.map((item, index) => (
                                 <div
-                                    key={item.id}
+                                    key={item.id || index}
                                     style={{
                                         marginBottom: 20,
                                         backgroundColor: "#f6f8fa",
@@ -266,12 +324,13 @@ export default function PageEditor({ domain, language }) {
                                         position: "relative"
                                     }}
                                 >
-                                    <div style={{ 
-                                        position: "absolute", 
-                                        top: 10, 
+                                    <div style={{
+                                        position: "absolute",
+                                        top: 10,
                                         right: 10,
                                         display: "flex",
-                                        gap: 5
+                                        gap: 5,
+                                        zIndex: 10
                                     }}>
                                         <button
                                             onClick={() => moveItemUp(index)}
@@ -285,7 +344,7 @@ export default function PageEditor({ domain, language }) {
                                                 cursor: index === 0 ? "not-allowed" : "pointer"
                                             }}
                                         >
-                                            Move Up
+                                            Up
                                         </button>
                                         <button
                                             onClick={() => moveItemDown(index)}
@@ -299,7 +358,7 @@ export default function PageEditor({ domain, language }) {
                                                 cursor: index === content.length - 1 ? "not-allowed" : "pointer"
                                             }}
                                         >
-                                            Move Down
+                                            Down
                                         </button>
                                         <button
                                             onClick={() => deleteItem(index)}
@@ -315,15 +374,29 @@ export default function PageEditor({ domain, language }) {
                                             Delete
                                         </button>
                                     </div>
-                                    <h4>Item {index + 1}</h4>
-                                    <JsonEditor
-                                        data={item}
-                                        onChange={(updatedItem) => {
-                                            const newContent = [...content];
-                                            newContent[index] = updatedItem;
-                                            setContent(newContent);
-                                        }}
-                                    />
+
+                                    <div style={{ display: 'flex', gap: '20px', marginTop: '40px' }}>
+                                        <div style={{ flex: 1, minWidth: 0 }}>
+                                            <h4>Item {index + 1} (Editor)</h4>
+                                            <JsonEditor
+                                                data={item}
+                                                onChange={(updatedItem) => {
+                                                    const newContent = [...content];
+                                                    newContent[index] = updatedItem;
+                                                    setContent(newContent);
+                                                }}
+                                            />
+                                        </div>
+                                        <div style={{ flex: 1, minWidth: 0, border: '1px solid #ddd', padding: '15px', borderRadius: '8px', backgroundColor: 'white' }}>
+                                            <h4>Preview</h4>
+                                            <PageItem
+                                                data={item}
+                                                isAdmin={false}
+                                                isEdit={false}
+                                                isMobile={false}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             ))}
                         </>
@@ -349,7 +422,7 @@ export default function PageEditor({ domain, language }) {
                     </button>
 
                     {message && (
-                        <div style={{ marginTop: 10, color: message.startsWith("✅") ? "green" : "red" }}>
+                        <div style={{ marginTop: 10, color: message.startsWith("✅") ? "green" : "red", fontWeight: "bold" }}>
                             {message}
                         </div>
                     )}
