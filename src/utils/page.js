@@ -7,6 +7,8 @@ import Title from "../components/title/title";
 import Note from "../components/note/note";
 import AdminMenu from "../components/admin-menu/admin-menu";
 import ContentWithTitle from "../components/content-with-title/content-with-title";
+import ListArticle from "../components/list-article/list-article";
+import TitleLink from "../components/title-link/title-link";
 
 const PageItem = ({ data, router, ...rest }) => {
     switch (data?.id) {
@@ -69,6 +71,16 @@ const PageItem = ({ data, router, ...rest }) => {
                     className={data?.freePatternClassName}
                     content={<PatternList {...rest} isBottom={true} isAdmin={false} api={data.api} data={data?.[data.api] ?? []} />}
                 />
+            </>
+        case "LIST_ARTICLE": 
+            return <>
+                <style>{data?.styleTagContent}</style>
+                <div className={data?.articleWrapperClassName}>
+                    <div className={data?.titleClassName}>
+                        <TitleLink linkText={data?.linkText} Link={rest?.Link} styles={rest?.theme ? { backgroundColor: theme?.NAVIGATION?.backgroundColor } : undefined} text={data?.titleText} url={data?.url} />
+                    </div>
+                    <ListArticle Link={rest?.Link} Image={rest?.Image} api={data.api} data={data?.[data?.api] ?? []} isMobile={rest?.isMobile} />
+                </div>
             </>
         default:
             return <div>Not implemented</div>;

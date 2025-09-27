@@ -7,7 +7,7 @@ import PageItem from "../../utils/page";
 import PagePreviewModal from "../page-preview-modal/page-preview-modal";
 import { getPageConfig } from "@cheryx2020/utils";
 
-export default function PageEditor({ domain, language, router, useRouter }) {
+export default function PageEditor({ domain, language, router, useRouter, Image, Link }) {
     const [domains, setDomains] = useState([]);
     const [languages, setLanguages] = useState([]);
     const [pages, setPages] = useState([]);
@@ -420,7 +420,7 @@ export default function PageEditor({ domain, language, router, useRouter }) {
                                         </div>
                                         <div style={{ flex: 1, minWidth: 0, border: '1px solid #ddd', padding: '15px', borderRadius: '8px', backgroundColor: 'white' }}>
                                             <h4>Preview</h4>
-                                            <PageItem data={item} isAdmin={false} isEdit={false} isMobile={false} />
+                                            <PageItem Link={Link} Image={Image} data={item} isAdmin={false} isEdit={false} isMobile={false} />
                                         </div>
                                     </div>
                                 </div>
@@ -448,6 +448,8 @@ export default function PageEditor({ domain, language, router, useRouter }) {
                 loading={loadingPreview}
                 router={router}
                 useRouter={useRouter}
+                Image={Image}
+                Link={Link}
             />
         </div>
     );

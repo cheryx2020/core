@@ -5,3 +5,68 @@
 body {
   font-family: 'Inter', sans-serif;
 }
+
+@font-face {
+  font-family: "Big Shoulders Text";
+  src: url("../public/fonts/BigShouldersText/BigShouldersText-Light.ttf");
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Big Shoulders Text";
+  src: url("../public/fonts/BigShouldersText/BigShouldersText-Regular.ttf");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Big Shoulders Text";
+  src: url("../public/fonts/BigShouldersText/BigShouldersText-SemiBold.ttf");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Big Shoulders Text";
+  src: url("../public/fonts/BigShouldersText/BigShouldersText-Medium.ttf");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Big Shoulders Text";
+  src: url("../public/fonts/BigShouldersText/BigShouldersText-SemiBold.ttf");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Big Shoulders Text";
+  src: url("../public/fonts/BigShouldersText/BigShouldersText-Bold.ttf");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Bigshot One";
+  src: url("../public/fonts/BigshotOne/BigshotOne-Regular.ttf");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Fredericka the Great";
+  src: url("../public/fonts/FrederickatheGreat/FrederickatheGreat-Regular.ttf");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pacifico";
+  src: url("../public/fonts/Pacifico/Pacifico-Regular.ttf");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}

@@ -13,8 +13,9 @@ const mockRouter = {
 };
 
 const MockComponent = ({ children }) => <>{children}</>;
+const MockImage = ({ children }) => <>{children}</>;
 
-const Page = ({ name, content, theme, layout: { menu, breadcrumb, footer, header } = { menu: [], breadcrumb: [], footer: {}}, seo, Link = ({ children, ...props }) => <a {...props}>{children}</a>, useDispatch = () => (action) => console.log('Dispatching action:', action), useRouter = () => mockRouter, Head = MockComponent, NextSeo = MockComponent }) => {
+const Page = ({ name, content, theme, layout: { menu, breadcrumb, footer, header } = { menu: [], breadcrumb: [], footer: {}}, seo, Link = ({ children, ...props }) => <a {...props}>{children}</a>, useDispatch = () => (action) => console.log('Dispatching action:', action), useRouter = () => mockRouter, Head = MockComponent, NextSeo = MockComponent, Image = MockImage }) => {
   const isMobile = useIsMobile();
   const router = useRouter();
   const { isAuth } = useAuthenticate();
@@ -32,7 +33,7 @@ const Page = ({ name, content, theme, layout: { menu, breadcrumb, footer, header
     isMobile={isMobile}
     footer={footer}
     isAdmin={isEdit}
-    content={content?.map((item, index) => <PageItem setIsEdit={setIsEdit} onClickSave={onClickSave} key={index} isAdmin={isAuth} isEdit={isEdit} data={item} isMobile={isMobile} useDispatch={useDispatch} router={router} useRouter={useRouter}/>)} />
+    content={content?.map((item, index) => <PageItem Link={Link} Image={Image} setIsEdit={setIsEdit} onClickSave={onClickSave} key={index} isAdmin={isAuth} isEdit={isEdit} data={item} isMobile={isMobile} useDispatch={useDispatch} router={router} useRouter={useRouter}/>)} />
 }
 
 export default Page
