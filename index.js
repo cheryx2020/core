@@ -58,6 +58,7 @@ import DashboardItem from "./src/components/dashboard-item/dashboard-item";
 import DashboardWrapper from "./src/components/dashboard-wrapper/dashboard-wrapper";
 import KnitPatternVisualizer from "./src/components/knit-pattern-visualizer/knit-pattern-visualizer"
 import JsonEditor from "./src/components/json-editor/json-editor"
+import Page from "./src/components/page/page"
 
 export {
     AdBanner,
@@ -95,6 +96,7 @@ export {
     MultiImageConfig,
     noImageUrl,
     Note,
+    Page,
     PageEditor,
     PageItem,
     PatternDetail,

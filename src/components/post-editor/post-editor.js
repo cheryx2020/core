@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import { APIService } from "@cheryx2020/api-service"; 
+import { APIService } from "@cheryx2020/api-service";
 import Loader from "../loader/loader";
 import JsonEditor from "../json-editor/json-editor";
 
@@ -22,39 +22,46 @@ const FormField = ({ label, name, value, onChange, type = "text", ...props }) =>
     </div>
 );
 
-export default function PostEditor() {
+export default function PostEditor({ language = "en" }) {
     const [posts, setPosts] = useState([]);
     const [selectedPostOption, setSelectedPostOption] = useState(null);
-    const [currentPost, setCurrentPost] = useState(null); // This will hold the form data
+    const [currentPost, setCurrentPost] = useState(null);
 
     const [loadingPosts, setLoadingPosts] = useState(false);
     const [loadingDetails, setLoadingDetails] = useState(false);
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState(null);
 
-    // Fetch the list of all posts (without content for speed) on component mount
+    // Fetch the list of posts for the specified language
     useEffect(() => {
         const fetchPosts = async () => {
+            setSelectedPostOption(null);
+            setCurrentPost(null);
+            setMessage(null);
             setLoadingPosts(true);
+
             try {
-                // noContent=true makes the initial load much faster
-                const res = await APIService.get("list-post");
+                // CHANGED: The backend's `getListPost` uses the `checkLanguage` utility,
+                // which likely reads a query parameter. We'll assume it's `language`.
+                const res = await APIService.get(`list-post?language=${language}`);
+                
                 const postOptions = res.data.data.map((p) => ({
-                    value: p._id, // Use MongoDB _id for selection
+                    value: p._id,
                     label: `${p.title} (${p.id})`,
                 }));
                 setPosts(postOptions);
             } catch (err) {
-                console.error("Error fetching posts:", err);
-                setMessage("❌ Failed to load posts.");
+                console.error(`Error fetching posts for language '${language}':`, err);
+                setMessage(`❌ Failed to load posts for language: ${language}.`);
             } finally {
                 setLoadingPosts(false);
             }
         };
         fetchPosts();
-    }, []);
+    }, [language]);
 
     // Fetch the full details of a post when it's selected from the dropdown
+    // This effect does not need to be changed.
     useEffect(() => {
         if (!selectedPostOption) {
             setCurrentPost(null);
@@ -130,7 +137,7 @@ export default function PostEditor() {
 
     return (
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: 20 }}>
-            <h2>Post Editor</h2>
+            <h2>Post Editor ({language.toUpperCase()})</h2>
 
             <div style={{ marginBottom: 20 }}>
                 <label style={{ display: 'block', marginBottom: 5, fontWeight: 'bold' }}>Select a Post to Edit</label>
@@ -138,9 +145,10 @@ export default function PostEditor() {
                     options={posts}
                     value={selectedPostOption}
                     onChange={setSelectedPostOption}
-                    placeholder="Search and select a post..."
+                    placeholder={`Search and select a ${language.toUpperCase()} post...`}
                     isSearchable
                     isLoading={loadingPosts}
+                    key={language} 
                 />
             </div>
 
@@ -178,7 +186,6 @@ export default function PostEditor() {
                             onChange={handleContentChange}
                         />
                     </div>
-
 
                     <button
                         onClick={handleSave}

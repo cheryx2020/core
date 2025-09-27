@@ -4,6 +4,8 @@ import { APIService } from "@cheryx2020/api-service";
 import Loader from "../loader/loader";
 import JsonEditor from "../json-editor/json-editor";
 import PageItem from "../../utils/page";
+import PagePreviewModal from "../page-preview-modal/page-preview-modal";
+import { getPageConfig } from "@cheryx2020/utils";
 
 export default function PageEditor({ domain, language }) {
     const [domains, setDomains] = useState([]);
@@ -15,7 +17,6 @@ export default function PageEditor({ domain, language }) {
     const [selectedLanguage, setSelectedLanguage] = useState(language ? { value: language, label: language } : null);
     const [selectedPage, setSelectedPage] = useState(null);
 
-    // New state for adding a new page
     const [newPageName, setNewPageName] = useState("");
 
     const [loadingDomains, setLoadingDomains] = useState(false);
@@ -24,7 +25,12 @@ export default function PageEditor({ domain, language }) {
     const [loadingContent, setLoadingContent] = useState(false);
 
     const [saving, setSaving] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
     const [message, setMessage] = useState(null);
+
+    const [isPreviewing, setIsPreviewing] = useState(false);
+    const [loadingPreview, setLoadingPreview] = useState(false);
+    const [previewData, setPreviewData] = useState(null);
 
     // Fetch domains only if domain prop is not provided
     useEffect(() => {
@@ -47,10 +53,10 @@ export default function PageEditor({ domain, language }) {
     useEffect(() => {
         const currentDomain = selectedDomain?.value;
         if (!currentDomain) {
-             if (language) {
+            if (language) {
                 setLanguages([{ value: language, label: language }]);
-             }
-             return;
+            }
+            return;
         }
 
         const fetchLanguages = async () => {
@@ -126,29 +132,24 @@ export default function PageEditor({ domain, language }) {
         fetchContent();
     }, [selectedPage, selectedDomain, selectedLanguage, domain, language]);
 
-    // --- NEW FUNCTION to handle adding a new page ---
     const handleAddNewPage = () => {
         const trimmedName = newPageName.trim();
         if (!trimmedName) {
-            setMessage("❌ Page name cannot be empty.");
+            setMessage({ text: "❌ Page name cannot be empty.", type: "error" });
             return;
         }
 
-        // Check if page already exists
         const pageExists = pages.some(p => p.value.toLowerCase() === trimmedName.toLowerCase());
         if (pageExists) {
-            setMessage(`❌ Page "${trimmedName}" already exists.`);
+            setMessage({ text: `❌ Page "${trimmedName}" already exists.`, type: "error" });
             return;
         }
 
         const newPageOption = { value: trimmedName, label: trimmedName };
-
-        // Add to the list of pages, select it, and clear the input
-        setPages(prevPages => [...prevPages, newPageOption]);
+        setPages(prevPages => [...prevPages, newPageOption].sort((a, b) => a.label.localeCompare(b.label)));
         setSelectedPage(newPageOption);
         setNewPageName("");
-        setMessage(`✅ Now editing new page: "${trimmedName}". Add content and save.`);
-        // The useEffect for fetching content will automatically run and set content to []
+        setMessage({ text: `✅ Now editing new page: "${trimmedName}". Add content and save.`, type: "success" });
     };
 
     const handleSave = async () => {
@@ -156,7 +157,7 @@ export default function PageEditor({ domain, language }) {
         const currentLanguage = selectedLanguage?.value || language;
 
         if (!currentDomain || !currentLanguage || !selectedPage || content === null) {
-            setMessage("Please select domain, language, page, and provide content.");
+            setMessage({ text: "Please select domain, language, page, and provide content.", type: "error" });
             return;
         }
 
@@ -170,17 +171,72 @@ export default function PageEditor({ domain, language }) {
                 name: selectedPage.value,
                 content
             });
-
-            setMessage("✅ Page content saved successfully!");
+            setMessage({ text: "✅ Page content saved successfully!", type: "success" });
         } catch (err) {
             console.error("Error saving page content:", err);
-            setMessage("❌ Failed to save page content.");
+            setMessage({ text: "❌ Failed to save page content.", type: "error" });
         } finally {
             setSaving(false);
         }
     };
 
-    // Function to move content item up
+    const handleDeletePage = async () => {
+        const currentDomain = selectedDomain?.value || domain;
+        const currentLanguage = selectedLanguage?.value || language;
+
+        if (!selectedPage) {
+            setMessage({ text: "❌ Please select a page to delete.", type: "error" });
+            return;
+        }
+
+        if (!window.confirm(`Are you sure you want to permanently delete the page "${selectedPage.label}"? This action cannot be undone.`)) {
+            return;
+        }
+
+        setIsDeleting(true);
+        setMessage(null);
+
+        try {
+            await APIService.delete(`page/page?domain=${currentDomain}&language=${currentLanguage}&name=${selectedPage.value}`);
+            setMessage({ text: `✅ Page "${selectedPage.label}" deleted successfully!`, type: "success" });
+
+            // Remove the page from the dropdown list
+            setPages(prevPages => prevPages.filter(p => p.value !== selectedPage.value));
+
+            // Reset the view
+            setSelectedPage(null);
+            setContent(null);
+
+        } catch (err) {
+            console.error("Error deleting page:", err);
+            const errorMsg = err.response?.data?.error || 'An unknown error occurred.';
+            setMessage({ text: `❌ Failed to delete page: ${errorMsg}`, type: "error" });
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
+    const handlePreview = async () => {
+        if (!selectedPage) return;
+
+        setLoadingPreview(true);
+        setIsPreviewing(true); 
+        setPreviewData(null);
+
+        const currentDomain = selectedDomain?.value || domain;
+        const currentLanguage = selectedLanguage?.value || language;
+        const currentName = selectedPage.value;
+
+        try {
+            setPreviewData(await getPageConfig({domain: currentDomain, name: currentName, language: currentLanguage}));
+        } catch (err) {
+            console.error("Error fetching data for preview:", err);
+            setMessage({ text: "❌ Could not load preview data.", type: "error" });
+        } finally {
+            setLoadingPreview(false);
+        }
+    };
+
     const moveItemUp = (index) => {
         if (index === 0) return;
         const newContent = [...content];
@@ -225,7 +281,6 @@ export default function PageEditor({ domain, language }) {
                         value={selectedDomain}
                         onChange={(option) => {
                             setSelectedDomain(option);
-                            // Reset downstream selections
                             setSelectedLanguage(null);
                             setSelectedPage(null);
                             setPages([]);
@@ -246,7 +301,6 @@ export default function PageEditor({ domain, language }) {
                         value={selectedLanguage}
                         onChange={(option) => {
                             setSelectedLanguage(option);
-                            // Reset downstream selections
                             setSelectedPage(null);
                             setPages([]);
                             setContent(null);
@@ -261,15 +315,52 @@ export default function PageEditor({ domain, language }) {
             {(selectedLanguage || language) && (
                 <div style={{ marginBottom: 20 }}>
                     <label>Page</label>
-                    <Select
-                        options={pages}
-                        value={selectedPage}
-                        onChange={setSelectedPage}
-                        placeholder="Select a page to edit..."
-                        isSearchable
-                        isLoading={loadingPages}
-                    />
-                    {/* --- NEW UI for adding a page --- */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <div style={{ flex: 1 }}>
+                            <Select
+                                options={pages}
+                                value={selectedPage}
+                                onChange={setSelectedPage}
+                                placeholder="Select a page to edit..."
+                                isSearchable
+                                isLoading={loadingPages}
+                            />
+                        </div>
+                        {selectedPage && (
+                            <>
+                                <button
+                                    onClick={handlePreview}
+                                    disabled={loadingPreview}
+                                    style={{
+                                        padding: "8px 16px",
+                                        backgroundColor: loadingPreview ? '#aaa' : "#17a2b8",
+                                        color: "white",
+                                        border: "none",
+                                        borderRadius: 4,
+                                        cursor: loadingPreview ? 'not-allowed' : "pointer",
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    {loadingPreview ? "Loading..." : "Preview"}
+                                </button>
+                                <button
+                                    onClick={handleDeletePage}
+                                    disabled={isDeleting}
+                                    style={{
+                                        padding: "8px 16px",
+                                        backgroundColor: isDeleting ? "#aaa" : "#dc3545",
+                                        color: "white",
+                                        border: "none",
+                                        borderRadius: 4,
+                                        cursor: isDeleting ? "not-allowed" : "pointer",
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    {isDeleting ? "Deleting..." : "Delete Page"}
+                                </button>
+                            </>
+                        )}
+                    </div>
                     <div style={{ marginTop: 10, display: "flex", gap: 10 }}>
                         <input
                             type="text"
@@ -298,83 +389,23 @@ export default function PageEditor({ domain, language }) {
 
                     {Array.isArray(content) ? (
                         <>
-                            <button
-                                onClick={addNewItem}
-                                style={{
-                                    marginBottom: 20,
-                                    padding: "8px 16px",
-                                    backgroundColor: "#17a2b8",
-                                    color: "white",
-                                    border: "none",
-                                    borderRadius: 4,
-                                    cursor: "pointer"
-                                }}
-                            >
+                            <button onClick={addNewItem} style={{ marginBottom: 20, padding: "8px 16px", backgroundColor: "#17a2b8", color: "white", border: "none", borderRadius: 4, cursor: "pointer" }}>
                                 Add Content Item
                             </button>
-                            {content.length === 0 && <p style={{color: '#666'}}>This page is empty. Click "Add Content Item" to get started.</p>}
+                            {content.length === 0 && <p style={{ color: '#666' }}>This page is empty. Click "Add Content Item" to get started.</p>}
                             {content.map((item, index) => (
-                                <div
-                                    key={item.id || index}
-                                    style={{
-                                        marginBottom: 20,
-                                        backgroundColor: "#f6f8fa",
-                                        padding: 10,
-                                        borderRadius: 8,
-                                        position: "relative"
-                                    }}
-                                >
-                                    <div style={{
-                                        position: "absolute",
-                                        top: 10,
-                                        right: 10,
-                                        display: "flex",
-                                        gap: 5,
-                                        zIndex: 10
-                                    }}>
-                                        <button
-                                            onClick={() => moveItemUp(index)}
-                                            disabled={index === 0}
-                                            style={{
-                                                padding: "5px 10px",
-                                                backgroundColor: index === 0 ? "#aaa" : "#007bff",
-                                                color: "white",
-                                                border: "none",
-                                                borderRadius: 4,
-                                                cursor: index === 0 ? "not-allowed" : "pointer"
-                                            }}
-                                        >
+                                <div key={item.id || index} style={{ marginBottom: 20, backgroundColor: "#f6f8fa", padding: 10, borderRadius: 8, position: "relative" }}>
+                                    <div style={{ position: "absolute", top: 10, right: 10, display: "flex", gap: 5, zIndex: 10 }}>
+                                        <button onClick={() => moveItemUp(index)} disabled={index === 0} style={{ padding: "5px 10px", backgroundColor: index === 0 ? "#aaa" : "#007bff", color: "white", border: "none", borderRadius: 4, cursor: index === 0 ? "not-allowed" : "pointer" }}>
                                             Up
                                         </button>
-                                        <button
-                                            onClick={() => moveItemDown(index)}
-                                            disabled={index === content.length - 1}
-                                            style={{
-                                                padding: "5px 10px",
-                                                backgroundColor: index === content.length - 1 ? "#aaa" : "#007bff",
-                                                color: "white",
-                                                border: "none",
-                                                borderRadius: 4,
-                                                cursor: index === content.length - 1 ? "not-allowed" : "pointer"
-                                            }}
-                                        >
+                                        <button onClick={() => moveItemDown(index)} disabled={index === content.length - 1} style={{ padding: "5px 10px", backgroundColor: index === content.length - 1 ? "#aaa" : "#007bff", color: "white", border: "none", borderRadius: 4, cursor: index === content.length - 1 ? "not-allowed" : "pointer" }}>
                                             Down
                                         </button>
-                                        <button
-                                            onClick={() => deleteItem(index)}
-                                            style={{
-                                                padding: "5px 10px",
-                                                backgroundColor: "#dc3545",
-                                                color: "white",
-                                                border: "none",
-                                                borderRadius: 4,
-                                                cursor: "pointer"
-                                            }}
-                                        >
+                                        <button onClick={() => deleteItem(index)} style={{ padding: "5px 10px", backgroundColor: "#dc3545", color: "white", border: "none", borderRadius: 4, cursor: "pointer" }}>
                                             Delete
                                         </button>
                                     </div>
-
                                     <div style={{ display: 'flex', gap: '20px', marginTop: '40px' }}>
                                         <div style={{ flex: 1, minWidth: 0 }}>
                                             <h4>Item {index + 1} (Editor)</h4>
@@ -389,12 +420,7 @@ export default function PageEditor({ domain, language }) {
                                         </div>
                                         <div style={{ flex: 1, minWidth: 0, border: '1px solid #ddd', padding: '15px', borderRadius: '8px', backgroundColor: 'white' }}>
                                             <h4>Preview</h4>
-                                            <PageItem
-                                                data={item}
-                                                isAdmin={false}
-                                                isEdit={false}
-                                                isMobile={false}
-                                            />
+                                            <PageItem data={item} isAdmin={false} isEdit={false} isMobile={false} />
                                         </div>
                                     </div>
                                 </div>
@@ -404,30 +430,23 @@ export default function PageEditor({ domain, language }) {
                         <JsonEditor data={content} onChange={setContent} />
                     )}
 
-                    <button
-                        onClick={handleSave}
-                        disabled={saving}
-                        style={{
-                            marginTop: 20,
-                            padding: "10px 20px",
-                            backgroundColor: saving ? "#aaa" : "#007bff",
-                            color: "white",
-                            border: "none",
-                            borderRadius: 6,
-                            cursor: saving ? "not-allowed" : "pointer",
-                            fontSize: 16
-                        }}
-                    >
+                    <button onClick={handleSave} disabled={saving} style={{ marginTop: 20, padding: "10px 20px", backgroundColor: saving ? "#aaa" : "#007bff", color: "white", border: "none", borderRadius: 6, cursor: saving ? "not-allowed" : "pointer", fontSize: 16 }}>
                         {saving ? "Saving..." : "Save"}
                     </button>
 
                     {message && (
-                        <div style={{ marginTop: 10, color: message.startsWith("✅") ? "green" : "red", fontWeight: "bold" }}>
-                            {message}
+                        <div style={{ marginTop: 10, color: message.type === 'success' ? "green" : "red", fontWeight: "bold" }}>
+                            {message.text}
                         </div>
                     )}
                 </div>
             )}
+            <PagePreviewModal
+                isOpen={isPreviewing}
+                onClose={() => setIsPreviewing(false)}
+                data={previewData}
+                loading={loadingPreview}
+            />
         </div>
     );
 }
