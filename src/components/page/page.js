@@ -18,7 +18,7 @@ const Page = ({ name, content, theme, layout: { menu, breadcrumb, footer, header
   const isMobile = useIsMobile();
   const router = useRouter();
   const { isAuth } = useAuthenticate();
-  const { onClickSave, isEdit, setIsEdit } = usePageData({ page: content, pageName: name, router, domain: "gocnhacolen.com", language: "vi" });
+  const { onClickSave, isEdit, setIsEdit } = usePageData({ page: content ?? {}, pageName: name, router, domain: "gocnhacolen.com", language: "vi" });
   return <MainLayout
     theme={theme}
     mainImageUrl={header?.logo}
@@ -32,7 +32,7 @@ const Page = ({ name, content, theme, layout: { menu, breadcrumb, footer, header
     isMobile={isMobile}
     footer={footer}
     isAdmin={isEdit}
-    content={content?.map((item, index) => <PageItem setIsEdit={setIsEdit} onClickSave={onClickSave} key={index} isAdmin={isAuth} isEdit={isEdit} data={item} isMobile={isMobile} useDispatch={useDispatch} useRouter={useRouter}/>)} />
+    content={content?.map((item, index) => <PageItem setIsEdit={setIsEdit} onClickSave={onClickSave} key={index} isAdmin={isAuth} isEdit={isEdit} data={item} isMobile={isMobile} useDispatch={useDispatch} router={router} useRouter={useRouter}/>)} />
 }
 
 export default Page

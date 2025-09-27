@@ -3,10 +3,12 @@ import { CIRCLE_IMAGE } from "../../hooks/usePageData";
 import CircleGroup from "../components/circle-group/circle-group";
 import BestSeller from "../components/best-seller/best-seller";
 import PatternList from "../components/pattern-list/pattern-list";
+import Title from "../components/title/title";
 import Note from "../components/note/note";
 import AdminMenu from "../components/admin-menu/admin-menu";
+import ContentWithTitle from "../components/content-with-title/content-with-title";
 
-const PageItem = ({ data, ...rest }) => {
+const PageItem = ({ data, router, ...rest }) => {
     switch (data?.id) {
         case "ADMIN_MENU":
             const { onClickSave, setIsEdit, isAdmin, isEdit } = rest;
@@ -23,7 +25,21 @@ const PageItem = ({ data, ...rest }) => {
         case "BEST_SELLER":
             return <BestSeller message={data?.message} {...rest} data={data?.[data.api] ?? {}} />
         case CIRCLE_IMAGE:
-            return <CircleGroup urls={data?.value || []} />;
+            return <>
+                <style>{data?.styleTagContent}</style>
+                <div className={data?.wrapperClassName} onClick={() => {
+                    if (data?.navigate && router && typeof router.push === 'function') {
+                        router.push(data?.navigate);
+                    }
+                }}>
+                    <Title text={data?.title} />
+                    <div className={data?.bigImageClassName}></div>
+                    <CircleGroup urls={data?.value} />
+                    <div className={data?.seeMoreClassName}>
+                        <div className={data?.iconSeeMoreClassName}></div>
+                    </div>
+                </div>
+            </>;
         case "NOTE":
             return <Note {...rest} title={data.title} text={data.text} />
         case "PATTERN_LIST":
@@ -35,6 +51,25 @@ const PageItem = ({ data, ...rest }) => {
                     data={data?.[data.api] ?? []}
                 />
             );
+        case "TITLE":
+            return (
+                <Title text={data?.text || "TITLE"} />
+            );
+        case "DIV":
+            return <>
+                <style>{data?.styleTagContent}</style>
+                <div className={data?.className}></div>
+            </>
+        case "ContentWithTitle":
+            return <>
+                <style>{data?.styleTagContent}</style>
+                <ContentWithTitle
+                    theme={rest?.theme}
+                    title={data?.title}
+                    className={data?.freePatternClassName}
+                    content={<PatternList {...rest} isBottom={true} isAdmin={false} api={data.api} data={data?.[data.api] ?? []} />}
+                />
+            </>
         default:
             return <div>Not implemented</div>;
     }

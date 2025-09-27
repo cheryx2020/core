@@ -7,7 +7,7 @@ import PageItem from "../../utils/page";
 import PagePreviewModal from "../page-preview-modal/page-preview-modal";
 import { getPageConfig } from "@cheryx2020/utils";
 
-export default function PageEditor({ domain, language }) {
+export default function PageEditor({ domain, language, router, useRouter }) {
     const [domains, setDomains] = useState([]);
     const [languages, setLanguages] = useState([]);
     const [pages, setPages] = useState([]);
@@ -446,6 +446,8 @@ export default function PageEditor({ domain, language }) {
                 onClose={() => setIsPreviewing(false)}
                 data={previewData}
                 loading={loadingPreview}
+                router={router}
+                useRouter={useRouter}
             />
         </div>
     );

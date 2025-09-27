@@ -2,7 +2,7 @@ import React from "react";
 import Loader from "../loader/loader";
 import Page from "../page/page";
 
-export default function PagePreviewModal({ isOpen, onClose, data, loading }) {
+export default function PagePreviewModal({ isOpen, onClose, data, loading, router, useRouter }) {
     if (!isOpen) {
         return null;
     }
@@ -42,9 +42,7 @@ export default function PagePreviewModal({ isOpen, onClose, data, loading }) {
 
             {loading && <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}><Loader /></div>}
 
-            {!loading && data && (
-                <Page {...data} />
-            )}
+            <Page {...(data ?? { page: {}})} useRouter={useRouter} router={router} />
              {!loading && !data && <div style={{ padding: '50px', textAlign: 'center' }}>Error: Could not load preview data.</div>}
         </div>
     );

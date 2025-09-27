@@ -1,8 +1,10 @@
 import React from "react"
 import PageEditor from "../../src/components/page-editor/page-editor";
+import { useRouter } from "next/router"
 const PageEditorPage = () => {
+    const router = useRouter();
     // return <PageEditor domain="cheryx.com" language="en"/>
     // return <PageEditor domain="gocnhacolen.com" language="vi"/>
-    return <PageEditor/>
+    return <PageEditor router={router} useRouter={useRouter}/>
 } 
 export default PageEditorPage;
