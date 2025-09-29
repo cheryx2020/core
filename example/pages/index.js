@@ -25,6 +25,7 @@ const Index = () => {
             { href: "/MenuAddComponentPost", label: "Menu Add Component Post" },
             { href: "/PageEditor", label: "Page Editor" },
             { href: "/PostEditor", label: "Post Editor" },
+            { href: "/FileExplorer", label: "File Explorer" },
           ].map(({ href, label }) => (
             <Link
               key={href}

@@ -1,0 +1,87 @@
+.file-explorer {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.navigation-bar {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #ccc;
+}
+
+.back-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 15px;
+  font-size: 14px;
+}
+
+.back-button:hover {
+  background: #0056b3;
+}
+
+.current-path {
+  font-size: 14px;
+  color: #555;
+  font-family: monospace;
+}
+
+.loading, .error {
+  padding: 20px;
+  text-align: center;
+  color: #888;
+}
+
+.error {
+  color: #d9534f;
+}
+
+.item-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.item.folder:hover {
+  background-color: #f0f8ff;
+}
+
+.item.file:hover {
+  background-color: #f9f9f9;
+}
+
+.icon {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.name {
+  font-size: 16px;
+}
