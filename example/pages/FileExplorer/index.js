@@ -15,6 +15,7 @@ const FileExplorer = () => {
   const [currentPath, setCurrentPath] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [sortOrder, setSortOrder] = useState('name_asc');
 
   const [contextMenu, setContextMenu] = useState({
     visible: false,
@@ -28,32 +29,31 @@ const FileExplorer = () => {
   const [isDetailsLoading, setIsDetailsLoading] = useState(false);
   const [detailsError, setDetailsError] = useState(null);
 
-  const fetchPathContents = useCallback (async () => {
+  const fetchPathContents = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await APIService.get(`${API_BASE_URL}/${currentPath}`);
-      const data = await response.data;
-      const sortedData = data.sort((a, b) => {
-        if (a.type === b.type) return a.name.localeCompare(b.name);
-        return a.type === 'folder' ? -1 : 1;
+      const queryParams = new URLSearchParams({
+        sort: sortOrder,
       });
-      setItems(sortedData);
+      const response = await APIService.get(`${API_BASE_URL}/${currentPath}?${queryParams.toString()}`);
+      const data = await response.data;
+      const folders = data.filter(item => item.type === 'folder');
+      const files = data.filter(item => item.type === 'file');
+      
+      setItems([...folders, ...files]);
+
     } catch (err) {
       setError(err.response?.data || err.message);
     } finally {
       setIsLoading(false);
     }
-  }, [currentPath]);
+  }, [currentPath, sortOrder]);
 
   useEffect(() => {
-    // This effect now only closes the context menu on outside click
-    if (contextMenu.visible) {
-      setContextMenu({ ...contextMenu, visible: false });
-    }
-
     fetchPathContents();
-  }, [currentPath]);
+  }, [fetchPathContents]);
+
 
   useEffect(() => {
     const handleClick = () => {
@@ -160,14 +160,30 @@ const FileExplorer = () => {
   return (
     <div className="file-explorer">
       <div className="navigation-bar">
-        {currentPath && (
-          <button onClick={handleGoBack} className="back-button">
-            &larr; Back
-          </button>
-        )}
-        <span className="current-path">
-          Path: /public/{currentPath}
-        </span>
+        <div className="nav-left">
+          {currentPath && (
+            <button onClick={handleGoBack} className="back-button">
+              &larr; Back
+            </button>
+          )}
+          <span className="current-path">
+            Path: /public/{currentPath}
+          </span>
+        </div>
+        
+        <div className="sort-container">
+          <label htmlFor="sort-select">Sort by:</label>
+          <select 
+            id="sort-select"
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+          >
+            <option value="name_asc">Name (A-Z)</option>
+            <option value="name_desc">Name (Z-A)</option>
+            <option value="date_desc">Newest First</option>
+            <option value="date_asc">Oldest First</option>
+          </select>
+        </div>
       </div>
 
       {isLoading && <div className="loading">Loading...</div>}
