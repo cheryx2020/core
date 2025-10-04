@@ -80,8 +80,8 @@ const FileExplorer = () => {
     setCurrentPath(pathParts.join('/'));
   };
 
-  const getFileUrl = (itemName) => {
-    return `/${API_BASE_URL}/${currentPath ? `${currentPath}/` : ''}${itemName}`;
+  const getFileUrl = (path) => {
+    return `${process.env.NEXT_PUBLIC_apiBaseUrl}${path}`;
   };
 
   const handleContextMenu = (event, item) => {
@@ -199,7 +199,7 @@ const FileExplorer = () => {
                   <span className="name">{item.name}</span>
                 </div>
               ) : (
-                <a href={getFileUrl(item.name)} className="item file" target="_blank" rel="noopener noreferrer">
+                <a href={getFileUrl(`${item.path}/${item.name}`)} className="item file" target="_blank" rel="noopener noreferrer">
                   <span className="icon">{FileIcon}</span>
                   <span className="name">{item.name}</span>
                 </a>
