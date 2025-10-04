@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import './styles.css'; // We will create this file next
+import React, { useState, useEffect, useCallback } from 'react';
+import './styles.css';
 import { APIService } from '@cheryx2020/api-service';
+import DetailsModal from './DetailsModal';
 
 // Base URL of the API
 const API_BASE_URL = 'v2/file/files';
@@ -22,32 +23,34 @@ const FileExplorer = () => {
     selectedItem: null,
   });
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [fileDetails, setFileDetails] = useState(null);
+  const [isDetailsLoading, setIsDetailsLoading] = useState(false);
+  const [detailsError, setDetailsError] = useState(null);
+
+  const fetchPathContents = useCallback (async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await APIService.get(`${API_BASE_URL}/${currentPath}`);
+      const data = await response.data;
+      const sortedData = data.sort((a, b) => {
+        if (a.type === b.type) return a.name.localeCompare(b.name);
+        return a.type === 'folder' ? -1 : 1;
+      });
+      setItems(sortedData);
+    } catch (err) {
+      setError(err.response?.data || err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [currentPath]);
+
   useEffect(() => {
+    // This effect now only closes the context menu on outside click
     if (contextMenu.visible) {
       setContextMenu({ ...contextMenu, visible: false });
     }
-
-    const fetchPathContents = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const response = await APIService.get(`${API_BASE_URL}/${currentPath}`);
-
-        const data = await response.data;
-        // Sort items to show folders first, then alphabetically
-        const sortedData = data.sort((a, b) => {
-            if (a.type === b.type) {
-              return a.name.localeCompare(b.name);
-            }
-            return a.type === 'folder' ? -1 : 1;
-        });
-        setItems(sortedData);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
 
     fetchPathContents();
   }, [currentPath]);
@@ -58,14 +61,11 @@ const FileExplorer = () => {
         setContextMenu({ ...contextMenu, visible: false });
       }
     };
-
     document.addEventListener('click', handleClick);
-
     return () => {
       document.removeEventListener('click', handleClick);
     };
   }, [contextMenu]);
-
 
   const handleItemClick = (item) => {
     if (item.type === 'folder') {
@@ -81,7 +81,7 @@ const FileExplorer = () => {
   };
 
   const getFileUrl = (itemName) => {
-    return `${API_BASE_URL}/${currentPath ? `${currentPath}/` : ''}${itemName}`;
+    return `/${API_BASE_URL}/${currentPath ? `${currentPath}/` : ''}${itemName}`;
   };
 
   const handleContextMenu = (event, item) => {
@@ -94,29 +94,68 @@ const FileExplorer = () => {
     });
   };
   
-  const handleShowDetails = () => {
-    if (contextMenu.selectedItem) {
-      const { name, type } = contextMenu.selectedItem;
-      alert(`Details:\n\nName: ${name}\nType: ${type}`);
-      setContextMenu({ ...contextMenu, visible: false });
+  const handleShowDetails = async () => {
+    if (!contextMenu.selectedItem) return;
+
+    const { name, type } = contextMenu.selectedItem;
+    
+    if (type === 'folder') {
+      alert("Details are only available for files.");
+      return;
+    }
+    
+    setContextMenu({ ...contextMenu, visible: false });
+    setIsModalVisible(true);
+    setIsDetailsLoading(true);
+    setDetailsError(null);
+    setFileDetails(null);
+
+    const itemPath = currentPath ? `${currentPath}/${name}` : name;
+    
+    try {
+      const response = await APIService.get(`${API_BASE_URL}/details/${itemPath}`);
+      setFileDetails(response.data);
+    } catch (err) {
+      setDetailsError(err.response?.data || err.message);
+    } finally {
+      setIsDetailsLoading(false);
+    }
+  };
+  
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+    setFileDetails(null);
+    setDetailsError(null);
+  };
+
+  const handleDeleteFile = async () => {
+    if (!fileDetails) return;
+
+    try {
+      await APIService.delete(`${API_BASE_URL}/${fileDetails.path}`);
+      
+      alert('File deleted successfully!');
+      
+      handleCloseModal();
+      fetchPathContents();
+
+    } catch (err) {
+      const errorMessage = err.response?.data || err.message;
+      console.error('Failed to delete file:', errorMessage);
+      alert(`Error: Could not delete the file. ${errorMessage}`);
     }
   };
 
   const renderContextMenu = () => {
     if (!contextMenu.visible) return null;
-
     return (
-      <div
-        className="context-menu"
-        style={{ top: contextMenu.y, left: contextMenu.x }}
-      >
+      <div className="context-menu" style={{ top: contextMenu.y, left: contextMenu.x }}>
         <ul>
           <li onClick={handleShowDetails}>Details</li>
         </ul>
       </div>
     );
   };
-
 
   return (
     <div className="file-explorer">
@@ -127,7 +166,7 @@ const FileExplorer = () => {
           </button>
         )}
         <span className="current-path">
-          Current Path: /public/{currentPath}
+          Path: /public/{currentPath}
         </span>
       </div>
 
@@ -137,22 +176,14 @@ const FileExplorer = () => {
       {!isLoading && !error && (
         <ul className="item-list">
           {items.map((item) => (
-            <li 
-              key={item.name}
-              onContextMenu={(e) => handleContextMenu(e, item)}
-            >
+            <li key={item.name} onContextMenu={(e) => handleContextMenu(e, item)}>
               {item.type === 'folder' ? (
                 <div className="item folder" onClick={() => handleItemClick(item)}>
                   <span className="icon">{FolderIcon}</span>
                   <span className="name">{item.name}</span>
                 </div>
               ) : (
-                <a 
-                  href={getFileUrl(item.name)} 
-                  className="item file" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
+                <a href={getFileUrl(item.name)} className="item file" target="_blank" rel="noopener noreferrer">
                   <span className="icon">{FileIcon}</span>
                   <span className="name">{item.name}</span>
                 </a>
@@ -162,6 +193,16 @@ const FileExplorer = () => {
         </ul>
       )}
       {renderContextMenu()}
+
+      {isModalVisible && (
+        <DetailsModal
+          details={fileDetails}
+          isLoading={isDetailsLoading}
+          error={detailsError}
+          onClose={handleCloseModal}
+          onDelete={handleDeleteFile}
+        />
+      )}
     </div>
   );
 };
