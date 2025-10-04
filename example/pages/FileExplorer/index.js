@@ -15,8 +15,18 @@ const FileExplorer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // This effect runs whenever the currentPath changes
+  const [contextMenu, setContextMenu] = useState({
+    visible: false,
+    x: 0,
+    y: 0,
+    selectedItem: null,
+  });
+
   useEffect(() => {
+    if (contextMenu.visible) {
+      setContextMenu({ ...contextMenu, visible: false });
+    }
+
     const fetchPathContents = async () => {
       setIsLoading(true);
       setError(null);
@@ -24,7 +34,14 @@ const FileExplorer = () => {
         const response = await APIService.get(`${API_BASE_URL}/${currentPath}`);
 
         const data = await response.data;
-        setItems(data);
+        // Sort items to show folders first, then alphabetically
+        const sortedData = data.sort((a, b) => {
+            if (a.type === b.type) {
+              return a.name.localeCompare(b.name);
+            }
+            return a.type === 'folder' ? -1 : 1;
+        });
+        setItems(sortedData);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -33,27 +50,73 @@ const FileExplorer = () => {
     };
 
     fetchPathContents();
-  }, [currentPath]); // Re-run the effect when currentPath changes
+  }, [currentPath]);
+
+  useEffect(() => {
+    const handleClick = () => {
+      if (contextMenu.visible) {
+        setContextMenu({ ...contextMenu, visible: false });
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, [contextMenu]);
+
 
   const handleItemClick = (item) => {
     if (item.type === 'folder') {
-      // If it's a folder, update the path to navigate into it
       const newPath = currentPath ? `${currentPath}/${item.name}` : item.name;
       setCurrentPath(newPath);
     }
   };
 
   const handleGoBack = () => {
-    // Go up one level in the directory tree
     const pathParts = currentPath.split('/');
     pathParts.pop();
     setCurrentPath(pathParts.join('/'));
   };
 
-  // Helper to construct the full URL for a file link
   const getFileUrl = (itemName) => {
     return `${API_BASE_URL}/${currentPath ? `${currentPath}/` : ''}${itemName}`;
   };
+
+  const handleContextMenu = (event, item) => {
+    event.preventDefault();
+    setContextMenu({
+      visible: true,
+      x: event.pageX,
+      y: event.pageY,
+      selectedItem: item,
+    });
+  };
+  
+  const handleShowDetails = () => {
+    if (contextMenu.selectedItem) {
+      const { name, type } = contextMenu.selectedItem;
+      alert(`Details:\n\nName: ${name}\nType: ${type}`);
+      setContextMenu({ ...contextMenu, visible: false });
+    }
+  };
+
+  const renderContextMenu = () => {
+    if (!contextMenu.visible) return null;
+
+    return (
+      <div
+        className="context-menu"
+        style={{ top: contextMenu.y, left: contextMenu.x }}
+      >
+        <ul>
+          <li onClick={handleShowDetails}>Details</li>
+        </ul>
+      </div>
+    );
+  };
+
 
   return (
     <div className="file-explorer">
@@ -74,7 +137,10 @@ const FileExplorer = () => {
       {!isLoading && !error && (
         <ul className="item-list">
           {items.map((item) => (
-            <li key={item.name}>
+            <li 
+              key={item.name}
+              onContextMenu={(e) => handleContextMenu(e, item)}
+            >
               {item.type === 'folder' ? (
                 <div className="item folder" onClick={() => handleItemClick(item)}>
                   <span className="icon">{FolderIcon}</span>
@@ -95,6 +161,7 @@ const FileExplorer = () => {
           ))}
         </ul>
       )}
+      {renderContextMenu()}
     </div>
   );
 };
