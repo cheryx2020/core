@@ -260,3 +260,117 @@
   background-color: #e07e7b;
   cursor: not-allowed;
 }
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem; /* Space between sort and view switcher */
+}
+
+/* View Mode Switcher Styles */
+.view-mode-switcher {
+  display: flex;
+}
+
+.view-mode-switcher button {
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.view-mode-switcher button:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.view-mode-switcher button:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-left: none;
+}
+
+.view-mode-switcher button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.view-mode-switcher button:not(.active):hover {
+    background-color: #e2e6ea;
+}
+
+
+/* Gallery View Styles */
+.item-list.gallery-view {
+  display: grid;
+  /* Creates a responsive grid that fits as many 120px items as possible */
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1.5rem;
+  padding-left: 0;
+}
+
+.gallery-item-wrapper {
+  /* This is the <li> element in the grid */
+  list-style: none;
+}
+
+.gallery-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  text-decoration: none; /* For the <a> tag */
+  color: inherit;
+  height: 100%;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+}
+
+.gallery-item:hover {
+  background-color: #f0f4f8;
+  border-color: #d1d9e0;
+}
+
+.item-preview {
+  width: 100px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.item-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the area without distortion */
+}
+
+.icon-gallery {
+  font-size: 3rem;
+  color: #888;
+}
+
+.gallery-item .name {
+  word-break: break-all; /* Allow long names to wrap */
+  font-size: 0.9em;
+  line-height: 1.2;
+  /* Reset styles from list view if necessary */
+  padding: 0;
+  margin: 0;
+  display: block;
+}

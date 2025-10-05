@@ -9,6 +9,11 @@ const API_BASE_URL = 'v2/file/files';
 // Icons for file types
 const FolderIcon = '📁';
 const FileIcon = '📄';
+const ListViewIcon = '☰';
+const GalleryViewIcon = '🖼️';
+
+const isImageFile = (fileName) => /\.(jpe?g|png|gif|svg|webp)$/i.test(fileName);
+
 
 const FileExplorer = () => {
   const [items, setItems] = useState([]);
@@ -16,6 +21,7 @@ const FileExplorer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [sortOrder, setSortOrder] = useState('name_asc');
+  const [viewMode, setViewMode] = useState('list'); // 'list' or 'gallery'
 
   const [contextMenu, setContextMenu] = useState({
     visible: false,
@@ -157,6 +163,63 @@ const FileExplorer = () => {
     );
   };
 
+  const renderItems = () => {
+    if (isLoading) return <div className="loading">Loading...</div>;
+    if (error) return <div className="error">Error: {error}</div>;
+
+    return (
+        <ul className={`item-list ${viewMode === 'gallery' ? 'gallery-view' : ''}`}>
+            {items.map((item) => {
+                const itemFullPath = currentPath ? `${currentPath}/${item.name}` : item.name;
+                const isImage = item.type === 'file' && isImageFile(item.name);
+
+                if (viewMode === 'list') {
+                    return (
+                        <li key={item.name} onContextMenu={(e) => handleContextMenu(e, item)}>
+                        {item.type === 'folder' ? (
+                            <div className="item folder" onClick={() => handleItemClick(item)}>
+                            <span className="icon">{FolderIcon}</span>
+                            <span className="name">{item.name}</span>
+                            </div>
+                        ) : (
+                            <a href={getFileUrl(itemFullPath)} className="item file" target="_blank" rel="noopener noreferrer">
+                            <span className="icon">{FileIcon}</span>
+                            <span className="name">{item.name}</span>
+                            </a>
+                        )}
+                        </li>
+                    );
+                }
+                
+                return (
+                    <li key={item.name} className="gallery-item-wrapper" onContextMenu={(e) => handleContextMenu(e, item)}>
+                    {item.type === 'folder' ? (
+                        <div className="gallery-item folder" onClick={() => handleItemClick(item)}>
+                            <div className="item-preview">
+                                <span className="icon-gallery">{FolderIcon}</span>
+                            </div>
+                            <span className="name">{item.name}</span>
+                        </div>
+                    ) : (
+                        <a href={getFileUrl(itemFullPath)} className="gallery-item file" target="_blank" rel="noopener noreferrer">
+                            <div className="item-preview">
+                                {isImage ? (
+                                    <img src={getFileUrl(itemFullPath)} alt={item.name} loading="lazy" />
+                                ) : (
+                                    <span className="icon-gallery">{FileIcon}</span>
+                                )}
+                            </div>
+                            <span className="name">{item.name}</span>
+                        </a>
+                    )}
+                    </li>
+                );
+            })}
+        </ul>
+    );
+  };
+
+
   return (
     <div className="file-explorer">
       <div className="navigation-bar">
@@ -171,43 +234,41 @@ const FileExplorer = () => {
           </span>
         </div>
         
-        <div className="sort-container">
-          <label htmlFor="sort-select">Sort by:</label>
-          <select 
-            id="sort-select"
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-          >
-            <option value="name_asc">Name (A-Z)</option>
-            <option value="name_desc">Name (Z-A)</option>
-            <option value="date_desc">Newest First</option>
-            <option value="date_asc">Oldest First</option>
-          </select>
+        <div className="nav-right">
+            <div className="sort-container">
+                <label htmlFor="sort-select">Sort by:</label>
+                <select 
+                    id="sort-select"
+                    value={sortOrder}
+                    onChange={(e) => setSortOrder(e.target.value)}
+                >
+                    <option value="name_asc">Name (A-Z)</option>
+                    <option value="name_desc">Name (Z-A)</option>
+                    <option value="date_desc">Newest First</option>
+                    <option value="date_asc">Oldest First</option>
+                </select>
+            </div>
+            <div className="view-mode-switcher">
+                <button
+                    onClick={() => setViewMode('list')}
+                    className={viewMode === 'list' ? 'active' : ''}
+                    title="List View"
+                >
+                    {ListViewIcon}
+                </button>
+                <button
+                    onClick={() => setViewMode('gallery')}
+                    className={viewMode === 'gallery' ? 'active' : ''}
+                    title="Gallery View"
+                >
+                    {GalleryViewIcon}
+                </button>
+            </div>
         </div>
       </div>
 
-      {isLoading && <div className="loading">Loading...</div>}
-      {error && <div className="error">Error: {error}</div>}
+      {renderItems()}
       
-      {!isLoading && !error && (
-        <ul className="item-list">
-          {items.map((item) => (
-            <li key={item.name} onContextMenu={(e) => handleContextMenu(e, item)}>
-              {item.type === 'folder' ? (
-                <div className="item folder" onClick={() => handleItemClick(item)}>
-                  <span className="icon">{FolderIcon}</span>
-                  <span className="name">{item.name}</span>
-                </div>
-              ) : (
-                <a href={getFileUrl(`${item.path}/${item.name}`)} className="item file" target="_blank" rel="noopener noreferrer">
-                  <span className="icon">{FileIcon}</span>
-                  <span className="name">{item.name}</span>
-                </a>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
       {renderContextMenu()}
 
       {isModalVisible && (
