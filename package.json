@@ -16,8 +16,8 @@
     "url": "git+https://github.com/cheryx2020/core.git"
   },
   "dependencies": {
-    "@cheryx2020/api-service": "^1.0.20",
-    "@cheryx2020/utils": "^1.5.13",
+    "@cheryx2020/api-service": "^1.0.21",
+    "@cheryx2020/utils": "^1.5.14",
     "@paypal/react-paypal-js": "^8.7.0",
     "jest": "^29.7.0",
     "linkify-react": "^4.0.2",
@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.23.0",
-    "@babel/plugin-transform-runtime": "^7.22.15",
+    "@babel/plugin-transform-runtime": "^7.28.3",
     "@babel/preset-env": "^7.22.20",
     "@babel/preset-react": "^7.22.15",
     "@rollup/plugin-babel": "^6.0.4",

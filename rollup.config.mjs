@@ -21,7 +21,10 @@ export default {
       babelrc: true,
       babelHelpers: "runtime",
       exclude: "node_modules/**", // only transpile our source code
-      presets: ["@babel/preset-react"],
+      presets: ["@babel/preset-env","@babel/preset-react"],
+      plugins: [
+        "@babel/plugin-transform-runtime"
+      ],
       extensions: [".js"],
     }),
     terser(),

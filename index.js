@@ -30,7 +30,7 @@ import MainLayout from "./src/layouts/main";
 import MenuAddComponentPost, { POST_ITEM_TYPE, IMAGE_SUBMENU, POST_ITEM_TYPE_SUBMENU } from "./src/components/menu-add-component-post/menu-add-component-post"
 import Note from "./src/components/note/note"
 import Page from "./src/components/page/page"
-import PageEditor from "./src/components/page-editor/page-editor"
+import PageManager from "./src/components/page-manager/page-manager"
 import PageItem from "./src/utils/page";
 import PatternDetail from "./src/components/pattern-detail/pattern-detail"
 import PatternItem from "./src/components/pattern-item/pattern-item"
@@ -99,7 +99,7 @@ export {
     noImageUrl,
     Note,
     Page,
-    PageEditor,
+    PageManager,
     PageItem,
     PatternDetail,
     PatternItem,
