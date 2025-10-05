@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './detail-modal.module.scss';
 
 const formatBytes = (bytes, decimals = 2) => {
   if (bytes === 0) return '0 Bytes';
@@ -22,23 +23,23 @@ const DetailsModal = ({ details, isLoading, error, onClose, onDelete, imageUrl }
 
   const renderContent = () => {
     if (isLoading) {
-      return <div className="loading">Fetching details...</div>;
+      return <div className={styles.loading}>Fetching details...</div>;
     }
 
     if (error) {
-      return <div className="error">Error: {error}</div>;
+      return <div className={styles.error}>Error: {error}</div>;
     }
 
     if (details) {
       return (
         <>
           {imageUrl && (
-            <div className="modal-image-preview">
+            <div className={styles.modalImagePreview}>
               <img src={imageUrl} alt={`Preview of ${details.name}`} />
             </div>
           )}
 
-          <ul className="details-list">
+          <ul className={styles.detailsList}>
             <li><strong>Name:</strong> <span>{details.name}</span></li>
             <li><strong>Path:</strong> <span>{process.env.NEXT_PUBLIC_apiBaseUrl}{details.path}</span></li>
             <li><strong>Size:</strong> <span>{formatBytes(details.size)}</span></li>
@@ -53,20 +54,20 @@ const DetailsModal = ({ details, isLoading, error, onClose, onDelete, imageUrl }
   };
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
+    <div className={styles.modalBackdrop} onClick={onClose}>
+      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.modalHeader}>
           <h2>File Details</h2>
-          <button onClick={onClose} className="close-button">&times;</button>
+          <button onClick={onClose} className={styles.closeButton}>&times;</button>
         </div>
-        <div className="modal-body">
+        <div className={styles.modalBody}>
           {renderContent()}
         </div>
         {details && !isLoading && !error && (
-          <div className="modal-footer">
+          <div className={styles.modalFooter}>
             <button 
               onClick={handleDeleteClick} 
-              className="delete-button"
+              className={styles.deleteButton}
             >
               Delete File
             </button>
