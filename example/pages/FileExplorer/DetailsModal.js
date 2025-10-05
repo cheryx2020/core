@@ -9,7 +9,7 @@ const formatBytes = (bytes, decimals = 2) => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 };
 
-const DetailsModal = ({ details, isLoading, error, onClose, onDelete }) => {
+const DetailsModal = ({ details, isLoading, error, onClose, onDelete, imageUrl }) => {
   if (!details && !isLoading && !error) {
     return null;
   }
@@ -31,14 +31,22 @@ const DetailsModal = ({ details, isLoading, error, onClose, onDelete }) => {
 
     if (details) {
       return (
-        <ul className="details-list">
-          <li><strong>Name:</strong> <span>{details.name}</span></li>
-          <li><strong>Path:</strong> <span>/public/{details.path}</span></li>
-          <li><strong>Size:</strong> <span>{formatBytes(details.size)}</span></li>
-          <li><strong>Created:</strong> <span>{new Date(details.createdAt).toLocaleString()}</span></li>
-          <li><strong>Modified:</strong> <span>{new Date(details.modifiedAt).toLocaleString()}</span></li>
-          <li><strong>Permissions:</strong> <span>{details.permissions}</span></li>
-        </ul>
+        <>
+          {imageUrl && (
+            <div className="modal-image-preview">
+              <img src={imageUrl} alt={`Preview of ${details.name}`} />
+            </div>
+          )}
+
+          <ul className="details-list">
+            <li><strong>Name:</strong> <span>{details.name}</span></li>
+            <li><strong>Path:</strong> <span>{process.env.NEXT_PUBLIC_apiBaseUrl}{details.path}</span></li>
+            <li><strong>Size:</strong> <span>{formatBytes(details.size)}</span></li>
+            <li><strong>Created:</strong> <span>{new Date(details.createdAt).toLocaleString()}</span></li>
+            <li><strong>Modified:</strong> <span>{new Date(details.modifiedAt).toLocaleString()}</span></li>
+            <li><strong>Permissions:</strong> <span>{details.permissions}</span></li>
+          </ul>
+        </>
       );
     }
     return null;

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './styles.css';
 import { APIService } from '@cheryx2020/api-service';
 import DetailsModal from './DetailsModal';
+import { isImageFile } from './utils';
 
 // Base URL of the API
 const API_BASE_URL = 'v2/file/files';
@@ -12,16 +13,15 @@ const FileIcon = '📄';
 const ListViewIcon = '☰';
 const GalleryViewIcon = '🖼️';
 
-const isImageFile = (fileName) => /\.(jpe?g|png|gif|svg|webp)$/i.test(fileName);
-
 
 const FileExplorer = () => {
   const [items, setItems] = useState([]);
   const [currentPath, setCurrentPath] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  
   const [sortOrder, setSortOrder] = useState('name_asc');
-  const [viewMode, setViewMode] = useState('list'); // 'list' or 'gallery'
+  const [viewMode, setViewMode] = useState('list');
 
   const [contextMenu, setContextMenu] = useState({
     visible: false,
@@ -34,6 +34,22 @@ const FileExplorer = () => {
   const [fileDetails, setFileDetails] = useState(null);
   const [isDetailsLoading, setIsDetailsLoading] = useState(false);
   const [detailsError, setDetailsError] = useState(null);
+
+  useEffect(() => {
+    try {
+      const savedSortOrder = localStorage.getItem('fileExplorerSortOrder');
+      if (savedSortOrder) {
+        setSortOrder(savedSortOrder);
+      }
+      
+      const savedViewMode = localStorage.getItem('fileExplorerViewMode');
+      if (savedViewMode === 'gallery' || savedViewMode === 'list') {
+        setViewMode(savedViewMode);
+      }
+    } catch (e) {
+      console.error("Could not access localStorage", e);
+    }
+  }, []);
 
   const fetchPathContents = useCallback(async () => {
     setIsLoading(true);
@@ -59,6 +75,22 @@ const FileExplorer = () => {
   useEffect(() => {
     fetchPathContents();
   }, [fetchPathContents]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('fileExplorerSortOrder', sortOrder);
+    } catch (e) {
+      console.error("Could not access localStorage", e);
+    }
+  }, [sortOrder]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('fileExplorerViewMode', viewMode);
+    } catch (e) {
+      console.error("Could not access localStorage", e);
+    }
+  }, [viewMode]);
 
 
   useEffect(() => {
@@ -100,12 +132,10 @@ const FileExplorer = () => {
     });
   };
   
-  const handleShowDetails = async () => {
-    if (!contextMenu.selectedItem) return;
+  const handleShowDetails = async (item) => {
+    if (!item) return;
 
-    const { name, type } = contextMenu.selectedItem;
-    
-    if (type === 'folder') {
+    if (item.type === 'folder') {
       alert("Details are only available for files.");
       return;
     }
@@ -116,7 +146,7 @@ const FileExplorer = () => {
     setDetailsError(null);
     setFileDetails(null);
 
-    const itemPath = currentPath ? `${currentPath}/${name}` : name;
+    const itemPath = currentPath ? `${currentPath}/${item.name}` : item.name;
     
     try {
       const response = await APIService.get(`${API_BASE_URL}/details/${itemPath}`);
@@ -157,7 +187,7 @@ const FileExplorer = () => {
     return (
       <div className="context-menu" style={{ top: contextMenu.y, left: contextMenu.x }}>
         <ul>
-          <li onClick={handleShowDetails}>Details</li>
+          <li onClick={() => handleShowDetails(contextMenu.selectedItem)}>Details</li>
         </ul>
       </div>
     );
@@ -178,13 +208,18 @@ const FileExplorer = () => {
                         <li key={item.name} onContextMenu={(e) => handleContextMenu(e, item)}>
                         {item.type === 'folder' ? (
                             <div className="item folder" onClick={() => handleItemClick(item)}>
-                            <span className="icon">{FolderIcon}</span>
-                            <span className="name">{item.name}</span>
+                                <span className="icon">{FolderIcon}</span>
+                                <span className="name">{item.name}</span>
+                            </div>
+                        ) : isImage ? (
+                            <div className="item file" onClick={() => handleShowDetails(item)}>
+                                <span className="icon">{FileIcon}</span>
+                                <span className="name">{item.name}</span>
                             </div>
                         ) : (
                             <a href={getFileUrl(itemFullPath)} className="item file" target="_blank" rel="noopener noreferrer">
-                            <span className="icon">{FileIcon}</span>
-                            <span className="name">{item.name}</span>
+                                <span className="icon">{FileIcon}</span>
+                                <span className="name">{item.name}</span>
                             </a>
                         )}
                         </li>
@@ -200,14 +235,17 @@ const FileExplorer = () => {
                             </div>
                             <span className="name">{item.name}</span>
                         </div>
+                    ) : isImage ? (
+                        <div className="gallery-item file" onClick={() => handleShowDetails(item)}>
+                             <div className="item-preview">
+                                <img src={getFileUrl(itemFullPath)} alt={item.name} loading="lazy" />
+                            </div>
+                            <span className="name">{item.name}</span>
+                        </div>
                     ) : (
                         <a href={getFileUrl(itemFullPath)} className="gallery-item file" target="_blank" rel="noopener noreferrer">
                             <div className="item-preview">
-                                {isImage ? (
-                                    <img src={getFileUrl(itemFullPath)} alt={item.name} loading="lazy" />
-                                ) : (
-                                    <span className="icon-gallery">{FileIcon}</span>
-                                )}
+                                <span className="icon-gallery">{FileIcon}</span>
                             </div>
                             <span className="name">{item.name}</span>
                         </a>
@@ -278,6 +316,11 @@ const FileExplorer = () => {
           error={detailsError}
           onClose={handleCloseModal}
           onDelete={handleDeleteFile}
+          imageUrl={
+            fileDetails && isImageFile(fileDetails.name)
+              ? getFileUrl(fileDetails.path)
+              : null
+          }
         />
       )}
     </div>

@@ -1,0 +1,1 @@
+export const isImageFile = (fileName) => /\.(jpe?g|png|gif|svg|webp)$/i.test(fileName);
