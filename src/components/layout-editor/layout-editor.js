@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { APIService } from "@cheryx2020/api-service";
+import HeaderCherxy from "../header-cheryx/header-cheryx";
 
 /**
  * A component for editing website layout configurations.
@@ -134,6 +135,16 @@ export default function LayoutEditor({ domain, language }) {
     }));
   };
 
+  const handleMenuDataChange = (updatedMenuData) => {
+    setLayout((prev) => ({
+      ...prev,
+      content: {
+        ...prev.content,
+        menu: updatedMenuData,
+      },
+    }));
+  };
+
   const handleUpdateFooter = (key, value) => {
     setLayout((prev) => ({
       ...prev,
@@ -259,8 +270,7 @@ export default function LayoutEditor({ domain, language }) {
               />
             </div>
           </div>
-
-          {/* Menu */}
+          <HeaderCherxy onMenuDataChange={handleMenuDataChange} isEdit={true} MenuData={layout.content.menu} Link={(link) => <a>{link.children}</a>} />
           <div style={{ marginBottom: "30px" }}>
             <h3 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "10px" }}>Menu</h3>
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
