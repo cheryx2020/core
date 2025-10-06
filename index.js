@@ -44,6 +44,7 @@ import {
     getPostId,
     MultiImageConfig,
 } from "./src/components/post-content/postUtils"
+import PostEditor from "./src/components/post-editor/post-editor";
 import PostVideo from "./src/components/post-video/post-video"
 import RelatedToMenu from "./src/components/related-to-menu/related-to-menu"
 import SubLink from "./src/components/sub-link/sub-link"
@@ -52,6 +53,7 @@ import TipArticle from "./src/components/tip-article/tip-article"
 import TipDetail from "./src/components/tip-details/tip-detail";
 import TitleCheryx from "./src/components/title/title"
 import TitleLink from "./src/components/title-link/title-link"
+import ThemeEditor from "./src/components/theme-editor/theme-editor";
 import {
     uploadContentImageFiles
 } from "./src/components/post-content/uploadContentImageFiles"
@@ -108,6 +110,7 @@ export {
     PatternPreview,
     PayPalCheckout,
     PostContent,
+    PostEditor,
     POST_ITEM_TYPE,
     POST_ITEM_TYPE_SUBMENU,
     PostVideo,
@@ -118,6 +121,7 @@ export {
     TipDetail,
     TitleCheryx,
     TitleLink,
+    ThemeEditor,
     uploadContentImageFiles,
     useAuthenticate,
     useIsMobile,

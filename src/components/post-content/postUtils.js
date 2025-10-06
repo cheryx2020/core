@@ -36,6 +36,7 @@ export const PostContent = ({
     setIsEdit = () => {},
     isShowBigMenu = false,
     menuBtnClass = '',
+    theme
 }) => {
     const [_isShowBigMenu, setIsShowBigMenu] = useState(isShowBigMenu);
     useEffect(() => {
@@ -61,7 +62,9 @@ export const PostContent = ({
         isMobile,
         isEdit,
         data,
-        onChangeData))}
+        onChangeData,
+        theme
+        ))}
         {isEdit && (Array.isArray(data) && data.length == 0) && <MenuAddComponentPost
             btnClass={`${menuBtnClass ? ' ' + menuBtnClass : ''}`}
             onClickMenuItem={item => {
@@ -420,7 +423,7 @@ const renderItemByType = ({ type, text, content, webWidth, webHeight, urlWeb, im
     useDispatch = () => {},
     isMobile,
     isAdmin,
-    contentData, onChangeContent) => {
+    contentData, onChangeContent, theme) => {
     let result = <p>{text}</p>,
         editComponent = <p onDragStart={onDragStart} draggable="true" suppressContentEditableWarning={true} contentEditable="true" onBlur={e => onChangeContent(onChangeText(e, index, contentData))} onKeyDown={e => onKeyDownParagraph(e, onAddNewContentItem)} data-index={index}>{text}</p>,
         viewComponent = <Linkify as="p" options={{ target: '_blank' }}>{text}</Linkify>;
@@ -524,7 +527,7 @@ const renderItemByType = ({ type, text, content, webWidth, webHeight, urlWeb, im
             viewComponent = subContent;
             break;
         case POST_ITEM_TYPE.PATTERN:
-            subContent = <PatternDetail onChange={(e, index, key) => onChangeContent(onChangePatternDetail(e, index, key, contentData))} {...patternDetail} index={index} isAdmin={isAdmin} />;
+            subContent = <PatternDetail theme={theme} onChange={(e, index, key) => onChangeContent(onChangePatternDetail(e, index, key, contentData))} {...patternDetail} index={index} isAdmin={isAdmin} />;
             editComponent = <div onDragStart={onDragStart} draggable="true">{subContent}</div>;
             viewComponent = subContent;
             break;

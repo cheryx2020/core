@@ -129,7 +129,7 @@ const supportedLanguages = [
   { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' },
 ];
 
-const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _ravelryUrl = 'https://www.messenger.com/t/100004957155465', lovecraftsUrl: _lovecraftsUrl, bigImageUrl: _bigImageUrl, imageList: _imageList, isAdmin, onChange = () => { }, index, noImageUrl = '/images/no-image.png' }) => {
+const PatternDetail = ({ name: _name, theme, price: _price, discount, ravelryUrl: _ravelryUrl = 'https://www.messenger.com/t/100004957155465', lovecraftsUrl: _lovecraftsUrl, bigImageUrl: _bigImageUrl, imageList: _imageList, isAdmin, onChange = () => { }, index, noImageUrl = '/images/no-image.png' }) => {
   const [imageList, setImageList] = useState(_imageList ? _imageList : [noImageUrl]);
   const [name, setName] = useState("Pattern name");
   const [bigImageUrl, setBigImageUrl] = useState('');
@@ -398,12 +398,14 @@ const PatternDetail = ({ name: _name, price: _price, discount, ravelryUrl: _rave
       )}
     </PatternDetailWrapper>
   }
+  const themeIconImg = theme?.iconImage;
+  const iconImgStyle = themeIconImg ? { backgroundImage: `url(${themeIconImg})` } : {}
   return <PatternDetailWrapper>
     <MainImage />
     <RightInfo />
     <StoreInfo>
       <div className={styles.blackCatWrapper}>
-        <div className={styles.blackCat}>
+        <div className={styles.blackCat} style={iconImgStyle}>
           <div className={styles.message}>
             <div className={styles.text}>Nhắn tin cho mình để tham gia lớp nhé!</div>
           </div>
