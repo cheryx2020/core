@@ -14,6 +14,7 @@ import { useMemo } from 'react';
 import { uploadContentImageFiles } from '../post-content/uploadContentImageFiles';
 
 const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, setIsEdit = () => {}, useRouter = () => {}, seo, data = { title: '', content: [], isPattern: false, isFree: false, seoTitle: '', seoDescription: '' }, isMobile, isAdmin, isEdit, category, isPatternDetail, theme }) => {
+  const hasId = data?._id;
   const defaultTitle = data?.title || 'Post title';
   const defaultContent = data?.content || [];
   const { title, content, seoTitle, seoDescription, id } = data;
@@ -22,7 +23,7 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, setIsEdit = ()
   const [_isPattern, setIsPattern] = useState((data.isPattern || isPatternDetail) ? true : false);
   const [_isFree, setIsFree] = useState(data.isFree ? true : false);
   useEffect(() => {
-    if (data?._id) {
+    if (hasId) {
       setTitleData(defaultTitle);
       setContentData(defaultContent)
     }
@@ -52,24 +53,33 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, setIsEdit = ()
       _contentData = updatedContent;
       _listFileUploaded = listFileUploaded;
     }
+    const postTitle = _contentData?.find(item => item.type === 'title')?.text;
+    if (!postTitle) {
+        alert("Please add title at the top");
+        return;
+    }
     const body = {
       language: process?.env?.NEXT_PUBLIC_language || 'en',
-      title: titleData,
-      id: getPostId(titleData),
-      _id: data?._id,
+      title: postTitle,
       category: isPatternDetail ? 'pattern-detail' : category,
       isPattern: _isPattern,
       isFree: _isFree,
       content: JSON.stringify(_contentData)
+    }
+    if (!hasId) {
+      body.title = postTitle;
+      body.id = getPostId(postTitle);
+    } else {
+      body._id = data?._id;
     }
     if (isPatternDetail) {
       body.isPatternDetail = true;
     }
     if (confirm('Bạn có chắc chắn muốn lưu bài viết này không?')) {
       setShowLoading(dispatch, true);
-      APIService.post(`${data?._id ? 'edit' : 'create'}-post`, body).then(res => {
+      APIService.post(`${hasId ? 'edit' : 'create'}-post`, body).then(res => {
         // Handle create post success
-        if (!data?._id) {
+        if (!hasId) {
           resetData();
         }
         alert('Lưu thành công');
@@ -117,15 +127,7 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, setIsEdit = ()
   },[video,title])
   const siteName = seo?.site_name || 'Cheryx';
   return <><article className={styles.wrapper}>
-    {isEdit && <div className={styles.adminTopHeader}>
-      {!isPatternDetail && <input value={getPostId(titleData)} disabled={true} className={styles.adminMenuInputPostId}></input>}
-      <div className={styles.actionButtons}>
-        {!isPatternDetail && _isPattern && <label className={styles.checkBox}><span>Is Free</span><input checked={_isFree} type="checkbox" onChange={() => setIsFree(!_isFree)} /></label>}
-        {!isPatternDetail && <label className={styles.checkBox}><span>Is Pattern</span><input checked={_isPattern} type="checkbox" onChange={() => setIsPattern(!_isPattern)} /></label>}
-      </div>
-    </div>}
     {!isPatternDetail && <header>
-      {isEdit ? <h1 suppressContentEditableWarning={true} contentEditable="true" onBlur={(e) => { setTitleData(e.target.innerText) }}>{titleData}</h1> : <h1 itemProp="headline name">{postTitle}</h1>}
       {isEdit ? null : (video ? <PostContent theme={theme} useDispatch={useDispatch} data={[video]}/> : null)}
     </header>}
     <div itemProp="text">
@@ -196,7 +198,7 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, setIsEdit = ()
         {
           price: '6.00',
           priceCurrency: 'USD',
-          priceValidUntil: '2022-12-13',
+          priceValidUntil: '2029-01-01',
           itemCondition: 'https://schema.org/UsedCondition',
           availability: 'https://schema.org/InStock',
           url: 'https://www.ravelry.com/stores/cheryx',

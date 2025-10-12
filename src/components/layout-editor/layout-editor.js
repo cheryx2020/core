@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { APIService } from "@cheryx2020/api-service";
 import HeaderCherxy from "../header-cheryx/header-cheryx";
+import ImageUploadable from "../image-uploadable/image-uploadable"; // Adjust path as needed
 
 /**
  * A component for editing website layout configurations.
@@ -99,6 +100,49 @@ export default function LayoutEditor({ domain, language }) {
     }
   };
 
+  /**
+   * 2. Handles image upload to the server and updates the state.
+   * Assumes an API endpoint 'upload/image' that accepts multipart/form-data.
+   *
+   * @param {'header' | 'footer'} section The layout section to update.
+   * @param {string} key The specific key within the section (e.g., 'logo', 'image').
+   * @param {object} fileData The data from ImageUploadable's onChangeImage callback.
+   */
+  const handleImageUpload = async (section, key, fileData) => {
+    if (!fileData || !fileData.imgFile) {
+      console.warn("No file selected for upload.");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("image", fileData.imgFile); // Field name 'image' must match server expectation
+
+      // NOTE: Replace 'upload/image' with your actual API endpoint for file uploads
+      const response = await APIService.post('upload/image', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (response.data && response.data.success && response.data.url) {
+        const imageUrl = response.data.url;
+        // Use existing handlers to update the state with the new URL
+        if (section === 'header') {
+          handleUpdateHeader(key, imageUrl);
+        } else if (section === 'footer') {
+          handleUpdateFooter(key, imageUrl);
+        }
+      } else {
+        alert('Image upload failed: ' + (response.data.error || 'Unknown server error'));
+      }
+    } catch (err) {
+      console.error("Error uploading image:", err);
+      alert("An error occurred during image upload. Check the console for details.");
+    }
+  };
+
+
   const handleAddMenu = () => {
     if (!newMenu.text || !newMenu.url) return;
     setLayout((prev) => ({
@@ -124,6 +168,27 @@ export default function LayoutEditor({ domain, language }) {
       content: { ...prev.content, menu: updatedMenu },
     }));
   };
+
+  const handleMoveMenuUp = (index) => {
+    if (index === 0) return;
+    const updatedMenu = [...layout.content.menu];
+    [updatedMenu[index - 1], updatedMenu[index]] = [updatedMenu[index], updatedMenu[index - 1]];
+    setLayout((prev) => ({
+      ...prev,
+      content: { ...prev.content, menu: updatedMenu },
+    }));
+  };
+
+  const handleMoveMenuDown = (index) => {
+    if (index === layout.content.menu.length - 1) return;
+    const updatedMenu = [...layout.content.menu];
+    [updatedMenu[index], updatedMenu[index + 1]] = [updatedMenu[index + 1], updatedMenu[index]];
+    setLayout((prev) => ({
+      ...prev,
+      content: { ...prev.content, menu: updatedMenu },
+    }));
+  };
+
 
   const handleUpdateHeader = (key, value) => {
     setLayout((prev) => ({
@@ -240,169 +305,58 @@ export default function LayoutEditor({ domain, language }) {
             />
           </div>
 
-          {/* Header */}
+          {/* 3. Header section updated to use ImageUploadable */}
           <div style={{ marginBottom: "30px" }}>
-            <h3 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "10px" }}>Header</h3>
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "10px",
-                alignItems: "center",
-              }}
-            >
-              <img
-                src={layout.content.header?.logo}
-                alt="Logo Preview"
-                style={{ height: "50px", maxWidth: "100%", objectFit: "contain", border: '1px solid #eee' }}
+            <h3 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "10px" }}>Header Logo</h3>
+             <ImageUploadable
+                src={layout.content.header?.logo || ""}
+                alt="Header Logo"
+                isEdit={true}
+                onChangeImage={(fileData) => handleImageUpload('header', 'logo', fileData)}
+                wrapperStyle={{ height: '50px', border: '1px dashed #ccc', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: '5px' }}
+                imgStyle={{ maxHeight: '100%', maxWidth: '200px', objectFit: 'contain' }}
               />
-              <input
-                type="text"
-                value={layout.content.header?.logo || ""}
-                onChange={(e) => handleUpdateHeader("logo", e.target.value)}
-                placeholder="Header Logo URL"
-                style={{
-                  flex: "1 1 250px",
-                  padding: "8px",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                }}
-              />
-            </div>
+               <p style={{ color: '#666', fontStyle: 'italic', fontSize: '12px', marginTop: '5px' }}>Click on the image area to upload a new logo.</p>
           </div>
+
+          {/* Header & Menu Preview - Unchanged */}
           <HeaderCherxy onMenuDataChange={handleMenuDataChange} isEdit={true} MenuData={layout.content.menu} Link={(link) => <a>{link.children}</a>} />
+          
           <div style={{ marginBottom: "30px" }}>
             <h3 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "10px" }}>Menu</h3>
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               {layout.content.menu.map((item, i) => (
-                <div
-                  key={i}
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: "10px",
-                    alignItems: "center",
-                  }}
-                >
-                  <input
-                    type="text"
-                    value={item.text}
-                    onChange={(e) => handleUpdateMenu(i, "text", e.target.value)}
-                    placeholder="Menu Text"
-                    style={{
-                      flex: "1 1 150px",
-                      padding: "8px",
-                      border: "1px solid #ccc",
-                      borderRadius: "4px",
-                    }}
-                  />
-                  <input
-                    type="text"
-                    value={item.url}
-                    onChange={(e) => handleUpdateMenu(i, "url", e.target.value)}
-                    placeholder="Menu URL"
-                    style={{
-                      flex: "2 1 200px",
-                      padding: "8px",
-                      border: "1px solid #ccc",
-                      borderRadius: "4px",
-                    }}
-                  />
-                  <button
-                    onClick={() => handleDeleteMenu(i)}
-                    style={{
-                      background: "red",
-                      color: "white",
-                      padding: "8px 12px",
-                      border: "none",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Delete
-                  </button>
+                <div key={i} style={{ display: "flex", flexWrap: "wrap", gap: "10px", alignItems: "center" }}>
+                  <input type="text" value={item.text} onChange={(e) => handleUpdateMenu(i, "text", e.target.value)} placeholder="Menu Text" style={{ flex: "1 1 150px", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }} />
+                  <input type="text" value={item.url} onChange={(e) => handleUpdateMenu(i, "url", e.target.value)} placeholder="Menu URL" style={{ flex: "2 1 200px", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }} />
+                  <button onClick={() => handleMoveMenuUp(i)} disabled={i === 0} style={{ background: "darkcyan", color: "white", padding: "8px 12px", border: "none", borderRadius: "4px", cursor: i === 0 ? "not-allowed" : "pointer", opacity: i === 0 ? 0.5 : 1 }}> &#8593; Up </button>
+                  <button onClick={() => handleMoveMenuDown(i)} disabled={i === layout.content.menu.length - 1} style={{ background: "darkcyan", color: "white", padding: "8px 12px", border: "none", borderRadius: "4px", cursor: i === layout.content.menu.length - 1 ? "not-allowed" : "pointer", opacity: i === layout.content.menu.length - 1 ? 0.5 : 1 }}> &#8595; Down </button>
+                  <button onClick={() => handleDeleteMenu(i)} style={{ background: "red", color: "white", padding: "8px 12px", border: "none", borderRadius: "4px", cursor: "pointer" }}> Delete </button>
                 </div>
               ))}
             </div>
-
-            {/* Add Menu */}
-            <div
-              style={{
-                marginTop: "15px",
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "10px",
-              }}
-            >
-              <input
-                type="text"
-                placeholder="New Menu Text"
-                value={newMenu.text}
-                onChange={(e) => setNewMenu((prev) => ({ ...prev, text: e.target.value }))}
-                style={{
-                  flex: "1 1 150px",
-                  padding: "8px",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                }}
-              />
-              <input
-                type="text"
-                placeholder="New Menu URL"
-                value={newMenu.url}
-                onChange={(e) => setNewMenu((prev) => ({ ...prev, url: e.target.value }))}
-                style={{
-                  flex: "2 1 200px",
-                  padding: "8px",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                }}
-              />
-              <button
-                onClick={handleAddMenu}
-                style={{
-                  background: "green",
-                  color: "white",
-                  padding: "8px 12px",
-                  border: "none",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                }}
-              >
-                Add Menu
-              </button>
+            <div style={{ marginTop: "15px", display: "flex", flexWrap: "wrap", gap: "10px" }}>
+              <input type="text" placeholder="New Menu Text" value={newMenu.text} onChange={(e) => setNewMenu((prev) => ({ ...prev, text: e.target.value }))} style={{ flex: "1 1 150px", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }} />
+              <input type="text" placeholder="New Menu URL" value={newMenu.url} onChange={(e) => setNewMenu((prev) => ({ ...prev, url: e.target.value }))} style={{ flex: "2 1 200px", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }} />
+              <button onClick={handleAddMenu} style={{ background: "green", color: "white", padding: "8px 12px", border: "none", borderRadius: "4px", cursor: "pointer" }}> Add Menu </button>
             </div>
           </div>
 
-          {/* Footer */}
+          {/* 4. Footer section updated to use ImageUploadable */}
           <div style={{ marginBottom: "30px" }}>
             <h3 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "10px" }}>Footer</h3>
-            <img
-              src={layout.content.footer?.image}
-              alt="Footer Preview"
-              style={{
-                height: "80px",
-                maxWidth: "100%",
-                objectFit: "contain",
-                marginBottom: "15px",
-                border: '1px solid #eee'
-              }}
-            />
             <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
-              <div>
+               <div>
                 <label style={{ display: "block", marginBottom: "5px", fontWeight: "500" }}>
-                  Footer Image URL:
+                  Footer Image:
                 </label>
-                <input
-                  type="text"
-                  value={layout.content.footer?.image || ""}
-                  onChange={(e) => handleUpdateFooter("image", e.target.value)}
-                  style={{
-                    width: "100%",
-                    padding: "8px",
-                    border: "1px solid #ccc",
-                    borderRadius: "4px",
-                  }}
+                <ImageUploadable
+                   src={layout.content.footer?.image || ""}
+                   alt="Footer Image"
+                   isEdit={true}
+                   onChangeImage={(fileData) => handleImageUpload('footer', 'image', fileData)}
+                   wrapperStyle={{ height: '80px', border: '1px dashed #ccc', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: '5px' }}
+                   imgStyle={{ maxHeight: '100%', maxWidth: '300px', objectFit: 'contain' }}
                 />
               </div>
               <div>

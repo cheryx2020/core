@@ -270,7 +270,7 @@ const FileExplorer = () => {
             </button>
           )}
           <span className={styles.currentPath}>
-            Path: /public/{currentPath}
+            Path: {currentPath}
           </span>
         </div>
         

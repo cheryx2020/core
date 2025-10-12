@@ -64,7 +64,7 @@ const HeaderCherxy = ({ isAdmin, isEdit, url, showNavigator = true, Link, mainIm
     cheryxStyle.backgroundImage = `url("${mainImageUrl}")`;
   }
   const handleMenuTextChange = (e, index) => {
-    const newText = e.target.value;
+    const newText = e.target.innerText;
     const updatedMenuData = MenuData.map((item, i) => {
       if (i === index) {
         return { ...item, text: newText };

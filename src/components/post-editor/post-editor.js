@@ -164,7 +164,7 @@ export default function PostEditor({ language = "en" }) {
                             <FormField label="Slug (ID)" name="id" value={currentPost.id} onChange={handleInputChange} />
                             <FormField label="Category" name="category" value={currentPost.category} onChange={handleInputChange} />
                             <FormField label="Main Image URL" name="imgUrl" value={currentPost.imgUrl} onChange={handleInputChange} />
-                            <FormField label="Language" name="language" value={currentPost.language} onChange={handleInputChange} disabled />
+                            <FormField label="Language" name="language" value={currentPost.language} onChange={handleInputChange} />
                         </div>
                         <div>
                             <FormField label="SEO Title" name="seoTitle" value={currentPost.seoTitle} onChange={handleInputChange} />
