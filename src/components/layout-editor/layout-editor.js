@@ -116,18 +116,17 @@ export default function LayoutEditor({ domain, language }) {
 
     try {
       const formData = new FormData();
-      formData.append("image", fileData.imgFile); // Field name 'image' must match server expectation
+      formData.append("image", fileData.imgFile);
 
-      // NOTE: Replace 'upload/image' with your actual API endpoint for file uploads
-      const response = await APIService.post('upload/image', formData, {
+      const response = await APIService.post('v1/images/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
-      if (response.data && response.data.success && response.data.url) {
-        const imageUrl = response.data.url;
-        // Use existing handlers to update the state with the new URL
+      const imageUrl = response.data.imageUrl;
+
+      if (imageUrl) {
         if (section === 'header') {
           handleUpdateHeader(key, imageUrl);
         } else if (section === 'footer') {

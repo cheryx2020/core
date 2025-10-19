@@ -43,6 +43,18 @@ export default function PagesManager({ domain, language, router, useRouter, Imag
             .finally(() => setLoadingDomains(false));
     }, [domain]);
 
+    useEffect(() => {
+        if (message) {
+            const timerId = setTimeout(() => {
+                setMessage(null);
+            }, 3000);
+
+            return () => {
+                clearTimeout(timerId);
+            };
+        }
+    }, [message]);
+
     // Fetch languages when domain changes or use provided language
     useEffect(() => {
         const currentDomain = selectedDomain?.value;

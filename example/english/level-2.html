@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>English Fun Quiz - Level 2</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #89f7fe, #66a6ff);
+            font-family: "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: 720px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .emoji-big {
+            font-size: 80px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .choices {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .choice {
+            background: #f0f4ff;
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 3px solid transparent;
+            user-select: none;
+        }
+
+        .choice:hover {
+            transform: scale(1.05);
+        }
+
+        .choice.correct {
+            border-color: #4CAF50;
+            background: #e7fbe9;
+        }
+
+        .choice.wrong {
+            border-color: #f44336;
+            background: #ffeaea;
+        }
+
+        .progress {
+            height: 10px;
+            background: #e0e4ff;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 14px;
+        }
+
+        .progress>i {
+            display: block;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4e54c8, #8f94fb);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 10px;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-speak {
+            background: linear-gradient(90deg, #4e54c8, #8f94fb);
+            color: white;
+        }
+
+        .score {
+            background: #f3f5fb;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-weight: bold;
+        }
+
+        .result {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .result.show {
+            display: flex;
+        }
+
+        .bigscore {
+            font-size: 36px;
+            font-weight: 800;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="card" id="game">
+            <div class="header">
+                <button class="btn btn-speak" id="speakBtn">🔊 Hear</button>
+                <div class="score" id="score">Score: 0</div>
+            </div>
+            <div class="emoji-big" id="emoji">🍌</div>
+            <p id="prompt">Which word is this?</p>
+            <div class="choices" id="choices"></div>
+            <div class="progress"><i id="bar"></i></div>
+            <div style="margin-top:10px; text-align:right;">
+                <button class="btn" id="restart">Restart</button>
+            </div>
+            <div class="result" id="result">
+                <div class="bigscore" id="finalScore">0 / 10</div>
+                <div id="finalText">Well done!</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const QUESTIONS = [
+            { emoji: '🍌', word: 'banana', choices: ['banana', 'apple', 'grape', 'orange'] },
+            { emoji: '🐘', word: 'elephant', choices: ['lion', 'elephant', 'tiger', 'dog'] },
+            { emoji: '🚀', word: 'rocket', choices: ['plane', 'rocket', 'car', 'boat'] },
+            { emoji: '🍓', word: 'strawberry', choices: ['cherry', 'apple', 'strawberry', 'grape'] },
+            { emoji: '🦋', word: 'butterfly', choices: ['bird', 'butterfly', 'fish', 'dog'] },
+            { emoji: '🌈', word: 'rainbow', choices: ['rainbow', 'sun', 'moon', 'cloud'] },
+            { emoji: '🏠', word: 'house', choices: ['car', 'tree', 'house', 'school'] },
+            { emoji: '🦁', word: 'lion', choices: ['cat', 'dog', 'lion', 'tiger'] },
+            { emoji: '🚴', word: 'bicycle', choices: ['bicycle', 'car', 'train', 'plane'] },
+            { emoji: '🎂', word: 'cake', choices: ['bread', 'cake', 'cookie', 'donut'] }
+        ];
+
+        let order = shuffle([...Array(QUESTIONS.length).keys()]);
+        let current = 0;
+        let score = 0;
+        let accepting = true;
+
+        const emojiEl = document.getElementById('emoji');
+        const choicesEl = document.getElementById('choices');
+        const scoreEl = document.getElementById('score');
+        const barEl = document.getElementById('bar');
+        const speakBtn = document.getElementById('speakBtn');
+        const resultEl = document.getElementById('result');
+        const finalScoreEl = document.getElementById('finalScore');
+        const finalTextEl = document.getElementById('finalText');
+        const restartBtn = document.getElementById('restart');
+
+        function shuffle(arr) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
+
+        function startGame() {
+            order = shuffle(order);
+            current = 0; score = 0; accepting = true;
+            scoreEl.textContent = 'Score: 0';
+            resultEl.classList.remove('show');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = QUESTIONS[order[current]];
+            emojiEl.textContent = q.emoji;
+            document.getElementById('prompt').textContent = 'Which word is this?';
+            const opts = shuffle(q.choices.slice());
+            choicesEl.innerHTML = '';
+            opts.forEach(opt => {
+                const b = document.createElement('button');
+                b.className = 'choice';
+                b.textContent = opt;
+                b.onclick = () => choose(b, opt, q.word);
+                choicesEl.appendChild(b);
+            });
+            barEl.style.width = `${(current / QUESTIONS.length) * 100}%`;
+        }
+
+        function choose(btn, picked, correct) {
+            if (!accepting) return;
+            accepting = false;
+            const isCorrect = picked === correct;
+            if (isCorrect) {
+                score += 10;
+                btn.classList.add('correct');
+                speakText('Great! ' + correct);
+            } else {
+                btn.classList.add('wrong');
+                [...choicesEl.children].forEach(b => { if (b.textContent === correct) b.classList.add('correct'); });
+                speakText('No. It is ' + correct);
+            }
+            scoreEl.textContent = 'Score: ' + score;
+            setTimeout(() => {
+                current++;
+                if (current >= QUESTIONS.length) showResult();
+                else { accepting = true; renderQuestion(); }
+            }, 1000);
+        }
+
+        function showResult() {
+            barEl.style.width = '100%';
+            resultEl.classList.add('show');
+            finalScoreEl.textContent = `${score} / ${QUESTIONS.length * 10}`;
+            const p = Math.round(score / (QUESTIONS.length * 10) * 100);
+            finalTextEl.textContent = p >= 80 ? 'Excellent! 🌟' : p >= 50 ? 'Good job! 👍' : 'Try again! 💪';
+        }
+
+        function speakText(text) {
+            if (!('speechSynthesis' in window)) return;
+            const ut = new SpeechSynthesisUtterance(text);
+            ut.lang = 'en-US';
+            speechSynthesis.cancel();
+            speechSynthesis.speak(ut);
+        }
+
+        speakBtn.onclick = () => { const q = QUESTIONS[order[current]]; speakText(q.word); };
+        restartBtn.onclick = startGame;
+        startGame();
+    </script>
+</body>
+
+</html>

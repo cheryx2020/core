@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>English Fun Quiz - Complete the Sentence</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #8e2de2, #4a00e0);
+            font-family: "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: 720px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .listen-btn-big {
+            font-size: 60px;
+            /* Slightly smaller to not overpower the text */
+            text-align: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            user-select: none;
+        }
+
+        .listen-btn-big:hover {
+            transform: scale(1.1);
+        }
+
+        /* Style for the sentence text */
+        #prompt {
+            font-size: 24px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .choices {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .choice {
+            background: #f2eefc;
+            /* New choice color */
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 3px solid transparent;
+            user-select: none;
+        }
+
+        .choice:hover {
+            transform: scale(1.05);
+        }
+
+        .choice.correct {
+            border-color: #4CAF50;
+            background: #e7fbe9;
+        }
+
+        .choice.wrong {
+            border-color: #f44336;
+            background: #ffeaea;
+        }
+
+        .progress {
+            height: 10px;
+            background: #e0e4ff;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 14px;
+        }
+
+        .progress>i {
+            display: block;
+            height: 100%;
+            width: 0%;
+            /* New progress bar color */
+            background: linear-gradient(90deg, #d383ff, #651fff);
+        }
+
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 10px;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .score {
+            background: #f3f5fb;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-weight: bold;
+        }
+
+        .result {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .result.show {
+            display: flex;
+        }
+
+        .bigscore {
+            font-size: 36px;
+            font-weight: 800;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="card" id="game">
+            <div class="header">
+                <div class="score" id="score">Score: 0</div>
+            </div>
+            <!-- The prompt now shows the sentence -->
+            <p id="prompt">The cat is sleeping on the ___.</p>
+            <!-- The listen button can be a hint -->
+            <div class="listen-btn-big" id="listenBtn">🔊</div>
+            <div class="choices" id="choices"></div>
+            <div class="progress"><i id="bar"></i></div>
+            <div style="margin-top:10px; text-align:right;">
+                <button class="btn" id="restart">Restart</button>
+            </div>
+            <div class="result" id="result">
+                <div class="bigscore" id="finalScore">0 / 10</div>
+                <div id="finalText">Well done!</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const QUESTIONS = [
+            // { sentence: 'The ___ is yellow.', answer: 'sun', choices: ['sun', 'fun', 'run', 'son'] },
+            // { sentence: 'I can ___ the ball.', answer: 'kick', choices: ['kick', 'lick', 'pick', 'sick'] },
+            // { sentence: 'A dog says "___".', answer: 'woof', choices: ['meow', 'moo', 'woof', 'oink'] },
+            // { sentence: 'She is my ___.', answer: 'sister', choices: ['brother', 'sister', 'father', 'mother'] },
+            // { sentence: 'The apple is ___.', answer: 'red', choices: ['blue', 'green', 'red', 'big'] },
+            // { sentence: 'Birds can ___ in the sky.', answer: 'fly', choices: ['swim', 'run', 'fly', 'hop'] },
+            // { sentence: 'Please sit ___ on the chair.', answer: 'down', choices: ['up', 'in', 'down', 'on'] },
+            // { sentence: 'I use a pen to ___.', answer: 'write', choices: ['read', 'write', 'eat', 'draw'] },
+            // { sentence: 'The fish can ___ in the water.', answer: 'swim', choices: ['fly', 'walk', 'swim', 'jump'] },
+            // { sentence: 'I have ten ___ on my hands.', answer: 'fingers', choices: ['toes', 'fingers', 'ears', 'noses'] }
+            { sentence: 'I see with my ___.', answer: 'eyes', choices: ['ears', 'nose', 'eyes', 'hands'] },
+            { sentence: 'A cat says "___".', answer: 'meow', choices: ['bark', 'meow', 'moo', 'ribbit'] },
+            { sentence: 'The grass is ___.', answer: 'green', choices: ['blue', 'red', 'yellow', 'green'] },
+            { sentence: 'I can ___ my bike.', answer: 'ride', choices: ['read', 'ride', 'hide', 'eat'] },
+            { sentence: 'We use our ears to ___.', answer: 'hear', choices: ['see', 'smell', 'hear', 'taste'] },
+            { sentence: 'A pig lives on a ___.', answer: 'farm', choices: ['farm', 'zoo', 'house', 'tree'] },
+            { sentence: 'The opposite of hot is ___.', answer: 'cold', choices: ['warm', 'cold', 'big', 'fast'] },
+            { sentence: 'I wear a hat on my ___.', answer: 'head', choices: ['foot', 'hand', 'head', 'leg'] },
+            { sentence: 'You can read a ___.', answer: 'book', choices: ['ball', 'book', 'car', 'rock'] },
+            { sentence: 'A bee makes sweet ___.', answer: 'honey', choices: ['money', 'honey', 'milk', 'sunny'] }
+        ];
+
+        let order = shuffle([...Array(QUESTIONS.length).keys()]);
+        let current = 0;
+        let score = 0;
+        let accepting = true;
+
+        const listenBtnEl = document.getElementById('listenBtn');
+        const choicesEl = document.getElementById('choices');
+        const scoreEl = document.getElementById('score');
+        const barEl = document.getElementById('bar');
+        const resultEl = document.getElementById('result');
+        const finalScoreEl = document.getElementById('finalScore');
+        const finalTextEl = document.getElementById('finalText');
+        const restartBtn = document.getElementById('restart');
+        const promptEl = document.getElementById('prompt');
+
+        function shuffle(arr) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
+
+        function startGame() {
+            order = shuffle([...Array(QUESTIONS.length).keys()]);
+            current = 0; score = 0; accepting = true;
+            scoreEl.textContent = 'Score: 0';
+            resultEl.classList.remove('show');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = QUESTIONS[order[current]];
+            promptEl.textContent = q.sentence;
+
+            const opts = shuffle(q.choices.slice());
+            choicesEl.innerHTML = '';
+            opts.forEach(opt => {
+                const b = document.createElement('button');
+                b.className = 'choice';
+                b.textContent = opt;
+                b.onclick = () => choose(b, opt, q.answer);
+                choicesEl.appendChild(b);
+            });
+            barEl.style.width = `${(current / QUESTIONS.length) * 100}%`;
+        }
+
+        function choose(btn, picked, correct) {
+            if (!accepting) return;
+            accepting = false;
+
+            const q = QUESTIONS[order[current]];
+            const fullSentence = q.sentence.replace('___', correct);
+            const isCorrect = picked === correct;
+
+            if (isCorrect) {
+                score += 10;
+                btn.classList.add('correct');
+                promptEl.textContent = fullSentence; // Show the completed sentence
+                speakText('Great! ' + fullSentence);
+            } else {
+                btn.classList.add('wrong');
+                [...choicesEl.children].forEach(b => { if (b.textContent === correct) b.classList.add('correct'); });
+                speakText('No. ' + fullSentence);
+            }
+            scoreEl.textContent = 'Score: ' + score;
+            setTimeout(() => {
+                current++;
+                if (current >= QUESTIONS.length) showResult();
+                else { accepting = true; renderQuestion(); }
+            }, 2000); // Longer delay to hear and read the full sentence
+        }
+
+        function showResult() {
+            barEl.style.width = '100%';
+            resultEl.classList.add('show');
+            finalScoreEl.textContent = `${score} / ${QUESTIONS.length * 10}`;
+            const p = Math.round(score / (QUESTIONS.length * 10) * 100);
+            finalTextEl.textContent = p >= 80 ? 'Excellent! 🌟' : p >= 50 ? 'Good job! 👍' : 'Try again! 💪';
+            speakText(`You scored ${score} points. ${finalTextEl.textContent}`);
+        }
+
+        function speakText(text) {
+            if (!('speechSynthesis' in window)) {
+                console.log("Sorry, your browser doesn't support text-to-speech.");
+                return;
+            }
+            const ut = new SpeechSynthesisUtterance(text);
+            ut.lang = 'en-US';
+            ut.rate = 0.9;
+            speechSynthesis.cancel();
+            speechSynthesis.speak(ut);
+        }
+
+        // This button now reads the full, correct sentence as a hint
+        listenBtnEl.onclick = () => {
+            if (current < QUESTIONS.length) {
+                const q = QUESTIONS[order[current]];
+                const fullSentence = q.sentence.replace('___', q.answer);
+                speakText(fullSentence);
+            }
+        };
+
+        restartBtn.onclick = startGame;
+
+        startGame();
+    </script>
+</body>
+
+</html>
