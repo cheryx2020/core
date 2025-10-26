@@ -27,6 +27,7 @@ const Index = () => {
             { href: "/PostEditor", label: "Post Editor" },
             { href: "/LayoutEditor", label: "Layout Editor" },
             { href: "/FileExplorer", label: "File Explorer" },
+            { href: "/GenericDivPage", label: "Generic Div" },
           ].map(({ href, label }) => (
             <Link
               key={href}

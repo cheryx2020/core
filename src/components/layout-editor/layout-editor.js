@@ -84,12 +84,26 @@ export default function LayoutEditor({ domain, language }) {
     }
     try {
       const updated = {
-        domain, // from props
+        domain,
         id: selectedId,
-        language, // from props
+        language,
         name: layout.name,
         content: JSON.stringify(layout.content),
       };
+      const tempImages = [];
+      const contentStr = JSON.stringify(layout.content);
+      const tempImageRegex = /\/\/[^"'\s]*\/images\/temp\/[^"'\s]*/g;
+      const matches = contentStr.match(tempImageRegex);
+      
+      if (matches) {
+        tempImages.push(...new Set(matches));
+      }
+
+      const headers = {};
+      if (tempImages.length > 0) {
+        headers['X-Temp-Images'] = JSON.stringify(tempImages);
+      }
+
       const response = await APIService.put(`layout`, updated);
       if (response.data.success) {
         alert("Layout saved successfully!");
@@ -277,7 +291,7 @@ export default function LayoutEditor({ domain, language }) {
                   </div>
 
                   {/* Header & Menu Preview */}
-                  <HeaderCherxy onMenuDataChange={handleMenuDataChange} isEdit={true} MenuData={layout.content.menu} socialLinks={layout?.content?.socialLinks} Link={(link) => <a>{link.children}</a>} />
+                  <HeaderCherxy socialLinksStyles={{display: 'flex'}} mainImageUrl={layout?.content?.header?.logo} onMenuDataChange={handleMenuDataChange} isEdit={true} MenuData={layout.content.menu} socialLinks={layout?.content?.socialLinks} Link={(link) => <a>{link.children}</a>} />
 
                   {/* Menu Editor */}
                   <div style={{ marginBottom: "30px" }}>

@@ -57,7 +57,7 @@ const HeaderCherxy = ({ isAdmin, isEdit, url, showNavigator = true, Link, mainIm
 }, {
   text: 'Mẹo đan móc lượm lặt',
   url: `/${process?.env?.NEXT_PUBLIC_PRE_TIP}`
-}], onMenuDataChange = () => { }, styles: wrapperStyle = {}, socialLinks }) => {
+}], onMenuDataChange = () => { }, styles: wrapperStyle = {}, socialLinks, socialLinksStyles = {} }) => {
   const _styles = {
     ...wrapperStyle
   }
@@ -77,11 +77,9 @@ const HeaderCherxy = ({ isAdmin, isEdit, url, showNavigator = true, Link, mainIm
   };
   return <header style={{ width: '100%' }}>
     <div className={styles.header}>
-      <SocialMediaLinks socialLinks={socialLinks}/>
+      <SocialMediaLinks style={socialLinksStyles} socialLinks={socialLinks}/>
       <LeftSideMenu Link={Link} links={links} menuData={MenuData} />
       <div className={styles.rightSide}>
-        {/* <a rel="noreferrer" className={styles.search}><img style={{width: 20, height: 20}} src="/images/search.svg"></img></a> 
-        <a rel="noreferrer"><img style={{width: 12, height: 16}} src="/images/cart.png"></img></a> */}
         <Link href={isAdmin ? '/dashboard' : '/login'}><a rel="noreferrer"><img style={{ width: 12, height: 16 }} alt="user" src="https://cheryx.com/images/user.png"></img></a></Link>
       </div>
     </div>

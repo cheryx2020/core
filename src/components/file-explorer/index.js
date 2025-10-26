@@ -119,7 +119,7 @@ const FileExplorer = () => {
   };
 
   const getFileUrl = (path) => {
-    return `${process.env.NEXT_PUBLIC_apiBaseUrl}${path}`;
+    return `${process.env.NEXT_PUBLIC_apiBaseUrl}${path?.replace('public', '')}`;
   };
 
   const handleContextMenu = (event, item) => {
@@ -286,6 +286,8 @@ const FileExplorer = () => {
                     <option value="name_desc">Name (Z-A)</option>
                     <option value="date_desc">Newest First</option>
                     <option value="date_asc">Oldest First</option>
+                    <option value="access_desc">Last Access (Newest First)</option>
+                    <option value="access_asc">Last Access (Oldest First)</option>
                 </select>
             </div>
             <div className={styles.viewModeSwitcher}>

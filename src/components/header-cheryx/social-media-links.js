@@ -70,10 +70,10 @@ const SocialMediaLinks = ({socialLinks = [
       width: 20,
       height: 20
     }
-  ]}) => {
+  ], style = {}}) => {
 
   return (
-    <div className={styles.leftSide}>
+    <div className={styles.leftSide} style={style}>
       {socialLinks.map((link) => (
         <a
           key={link.name}

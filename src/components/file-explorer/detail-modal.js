@@ -45,6 +45,7 @@ const DetailsModal = ({ details, isLoading, error, onClose, onDelete, imageUrl }
             <li><strong>Size:</strong> <span>{formatBytes(details.size)}</span></li>
             <li><strong>Created:</strong> <span>{new Date(details.createdAt).toLocaleString()}</span></li>
             <li><strong>Modified:</strong> <span>{new Date(details.modifiedAt).toLocaleString()}</span></li>
+            <li><strong>Last Accessed:</strong> <span>{new Date(details.accessedAt).toLocaleString()}</span></li>
             <li><strong>Used In:</strong> <span>{Array.isArray(details.usedInPosts) ? details.usedInPosts.map(post => <div href=''>{post.title}</div>)  : ""}</span></li>
           </ul>
         </>

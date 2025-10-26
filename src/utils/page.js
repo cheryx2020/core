@@ -9,6 +9,7 @@ import AdminMenu from "../components/admin-menu/admin-menu";
 import ContentWithTitle from "../components/content-with-title/content-with-title";
 import ListArticle from "../components/list-article/list-article";
 import TitleLink from "../components/title-link/title-link";
+import GenericDiv from "./generic-div";
 
 const PageItem = ({ data, router, ...rest }) => {
     switch (data?.id) {
@@ -58,10 +59,11 @@ const PageItem = ({ data, router, ...rest }) => {
                 <Title text={data?.text || "TITLE"} />
             );
         case "DIV":
-            return <>
-                <style>{data?.styleTagContent}</style>
-                <div className={data?.className}></div>
-            </>
+            // return <>
+            //     <style>{data?.styleTagContent}</style>
+            //     <div className={data?.className}></div>
+            // </>
+            return <GenericDiv config={data} />
         case "ContentWithTitle":
             return <>
                 <style>{data?.styleTagContent}</style>
