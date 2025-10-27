@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { generateId, regenerateIds } from './utils';
 import { getMockSiteData, PAGE_TEMPLATES } from './data';
 import NoCodeBuilder from './NoCodeBuilder';
 import TemplateSelectionModal from './TemplateSelectionModal';
 import PageManager from './PageManager';
+import useBuilderStore from './store';
 
 const SiteBuilder = ({ domain }) => {
-  const [siteData, setSiteData] = useState(null);
-  const [activePageId, setActivePageId] = useState(null);
+  const { siteData, activePageId, setSiteData, setActivePageId, addPage, deletePage } = useBuilderStore()
   const [isLoading, setIsLoading] = useState(true);
   const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
 
@@ -15,7 +15,6 @@ const SiteBuilder = ({ domain }) => {
     const fetchSiteData = async () => {
       setIsLoading(true);
       console.log(`Fetching site data for domain: ${domain}`);
-      // In a real app, this would be an API call, e.g., await api.getSite(domain)
       const mockApiResponse = getMockSiteData();
       setSiteData(mockApiResponse);
       const homepage = mockApiResponse.pages.find(p => p.isHomepage);
@@ -23,14 +22,10 @@ const SiteBuilder = ({ domain }) => {
       setIsLoading(false);
     };
     fetchSiteData();
-  }, [domain]);
+  }, [domain, setSiteData, setActivePageId]);
 
   const handleSelectPage = (pageId) => {
     setActivePageId(pageId);
-  };
-
-  const handlePageConfigChange = (newConfig) => {
-    setSiteData(prev => ({ ...prev, pages: prev.pages.map(p => p.id === activePageId ? { ...p, config: newConfig } : p) }));
   };
 
   const handleAddPage = () => {
@@ -51,67 +46,87 @@ const SiteBuilder = ({ domain }) => {
       config: newPageConfig
     };
 
-    setSiteData(prev => ({ ...prev, pages: [...prev.pages, newPage] }));
-    setActivePageId(newPage.id);
+    addPage(newPage);
     setIsTemplateModalOpen(false);
   };
 
   const handleDeletePage = (pageIdToDelete) => {
-    const pageIndex = siteData.pages.findIndex(p => p.id === pageIdToDelete);
-    if (pageIndex === -1) return; // Should not happen if UI is correct
+    const pageToDelete = siteData?.pages?.find(p => p.id === pageIdToDelete);
+    if (!pageToDelete) return;
 
-    const newPages = siteData.pages.filter(p => p.id !== pageIdToDelete);
-
-    // If the deleted page was the active one, select a new active page
-    if (activePageId === pageIdToDelete) {
-      // Try to select the page before it, or the first page if it was the first
-      const newActiveIndex = Math.max(0, pageIndex - 1);
-      const newActivePageId = newPages[newActiveIndex]?.id || null;
-      setActivePageId(newActivePageId);
+    if (siteData?.pages?.length <= 1) {
+      alert("Cannot delete the last page.");
+      return;
     }
-
-    setSiteData(prev => ({
-      ...prev,
-      pages: newPages,
-    }));
+    
+    deletePage(pageIdToDelete);
   };
 
   const handleSaveSite = async () => {
     console.log("Saving site data to backend:", JSON.stringify(siteData, null, 2));
+
+    // In a real app, this would be an API call:
+    // try {
+    //   await api.updateSite(siteData._id, siteData);
+    //   alert('Site saved successfully!');
+    // } catch (error) {
+    //   alert('Error saving site: ' + error.message);
+    // }
+
     alert('Site saved! Check the browser console for the full JSON data.');
   };
 
   if (isLoading) {
-    return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontSize: '24px' }}>Loading Site...</div>;
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        fontSize: '24px',
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+        color: '#666'
+      }}>
+        Loading Site...
+      </div>
+    );
   }
 
-  const activePage = siteData.pages.find(p => p.id === activePageId);
+  const activePage = siteData?.pages?.find(p => p.id === activePageId);
+
 
   return (
-    <div style={{ display: 'flex', height: '100vh' }}>
+    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
       <PageManager
         pages={siteData.pages}
         activePageId={activePageId}
         onSelectPage={handleSelectPage}
         onAddPage={handleAddPage}
-        onDeletePage={handleDeletePage} // Pass the delete handler
+        onDeletePage={handleDeletePage}
       />
-      <div style={{ flex: 1, display: 'flex' }}>
+
+      <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
         {activePage ? (
           <NoCodeBuilder
             key={activePage.id}
-            initialPageConfig={activePage.config}
-            onConfigChange={handlePageConfigChange}
             onSave={handleSaveSite}
             activePageId={activePage.id}
             templateKey={activePage.templateKey}
           />
         ) : (
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            fontFamily: 'system-ui, -apple-system, sans-serif',
+            color: '#999'
+          }}>
             <h2>Please select a page to edit.</h2>
           </div>
         )}
       </div>
+
       <TemplateSelectionModal
         isOpen={isTemplateModalOpen}
         onClose={() => setIsTemplateModalOpen(false)}

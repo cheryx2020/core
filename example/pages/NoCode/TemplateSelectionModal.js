@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { PAGE_TEMPLATES } from './data';
 
 const TemplateSelectionModal = ({ isOpen, onClose, onCreate }) => {
   const [pageName, setPageName] = useState('');
