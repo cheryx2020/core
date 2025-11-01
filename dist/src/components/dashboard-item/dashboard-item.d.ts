@@ -1,8 +1,8 @@
 export default DashboardItem;
 declare function DashboardItem({ Link, url, text, onClick }: {
-    Link?: (({ children }: {
+    Link?: ({ children }: {
         children: any;
-    }) => React.JSX.Element) | undefined;
+    }) => React.JSX.Element;
     url: any;
     text: any;
     onClick: any;

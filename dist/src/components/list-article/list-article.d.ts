@@ -1,9 +1,9 @@
 export default ListArticle;
 declare function ListArticle({ data, isMobile, Image, Link, unoptimized }: {
-    data?: never[] | undefined;
+    data?: any[];
     isMobile: any;
     Image: any;
     Link: any;
-    unoptimized?: boolean | undefined;
+    unoptimized?: boolean;
 }): React.JSX.Element;
 import React from "react";

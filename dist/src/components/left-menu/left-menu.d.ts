@@ -1,11 +1,11 @@
 export default LeftMenu;
 declare function LeftMenu({ data, selected, isAdmin, onSelectedItem, Link }: {
-    data?: never[] | undefined;
+    data?: any[];
     selected: any;
     isAdmin: any;
-    onSelectedItem?: (() => void) | undefined;
-    Link?: (({ children }: {
+    onSelectedItem?: () => void;
+    Link?: ({ children }: {
         children: any;
-    }) => any) | undefined;
+    }) => any;
 }): React.JSX.Element;
 import React from 'react';

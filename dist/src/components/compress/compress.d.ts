@@ -4,7 +4,7 @@ declare function Compress({ FFmpeg, fetchFile, coreURL, wasmURL, type, }: {
     fetchFile: any;
     coreURL: any;
     wasmURL: any;
-    type?: string | undefined;
+    type?: string;
 }): React.JSX.Element;
 declare namespace Compress {
     export { COMPRESS_TYPE as CompressType };

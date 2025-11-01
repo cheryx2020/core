@@ -4,30 +4,30 @@ declare function Page({ name, content, theme, layout: { menu, breadcrumb, footer
     content: any;
     theme: any;
     layout?: {
-        menu: never[];
-        breadcrumb: never[];
+        menu: any[];
+        breadcrumb: any[];
         footer: {};
-    } | undefined;
+    };
     seo: any;
-    Link?: (({ children, ...props }: {
+    Link?: ({ children, ...props }: {
         [x: string]: any;
         children: any;
-    }) => React.JSX.Element) | undefined;
-    useDispatch?: (() => (action: any) => void) | undefined;
-    useRouter?: (() => {
+    }) => React.JSX.Element;
+    useDispatch?: () => (action: any) => void;
+    useRouter?: () => {
         push: (url: any) => void;
         pathname: string;
         query: {};
         asPath: string;
-    }) | undefined;
-    Head?: (({ children }: {
+    };
+    Head?: ({ children }: {
         children: any;
-    }) => React.JSX.Element) | undefined;
-    NextSeo?: (({ children }: {
+    }) => React.JSX.Element;
+    NextSeo?: ({ children }: {
         children: any;
-    }) => React.JSX.Element) | undefined;
-    Image?: (({ children }: {
+    }) => React.JSX.Element;
+    Image?: ({ children }: {
         children: any;
-    }) => React.JSX.Element) | undefined;
+    }) => React.JSX.Element;
 }): React.JSX.Element;
 import React from "react";

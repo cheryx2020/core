@@ -2,18 +2,18 @@ export default TipDetail;
 declare function TipDetail({ ProductJsonLd, Link, useDispatch, setIsEdit, useRouter, seo, data, isMobile, isAdmin, isEdit, category, isPatternDetail, theme }: {
     ProductJsonLd: any;
     Link: any;
-    useDispatch?: (() => void) | undefined;
-    setIsEdit?: (() => void) | undefined;
-    useRouter?: (() => void) | undefined;
+    useDispatch?: () => void;
+    setIsEdit?: () => void;
+    useRouter?: () => void;
     seo: any;
     data?: {
         title: string;
-        content: never[];
+        content: any[];
         isPattern: boolean;
         isFree: boolean;
         seoTitle: string;
         seoDescription: string;
-    } | undefined;
+    };
     isMobile: any;
     isAdmin: any;
     isEdit: any;

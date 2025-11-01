@@ -7,5 +7,5 @@ export default function PagePreviewModal({ isOpen, onClose, data, loading, route
     useRouter: any;
     Link: any;
     Image: any;
-}): React.JSX.Element | null;
+}): React.JSX.Element;
 import React from "react";

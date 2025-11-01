@@ -34,5 +34,5 @@ export default SocialMediaLinks;
  * @returns {JSX.Element} A div containing anchor tags with social media icons
  */
 declare function SocialMediaLinks({ socialLinks, style }: {
-    socialLinks?: Object[] | undefined;
+    socialLinks?: Array<any>;
 }): JSX.Element;

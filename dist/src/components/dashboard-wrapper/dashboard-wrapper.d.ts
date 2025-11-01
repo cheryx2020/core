@@ -1,8 +1,8 @@
 export default DashboardWrapper;
 declare function DashboardWrapper({ Link, listItems, loading, headerText }: {
     Link: any;
-    listItems?: never[] | undefined;
+    listItems?: any[];
     loading: any;
-    headerText?: string | undefined;
+    headerText?: string;
 }): React.JSX.Element;
 import React from 'react';

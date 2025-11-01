@@ -4,13 +4,13 @@ declare function PatternDetail({ name: _name, theme, price: _price, discount, ra
     theme: any;
     price: any;
     discount: any;
-    ravelryUrl?: string | undefined;
+    ravelryUrl?: string;
     lovecraftsUrl: any;
     bigImageUrl: any;
     imageList: any;
     isAdmin: any;
-    onChange?: (() => void) | undefined;
+    onChange?: () => void;
     index: any;
-    noImageUrl?: string | undefined;
+    noImageUrl?: string;
 }): React.JSX.Element;
 import React from 'react';

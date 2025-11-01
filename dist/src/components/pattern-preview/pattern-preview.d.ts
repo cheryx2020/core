@@ -1,20 +1,20 @@
 export function EmailSubscriptionSuccess(): React.JSX.Element;
 export function DownloadPatternForm({ useDispatch, patternId, setIsSubmitted }: {
-    useDispatch?: (() => void) | undefined;
+    useDispatch?: () => void;
     patternId: any;
-    setIsSubmitted?: (() => void) | undefined;
+    setIsSubmitted?: () => void;
 }): React.JSX.Element;
 export default PatternPreview;
 import React from 'react';
 declare function PatternPreview({ useDispatch, isAdmin, patternId, isSubscribe, onChange, index, imageUrl: _imageUrl, previewUrl: _previewUrl, buttonText, message }: {
-    useDispatch?: (() => void) | undefined;
+    useDispatch?: () => void;
     isAdmin: any;
     patternId: any;
     isSubscribe: any;
-    onChange?: (() => void) | undefined;
+    onChange?: () => void;
     index: any;
     imageUrl: any;
     previewUrl: any;
-    buttonText?: string | undefined;
-    message?: string | undefined;
+    buttonText?: string;
+    message?: string;
 }): React.JSX.Element;

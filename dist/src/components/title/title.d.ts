@@ -1,6 +1,6 @@
 export default TitleCheryx;
 declare function TitleCheryx({ text, wrapperStyle }: {
     text: any;
-    wrapperStyle?: {} | undefined;
+    wrapperStyle?: {};
 }): React.JSX.Element;
 import React from 'react';

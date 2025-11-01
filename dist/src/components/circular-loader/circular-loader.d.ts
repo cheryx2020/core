@@ -1,11 +1,11 @@
 export default CircularLoader;
 declare function CircularLoader({ Grid, CircularProgress, Typography, height, color, text, onFinished }: {
-    Grid?: (() => void) | undefined;
-    CircularProgress?: (() => void) | undefined;
-    Typography?: (() => void) | undefined;
-    height?: string | undefined;
-    color?: string | undefined;
-    text?: string | undefined;
-    onFinished?: (() => void) | undefined;
+    Grid?: () => void;
+    CircularProgress?: () => void;
+    Typography?: () => void;
+    height?: string;
+    color?: string;
+    text?: string;
+    onFinished?: () => void;
 }): React.JSX.Element | "Required: import { Grid, CircularProgress, Typography } from '@mui/material'";
 import React from 'react';

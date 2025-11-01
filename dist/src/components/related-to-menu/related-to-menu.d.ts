@@ -3,8 +3,8 @@ declare function RelatedToMenu({ url, text, textLink, onChange, onDragStart, ind
     url: any;
     text: any;
     textLink: any;
-    onChange?: (() => void) | undefined;
-    onDragStart?: (() => void) | undefined;
+    onChange?: () => void;
+    onDragStart?: () => void;
     index: any;
 }): React.JSX.Element;
 import React from 'react';

@@ -5,6 +5,6 @@ declare function TitleCheryx2({ text, wrapperStyle }: {
         line: {};
         text: {};
         wrapper: {};
-    } | undefined;
+    };
 }): React.JSX.Element;
 import React from 'react';

@@ -25,8 +25,8 @@ export namespace POST_ITEM_TYPE_SUBMENU {
 }
 export default MenuAddComponentPost;
 declare function MenuAddComponentPost({ onClickMenuItem, btnClass, menuItems }: {
-    onClickMenuItem?: (() => void) | undefined;
-    btnClass?: string | undefined;
-    menuItems?: string[] | undefined;
+    onClickMenuItem?: () => void;
+    btnClass?: string;
+    menuItems?: string[];
 }): React.JSX.Element;
 import React from 'react';

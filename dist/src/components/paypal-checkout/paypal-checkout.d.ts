@@ -1,13 +1,13 @@
 export default PayPalCheckout;
 declare function PayPalCheckout({ PayPalButtons, PayPalScriptProvider, clientId, itemId, instructionText, amount, currency, className, styles }: {
-    PayPalButtons?: (() => void) | undefined;
-    PayPalScriptProvider?: (() => void) | undefined;
+    PayPalButtons?: () => void;
+    PayPalScriptProvider?: () => void;
     clientId: any;
     itemId: any;
-    instructionText?: string | undefined;
-    amount?: string | undefined;
-    currency?: string | undefined;
+    instructionText?: string;
+    amount?: string;
+    currency?: string;
     className: any;
-    styles?: {} | undefined;
+    styles?: {};
 }): React.JSX.Element;
 import React from "react";

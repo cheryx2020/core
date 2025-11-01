@@ -6,5 +6,5 @@ declare function DetailsModal({ details, isLoading, error, onClose, onDelete, im
     onClose: any;
     onDelete: any;
     imageUrl: any;
-}): React.JSX.Element | null;
+}): React.JSX.Element;
 import React from 'react';

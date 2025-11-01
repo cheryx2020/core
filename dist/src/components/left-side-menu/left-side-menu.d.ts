@@ -1,8 +1,8 @@
 export default LeftSideMenu;
 declare function LeftSideMenu({ menuText, links, menuData, Link }: {
-    menuText?: string | undefined;
-    links?: never[] | undefined;
-    menuData?: never[] | undefined;
+    menuText?: string;
+    links?: any[];
+    menuData?: any[];
     Link: any;
 }): React.JSX.Element;
 import React from "react";

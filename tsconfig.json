@@ -1,23 +1,31 @@
 {
   "compilerOptions": {
     // --- Core Options for JS -> .d.ts generation ---
-    "allowJs": true,           // Allow TypeScript to process JavaScript files.
-    "declaration": true,       // Generate corresponding '.d.ts' files.
-    "emitDeclarationOnly": true, // Only emit '.d.ts' files, not compiled '.js' files (Rollup handles that).
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
 
     // --- Output & Module Settings ---
-    "outDir": "dist",          // Output the declaration files to the 'dist' directory.
+    "outDir": "dist",
     "moduleResolution": "node",
-    "jsx": "react",            // Specify JSX syntax.
+    "module": "ESNext",
+    "target": "ES2015",
+    "jsx": "react",
 
     // --- Strictness & Interop ---
-    "strict": true,
+    "strict": false,
+    "noImplicitAny": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    
+    // --- Additional helpful options ---
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "lib": ["ES2015", "DOM"]
   },
   // Define which files to include in the process.
-  "include": ["src/**/*"],
+  "include": ["index.js", "src/**/*"],
   // Exclude test files, storybooks, etc.
-  "exclude": ["node_modules", "dist", "**/*.test.js"]
+  "exclude": ["node_modules", "dist", "**/*.test.js", "**/*.test.jsx", "**/*.spec.js"]
 }

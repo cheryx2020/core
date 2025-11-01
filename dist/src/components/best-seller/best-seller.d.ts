@@ -1,9 +1,9 @@
 export default BestSeller;
 declare function BestSeller({ useRouter, useDispatch, isEdit, data, message }: {
-    useRouter?: (() => void) | undefined;
-    useDispatch?: (() => void) | undefined;
+    useRouter?: () => void;
+    useDispatch?: () => void;
     isEdit: any;
     data: any;
-    message?: string | undefined;
+    message?: string;
 }): React.JSX.Element;
 import React from 'react';

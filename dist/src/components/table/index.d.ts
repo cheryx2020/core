@@ -1,11 +1,11 @@
 export default Table;
 declare function Table({ addButtonText, listApi, listDataPath, addApi, editApi, deleteApi, formFields }: {
-    addButtonText?: string | undefined;
+    addButtonText?: string;
     listApi: any;
-    listDataPath?: string | undefined;
+    listDataPath?: string;
     addApi: any;
     editApi: any;
     deleteApi: any;
-    formFields?: never[] | undefined;
+    formFields?: any[];
 }): React.JSX.Element;
 import React from "react";

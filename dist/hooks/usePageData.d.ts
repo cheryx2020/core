@@ -5,7 +5,7 @@ declare function usePageData({ page, pageName, router, domain, language }: {
     pageName: any;
     router: any;
     domain?: any;
-    language?: string | undefined;
+    language?: string;
 }): {
     onDataPageChange: (id: any, data: any) => void;
     onClickSave: (e: any) => void;

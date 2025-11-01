@@ -1,12 +1,12 @@
 export default TipArticle;
 declare function TipArticle({ Image, titleStyle, Link, useDispatch, data, isAdmin, onDeletePostSuccess, unoptimized }: {
     Image: any;
-    titleStyle?: {} | undefined;
+    titleStyle?: {};
     Link: any;
-    useDispatch?: (() => void) | undefined;
+    useDispatch?: () => void;
     data: any;
     isAdmin: any;
-    onDeletePostSuccess?: (() => void) | undefined;
-    unoptimized?: boolean | undefined;
+    onDeletePostSuccess?: () => void;
+    unoptimized?: boolean;
 }): React.JSX.Element;
 import React from 'react';

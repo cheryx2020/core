@@ -18,79 +18,79 @@ export type BlockConfig = {
     /**
      * - The inner text content of the block. Ignored if 'html' or 'blocks' are present.
      */
-    content?: string | undefined;
+    content?: string;
     /**
      * - Raw HTML content to be dangerously set inside the block.
      */
-    html?: string | undefined;
+    html?: string;
     /**
      * - CSS class names to apply to the element.
      */
-    className?: string | undefined;
+    className?: string;
     /**
      * - Inline CSS styles to apply to the element.
      */
-    style?: import("react").CSSProperties | undefined;
+    style?: CSSProperties;
     /**
      * - A string of CSS rules to be injected into a <style> tag in the document's <head>.
      */
-    styleTagContent?: string | undefined;
+    styleTagContent?: string;
     /**
      * - The global 'title' attribute (tooltip).
      */
-    title?: string | undefined;
+    title?: string;
     /**
      * - The global 'hidden' attribute.
      */
-    hidden?: boolean | undefined;
+    hidden?: boolean;
     /**
      * - The global 'tabIndex' attribute.
      */
-    tabIndex?: number | undefined;
+    tabIndex?: number;
     /**
      * - An object of `data-*` attributes. Keys are suffixes (e.g., `{ 'id': '123' }` becomes `data-id="123"`).
      */
-    dataAttributes?: Record<string, string> | undefined;
+    dataAttributes?: Record<string, string>;
     /**
      * - An object of `aria-*` attributes.
      */
-    ariaAttributes?: Record<string, string> | undefined;
+    ariaAttributes?: Record<string, string>;
     /**
      * - The ARIA 'role' attribute.
      */
-    role?: string | undefined;
+    role?: string;
     /**
      * - A string defining an action to execute on click (e.g., 'alert:Hello').
      */
-    onClickAction?: string | undefined;
+    onClickAction?: string;
     /**
      * - An action to execute on mouse enter.
      */
-    onMouseEnterAction?: string | undefined;
+    onMouseEnterAction?: string;
     /**
      * - An action to execute on mouse leave.
      */
-    onMouseLeaveAction?: string | undefined;
+    onMouseLeaveAction?: string;
     /**
      * - A condition for conditionally rendering the block based on context state (e.g., 'isModalOpen:true').
      */
-    showIf?: string | undefined;
+    showIf?: string;
     /**
      * - A condition for conditionally hiding the block based on context state.
      */
-    hideIf?: string | undefined;
+    hideIf?: string;
     /**
      * - A key to pull dynamic content from the context state.
      */
-    contentFromState?: string | undefined;
+    contentFromState?: string;
     /**
      * - An array of child BlockConfig objects to be rendered inside this block.
      */
-    blocks?: BlockConfig[] | undefined;
+    blocks?: BlockConfig[];
     /**
      * - Any other props to be spread onto the element (e.g., `src`, `alt` for `<img>`).
      */
-    customProps?: Record<string, any> | undefined;
+    customProps?: Record<string, any>;
 };
 /**
  * Defines the structure for a single page within a site.
@@ -156,7 +156,7 @@ export type Site = {
     /**
      * - A key-value store for site-wide settings.
      */
-    settings?: Record<string, any> | undefined;
+    settings?: Record<string, any>;
 };
 /**
  * A generic structure for API responses.
@@ -173,7 +173,7 @@ export type ApiResponse<T> = {
     /**
      * - An optional message from the server.
      */
-    message?: string | undefined;
+    message?: string;
     /**
      * - Optional pagination details.
      */
@@ -182,5 +182,5 @@ export type ApiResponse<T> = {
         limit: number;
         total: number;
         pages: number;
-    } | undefined;
+    };
 };

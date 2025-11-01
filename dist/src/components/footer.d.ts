@@ -3,8 +3,8 @@ declare function Footer({ isMobile, theme, title, socialTitle, image, hasBanner,
     isMobile: any;
     theme: any;
     title: any;
-    socialTitle?: string | undefined;
-    image?: string | undefined;
+    socialTitle?: string;
+    image?: string;
     hasBanner: any;
     className: any;
     isAdmin: any;

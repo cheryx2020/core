@@ -3,16 +3,16 @@ declare function HeaderCherxy({ isAdmin, isEdit, url, showNavigator, Link, mainI
     isAdmin: any;
     isEdit: any;
     url: any;
-    showNavigator?: boolean | undefined;
+    showNavigator?: boolean;
     Link: any;
-    mainImageUrl?: string | undefined;
+    mainImageUrl?: string;
     MenuData?: {
         text: string;
         url: string;
-    }[] | undefined;
-    onMenuDataChange?: (() => void) | undefined;
-    styles?: {} | undefined;
+    }[];
+    onMenuDataChange?: () => void;
+    styles?: {};
     socialLinks: any;
-    socialLinksStyles?: {} | undefined;
+    socialLinksStyles?: {};
 }): React.JSX.Element;
 import React from 'react';
