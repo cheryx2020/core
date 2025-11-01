@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Plus, Eye, Code, Save, Download, Upload, Copy, Settings, Layers, Undo, Redo } from 'lucide-react';
 import Editor from '@monaco-editor/react';
 import { regenerateIds, generateFullHTML } from './utils';
@@ -6,41 +7,54 @@ import { PAGE_TEMPLATES } from './data';
 import Block from './Block';
 import PropertyEditor from './PropertyEditor';
 import BlockTreeItem from './BlockTreeItem';
-import useBuilderStore, { useTemporalStore } from './store';
+import {
+    selectSiteData,
+    selectSelectedBlock,
+    selectMode,
+    selectCodeView,
+    selectShowTemplates,
+    selectExpandedBlockIds,
+    selectCanUndo,
+    selectCanRedo,
+    setSelectedBlock,
+    updateBlock,
+    addBlock,
+    deleteBlock,
+    duplicateBlock,
+    moveBlock,
+    setMode,
+    setCodeView,
+    setShowTemplates,
+    toggleExpandBlock,
+    expandAncestors,
+    undo,
+    redo,
+    clearHistory,
+} from './store';
+
 const NoCodeBuilder = ({ onSave, activePageId, templateKey }) => {
-    const {
-        siteData,
-        selectedBlock,
-        mode,
-        codeView,
-        showTemplates,
-        expandedBlockIds,
-        setSelectedBlock,
-        updateBlock,
-        addBlock,
-        deleteBlock,
-        duplicateBlock,
-        moveBlock,
-        setMode,
-        setCodeView,
-        setShowTemplates,
-        toggleExpandBlock,
-        expandAncestors,
-    } = useBuilderStore();
+    const dispatch = useDispatch();
+
+    // Selectors
+    const siteData = useSelector(selectSiteData);
+    const selectedBlock = useSelector(selectSelectedBlock);
+    const mode = useSelector(selectMode);
+    const codeView = useSelector(selectCodeView);
+    const showTemplates = useSelector(selectShowTemplates);
+    const expandedBlockIds = useSelector(selectExpandedBlockIds);
+    const canUndo = useSelector(selectCanUndo);
+    const canRedo = useSelector(selectCanRedo);
+
     const pageConfig = useMemo(() => {
         return siteData.pages.find(p => p.id === activePageId)?.config;
     }, [siteData, activePageId]);
 
-    const { undo, redo, canUndo, canRedo, clear } = useTemporalStore();
-
     const [copied, setCopied] = React.useState(false);
 
     useEffect(() => {
-        setSelectedBlock(null);
-        clear();
-    }, [activePageId, setSelectedBlock, clear]);
-
-
+        dispatch(setSelectedBlock(null));
+        dispatch(clearHistory());
+    }, [activePageId, dispatch]);
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -51,9 +65,9 @@ const NoCodeBuilder = ({ onSave, activePageId, templateKey }) => {
                 activeElement.closest('.monaco-editor');
 
             if ((event.metaKey || event.ctrlKey) && event.key === 'z' && !event.shiftKey) {
-                if (canUndo()) {
+                if (canUndo) {
                     event.preventDefault();
-                    undo();
+                    dispatch(undo());
                 }
             }
 
@@ -61,9 +75,9 @@ const NoCodeBuilder = ({ onSave, activePageId, templateKey }) => {
                 ((event.metaKey || event.ctrlKey) && event.shiftKey && event.key === 'z') ||
                 ((event.metaKey || event.ctrlKey) && event.key === 'y')
             ) {
-                if (canRedo()) {
+                if (canRedo) {
                     event.preventDefault();
-                    redo();
+                    dispatch(redo());
                 }
             }
 
@@ -77,25 +91,25 @@ const NoCodeBuilder = ({ onSave, activePageId, templateKey }) => {
 
         document.addEventListener('keydown', handleKeyDown);
         return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [selectedBlock, undo, redo, canUndo, canRedo]);
+    }, [selectedBlock, canUndo, canRedo, dispatch]);
 
     const handleSelectBlockFromPreview = useCallback((block) => {
-        setSelectedBlock(block);
+        dispatch(setSelectedBlock(block));
         if (block && block.id !== 'page-root') {
-            expandAncestors(block.id);
+            dispatch(expandAncestors(block.id));
         }
-    }, [setSelectedBlock, expandAncestors]);
+    }, [dispatch]);
 
     const handleSelectBlockFromTree = (block) => {
         if (block.id === 'page-root') {
-            setSelectedBlock({ ...pageConfig, id: 'page-root', type: 'Page' });
+            dispatch(setSelectedBlock({ ...pageConfig, id: 'page-root', type: 'Page' }));
         } else {
-            setSelectedBlock(block);
+            dispatch(setSelectedBlock(block));
         }
     };
 
     const handleToggleExpand = (blockId) => {
-        toggleExpandBlock(blockId);
+        dispatch(toggleExpandBlock(blockId));
     };
 
     const handleAddBlock = (template) => {
@@ -104,28 +118,28 @@ const NoCodeBuilder = ({ onSave, activePageId, templateKey }) => {
             ? selectedBlock.id
             : null;
 
-        addBlock(newBlock, parentId);
+        dispatch(addBlock({ newBlock, parentId }));
     };
 
     const handleUpdateBlock = (updatedBlock) => {
-        updateBlock(updatedBlock.id, updatedBlock);
+        dispatch(updateBlock({ blockId: updatedBlock.id, updatedBlock }));
     };
 
     const handleUpdatePageConfigProperties = (newConfig) => {
-        updateBlock('page-root', newConfig);
-        setSelectedBlock(newConfig);
+        dispatch(updateBlock({ blockId: 'page-root', updatedBlock: newConfig }));
+        dispatch(setSelectedBlock(newConfig));
     };
 
     const handleDeleteBlock = useCallback((blockId) => {
-        deleteBlock(blockId);
-    }, [deleteBlock]);
+        dispatch(deleteBlock(blockId));
+    }, [dispatch]);
 
     const handleDuplicateBlock = (blockToDuplicate) => {
-        duplicateBlock(blockToDuplicate.id);
+        dispatch(duplicateBlock(blockToDuplicate.id));
     };
 
     const handleMoveBlock = (blockId, direction) => {
-        moveBlock(blockId, direction);
+        dispatch(moveBlock({ blockId, direction }));
     };
 
     const exportJSON = () => {
@@ -183,7 +197,7 @@ const NoCodeBuilder = ({ onSave, activePageId, templateKey }) => {
             <div style={{ width: '280px', background: '#f8f9fa', borderRight: '1px solid #e0e0e0', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', borderBottom: '1px solid #e0e0e0', background: 'white' }}>
                     <button
-                        onClick={() => setShowTemplates(false)}
+                        onClick={() => dispatch(setShowTemplates(false))}
                         style={{
                             flex: 1,
                             padding: '12px',
@@ -199,7 +213,7 @@ const NoCodeBuilder = ({ onSave, activePageId, templateKey }) => {
                         Layers
                     </button>
                     <button
-                        onClick={() => setShowTemplates(true)}
+                        onClick={() => dispatch(setShowTemplates(true))}
                         style={{
                             flex: 1,
                             padding: '12px',
@@ -279,41 +293,39 @@ const NoCodeBuilder = ({ onSave, activePageId, templateKey }) => {
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: '#fff' }}>
                 {/* Top Toolbar */}
                 <div style={{ height: '60px', borderBottom: '1px solid #e0e0e0', display: 'flex', alignItems: 'center', padding: '0 20px', gap: '12px', background: 'white' }}>
-                    <h1 style={{ fontSize: '18px', fontWeight: 600, marginRight: 'auto' }}>🎨 Page Builder</h1>
-
                     {/* Undo/Redo Buttons */}
                     <button
-                        onClick={undo}
-                        disabled={!canUndo()}
+                        onClick={() => { dispatch(undo())}}
+                        disabled={!canUndo}
                         title="Undo (Cmd/Ctrl+Z)"
                         style={{
                             padding: '8px 16px',
                             border: '1px solid #e0e0e0',
                             borderRadius: '6px',
                             background: 'white',
-                            color: canUndo() ? '#667eea' : '#ccc',
-                            cursor: canUndo() ? 'pointer' : 'not-allowed',
+                            color: canUndo ? '#667eea' : '#ccc',
+                            cursor: canUndo ? 'pointer' : 'not-allowed',
                             fontSize: '13px',
                             fontWeight: 500,
-                            opacity: canUndo() ? 1 : 0.5
+                            opacity: canUndo ? 1 : 0.5
                         }}
                     >
                         <Undo size={16} style={{ verticalAlign: 'middle' }} />
                     </button>
                     <button
-                        onClick={redo}
-                        disabled={!canRedo()}
+                        onClick={() => { dispatch(redo())}}
+                        disabled={!canRedo}
                         title="Redo (Cmd/Ctrl+Shift+Z)"
                         style={{
                             padding: '8px 16px',
                             border: '1px solid #e0e0e0',
                             borderRadius: '6px',
                             background: 'white',
-                            color: canRedo() ? '#667eea' : '#ccc',
-                            cursor: canRedo() ? 'pointer' : 'not-allowed',
+                            color: canRedo ? '#667eea' : '#ccc',
+                            cursor: canRedo ? 'pointer' : 'not-allowed',
                             fontSize: '13px',
                             fontWeight: 500,
-                            opacity: canRedo() ? 1 : 0.5
+                            opacity: canRedo ? 1 : 0.5
                         }}
                     >
                         <Redo size={16} style={{ verticalAlign: 'middle' }} />
@@ -323,7 +335,7 @@ const NoCodeBuilder = ({ onSave, activePageId, templateKey }) => {
 
                     {/* Mode Buttons */}
                     <button
-                        onClick={() => setMode('edit')}
+                        onClick={() => dispatch(setMode('edit'))}
                         style={{
                             padding: '8px 16px',
                             border: '1px solid #e0e0e0',
@@ -339,7 +351,7 @@ const NoCodeBuilder = ({ onSave, activePageId, templateKey }) => {
                         Edit
                     </button>
                     <button
-                        onClick={() => setMode('preview')}
+                        onClick={() => dispatch(setMode('preview'))}
                         style={{
                             padding: '8px 16px',
                             border: '1px solid #e0e0e0',
@@ -355,7 +367,7 @@ const NoCodeBuilder = ({ onSave, activePageId, templateKey }) => {
                         Preview
                     </button>
                     <button
-                        onClick={() => setMode('code')}
+                        onClick={() => dispatch(setMode('code'))}
                         style={{
                             padding: '8px 16px',
                             border: '1px solid #e0e0e0',
@@ -441,7 +453,7 @@ const NoCodeBuilder = ({ onSave, activePageId, templateKey }) => {
                         }}>
                             <div style={{ display: 'flex', borderBottom: '1px solid #444', flexShrink: 0 }}>
                                 <button
-                                    onClick={() => setCodeView('json')}
+                                    onClick={() => dispatch(setCodeView('json'))}
                                     style={{
                                         background: codeView === 'json' ? '#252526' : 'transparent',
                                         border: 'none',
@@ -455,7 +467,7 @@ const NoCodeBuilder = ({ onSave, activePageId, templateKey }) => {
                                     JSON
                                 </button>
                                 <button
-                                    onClick={() => setCodeView('html')}
+                                    onClick={() => dispatch(setCodeView('html'))}
                                     style={{
                                         background: codeView === 'html' ? '#252526' : 'transparent',
                                         border: 'none',

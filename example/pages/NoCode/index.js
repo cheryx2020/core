@@ -1,31 +1,44 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import store, { 
+    setSiteData, 
+    setActivePageId, 
+    setIsLoading,
+    addPage,
+    deletePage,
+    selectSiteData,
+    selectActivePageId,
+    selectIsLoading
+} from './store';
 import { generateId, regenerateIds } from './utils';
 import { getMockSiteData, PAGE_TEMPLATES } from './data';
 import NoCodeBuilder from './NoCodeBuilder';
 import TemplateSelectionModal from './TemplateSelectionModal';
 import PageManager from './PageManager';
-import useBuilderStore from './store';
 
-const SiteBuilder = ({ domain }) => {
-  const { siteData, activePageId, setSiteData, setActivePageId, addPage, deletePage } = useBuilderStore()
-  const [isLoading, setIsLoading] = useState(true);
+const SiteBuilderContent = ({ domain }) => {
+  const dispatch = useDispatch();
+  const siteData = useSelector(selectSiteData);
+  const activePageId = useSelector(selectActivePageId);
+  const isLoading = useSelector(selectIsLoading);
+  
   const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchSiteData = async () => {
-      setIsLoading(true);
+      dispatch(setIsLoading(true));
       console.log(`Fetching site data for domain: ${domain}`);
       const mockApiResponse = getMockSiteData();
-      setSiteData(mockApiResponse);
+      dispatch(setSiteData(mockApiResponse));
       const homepage = mockApiResponse.pages.find(p => p.isHomepage);
-      setActivePageId(homepage ? homepage.id : mockApiResponse.pages[0]?.id);
-      setIsLoading(false);
+      dispatch(setActivePageId(homepage ? homepage.id : mockApiResponse.pages[0]?.id));
+      dispatch(setIsLoading(false));
     };
     fetchSiteData();
-  }, [domain, setSiteData, setActivePageId]);
+  }, [domain, dispatch]);
 
   const handleSelectPage = (pageId) => {
-    setActivePageId(pageId);
+    dispatch(setActivePageId(pageId));
   };
 
   const handleAddPage = () => {
@@ -42,11 +55,11 @@ const SiteBuilder = ({ domain }) => {
       name: pageName,
       slug: `/${pageName.toLowerCase().replace(/\s+/g, '-')}`,
       isHomepage: false,
-      templateKey: templateKey, // Store the template key
+      templateKey: templateKey,
       config: newPageConfig
     };
 
-    addPage(newPage);
+    dispatch(addPage(newPage));
     setIsTemplateModalOpen(false);
   };
 
@@ -59,20 +72,11 @@ const SiteBuilder = ({ domain }) => {
       return;
     }
     
-    deletePage(pageIdToDelete);
+    dispatch(deletePage(pageIdToDelete));
   };
 
   const handleSaveSite = async () => {
     console.log("Saving site data to backend:", JSON.stringify(siteData, null, 2));
-
-    // In a real app, this would be an API call:
-    // try {
-    //   await api.updateSite(siteData._id, siteData);
-    //   alert('Site saved successfully!');
-    // } catch (error) {
-    //   alert('Error saving site: ' + error.message);
-    // }
-
     alert('Site saved! Check the browser console for the full JSON data.');
   };
 
@@ -93,7 +97,6 @@ const SiteBuilder = ({ domain }) => {
   }
 
   const activePage = siteData?.pages?.find(p => p.id === activePageId);
-
 
   return (
     <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
@@ -137,7 +140,11 @@ const SiteBuilder = ({ domain }) => {
 };
 
 const SiteBuilderApp = () => {
-  return <SiteBuilder domain="portfolio.example.com" />;
+  return (
+    <Provider store={store}>
+      <SiteBuilderContent domain="portfolio.example.com" />
+    </Provider>
+  );
 };
 
 export default SiteBuilderApp;

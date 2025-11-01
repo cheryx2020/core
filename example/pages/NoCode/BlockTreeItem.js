@@ -3,7 +3,7 @@ import { Trash2, Copy, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react
 
 
 const BlockTreeItem = ({ block, level = 0, onSelect, selectedId, onDelete, onDuplicate, onMoveUp, onMoveDown, index, totalItems, expandedIds, onToggleExpand }) => {
-  const expanded = expandedIds.has(block.id);
+  const expanded = expandedIds.includes(block.id);
   const hasChildren = block.blocks && block.blocks.length > 0;
   const isRoot = block.id === 'page-root';
 

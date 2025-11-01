@@ -1,5 +1,4 @@
-import { create } from 'zustand';
-import { temporal } from 'zundo';
+import { configureStore, createSlice } from '@reduxjs/toolkit';
 // ------------------------
 // 🔧 Helper Functions
 // ------------------------
@@ -64,283 +63,433 @@ const traverseAndMove = (blocks, blockId, direction) => {
         block.blocks ? { ...block, blocks: traverseAndMove(block.blocks, blockId, direction) } : block
     );
 };
-// ------------------------
-// 🧠 Unified Builder + Site Store
-// ------------------------
-const useBuilderStore = create(
-    temporal(
-        (set, get) => ({
-            // --------------------------------
-            // 📄 Page Builder State
-            // --------------------------------
-            selectedBlock: null,
-            mode: 'edit',
-            codeView: 'json',
-            showTemplates: false,
-            expandedBlockIds: new Set(['page-root']),
-            updateBlock: (blockId, updatedBlock) => set((state) => {
-                if (!state.activePageId) return state;
 
-                const newPages = state.siteData.pages.map(p => {
-                    if (p.id !== state.activePageId) return p;
+const initialState = {
+    // Builder State
+    selectedBlock: null,
+    mode: 'edit',
+    codeView: 'json',
+    showTemplates: false,
+    expandedBlockIds: ['page-root'],
 
-                    if (blockId === 'page-root') {
-                        const { id, type, ...configData } = updatedBlock;
-                        return { ...p, config: configData };
-                    }
+    // Site State
+    siteData: { pages: [] },
+    activePageId: null,
+    isLoading: false,
 
-                    const newConfig = {
-                        ...p.config,
-                        blocks: findAndUpdateBlock(p.config.blocks, blockId, updatedBlock)
-                    };
-                    return { ...p, config: newConfig };
-                });
-
-                return {
-                    siteData: { ...state.siteData, pages: newPages },
-                    selectedBlock: updatedBlock
-                };
-            }),
-
-            addBlock: (newBlock, parentId = null) => set((state) => {
-                if (!state.activePageId) return state;
-                const position = parentId && parentId !== 'page-root' ? 'child' : 'root';
-
-                const newPages = state.siteData.pages.map(p => {
-                    if (p.id !== state.activePageId) return p;
-                    const newConfig = {
-                        ...p.config,
-                        blocks: findAndAddBlock(p.config.blocks, parentId, newBlock, position)
-                    };
-                    return { ...p, config: newConfig };
-                });
-
-                return { siteData: { ...state.siteData, pages: newPages } };
-            }),
-
-            deleteBlock: (blockId) => set((state) => {
-                if (!state.activePageId) return state;
-
-                const newPages = state.siteData.pages.map(p => {
-                    if (p.id !== state.activePageId) return p;
-                    const newConfig = {
-                        ...p.config,
-                        blocks: findAndDeleteBlock(p.config.blocks, blockId)
-                    };
-                    return { ...p, config: newConfig };
-                });
-
-                return {
-                    siteData: { ...state.siteData, pages: newPages },
-                    selectedBlock: state.selectedBlock?.id === blockId ? null : state.selectedBlock
-                };
-            }),
-
-            duplicateBlock: (blockId) => set((state) => {
-                const activePage = state.siteData.pages.find(p => p.id === state.activePageId);
-                if (!activePage) return state;
-
-                const blockToDuplicate = findBlockById(activePage.config.blocks, blockId);
-                if (!blockToDuplicate) return state;
-                const { regenerateIds } = require('./utils');
-                const duplicatedBlock = regenerateIds(JSON.parse(JSON.stringify(blockToDuplicate)));
-
-                const insertAfter = (blocks) => {
-                    for (let i = 0; i < blocks.length; i++) {
-                        if (blocks[i].id === blockId) {
-                            const newBlocks = [...blocks];
-                            newBlocks.splice(i + 1, 0, duplicatedBlock);
-                            return newBlocks;
-                        }
-                        if (blocks[i].blocks) {
-                            const result = insertAfter(blocks[i].blocks);
-                            if (result !== blocks[i].blocks) {
-                                return blocks.map((b, idx) => idx === i ? { ...b, blocks: result } : b);
-                            }
-                        }
-                    }
-                    return blocks;
-                };
-
-                const newPages = state.siteData.pages.map(p => {
-                    if (p.id !== state.activePageId) return p;
-                    const newConfig = {
-                        ...p.config,
-                        blocks: insertAfter(p.config.blocks)
-                    };
-                    return { ...p, config: newConfig };
-                });
-
-                return { siteData: { ...state.siteData, pages: newPages } };
-            }),
-
-            moveBlock: (blockId, direction) => set((state) => {
-                const newPages = state.siteData.pages.map(p => {
-                    if (p.id !== state.activePageId) return p;
-                    const newConfig = {
-                        ...p.config,
-                        blocks: traverseAndMove(p.config.blocks, blockId, direction)
-                    };
-                    return { ...p, config: newConfig };
-                });
-                return { siteData: { ...state.siteData, pages: newPages } };
-            }),
-
-            setSelectedBlock: (block) => set({ selectedBlock: block }, false, { skipTemporalState: true }),
-            setMode: (mode) => set({ mode }, false, { skipTemporalState: true }),
-            setCodeView: (view) => set({ codeView: view }, false, { skipTemporalState: true }),
-            setShowTemplates: (show) => set({ showTemplates: show }, false, { skipTemporalState: true }),
-            setExpandedBlockIds: (ids) => set({ expandedBlockIds: ids }, false, { skipTemporalState: true }),
-
-            toggleExpandBlock: (blockId) => set((state) => {
-                const newSet = new Set(state.expandedBlockIds);
-                newSet.has(blockId) ? newSet.delete(blockId) : newSet.add(blockId);
-                return { expandedBlockIds: newSet };
-            }, false, { skipTemporalState: true }),
-
-            expandAncestors: (blockId) => set((state) => {
-                const activePage = state.siteData.pages.find(p => p.id === state.activePageId);
-                if (!activePage) return state;
-
-                const findAncestors = (blocks, targetId, path = []) => {
-                    for (const block of blocks) {
-                        if (block.id === targetId) return path;
-                        if (block.blocks) {
-                            const result = findAncestors(block.blocks, targetId, [...path, block.id]);
-                            if (result) return result;
-                        }
-                    }
-                    return null;
-                };
-                const ancestors = findAncestors(activePage.config.blocks, blockId);
-                if (ancestors) {
-                    const newSet = new Set(state.expandedBlockIds);
-                    ancestors.forEach(id => newSet.add(id));
-                    newSet.add(blockId);
-                    return { expandedBlockIds: newSet };
-                }
-                return state;
-            }, false, { skipTemporalState: true }),
-            siteData: { pages: [] },
-            activePageId: null,
-            isLoading: false,
-
-            setSiteData: (data) => set((state) => ({
-                siteData: { ...state.siteData, ...data }
-            })),
-
-            setActivePageId: (pageId) => set({ activePageId: pageId }),
-            setIsLoading: (loading) => set({ isLoading: loading }),
-
-            addPage: (newPage) => set((state) => ({
-                siteData: { ...state.siteData, pages: [...state.siteData.pages, newPage] },
-                activePageId: newPage.id
-            })),
-
-            deletePage: (pageId) => set((state) => {
-                const pages = state.siteData.pages;
-                const pageIndex = pages.findIndex(p => p.id === pageId);
-                if (pageIndex === -1 || pages.length <= 1) return state;
-
-                const newPages = pages.filter(p => p.id !== pageId);
-                const newActivePageId =
-                    state.activePageId === pageId
-                        ? newPages[Math.max(0, pageIndex - 1)]?.id || null
-                        : state.activePageId;
-
-                return {
-                    siteData: { ...state.siteData, pages: newPages },
-                    activePageId: newActivePageId
-                };
-            }),
-
-            updatePageMetadata: (pageId, metadata) => set((state) => ({
-                siteData: {
-                    ...state.siteData,
-                    pages: state.siteData.pages.map(p =>
-                        p.id === pageId ? { ...p, ...metadata } : p
-                    )
-                }
-            })),
-
-            duplicatePage: (pageId) => set((state) => {
-                const pageToDuplicate = state.siteData.pages.find(p => p.id === pageId);
-                if (!pageToDuplicate) return state;
-
-                const { regenerateIds, generateId } = require('./utils');
-                const duplicatedConfig = regenerateIds(JSON.parse(JSON.stringify(pageToDuplicate.config)));
-
-                const duplicatedPage = {
-                    ...pageToDuplicate,
-                    id: generateId('page'),
-                    name: `${pageToDuplicate.name} (Copy)`,
-                    slug: `${pageToDuplicate.slug}-copy`,
-                    isHomepage: false,
-                    config: duplicatedConfig
-                };
-
-                const newPages = [...state.siteData.pages];
-                const pageIndex = state.siteData.pages.findIndex(p => p.id === pageId);
-                newPages.splice(pageIndex + 1, 0, duplicatedPage);
-
-                return {
-                    siteData: { ...state.siteData, pages: newPages },
-                    activePageId: duplicatedPage.id
-                };
-            }),
-
-            reorderPages: (fromIndex, toIndex) => set((state) => {
-                const newPages = [...state.siteData.pages];
-                const [moved] = newPages.splice(fromIndex, 1);
-                newPages.splice(toIndex, 0, moved);
-                return { siteData: { ...state.siteData, pages: newPages } };
-            }),
-
-            setHomepage: (pageId) => set((state) => ({
-                siteData: {
-                    ...state.siteData,
-                    pages: state.siteData.pages.map(p => ({ ...p, isHomepage: p.id === pageId }))
-                }
-            })),
-
-            getActivePage: () => {
-                const state = get();
-                return state.siteData.pages.find(p => p.id === state.activePageId) || null;
-            },
-
-            // --------------------------------
-            // 🔁 Reset Everything
-            // --------------------------------
-            reset: () => set({
-                selectedBlock: null,
-                mode: 'edit',
-                codeView: 'json',
-                showTemplates: false,
-                expandedBlockIds: new Set(['page-root']),
-                siteData: { pages: [] },
-                activePageId: null,
-                isLoading: false,
-            }),
-        }),
-        {
-            limit: 50,
-            equality: (past, current) => JSON.stringify(past.siteData) === JSON.stringify(current.siteData),
-            partialize: (state) => ({ siteData: state.siteData, activePageId: state.activePageId })
-        }
-    )
-);
-// --------------------------------
-// 🔙 Temporal Hooks
-// --------------------------------
-export const useTemporalStore = () => {
-    const temporalState = useBuilderStore.temporal.getState();
-    return {
-        undo: temporalState.undo,
-        redo: temporalState.redo,
-        canUndo: () => temporalState.pastStates.length > 0,
-        canRedo: () => temporalState.futureStates.length > 0,
-        clear: temporalState.clear
-    };
+    // History State
+    past: [],
+    future: [],
 };
 
-export default useBuilderStore;
+// Builder Slice
+const builderSlice = createSlice({
+    name: 'builder',
+    initialState,
+    reducers: {
+        // UI Actions (no history)
+        setSelectedBlock: (state, action) => {
+            state.selectedBlock = action.payload;
+        },
+        setMode: (state, action) => {
+            state.mode = action.payload;
+        },
+        setCodeView: (state, action) => {
+            state.codeView = action.payload;
+        },
+        setShowTemplates: (state, action) => {
+            state.showTemplates = action.payload;
+        },
+        toggleExpandBlock: (state, action) => {
+            const blockId = action.payload;
+            const index = state.expandedBlockIds.indexOf(blockId);
+            if (index > -1) {
+                state.expandedBlockIds.splice(index, 1);
+            } else {
+                state.expandedBlockIds.push(blockId);
+            }
+        },
+        setExpandedBlockIds: (state, action) => {
+            state.expandedBlockIds = action.payload;
+        },
+        expandAncestors: (state, action) => {
+            const blockId = action.payload;
+            const activePage = state.siteData.pages.find(p => p.id === state.activePageId);
+            if (!activePage) return;
+            const findAncestors = (blocks, targetId, path = []) => {
+                for (const block of blocks) {
+                    if (block.id === targetId) return path;
+                    if (block.blocks) {
+                        const result = findAncestors(block.blocks, targetId, [...path, block.id]);
+                        if (result) return result;
+                    }
+                }
+                return null;
+            };
+
+            const ancestors = findAncestors(activePage.config.blocks, blockId);
+            if (ancestors) {
+                const newSet = new Set([...state.expandedBlockIds, ...ancestors, blockId]);
+                state.expandedBlockIds = Array.from(newSet);
+            }
+        },
+
+        // Site Actions (no history)
+        setSiteData: (state, action) => {
+            state.siteData = { ...state.siteData, ...action.payload };
+        },
+        setActivePageId: (state, action) => {
+            state.activePageId = action.payload;
+        },
+        setIsLoading: (state, action) => {
+            state.isLoading = action.payload;
+        },
+
+        // Block Actions (with history)
+        updateBlock: (state, action) => {
+            const { blockId, updatedBlock } = action.payload;
+            if (!state.activePageId) return;
+
+            // Save to history
+            state.past.push({
+                siteData: JSON.parse(JSON.stringify(state.siteData)),
+                activePageId: state.activePageId
+            });
+            state.future = [];
+            if (state.past.length > 50) state.past.shift();
+
+            state.siteData.pages = state.siteData.pages.map(p => {
+                if (p.id !== state.activePageId) return p;
+
+                if (blockId === 'page-root') {
+                    const { id, type, ...configData } = updatedBlock;
+                    return { ...p, config: configData };
+                }
+
+                const newConfig = {
+                    ...p.config,
+                    blocks: findAndUpdateBlock(p.config.blocks, blockId, updatedBlock)
+                };
+                return { ...p, config: newConfig };
+            });
+            state.selectedBlock = updatedBlock;
+        },
+
+        addBlock: (state, action) => {
+            const { newBlock, parentId = null } = action.payload;
+            if (!state.activePageId) return;
+
+            // Save to history
+            state.past.push({
+                siteData: JSON.parse(JSON.stringify(state.siteData)),
+                activePageId: state.activePageId
+            });
+            state.future = [];
+            if (state.past.length > 50) state.past.shift();
+
+            const position = parentId && parentId !== 'page-root' ? 'child' : 'root';
+            state.siteData.pages = state.siteData.pages.map(p => {
+                if (p.id !== state.activePageId) return p;
+                const newConfig = {
+                    ...p.config,
+                    blocks: findAndAddBlock(p.config.blocks, parentId, newBlock, position)
+                };
+                return { ...p, config: newConfig };
+            });
+        },
+
+        deleteBlock: (state, action) => {
+            const blockId = action.payload;
+            if (!state.activePageId) return;
+
+            // Save to history
+            state.past.push({
+                siteData: JSON.parse(JSON.stringify(state.siteData)),
+                activePageId: state.activePageId
+            });
+            state.future = [];
+            if (state.past.length > 50) state.past.shift();
+
+            state.siteData.pages = state.siteData.pages.map(p => {
+                if (p.id !== state.activePageId) return p;
+                const newConfig = {
+                    ...p.config,
+                    blocks: findAndDeleteBlock(p.config.blocks, blockId)
+                };
+                return { ...p, config: newConfig };
+            });
+
+            if (state.selectedBlock?.id === blockId) {
+                state.selectedBlock = null;
+            }
+        },
+
+        duplicateBlock: (state, action) => {
+            const blockId = action.payload;
+            const activePage = state.siteData.pages.find(p => p.id === state.activePageId);
+            if (!activePage) return;
+
+            const blockToDuplicate = findBlockById(activePage.config.blocks, blockId);
+            if (!blockToDuplicate) return;
+
+            // Save to history
+            state.past.push({
+                siteData: JSON.parse(JSON.stringify(state.siteData)),
+                activePageId: state.activePageId
+            });
+            state.future = [];
+            if (state.past.length > 50) state.past.shift();
+
+            const { regenerateIds } = require('./utils');
+            const duplicatedBlock = regenerateIds(JSON.parse(JSON.stringify(blockToDuplicate)));
+
+            const insertAfter = (blocks) => {
+                for (let i = 0; i < blocks.length; i++) {
+                    if (blocks[i].id === blockId) {
+                        const newBlocks = [...blocks];
+                        newBlocks.splice(i + 1, 0, duplicatedBlock);
+                        return newBlocks;
+                    }
+                    if (blocks[i].blocks) {
+                        const result = insertAfter(blocks[i].blocks);
+                        if (result !== blocks[i].blocks) {
+                            return blocks.map((b, idx) => idx === i ? { ...b, blocks: result } : b);
+                        }
+                    }
+                }
+                return blocks;
+            };
+
+            state.siteData.pages = state.siteData.pages.map(p => {
+                if (p.id !== state.activePageId) return p;
+                const newConfig = {
+                    ...p.config,
+                    blocks: insertAfter(p.config.blocks)
+                };
+                return { ...p, config: newConfig };
+            });
+        },
+
+        moveBlock: (state, action) => {
+            const { blockId, direction } = action.payload;
+
+            // Save to history
+            state.past.push({
+                siteData: JSON.parse(JSON.stringify(state.siteData)),
+                activePageId: state.activePageId
+            });
+            state.future = [];
+            if (state.past.length > 50) state.past.shift();
+
+            state.siteData.pages = state.siteData.pages.map(p => {
+                if (p.id !== state.activePageId) return p;
+                const newConfig = {
+                    ...p.config,
+                    blocks: traverseAndMove(p.config.blocks, blockId, direction)
+                };
+                return { ...p, config: newConfig };
+            });
+        },
+
+        // Page Management (with history)
+        addPage: (state, action) => {
+            const newPage = action.payload;
+
+            // Save to history
+            state.past.push({
+                siteData: JSON.parse(JSON.stringify(state.siteData)),
+                activePageId: state.activePageId
+            });
+            state.future = [];
+            if (state.past.length > 50) state.past.shift();
+
+            state.siteData.pages.push(newPage);
+            state.activePageId = newPage.id;
+        },
+
+        deletePage: (state, action) => {
+            const pageId = action.payload;
+            const pages = state.siteData.pages;
+            const pageIndex = pages.findIndex(p => p.id === pageId);
+            if (pageIndex === -1 || pages.length <= 1) return;
+
+            // Save to history
+            state.past.push({
+                siteData: JSON.parse(JSON.stringify(state.siteData)),
+                activePageId: state.activePageId
+            });
+            state.future = [];
+            if (state.past.length > 50) state.past.shift();
+
+            state.siteData.pages = pages.filter(p => p.id !== pageId);
+
+            if (state.activePageId === pageId) {
+                const newPages = state.siteData.pages;
+                state.activePageId = newPages[Math.max(0, pageIndex - 1)]?.id || null;
+            }
+        },
+
+        updatePageMetadata: (state, action) => {
+            const { pageId, metadata } = action.payload;
+
+            // Save to history
+            state.past.push({
+                siteData: JSON.parse(JSON.stringify(state.siteData)),
+                activePageId: state.activePageId
+            });
+            state.future = [];
+            if (state.past.length > 50) state.past.shift();
+
+            state.siteData.pages = state.siteData.pages.map(p =>
+                p.id === pageId ? { ...p, ...metadata } : p
+            );
+        },
+
+        duplicatePage: (state, action) => {
+            const pageId = action.payload;
+            const pageToDuplicate = state.siteData.pages.find(p => p.id === pageId);
+            if (!pageToDuplicate) return;
+
+            // Save to history
+            state.past.push({
+                siteData: JSON.parse(JSON.stringify(state.siteData)),
+                activePageId: state.activePageId
+            });
+            state.future = [];
+            if (state.past.length > 50) state.past.shift();
+
+            const { regenerateIds, generateId } = require('./utils');
+            const duplicatedConfig = regenerateIds(JSON.parse(JSON.stringify(pageToDuplicate.config)));
+
+            const duplicatedPage = {
+                ...pageToDuplicate,
+                id: generateId('page'),
+                name: `${pageToDuplicate.name} (Copy)`,
+                slug: `${pageToDuplicate.slug}-copy`,
+                isHomepage: false,
+                config: duplicatedConfig
+            };
+
+            const pageIndex = state.siteData.pages.findIndex(p => p.id === pageId);
+            state.siteData.pages.splice(pageIndex + 1, 0, duplicatedPage);
+            state.activePageId = duplicatedPage.id;
+        },
+
+        reorderPages: (state, action) => {
+            const { fromIndex, toIndex } = action.payload;
+
+            // Save to history
+            state.past.push({
+                siteData: JSON.parse(JSON.stringify(state.siteData)),
+                activePageId: state.activePageId
+            });
+            state.future = [];
+            if (state.past.length > 50) state.past.shift();
+
+            const [moved] = state.siteData.pages.splice(fromIndex, 1);
+            state.siteData.pages.splice(toIndex, 0, moved);
+        },
+
+        setHomepage: (state, action) => {
+            const pageId = action.payload;
+
+            // Save to history
+            state.past.push({
+                siteData: JSON.parse(JSON.stringify(state.siteData)),
+                activePageId: state.activePageId
+            });
+            state.future = [];
+            if (state.past.length > 50) state.past.shift();
+
+            state.siteData.pages = state.siteData.pages.map(p =>
+                ({ ...p, isHomepage: p.id === pageId })
+            );
+        },
+
+        // History Actions
+        undo: (state) => {
+            if (state.past.length === 0) return;
+
+            const previous = state.past.pop();
+            state.future.push({
+                siteData: JSON.parse(JSON.stringify(state.siteData)),
+                activePageId: state.activePageId
+            });
+
+            state.siteData = previous.siteData;
+            state.activePageId = previous.activePageId;
+        },
+
+        redo: (state) => {
+            if (state.future.length === 0) return;
+
+            const next = state.future.pop();
+            state.past.push({
+                siteData: JSON.parse(JSON.stringify(state.siteData)),
+                activePageId: state.activePageId
+            });
+
+            state.siteData = next.siteData;
+            state.activePageId = next.activePageId;
+        },
+
+        clearHistory: (state) => {
+            state.past = [];
+            state.future = [];
+        },
+
+        reset: (state) => {
+            return initialState;
+        },
+    },
+});
+
+export const {
+    setSelectedBlock,
+    setMode,
+    setCodeView,
+    setShowTemplates,
+    toggleExpandBlock,
+    setExpandedBlockIds,
+    expandAncestors,
+    setSiteData,
+    setActivePageId,
+    setIsLoading,
+    updateBlock,
+    addBlock,
+    deleteBlock,
+    duplicateBlock,
+    moveBlock,
+    addPage,
+    deletePage,
+    updatePageMetadata,
+    duplicatePage,
+    reorderPages,
+    setHomepage,
+    undo,
+    redo,
+    clearHistory,
+    reset,
+} = builderSlice.actions;
+// Selectors
+export const selectSiteData = (state) => state.builder.siteData;
+export const selectActivePageId = (state) => state.builder.activePageId;
+export const selectSelectedBlock = (state) => state.builder.selectedBlock;
+export const selectMode = (state) => state.builder.mode;
+export const selectCodeView = (state) => state.builder.codeView;
+export const selectShowTemplates = (state) => state.builder.showTemplates;
+export const selectExpandedBlockIds = (state) => state.builder.expandedBlockIds;
+export const selectIsLoading = (state) => state.builder.isLoading;
+export const selectCanUndo = (state) => state.builder.past.length > 0;
+export const selectCanRedo = (state) => state.builder.future.length > 0;
+export const selectActivePage = (state) => {
+    const { siteData, activePageId } = state.builder;
+    return siteData.pages.find(p => p.id === activePageId) || null;
+};
+// Store
+const store = configureStore({
+    reducer: {
+        builder: builderSlice.reducer,
+    },
+});
+export default store;
