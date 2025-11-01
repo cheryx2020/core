@@ -1,6 +1,7 @@
 import AdBanner from "./src/components/ad-banner/ad-banner"
 import AdminMenu from "./src/components/admin-menu/admin-menu"
 import BestSeller from "./src/components/best-seller/best-seller"
+import Block from "./src/components/block/block"
 import CheryxLogo from "./src/components/cheryx-logo/cheryx-logo"
 import CircleGroup from "./src/components/circle-group/circle-group";
 import CircularLoader from "./src/components/circular-loader/circular-loader"
@@ -32,7 +33,6 @@ import Note from "./src/components/note/note"
 import Page from "./src/components/page/page"
 import PageManager from "./src/components/page-manager/page-manager"
 import PageItem from "./src/utils/page";
-import PageRenderer from "./src/components/block/page-renderer"
 import PatternDetail from "./src/components/pattern-detail/pattern-detail"
 import PatternItem from "./src/components/pattern-item/pattern-item"
 import PatternList from "./src/components/pattern-list/pattern-list"
@@ -68,6 +68,7 @@ export {
     AdBanner,
     AdminMenu,
     BestSeller,
+    Block,
     CIRCLE_IMAGE,
     CheryxLogo,
     CircleGroup,
@@ -104,7 +105,6 @@ export {
     Page,
     PageManager,
     PageItem,
-    PageRenderer,
     PatternDetail,
     PatternItem,
     PatternList,

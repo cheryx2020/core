@@ -1,19 +1,8 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { executeAction, hashCode } from './utils.js';
-import './types.js'; // For JSDoc type imports
+"use client";
 
-/**
- * A safe wrapper for the Block component that includes an error boundary.
- *
- * @param {{
- *  config: import('./types.js').BlockConfig;
- *  context?: { state?: Record<string, any>; setState?: (key: string, value: any) => void; toggleState?: (key: string) => void; };
- *  isPreview?: boolean;
- *  onSelect?: (block: import('./types.js').BlockConfig) => void;
- *  selectedBlockId?: string | null;
- * }} props
- * @returns {React.ReactElement}
- */
+import React, { useEffect, useState } from 'react';
+import { executeAction, hashCode } from './utils.js';
+
 const Block = React.memo(({ config, context = {}, isPreview = false, onSelect, selectedBlockId }) => {
     const {
         type = 'div',
@@ -41,7 +30,7 @@ const Block = React.memo(({ config, context = {}, isPreview = false, onSelect, s
 
     const [elementRef, setElementRef] = useState(null);
 
-    const shouldShow = useMemo(() => {
+    const shouldShow = (() => {
         if (showIf) {
             const [stateKey, stateValue] = showIf.split(':');
             return context.state?.[stateKey] === stateValue;
@@ -51,7 +40,7 @@ const Block = React.memo(({ config, context = {}, isPreview = false, onSelect, s
             return context.state?.[stateKey] !== stateValue;
         }
         return true;
-    }, [showIf, hideIf, context.state]);
+    })();
 
     const dynamicContent = contentFromState ? context.state?.[contentFromState] : content;
 
