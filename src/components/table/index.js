@@ -178,7 +178,7 @@ const Table = ({
                                 ))}
                                 {canEditOrDelete && <td>
                                     {editApi ? <button data-testid="edit-button" onClick={() => { onClickEdit(item._id); }} className={styles.edit}>Edit</button> : null}
-                                    {deleteApi ? <button onClick={() => { onClickDelete(item._id); }} className={styles.delete}>Delete</button> : null}
+                                    {deleteApi ? <button onClick={() => { onClickDelete(item._id); }} className={styles.deleteBtn}>Delete</button> : null}
                                 </td>}
                             </tr>
                         ))}

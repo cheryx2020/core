@@ -1,0 +1,20 @@
+export default MainLayout;
+declare function MainLayout({ theme, mainImageUrl, Link, Head, NextSeo, isMobile, sublinkData, subLinkStyle, sublinkClassName, content, seo, url, seoConfig, MenuData, footer, isAdmin }: {
+    theme: any;
+    mainImageUrl: any;
+    Link: any;
+    Head: any;
+    NextSeo: any;
+    isMobile: any;
+    sublinkData?: never[] | undefined;
+    subLinkStyle?: {} | undefined;
+    sublinkClassName?: string | undefined;
+    content: any;
+    seo: any;
+    url: any;
+    seoConfig: any;
+    MenuData?: never[] | undefined;
+    footer?: {} | undefined;
+    isAdmin: any;
+}): React.JSX.Element;
+import React from 'react';

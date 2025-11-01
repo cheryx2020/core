@@ -1,0 +1,28 @@
+export default PatternItem;
+declare function PatternItem({ useRouter, useDispatch, nameFontFamily, imageUrl, discount, discountStartDate, discountEndDate, googleDriveFileId, language, _id, description, name, nameColor, ravelryUrl, patternId, order, isAdmin, isAddNew, isFree, isBottom, apiDelete, apiEdit, apiAdd, onClickUrl }: {
+    useRouter?: (() => void) | undefined;
+    useDispatch?: (() => void) | undefined;
+    nameFontFamily?: string | undefined;
+    imageUrl?: string | undefined;
+    discount?: number | undefined;
+    discountStartDate?: string | undefined;
+    discountEndDate?: string | undefined;
+    googleDriveFileId: any;
+    language?: string | undefined;
+    _id: any;
+    description: any;
+    name: any;
+    nameColor?: string | undefined;
+    ravelryUrl: any;
+    patternId?: string | undefined;
+    order: any;
+    isAdmin: any;
+    isAddNew: any;
+    isFree: any;
+    isBottom: any;
+    apiDelete?: string | undefined;
+    apiEdit?: string | undefined;
+    apiAdd?: string | undefined;
+    onClickUrl?: string | undefined;
+}): React.JSX.Element;
+import React from 'react';

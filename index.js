@@ -32,6 +32,7 @@ import Note from "./src/components/note/note"
 import Page from "./src/components/page/page"
 import PageManager from "./src/components/page-manager/page-manager"
 import PageItem from "./src/utils/page";
+import PageRenderer from "./src/components/block/page-renderer"
 import PatternDetail from "./src/components/pattern-detail/pattern-detail"
 import PatternItem from "./src/components/pattern-item/pattern-item"
 import PatternList from "./src/components/pattern-list/pattern-list"
@@ -103,6 +104,7 @@ export {
     Page,
     PageManager,
     PageItem,
+    PageRenderer,
     PatternDetail,
     PatternItem,
     PatternList,

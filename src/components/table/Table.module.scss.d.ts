@@ -7,8 +7,7 @@ export const noButton: string
 export const closeButton: string
 export const submitButton: string
 export const tableContainer: string
-export const $delete$: string
-export const delete: string
+export const deleteBtn: string
 export const edit: string
 interface Namespace {
 	"modal": string,
@@ -21,8 +20,7 @@ interface Namespace {
 	"submitButton": string,
 	"tableContainer": string,
 	"table-container": string,
-	"$delete$": string,
-	"delete": string,
+	"deleteBtn": string,
 	"edit": string,
 }
 declare const tableModuleScss: Namespace

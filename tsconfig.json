@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    // --- Core Options for JS -> .d.ts generation ---
+    "allowJs": true,           // Allow TypeScript to process JavaScript files.
+    "declaration": true,       // Generate corresponding '.d.ts' files.
+    "emitDeclarationOnly": true, // Only emit '.d.ts' files, not compiled '.js' files (Rollup handles that).
+
+    // --- Output & Module Settings ---
+    "outDir": "dist",          // Output the declaration files to the 'dist' directory.
+    "moduleResolution": "node",
+    "jsx": "react",            // Specify JSX syntax.
+
+    // --- Strictness & Interop ---
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  // Define which files to include in the process.
+  "include": ["src/**/*"],
+  // Exclude test files, storybooks, etc.
+  "exclude": ["node_modules", "dist", "**/*.test.js"]
+}
