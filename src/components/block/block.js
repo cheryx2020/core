@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { executeAction, hashCode } from './utils.js';
+import React, { useState } from 'react';
+import { executeAction } from './utils.js';
 
 const Block = React.memo(({ config, context = {}, isPreview = false, onSelect, selectedBlockId }) => {
     const {
@@ -10,7 +10,6 @@ const Block = React.memo(({ config, context = {}, isPreview = false, onSelect, s
         html,
         className,
         style,
-        styleTagContent,
         id,
         title,
         hidden,
@@ -44,25 +43,8 @@ const Block = React.memo(({ config, context = {}, isPreview = false, onSelect, s
 
     const dynamicContent = contentFromState ? context.state?.[contentFromState] : content;
 
-    useEffect(() => {
-        if (styleTagContent) {
-            const styleId = `style-${id || hashCode(styleTagContent)}`;
-            const existingTag = document.getElementById(styleId);
-
-            if (existingTag && existingTag.textContent === styleTagContent) {
-                return;
-            }
-
-            if (existingTag) {
-                existingTag.textContent = styleTagContent;
-            } else {
-                const styleTag = document.createElement('style');
-                styleTag.id = styleId;
-                styleTag.textContent = styleTagContent;
-                document.head.appendChild(styleTag);
-            }
-        }
-    }, [styleTagContent, id]);
+    // Note: styleTagContent is now handled at the server level during SSR
+    // Styles are extracted and injected in the <head> before hydration
 
     if (!shouldShow) {
         return null;
@@ -157,7 +139,7 @@ const SafeBlock = ({ config, ...props }) => {
         console.error("Block failed to render:", { config, error });
         return (
             <div
-                className="error-block" // Ensure you have a global style for this class
+                className="error-block"
                 style={{ border: '2px dashed red', padding: '10px', color: 'red' }}
             >
                 Block failed to render. Check console for details.
