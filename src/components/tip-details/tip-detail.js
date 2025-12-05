@@ -54,7 +54,7 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, setIsEdit = ()
       _listFileUploaded = listFileUploaded;
     }
     const postTitle = _contentData?.find(item => item.type === 'title')?.text;
-    if (!postTitle) {
+    if (!postTitle && !_isPattern) {
         alert("Please add title at the top");
         return;
     }
