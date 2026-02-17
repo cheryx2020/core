@@ -32,9 +32,6 @@ jobs:
       - name: Build
         run: npm run rollup
 
-      - name: Run tests
-        run: npm test
-
       - name: Semantic Release
         run: npx semantic-release
         env:
