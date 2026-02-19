@@ -325,6 +325,20 @@ const Compress = ({
     (hours > 0 ? `${padTime(hours)}:` : "") +
     `${padTime(minutes)}:${padTime(seconds)}`;
 
+  // ── Estimated finish time ──
+  const estimatedTimeRemaining =
+    progress > 0.02
+      ? Math.max(0, Math.round(elapsedTime / progress - elapsedTime))
+      : null;
+  const formatDuration = (totalSeconds) => {
+    const h = Math.floor(totalSeconds / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    const s = totalSeconds % 60;
+    return (h > 0 ? `${padTime(h)}:` : "") + `${padTime(m)}:${padTime(s)}`;
+  };
+  const formattedEstimate =
+    estimatedTimeRemaining !== null ? formatDuration(estimatedTimeRemaining) : null;
+
   const { wrapper, optionsToggle, errorAlert, logPanel } = styles ?? {};
   const audioOnly = isAudioOnlyFormat(options.outputFormat);
   const gifMode = isGifFormat(options.outputFormat);
@@ -415,9 +429,17 @@ const Compress = ({
               </div>
             </div>
           </div>
-          <h2 className="display-4 fw-bold text-primary">
-            ⏳ {formattedTime}
-          </h2>
+          <div className="d-flex align-items-center gap-4 mt-2">
+            <h2 className="display-4 fw-bold text-primary mb-0">
+              ⏳ {formattedTime}
+            </h2>
+            {formattedEstimate !== null && (
+              <div className="text-muted">
+                <div className="small">Est. remaining</div>
+                <div className="fs-5 fw-semibold">{formattedEstimate}</div>
+              </div>
+            )}
+          </div>
         </>
       )}
 
