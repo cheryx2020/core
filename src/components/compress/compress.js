@@ -121,6 +121,7 @@ const Compress = ({
   const [inputFileSize, setInputFileSize] = useState(0);
   const [outputFileSize, setOutputFileSize] = useState(0);
   const ffmpegRef = useRef(null);
+  const inputFileRef = useRef(null);
   const [panelVisible, setPanelVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [ffmpegLogs, setFfmpegLogs] = useState([]);
@@ -265,6 +266,7 @@ const Compress = ({
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
+      inputFileRef.current = file;
       logEvent({
         eventAction: "click",
         event_category: TITLE[conversionType] || "Convert",
@@ -272,6 +274,18 @@ const Compress = ({
         value: getFileSize(file) + " MB",
       });
       processFile(file);
+    }
+  };
+
+  const handleRecompress = () => {
+    if (inputFileRef.current) {
+      logEvent({
+        eventAction: "click",
+        event_category: TITLE[conversionType] || "Convert",
+        event_label: "Recompress",
+        value: getFileSize(inputFileRef.current) + " MB",
+      });
+      processFile(inputFileRef.current);
     }
   };
 
@@ -523,6 +537,12 @@ const Compress = ({
                   Share
                 </button>
               )}
+              <button
+                onClick={handleRecompress}
+                className="btn btn-outline-primary ms-1"
+              >
+                Re-compress
+              </button>
               <button onClick={reset} className="btn btn-outline-danger ms-1">
                 Reset
               </button>
