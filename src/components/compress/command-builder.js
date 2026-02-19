@@ -175,6 +175,11 @@ export function buildFFmpegArgs(inputFileName, outputFileName, options) {
       if (options.videoBitrate) {
         args.push('-b:v', options.videoBitrate);
       } else if (options.crf !== undefined && options.crf !== '') {
+        // VP9 constrained quality (CQ) mode requires -b:v 0 alongside -crf.
+        // Without it VP9 treats the stream as CBR and ignores the CRF value.
+        if (options.videoCodec === 'libvpx-vp9') {
+          args.push('-b:v', '0');
+        }
         args.push('-crf', String(options.crf));
       }
 
@@ -198,12 +203,15 @@ export function buildFFmpegArgs(inputFileName, outputFileName, options) {
   }
 
   // ── Audio ──
+  // Lossless codecs do not accept a bitrate (-b:a) argument.
+  const LOSSLESS_AUDIO_CODECS = ['flac', 'pcm_s16le', 'pcm_s24le', 'pcm_s32le'];
   if (!audioOnly && options.removeAudio) {
     args.push('-an');
   } else if (options.audioCodec) {
     args.push('-acodec', options.audioCodec);
     if (options.audioCodec !== 'copy') {
-      if (options.audioBitrate) args.push('-b:a', options.audioBitrate);
+      const isLossless = LOSSLESS_AUDIO_CODECS.includes(options.audioCodec);
+      if (options.audioBitrate && !isLossless) args.push('-b:a', options.audioBitrate);
       if (options.audioSampleRate) args.push('-ar', options.audioSampleRate);
       if (options.audioChannels) args.push('-ac', String(options.audioChannels));
     }
@@ -227,8 +235,8 @@ export function buildFFmpegArgs(inputFileName, outputFileName, options) {
   // Threads
   if (options.threads) args.push('-threads', String(options.threads));
 
-  // Movflags for mp4 streaming
-  if (options.movflags && options.outputFormat === 'mp4') {
+  // Movflags for MP4 and MOV (both use the QuickTime/ISO base media container).
+  if (options.movflags && ['mp4', 'mov'].includes(options.outputFormat)) {
     args.push('-movflags', options.movflags);
   }
 

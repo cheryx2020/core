@@ -7,6 +7,7 @@ import {
   TUNE_OPTIONS,
   PIXEL_FORMATS,
   PROFILE_OPTIONS,
+  LEVEL_OPTIONS,
   SAMPLE_RATES,
   ROTATION_OPTIONS,
   BUILT_IN_PRESETS,
@@ -99,6 +100,9 @@ const OptionsPanel = ({ options, onChange }) => {
   const crfRange = codecInfo.crfRange || [0, 51];
   const isCopyVideo = options.videoCodec === 'copy';
   const isCopyAudio = options.audioCodec === 'copy';
+  // Lossless codecs do not support bitrate control.
+  const LOSSLESS_AUDIO_CODECS = ['flac', 'pcm_s16le', 'pcm_s24le', 'pcm_s32le'];
+  const isLosslessAudio = LOSSLESS_AUDIO_CODECS.includes(options.audioCodec);
 
   // Command preview
   const previewArgs = buildFFmpegArgs('input.mp4', getOutputFileName('input.mp4', options), options);
@@ -243,6 +247,21 @@ const OptionsPanel = ({ options, onChange }) => {
                 </select>
               </Field>
 
+              {showPreset && (
+                <Field label="Level" htmlFor="level" hint="e.g. 4.1 → 1080p30, 5.1 → 4K30. Leave auto for most uses.">
+                  <select
+                    id="level"
+                    className="form-select form-select-sm"
+                    value={options.level}
+                    onChange={e => set('level', e.target.value)}
+                  >
+                    {LEVEL_OPTIONS.map(l => (
+                      <option key={l} value={l}>{l || '(auto)'}</option>
+                    ))}
+                  </select>
+                </Field>
+              )}
+
               <Field label="Max Bitrate" htmlFor="maxrate" hint="e.g. 2.5M — for VBV rate control">
                 <input
                   type="text"
@@ -330,15 +349,17 @@ const OptionsPanel = ({ options, onChange }) => {
 
               {!isCopyAudio && (
                 <>
-                  <Field label="Bitrate" htmlFor="audioBitrate" hint="e.g. 128k, 192k, 320k">
-                    <input
-                      type="text"
-                      id="audioBitrate"
-                      className="form-control form-control-sm"
-                      value={options.audioBitrate}
-                      onChange={e => set('audioBitrate', e.target.value)}
-                    />
-                  </Field>
+                  {!isLosslessAudio && (
+                    <Field label="Bitrate" htmlFor="audioBitrate" hint="e.g. 128k, 192k, 320k">
+                      <input
+                        type="text"
+                        id="audioBitrate"
+                        className="form-control form-control-sm"
+                        value={options.audioBitrate}
+                        onChange={e => set('audioBitrate', e.target.value)}
+                      />
+                    </Field>
+                  )}
 
                   <Field label="Sample Rate" htmlFor="audioSampleRate">
                     <select
