@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/cheryx2020/core/compare/v1.4.0...v1.5.0) (2026-02-19)
+
+
+### Features
+
+* **compress:** display estimated finish time during compression ([3396ef5](https://github.com/cheryx2020/core/commit/3396ef5afaf494d1cb094ee1ce8bcda07e8e78df))
+
 # [1.4.0](https://github.com/cheryx2020/core/compare/v1.3.6...v1.4.0) (2026-02-17)
 
 
