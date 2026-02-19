@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/cheryx2020/core/compare/v1.5.0...v1.6.0) (2026-02-19)
+
+
+### Features
+
+* **compress:** add share button using Web Share API ([4b7b1dd](https://github.com/cheryx2020/core/commit/4b7b1dd889fdf1b97fe1a1c44dde8d9c24bc921d))
+
 # [1.5.0](https://github.com/cheryx2020/core/compare/v1.4.0...v1.5.0) (2026-02-19)
 
 
