@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/cheryx2020/core/compare/v1.6.0...v1.7.0) (2026-02-19)
+
+
+### Features
+
+* **compress:** align component with industry standards ([0c39a47](https://github.com/cheryx2020/core/commit/0c39a47e3be4d177419c1a667db62a4b5cef13e2))
+
 # [1.6.0](https://github.com/cheryx2020/core/compare/v1.5.0...v1.6.0) (2026-02-19)
 
 
