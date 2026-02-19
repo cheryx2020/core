@@ -124,6 +124,7 @@ const Compress = ({
   const [panelVisible, setPanelVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [ffmpegLogs, setFfmpegLogs] = useState([]);
+  const outputBlobRef = useRef(null);
 
   // FFmpeg options state — merge type defaults with caller overrides
   const [options, setOptions] = useState(() => ({
@@ -234,6 +235,7 @@ const Compress = ({
       const data = new Uint8Array(fileData);
       const mimeType = getOutputMimeType(options);
       const blob = new Blob([data.buffer], { type: mimeType });
+      outputBlobRef.current = blob;
       const outputURL = URL.createObjectURL(blob);
       setOutputPreview(outputURL);
 
@@ -290,6 +292,46 @@ const Compress = ({
     }
   };
 
+  // ── Share ──
+  const canShare = typeof navigator !== "undefined" && !!navigator.share;
+
+  const handleShare = async () => {
+    if (!outputBlobRef.current) return;
+
+    const format = OUTPUT_FORMATS[options.outputFormat];
+    const ext = format ? format.ext : ".mp4";
+    const mimeType = format ? format.mime : "application/octet-stream";
+    const fileName = `output${ext}`;
+    const file = new File([outputBlobRef.current], fileName, { type: mimeType });
+
+    logEvent({
+      eventAction: "click",
+      event_category: "Share Result",
+      event_label: "Share Result",
+    });
+
+    try {
+      if (navigator.canShare && !navigator.canShare({ files: [file] })) {
+        // File sharing not supported, fall back to URL sharing
+        await navigator.share({
+          title: "Compressed Video",
+          text: `Check out this compressed ${format?.label || "video"} file`,
+        });
+        return;
+      }
+
+      await navigator.share({
+        title: "Compressed Video",
+        files: [file],
+      });
+    } catch (err) {
+      // User cancelled or share failed — ignore AbortError
+      if (err.name !== "AbortError") {
+        console.error("Share failed:", err);
+      }
+    }
+  };
+
   // ── Reset ──
   const reset = () => {
     setOutputPreview(null);
@@ -300,6 +342,7 @@ const Compress = ({
     setOutputFileSize(0);
     setErrorMessage("");
     setFfmpegLogs([]);
+    outputBlobRef.current = null;
   };
 
   // ── Conversion type change ──
@@ -472,6 +515,14 @@ const Compress = ({
                 Download{" "}
                 {OUTPUT_FORMATS[options.outputFormat]?.label || "File"}
               </button>
+              {canShare && (
+                <button
+                  onClick={handleShare}
+                  className="btn btn-primary ms-1"
+                >
+                  Share
+                </button>
+              )}
               <button onClick={reset} className="btn btn-outline-danger ms-1">
                 Reset
               </button>
