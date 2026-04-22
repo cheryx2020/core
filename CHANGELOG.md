@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/cheryx2020/core/compare/v1.7.0...v1.8.0) (2026-04-22)
+
+
+### Features
+
+* Knit Pattern Visualizer: Enhance pattern parsing, stitch rendering, and shaping analysis; improve UI for better user experience. Update Left Menu component to use unique keys for items. Add discount validation logic in Pattern Item component. ([4ac6579](https://github.com/cheryx2020/core/commit/4ac657971cd9c225d45436217d38d3d49cff6f28))
+
 # [1.7.0](https://github.com/cheryx2020/core/compare/v1.6.0...v1.7.0) (2026-02-19)
 
 
