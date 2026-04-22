@@ -9,11 +9,11 @@ const LeftMenu = ({ data = [], selected, isAdmin, onSelectedItem = () => { }, Li
     </>
   }
   return <div className={styles.leftMenu}>
-    {data.map((item, index) => {
+    {data.map((item) => {
       if (isAdmin) {
-        return <div key={index} onClick={() => onSelectedItem(item.key)} className={styles.item + ` ${item.key === selected ? styles.selected : ''}`}>{makeItem(item)}</div>
+        return <div key={item.key} onClick={() => onSelectedItem(item.key)} className={styles.item + ` ${item.key === selected ? styles.selected : ''}`}>{makeItem(item)}</div>
       }
-      return <Link key={index} href={item.url}><a href={item.url} className={styles.item + ` ${item.key === selected ? styles.selected : ''}`}>{makeItem(item)}</a></Link>
+      return <Link key={item.key} href={item.url}><a href={item.url} className={styles.item + ` ${item.key === selected ? styles.selected : ''}`}>{makeItem(item)}</a></Link>
     })}
   </div>
 }

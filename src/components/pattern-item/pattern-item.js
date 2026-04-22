@@ -72,6 +72,24 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
   const onChangeIsFree = e => {
     setIsFree(!_isFree);
   }
+  const isDiscountActive = () => {
+    if (_isFree || !prDiscount || prDiscount <= 0) return false;
+
+    const now = new Date();
+    
+    if (prDiscountStartDate) {
+      const start = new Date(prDiscountStartDate);
+      if (now < start) return false;
+    }
+
+    if (prDiscountEndDate) {
+      const end = new Date(prDiscountEndDate);
+      end.setHours(23, 59, 59, 999); 
+      if (now > end) return false;
+    }
+
+    return true;
+  };
   const content = <><div onBlur={(e) => {
     setDes(e.target.innerText);
   }} className={styles.description} suppressContentEditableWarning={true} contentEditable={isEdit ? 'true' : 'false'}>{des}</div>
@@ -285,7 +303,7 @@ const PatternItem = ({ useRouter = () => { }, useDispatch = () => { }, nameFontF
         src={imgSrc}
         onChangeImage={onChangeImage}
       />
-      {prDiscount && !_isFree ? <div className={styles.discount}>-{prDiscount}%</div> : null}
+      {(isDiscountActive() || (isEdit && prDiscount > 0 && !_isFree)) ? <div className={styles.discount}>-{prDiscount}%</div> : null}
       <div className={styles.content}>{content}</div>
 
       {isEdit && (
