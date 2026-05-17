@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/cheryx2020/core/compare/v1.8.0...v1.8.1) (2026-05-17)
+
+
+### Bug Fixes
+
+* preserve default Link fallback anchors ([123467d](https://github.com/cheryx2020/core/commit/123467d6f5a09dd300563f3d0bafae748f09d127))
+
 # [1.8.0](https://github.com/cheryx2020/core/compare/v1.7.0...v1.8.0) (2026-04-22)
 
 
