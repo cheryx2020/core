@@ -1,6 +1,8 @@
 import React from 'react';
 
-const DashboardItem = ({ Link = ({children}) => <>{children}</>, url, text, onClick }) => {
+const DefaultLink = ({ children, href, passHref, ...props }) => <a href={href} {...props}>{children}</a>;
+
+const DashboardItem = ({ Link = DefaultLink, url, text, onClick }) => {
   return (
     <Link
       href={onClick ? '#' : url}

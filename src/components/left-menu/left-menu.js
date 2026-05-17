@@ -1,7 +1,9 @@
 import React from 'react';
 import styles from './LeftMenu.module.scss';
 
-const LeftMenu = ({ data = [], selected, isAdmin, onSelectedItem = () => { }, Link = ({ children }) => { return children } }) => {
+const DefaultLink = ({ children, href, ...props }) => <a href={href} {...props}>{children}</a>;
+
+const LeftMenu = ({ data = [], selected, isAdmin, onSelectedItem = () => { }, Link = DefaultLink }) => {
   const makeItem = item => {
     return <>
       <div className={styles.icon} style={{ backgroundImage: `url('${item.icon}')` }}></div>
