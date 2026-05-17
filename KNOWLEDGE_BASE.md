@@ -1,183 +1,424 @@
 # @cheryx2020/core Knowledge Base
 
-## 1. Tech Stack
+Last reviewed: 2026-05-17
 
-- **Framework:** React 18+ (peer dependency supports 18.x and 19.x)
-- **Routing:** None (library package); consumers use Next.js routing
-- **Rendering model:** Client-side only; no SSR/SSG within library
-- **State management:** Local component state via `useState`; no Redux/Zustand
-- **Styling:** CSS Modules (`.module.scss`) with SCSS; some legacy styled-jsx
-- **Build / tooling:**
-  - Bundler: Rollup 4.x (ES module output)
-  - Transpiler: Babel 7.x with `@babel/preset-react`, `@babel/preset-env`
-  - CSS: PostCSS + Autoprefixer + SCSS (sass 1.66)
-  - Types: TypeScript 5.x (declaration generation only, `strict: false`)
-  - Testing: Jest 29.x + Testing Library
-  - Minification: Terser
+## Package Summary
 
-## 2. Project Structure
+`@cheryx2020/core` is a React component library for Cheryx content, pattern, admin, commerce, and page-building experiences. It ships JavaScript React components, SCSS/CSS module styles, generated TypeScript declarations, and an example Next.js app.
 
-### High-level folder responsibilities
+The package is published from `dist/` only:
 
-- `/src/components/` — 55+ React components (main library content)
-- `/src/layouts/` — 3 layout components: MainLayout, DetailLayout, DashboardLayout
-- `/src/utils/` — Utility modules: `page.js`, `component-definition.js`, `generic-div.js`
-- `/hooks/` — Custom hooks: `useAuthenticate`, `useIsMobile`, `usePageData`
-- `/hocs/` — Higher-order components: `withAuth`
-- `/dist/` — Build output (ES modules + CSS + type definitions)
-- `/example/` — Next.js 12.x demo application
-- `/__tests__/` — Jest test files
+- Runtime entry: `dist/index.js`
+- Module entry: `dist/index.js`
+- Types entry: `dist/index.d.ts`
+- Published files: `dist`
+- Source entry: `index.js`
+- Current package version in `package.json`: `1.8.0`
+- License: MIT
 
-### Entry points
+The source is JavaScript, not TypeScript. TypeScript is used only to emit declarations from JS files.
 
-- `/index.js` — Barrel export file; exports 60+ components, hooks, utilities
-- Build output: `/dist/index.js` (ESM), `/dist/index.css`, `/dist/index.d.ts`
+## Tech Stack
 
-### Shared vs feature-specific code
+| Area | Current Choice |
+| --- | --- |
+| UI framework | React, peer range `^18.0.0 || ^19.0.0` |
+| Bundler | Rollup 4 |
+| Transpiler | Babel 7 with `@babel/preset-env`, `@babel/preset-react`, and transform runtime |
+| Styling | SCSS modules with PostCSS/autoprefixer; some components also use inline styles |
+| Types | TypeScript declaration generation from JS, `strict: false` |
+| Tests | Jest 29, jsdom, Testing Library |
+| Release | semantic-release on pushes to `main` |
+| Demo app | Next.js 12 app in `example/` |
 
-- Shared: `/src/components/styles/` (globals.scss, variables.scss, mixin.scss)
-- Feature-specific: Each component has its own directory with `.js` and `.module.scss`
-- External shared packages: `@cheryx2020/api-service`, `@cheryx2020/utils`
+## Repository Map
 
-## 3. Architectural Patterns
+| Path | Purpose |
+| --- | --- |
+| `index.js` | Root barrel export for all public package APIs. |
+| `src/components/` | Main component library. Most components are one folder with a `.js` component and `.module.scss` stylesheet. |
+| `src/layouts/` | `MainLayout`, `DetailLayout`, and `DashboardLayout`. |
+| `src/utils/` | Page rendering utilities, component definitions, and generic div rendering. |
+| `hooks/` | `useAuthenticate`, `useIsMobile`, and `usePageData`. |
+| `hocs/` | `withAuth` route protection HOC. |
+| `__tests__/` | Top-level Jest tests for shared components/features. |
+| `example/` | Next.js playground/dashboard for manually testing components. |
+| `dist/` | Generated package output. Do not edit by hand. |
+| `.github/workflows/github-actions.yml` | CI, package build, tests, semantic release. |
 
-### Data fetching strategy
+## Public Exports
 
-- All data fetching is client-side via `APIService` from `@cheryx2020/api-service`
-- Fetch triggered in `useEffect` hooks on component mount or state change
-- No server-side data fetching; no React Query/SWR
-- API calls: `APIService.get()`, `APIService.post()`, `APIService.put()`, `APIService.delete()`
-- File uploads use `FormData` with `multipart/form-data` headers
+All public exports are named exports from `index.js`.
 
-### Component patterns
+### Layouts
 
-- Functional components only; no class components
-- `React.memo()` for expensive components (e.g., Block)
-- Props destructuring with defaults in function signature
-- Default export per component file
-- Inline helper components for forms (e.g., `FormField` in post-editor)
-- Conditional rendering via `isEdit`, `isAdmin`, `isPreview` props
+- `MainLayout`
+- `DetailLayout`
+- `DashboardLayout`
+- `DashboardWrapper`
 
-### Separation of concerns
+### Admin and Page-Building
 
-- Components: UI rendering and local state
-- Hooks: Reusable stateful logic (`usePageData`, `useAuthenticate`, `useIsMobile`)
-- HOCs: Cross-cutting concerns (`withAuth` for authentication)
-- Utils: Data structures and constants (`COMPONENT_DEFINITIONS`, `PageItem`)
+- `AdminMenu`
+- `Page`
+- `PageManager`
+- `PageItem`
+- `LayoutEditor`
+- `ThemeEditor`
+- `FileExplorer`
+- `JsonEditor`
+- `Block`
+- `MenuAddComponentPost`
+- `POST_ITEM_TYPE`
+- `POST_ITEM_TYPE_SUBMENU`
+- `IMAGE_SUBMENU`
 
-### Client vs server responsibilities
+### Content and Pattern Components
 
-- Library is client-only
-- Server interactions via REST API calls to external backend
-- Authentication via `localStorage` token + `verifyToken()` utility
-- No server components or server actions
+- `PostEditor`
+- `PostContent`
+- `uploadContentImageFiles`
+- `noImageUrl`
+- `getPostId`
+- `MultiImageConfig`
+- `TipArticle`
+- `TipDetail`
+- `PatternDetail`
+- `PatternItem`
+- `PatternList`
+- `PatternName`
+- `PatternPreview`
+- `KnitPatternVisualizer`
+- `ListArticle`
 
-## 4. Conventions & Rules
+### UI, Media, Navigation, and Commerce
 
-### Naming conventions
+- `AdBanner`
+- `BestSeller`
+- `CheryxLogo`
+- `CircleGroup`
+- `CircularLoader`
+- `Compress`
+- `ContentWithTitle`
+- `DashboardItem`
+- `Footer`
+- `Form`
+- `HeaderCheryx`
+- `HeaderPage`
+- `HeaderWithImage`
+- `ImageUpload`
+- `ImageUploadable`
+- `Input`
+- `LeftMenu`
+- `Loader`
+- `Note`
+- `PayPalCheckout`
+- `PostVideo`
+- `RelatedToMenu`
+- `SubLink`
+- `Table`
+- `TitleCheryx`
+- `TitleLink`
+- `YouTubeSubscribe`
+- `gtag`
 
-- Component directories: kebab-case (`pattern-list/`)
-- Component files: kebab-case (`pattern-list.js`)
-- SCSS modules: PascalCase (`PatternList.module.scss`)
-- Hooks: camelCase with `use` prefix (`usePageData.js`)
-- HOCs: camelCase with `with` prefix (`withAuth.js`)
-- Constants: SCREAMING_SNAKE_CASE (`CIRCLE_IMAGE`, `POST_ITEM_TYPE`)
+### Hooks and HOCs
 
-### File organization rules
+- `useAuthenticate`
+- `useIsMobile`
+- `usePageData`
+- `CIRCLE_IMAGE`
+- `withAuth`
 
-- One component per directory
-- Component `.js` file adjacent to its `.module.scss` file
-- Test files co-located: `component.test.js` next to `component.js`
-- Index exports in `/index.js` at root; no nested barrel files
-- Layouts separate from components in `/src/layouts/`
+## Build, Test, and Release
 
-### Coding constraints
+Use npm scripts from the package root.
 
-- No TypeScript source (`.ts/.tsx`); JavaScript with JSDoc and generated `.d.ts`
-- `strict: false` in tsconfig; no strict type checking
-- No prop-types validation
-- No default exports in barrel file; all named exports
-- `"use client"` directive in Block component (Next.js App Router compatibility marker)
+```bash
+npm run rollup
+npm test
+npm run semantic-release
+```
 
-## 5. Runtime Behavior
+Important details:
 
-### Rendering behavior
+- There is no `build` script in the root `package.json`; the real build script is `rollup`.
+- `npm run rollup` runs Rollup and then `npm run build:types`.
+- `build:types` runs `tsc` with `emitDeclarationOnly`.
+- Rollup outputs ES modules into `dist/` and extracts CSS.
+- Global styles from `src/components/styles/*.scss` are copied into `dist/styles`.
+- Jest runs through `node --experimental-vm-modules node_modules/jest/bin/jest.js --config=jest.config.mjs --coverage`.
+- CI uses Node `24.10.0`, `npm ci`, `npm run rollup`, and `npm test`.
+- semantic-release publishes from `main`, updates `CHANGELOG.md`, updates `package.json`, creates GitHub releases, and publishes to npm.
 
-- All components render on client
-- Loading states managed locally per component (`loading`, `isLoading` state)
-- Edit mode toggled via `isEdit` prop; enables contentEditable, save buttons
-- Preview mode via `isPreview` prop in Block component
+## Runtime Assumptions
 
-### Caching strategy
+This package is browser-first and client-side heavy.
 
-- No built-in caching layer
-- localStorage used for:
-  - Auth tokens (`accessToken`)
-  - UI preferences (`fileExplorerSortOrder`, `fileExplorerViewMode`)
-  - Temporary form data (keyed by `saveBodyDataKey`)
-  - Banner dismissal timestamps (`closedBannerAt`)
+- Many components directly access `window`, `document`, `navigator`, `localStorage`, `location`, `File`, `FormData`, and DOM APIs.
+- Consumers using Next.js should render most interactive components as client components.
+- The package does not provide server components, server actions, SSR data loaders, or a global state store.
+- Routing is injected by consumers through props such as `router`, `useRouter`, `Link`, `Image`, `Head`, and `NextSeo`.
+- Some components have default mock wrappers so they can render outside Next.js, but production use generally expects Next.js-like primitives.
 
-### Feature flags / environment config
+## Styling Conventions
 
-- No feature flag system
-- Domain-aware via `getDomain()` utility
-- Language-aware via `language` prop (default: `"en"`)
-- Google Analytics ID hardcoded: `G-E1RDMRRT6L`
+- Component folders are usually kebab-case, for example `pattern-list/`.
+- Component files are usually kebab-case, for example `pattern-list.js`.
+- SCSS module files are often PascalCase, for example `PatternList.module.scss`.
+- Generated style declaration files are checked in as `.module.scss.d.ts`.
+- Rollup uses `rollup-plugin-postcss-modules` with extracted/minimized CSS and generated definitions.
+- Consumers normally need to import the package CSS from the built package.
 
-## 6. Known Trade-offs & Constraints
+Expected consumer import:
 
-### Explicit limitations
+```js
+import "@cheryx2020/core/dist/index.css";
+```
 
-- No SSR support; library assumes client-side rendering only
-- No global state; complex state must be lifted to consumer app
-- No built-in error boundaries except `SafeBlock` wrapper
-- TypeScript declarations generated but source is JavaScript
-- `strict: false` allows implicit any types
+## Data and API Model
 
-### Performance trade-offs
+API access is centralized through `APIService` from `@cheryx2020/api-service`. The library does not define a backend client interface of its own, so endpoint strings are embedded in components.
 
-- No memoization by default except Block component
-- No virtualization for lists
-- All CSS extracted to single `index.css` file (~116KB)
-- No code splitting within library; consumer must handle
+Common endpoint families found in source:
 
-### DX trade-offs
+| Feature | Endpoints |
+| --- | --- |
+| Pages | `page`, `page/domains`, `page/languages`, `page/pages`, `page/page-content`, `page/page`, `page/publish-status` |
+| Layouts | `layout`, `layout/ids` |
+| Theme | `theme` |
+| Patterns | `add-pattern`, `edit-pattern`, `remove-pattern`, caller-supplied pattern list API |
+| Posts | `list-post`, `post`, `create-post`, `edit-post`, `delete-post`, `posts/:id` |
+| Files | `v2/file/files`, `v2/file/files/details`, `v2/image/upload` |
+| Commerce | `verify-order` |
+| Banner | `banner` |
+| Email | `email-subscriptions/subscribe` |
 
-- Mixed styling approaches (CSS Modules + inline styles + legacy styled-jsx)
-- No Storybook or component documentation
-- Tests sparse; only a few `.test.js` files exist
-- Example app serves as primary documentation
+Several components accept API route props, so consumers can override parts of this behavior:
 
----
+- `PatternItem`: `apiDelete`, `apiEdit`, `apiAdd`
+- `PatternList`: `api`
+- `Table`: `listApi`, `addApi`, `editApi`, `deleteApi`, `listDataPath`
+- `AdminMenu` plus `usePageData`: `saveAPI`, `saveBodyDataKey`
 
-## API Endpoints Reference (from codebase)
+## Authentication
 
-- Pattern: `add-pattern`, `edit-pattern`, `remove-pattern`
-- Post: `list-post`, `post`, `edit-post`, `create-post`, `delete-post`
-- Page: `page`, `page/domains`, `page/languages`, `page/pages`, `page/page-content`
-- Layout: `layout`, `layout/ids`
-- Theme: `theme`
-- File: `v2/file/files`, `v2/image/upload`
-- PayPal: `verify-order`
-- Banner: `banner`
-- Email: `email-subscriptions/subscribe`
+Auth is token-based and localStorage-backed.
 
----
+- Token key: `accessToken`
+- Verification utility: `verifyToken` from `@cheryx2020/utils`
+- `useAuthenticate` returns `{ isAuth }`; it initializes as false and flips true only after verification.
+- `withAuth` renders nothing until verified and redirects to `/` on missing or invalid tokens.
+- `DashboardLayout` checks the token and only renders children once verified.
 
-## Key Component Categories
+Maintenance note: auth code directly reads `localStorage`, so it must run in the browser.
 
-| Category | Components |
-|----------|------------|
-| Layouts | MainLayout, DetailLayout, DashboardLayout |
-| Admin | AdminMenu, PageManager, LayoutEditor, ThemeEditor, FileExplorer |
-| Content | PostEditor, TipDetail, PatternDetail, PatternList, PatternPreview |
-| UI | Loader, CircularLoader, Table, Form, Input, Note, Block |
-| Media | ImageUpload, ImageUploadable, PostVideo |
-| Commerce | PayPalCheckout, BestSeller |
-| Navigation | LeftMenu, HeaderCheryx, SubLink, TitleLink |
+## Page Builder Model
 
----
+The page system renders persisted page content arrays through `Page` and `PageItem`.
 
-## How to reference this KB in future prompts
+`Page` responsibilities:
 
-> "Refer to the @cheryx2020/core Knowledge Base in KNOWLEDGE_BASE.md for architecture, conventions, and patterns. Do not re-read the codebase unless investigating specific implementation details not covered in the KB."
+- Determines mobile state with `useIsMobile`.
+- Determines admin access with `useAuthenticate`.
+- Wires save/edit behavior through `usePageData`.
+- Renders page items inside `MainLayout`.
+
+`PageItem` maps `data.id` values to components:
+
+- `ADMIN_MENU`
+- `BEST_SELLER`
+- `paterns-circle-images` via `CIRCLE_IMAGE`
+- `NOTE`
+- `PATTERN_LIST`
+- `TITLE`
+- `DIV`
+- `ContentWithTitle`
+- `LIST_ARTICLE`
+
+`src/utils/component-definition.js` contains the editor-facing defaults for these page item types.
+
+`usePageData` saves page content to `page` as multipart form data. It tracks image URL replacements in `urlChanges`, sends `removedImages`, `content`, `language`, and `domain`, then calls `router.reload()`.
+
+## Major Components
+
+### `Compress`
+
+`Compress` is a browser FFmpeg UI. The consumer provides:
+
+- `FFmpeg`
+- `fetchFile`
+- `coreURL`
+- `wasmURL`
+
+Current modes:
+
+- `Compress.CompressType.COMPRESS`
+- `Compress.CompressType.GIF`
+- `Compress.CompressType.CONVERT`
+- `Compress.CompressType.AUDIO`
+- `Compress.CompressType.CUSTOM`
+
+Current capabilities:
+
+- Video compression and conversion.
+- GIF generation with two-pass palette workflow.
+- Audio extraction/conversion.
+- Output presets and advanced options through `OptionsPanel`.
+- Generated command previews through `onCommandPreview`.
+- Progress, elapsed time, estimated remaining time, error panel, FFmpeg log details, download, share, recompress, and reset.
+
+Related files:
+
+- `src/components/compress/compress.js`
+- `src/components/compress/ffmpeg-options.js`
+- `src/components/compress/command-builder.js`
+- `src/components/compress/options-panel.js`
+- `src/components/compress/README.md`
+- `PLAN_FFMPEG_FULL_OPTIONS.md`
+
+### `Block`
+
+`Block` is a config-driven renderer for nested HTML-like blocks. It supports:
+
+- Dynamic element type via `config.type`.
+- Nested `blocks`.
+- `html` with `dangerouslySetInnerHTML`.
+- State-based visibility through `showIf` and `hideIf`.
+- State interpolation in class names.
+- Action execution through `executeAction`.
+- Preview selection with `onSelect` and `selectedBlockId`.
+- `SafeBlock` wrapper to prevent a bad block from taking down the whole render.
+
+### `PostContent`
+
+`PostContent` and helpers in `postUtils.js` implement the article/content editor. It uses content item types such as title, headers, paragraph, related topic, subscribe CTA, image groups, video, ads, pattern preview, pattern detail, and group content.
+
+Important traits:
+
+- Heavy use of `contentEditable`.
+- Drag/drop ordering helpers.
+- Direct selection and DOM access.
+- Upload integration via `uploadFile` from `@cheryx2020/utils`.
+- Image upload paths rely on `NEXT_PUBLIC_publicImagesPath`.
+
+### `PageManager`, `LayoutEditor`, and `ThemeEditor`
+
+These are admin/editor tools that manage page content, layout records, images, publish status, and theme values against the backend API. They expect domain/language inputs and rely on `APIService`.
+
+### `FileExplorer`
+
+`FileExplorer` browses backend files through `v2/file/files`, stores view preferences in localStorage, supports detail loading and deletion, and builds public URLs with `NEXT_PUBLIC_apiBaseUrl`.
+
+### `Table`
+
+`Table` is a generic CRUD table. It fetches data from `listApi`, extracts it with `getValueObjectByPath`, renders visible `formFields`, and submits multipart `FormData` for add/edit.
+
+## Environment Variables and Browser Storage
+
+Environment variables referenced by components:
+
+- `NEXT_PUBLIC_pageUrl`
+- `NEXT_PUBLIC_publicImagesPath`
+- `NEXT_PUBLIC_language`
+- `NEXT_PUBLIC_PRE_TIP`
+- `NEXT_PUBLIC_apiBaseUrl`
+
+Browser storage keys:
+
+- `accessToken`
+- `orderedPattern`
+- `closedBannerAt`
+- `fileExplorerSortOrder`
+- `fileExplorerViewMode`
+- Dynamic keys from `saveBodyDataKey`, for example `menuData`
+
+Analytics:
+
+- `gtag.js` hardcodes GA tracking ID `G-E1RDMRRT6L`.
+- `Compress` logs events directly to `window.gtag` when available.
+
+## Example App
+
+The `example/` app is a Next.js 12 playground with routes for many components:
+
+- `AdminMenu`
+- `BestSeller`
+- `ImageUploadable`
+- `PatternItem`
+- `PayPalCheckout`
+- `KnitPatternVisualizer`
+- `MenuAddComponentPost`
+- `PageManager`
+- `PostEditor`
+- `LayoutEditor`
+- `FileExplorer`
+- `GenericDivPage`
+- `BlockBuilder`
+
+Run it from `example/`:
+
+```bash
+npm install
+npm run dev
+```
+
+The example package currently declares `@cheryx2020/core` as a dependency, but many example pages import from the local repository root. Check individual pages before assuming the published package is what the demo is exercising.
+
+## Tests
+
+Test files currently cover:
+
+- `Compress` rendering, modes, FFmpeg processing paths, errors, download/share/recompress/reset, and details.
+- `Table` missing props, valid fields, and add form behavior.
+- `PatternPreview` email subscription UI.
+- `PatternDetail` basic rendering for admin/non-admin.
+- `PostContent` item factories, rendering, editing, drag/drop, image changes, captions, resize, pattern changes, and group changes.
+- `onChangeImage`.
+- `uploadContentImageFiles`.
+
+Run all tests:
+
+```bash
+npm test
+```
+
+Potential test maintenance issue: several tests mock browser-only behavior. When changing DOM-heavy components, expect to update jsdom mocks for APIs like `window.confirm`, `navigator.share`, `URL.createObjectURL`, file APIs, and FFmpeg stubs.
+
+## Known Maintenance Risks
+
+| Risk | Why It Matters |
+| --- | --- |
+| Browser globals are used widely | Components can fail during SSR or in tests unless guarded or rendered client-side. |
+| Source is JS with loose generated declarations | Type declarations can exist even when source contracts are ambiguous. |
+| API routes are embedded in components | Backend route changes require source edits unless routes are already configurable by prop. |
+| Styling is mixed | CSS modules, global copied SCSS, inline styles, and Bootstrap-like class names coexist. |
+| `contentEditable` is common | Editor behavior can be fragile across browsers and test environments. |
+| Package has both `package-lock.json` and `yarn.lock` | Prefer npm for CI consistency unless the project standard changes. |
+| `dist/` exists in the repo | Treat it as generated output; source changes require rebuilding. |
+| README build command is stale | README mentions `yarn build`, but the root package script is `npm run rollup`. |
+
+## Safe Change Checklist
+
+When modifying this package:
+
+1. Update source files under `src/`, `hooks/`, `hocs/`, or `index.js`.
+2. If adding public APIs, export them from `index.js`.
+3. Add or update focused Jest tests for changed behavior.
+4. Run `npm test`.
+5. Run `npm run rollup` before publishing or validating generated output.
+6. Verify `dist/index.d.ts` if public props or exports changed.
+7. For browser-only code, guard `window`, `document`, `navigator`, and `localStorage` access when feasible.
+8. For API changes, document the endpoint and request/response assumptions near the component or in this KB.
+
+## Quick Prompts for Future Work
+
+Use these prompts to quickly reorient a future agent or developer:
+
+```text
+Refer to KNOWLEDGE_BASE.md for package structure, exports, runtime assumptions, API endpoints, and maintenance risks before changing @cheryx2020/core.
+```
+
+```text
+When changing a public component, check index.js exports, update tests, and run npm test plus npm run rollup.
+```

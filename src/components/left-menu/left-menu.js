@@ -13,7 +13,7 @@ const LeftMenu = ({ data = [], selected, isAdmin, onSelectedItem = () => { }, Li
       if (isAdmin) {
         return <div key={item.key} onClick={() => onSelectedItem(item.key)} className={styles.item + ` ${item.key === selected ? styles.selected : ''}`}>{makeItem(item)}</div>
       }
-      return <Link key={item.key} href={item.url}><a href={item.url} className={styles.item + ` ${item.key === selected ? styles.selected : ''}`}>{makeItem(item)}</a></Link>
+      return <Link key={item.key} href={item.url} className={styles.item + ` ${item.key === selected ? styles.selected : ''}`}>{makeItem(item)}</Link>
     })}
   </div>
 }

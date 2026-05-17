@@ -1,6 +1,6 @@
 import React from 'react';
 import PatternItem from '../pattern-item/pattern-item';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import styles from './PatternList.module.scss';
 import { useEffect } from 'react';
 import { useState } from 'react';

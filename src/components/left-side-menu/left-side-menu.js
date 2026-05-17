@@ -18,7 +18,7 @@ const LeftSideMenu = ({ menuText = 'Menu', links = [], menuData = [], Link}) => 
                     {links.map((item, index) => <LinksIcon key={index} {...item} />)}
                 </div>
                 <div className={styles.items}>
-                    {menuData.map((item, index) => <Link key={index} href={item.url}><a rel="noreferrer">{item.text}</a></Link>)}
+                    {menuData.map((item, index) => <Link key={index} href={item.url} rel="noreferrer">{item.text}</Link>)}
                 </div>
             </div>
         </div> : <>{typeof document !== 'undefined' ? (() => {document.body.style.overflowY = 'overlay';})() : ''}</>}

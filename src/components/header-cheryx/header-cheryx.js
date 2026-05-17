@@ -80,11 +80,11 @@ const HeaderCherxy = ({ isAdmin, isEdit, url, showNavigator = true, Link, mainIm
       <SocialMediaLinks style={socialLinksStyles} socialLinks={socialLinks}/>
       <LeftSideMenu Link={Link} links={links} menuData={MenuData} />
       <div className={styles.rightSide}>
-        <Link href={isAdmin ? '/dashboard' : '/login'}><a rel="noreferrer"><img style={{ width: 12, height: 16 }} alt="user" src="https://cheryx.com/images/user.png"></img></a></Link>
+        <Link href={isAdmin ? '/dashboard' : '/login'} rel="noreferrer"><img style={{ width: 12, height: 16 }} alt="user" src="https://cheryx.com/images/user.png"></img></Link>
       </div>
     </div>
     <div className={styles.logo}>
-      <Link href={'/'}><a><div className={styles.cheryx} style={cheryxStyle}></div></a></Link>
+      <Link href={'/'}><div className={styles.cheryx} style={cheryxStyle}></div></Link>
     </div>
     {showNavigator && <nav className={styles.nav} style={{ ..._styles }}>
       {MenuData.map((item, index) => isEdit ? <a
@@ -95,7 +95,7 @@ const HeaderCherxy = ({ isAdmin, isEdit, url, showNavigator = true, Link, mainIm
         className={`${styles.editableLink} ${url === item.url ? styles.selectedLink : ''}`}
       >
         {item.text}
-      </a> : <Link key={index} href={item.url}><a rel="noreferrer" className={url === item.url ? styles.selectedLink : ''}>{item.text}</a></Link>)}
+      </a> : <Link key={index} href={item.url} rel="noreferrer" className={url === item.url ? styles.selectedLink : ''}>{item.text}</Link>)}
     </nav>}
   </header>
 }

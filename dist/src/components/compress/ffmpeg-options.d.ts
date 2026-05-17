@@ -95,7 +95,7 @@ export namespace OUTPUT_FORMATS {
         let type_6: string;
         export { type_6 as type };
     }
-    namespace wav {
+    namespace aac {
         let ext_7: string;
         export { ext_7 as ext };
         let mime_7: string;
@@ -105,7 +105,7 @@ export namespace OUTPUT_FORMATS {
         let type_7: string;
         export { type_7 as type };
     }
-    namespace aac {
+    namespace opus {
         let ext_8: string;
         export { ext_8 as ext };
         let mime_8: string;
@@ -114,6 +114,36 @@ export namespace OUTPUT_FORMATS {
         export { label_8 as label };
         let type_8: string;
         export { type_8 as type };
+    }
+    namespace ogg {
+        let ext_9: string;
+        export { ext_9 as ext };
+        let mime_9: string;
+        export { mime_9 as mime };
+        let label_9: string;
+        export { label_9 as label };
+        let type_9: string;
+        export { type_9 as type };
+    }
+    namespace flac {
+        let ext_10: string;
+        export { ext_10 as ext };
+        let mime_10: string;
+        export { mime_10 as mime };
+        let label_10: string;
+        export { label_10 as label };
+        let type_10: string;
+        export { type_10 as type };
+    }
+    namespace wav {
+        let ext_11: string;
+        export { ext_11 as ext };
+        let mime_11: string;
+        export { mime_11 as mime };
+        let label_11: string;
+        export { label_11 as label };
+        let type_11: string;
+        export { type_11 as type };
     }
 }
 export const VIDEO_CODECS: {
@@ -144,6 +174,7 @@ export const VIDEO_CODECS: {
         hasCrf: boolean;
         hasPreset: boolean;
         crfRange: number[];
+        cqMode: boolean;
     };
     copy: {
         label: string;
@@ -155,46 +186,54 @@ export const VIDEO_CODECS: {
 };
 export namespace AUDIO_CODECS {
     export namespace aac_1 {
-        let label_9: string;
-        export { label_9 as label };
+        let label_12: string;
+        export { label_12 as label };
         export let formats: string[];
     }
     export { aac_1 as aac };
     export namespace libmp3lame {
-        let label_10: string;
-        export { label_10 as label };
+        let label_13: string;
+        export { label_13 as label };
         let formats_1: string[];
         export { formats_1 as formats };
     }
     export namespace libopus {
-        let label_11: string;
-        export { label_11 as label };
+        let label_14: string;
+        export { label_14 as label };
         let formats_2: string[];
         export { formats_2 as formats };
     }
     export namespace libvorbis {
-        let label_12: string;
-        export { label_12 as label };
+        let label_15: string;
+        export { label_15 as label };
         let formats_3: string[];
         export { formats_3 as formats };
     }
-    export namespace pcm_s16le {
-        let label_13: string;
-        export { label_13 as label };
+    export namespace flac_1 {
+        let label_16: string;
+        export { label_16 as label };
         let formats_4: string[];
         export { formats_4 as formats };
     }
-    export namespace copy {
-        let label_14: string;
-        export { label_14 as label };
+    export { flac_1 as flac };
+    export namespace pcm_s16le {
+        let label_17: string;
+        export { label_17 as label };
         let formats_5: string[];
         export { formats_5 as formats };
+    }
+    export namespace copy {
+        let label_18: string;
+        export { label_18 as label };
+        let formats_6: string[];
+        export { formats_6 as formats };
     }
 }
 export const PRESETS: string[];
 export const TUNE_OPTIONS: string[];
 export const PIXEL_FORMATS: string[];
 export const PROFILE_OPTIONS: string[];
+export const LEVEL_OPTIONS: string[];
 export const SAMPLE_RATES: string[];
 export const ROTATION_OPTIONS: {
     value: string;
@@ -243,8 +282,8 @@ export namespace DEFAULT_OPTIONS {
 }
 export namespace BUILT_IN_PRESETS {
     export namespace webOptimized {
-        let label_15: string;
-        export { label_15 as label };
+        let label_19: string;
+        export { label_19 as label };
         export let description: string;
         export namespace options {
             let outputFormat_1: string;
@@ -270,8 +309,8 @@ export namespace BUILT_IN_PRESETS {
         }
     }
     export namespace highQuality {
-        let label_16: string;
-        export { label_16 as label };
+        let label_20: string;
+        export { label_20 as label };
         let description_1: string;
         export { description_1 as description };
         export namespace options_1 {
@@ -299,8 +338,8 @@ export namespace BUILT_IN_PRESETS {
         export { options_1 as options };
     }
     export namespace smallFile {
-        let label_17: string;
-        export { label_17 as label };
+        let label_21: string;
+        export { label_21 as label };
         let description_2: string;
         export { description_2 as description };
         export namespace options_2 {
@@ -328,8 +367,8 @@ export namespace BUILT_IN_PRESETS {
         export { options_2 as options };
     }
     export namespace socialMedia {
-        let label_18: string;
-        export { label_18 as label };
+        let label_22: string;
+        export { label_22 as label };
         let description_3: string;
         export { description_3 as description };
         export namespace options_3 {
@@ -357,8 +396,8 @@ export namespace BUILT_IN_PRESETS {
         export { options_3 as options };
     }
     export namespace gif_1 {
-        let label_19: string;
-        export { label_19 as label };
+        let label_23: string;
+        export { label_23 as label };
         let description_4: string;
         export { description_4 as description };
         export namespace options_4 {
@@ -373,8 +412,8 @@ export namespace BUILT_IN_PRESETS {
     }
     export { gif_1 as gif };
     export namespace audioExtract {
-        let label_20: string;
-        export { label_20 as label };
+        let label_24: string;
+        export { label_24 as label };
         let description_5: string;
         export { description_5 as description };
         export namespace options_5 {
@@ -386,5 +425,131 @@ export namespace BUILT_IN_PRESETS {
             export { audioBitrate_5 as audioBitrate };
         }
         export { options_5 as options };
+    }
+    export namespace streaming {
+        let label_25: string;
+        export { label_25 as label };
+        let description_6: string;
+        export { description_6 as description };
+        export namespace options_6 {
+            let outputFormat_7: string;
+            export { outputFormat_7 as outputFormat };
+            let videoCodec_5: string;
+            export { videoCodec_5 as videoCodec };
+            let crf_5: number;
+            export { crf_5 as crf };
+            let preset_5: string;
+            export { preset_5 as preset };
+            let tune_1: string;
+            export { tune_1 as tune };
+            let pixelFormat_5: string;
+            export { pixelFormat_5 as pixelFormat };
+            let profile_1: string;
+            export { profile_1 as profile };
+            let level_1: string;
+            export { level_1 as level };
+            let audioCodec_6: string;
+            export { audioCodec_6 as audioCodec };
+            let audioBitrate_6: string;
+            export { audioBitrate_6 as audioBitrate };
+            let audioSampleRate_1: string;
+            export { audioSampleRate_1 as audioSampleRate };
+            let height_5: string;
+            export { height_5 as height };
+            let width_5: string;
+            export { width_5 as width };
+            let movflags_5: string;
+            export { movflags_5 as movflags };
+        }
+        export { options_6 as options };
+    }
+    export namespace mobile {
+        let label_26: string;
+        export { label_26 as label };
+        let description_7: string;
+        export { description_7 as description };
+        export namespace options_7 {
+            let outputFormat_8: string;
+            export { outputFormat_8 as outputFormat };
+            let videoCodec_6: string;
+            export { videoCodec_6 as videoCodec };
+            let crf_6: number;
+            export { crf_6 as crf };
+            let preset_6: string;
+            export { preset_6 as preset };
+            let pixelFormat_6: string;
+            export { pixelFormat_6 as pixelFormat };
+            let profile_2: string;
+            export { profile_2 as profile };
+            let level_2: string;
+            export { level_2 as level };
+            let audioCodec_7: string;
+            export { audioCodec_7 as audioCodec };
+            let audioBitrate_7: string;
+            export { audioBitrate_7 as audioBitrate };
+            let audioSampleRate_2: string;
+            export { audioSampleRate_2 as audioSampleRate };
+            let audioChannels_1: string;
+            export { audioChannels_1 as audioChannels };
+            let height_6: string;
+            export { height_6 as height };
+            let width_6: string;
+            export { width_6 as width };
+            let movflags_6: string;
+            export { movflags_6 as movflags };
+        }
+        export { options_7 as options };
+    }
+    export namespace archive {
+        let label_27: string;
+        export { label_27 as label };
+        let description_8: string;
+        export { description_8 as description };
+        export namespace options_8 {
+            let outputFormat_9: string;
+            export { outputFormat_9 as outputFormat };
+            let videoCodec_7: string;
+            export { videoCodec_7 as videoCodec };
+            let crf_7: number;
+            export { crf_7 as crf };
+            let preset_7: string;
+            export { preset_7 as preset };
+            let pixelFormat_7: string;
+            export { pixelFormat_7 as pixelFormat };
+            let audioCodec_8: string;
+            export { audioCodec_8 as audioCodec };
+            let audioBitrate_8: string;
+            export { audioBitrate_8 as audioBitrate };
+            let width_7: string;
+            export { width_7 as width };
+            let height_7: string;
+            export { height_7 as height };
+        }
+        export { options_8 as options };
+    }
+    export namespace opusWebm {
+        let label_28: string;
+        export { label_28 as label };
+        let description_9: string;
+        export { description_9 as description };
+        export namespace options_9 {
+            let outputFormat_10: string;
+            export { outputFormat_10 as outputFormat };
+            let videoCodec_8: string;
+            export { videoCodec_8 as videoCodec };
+            let crf_8: number;
+            export { crf_8 as crf };
+            let pixelFormat_8: string;
+            export { pixelFormat_8 as pixelFormat };
+            let audioCodec_9: string;
+            export { audioCodec_9 as audioCodec };
+            let audioBitrate_9: string;
+            export { audioBitrate_9 as audioBitrate };
+            let width_8: string;
+            export { width_8 as width };
+            let height_8: string;
+            export { height_8 as height };
+        }
+        export { options_9 as options };
     }
 }

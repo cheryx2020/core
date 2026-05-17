@@ -32,8 +32,9 @@ const Index = () => {
             <Link
               key={href}
               href={href}
+              className="block p-5 rounded-lg bg-white shadow-md hover:shadow-lg border border-gray-200 cursor-pointer hover:border-blue-400 transition duration-200 hover:bg-blue-50 text-blue-500"
             >
-              <a className="block p-5 rounded-lg bg-white shadow-md hover:shadow-lg border border-gray-200 cursor-pointer hover:border-blue-400 transition duration-200 hover:bg-blue-50 text-blue-500">{label}</a>
+              {label}
             </Link>
           ))}
         </div>

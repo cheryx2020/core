@@ -122,7 +122,7 @@ const TipArticle = ({Image, titleStyle = {}, Link, useDispatch = () => {}, data,
       </div>
     </Link>
     <div className={styles.info}>
-      <Link href={link}><a className={styles.title} style={titleStyle}>{data.title}</a></Link>
+      <Link href={link} className={styles.title} style={titleStyle}>{data.title}</Link>
       <div className={styles.description}>{getDescriptionFromContent(data.content)}</div>
       {/* <div className={styles.seeMore}>{`See more >>`}</div> */}
     </div>

@@ -11,7 +11,7 @@ const MainLayout = ({ theme, mainImageUrl, Link, Head, NextSeo, isMobile, sublin
     <main className={homeStyles.main}>
       <HeaderCheryx styles={theme ? { backgroundColor: theme?.NAVIGATION?.backgroundColor } : undefined} mainImageUrl={mainImageUrl} MenuData={MenuData} Link={Link} url={url} isAdmin={isAdmin} />
       <SubLink className={sublinkClassName} wrapperStyle={subLinkStyle} data={sublinkData} renderItem={(item => {
-        return <Link href={item.url}><a>{item.text}</a></Link>
+        return <Link href={item.url}>{item.text}</Link>
       })}/>
       {content}
     </main>
