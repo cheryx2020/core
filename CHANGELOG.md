@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/cheryx2020/core/compare/v1.8.1...v1.9.0) (2026-06-04)
+
+
+### Features
+
+* **update:** remove optional chaining from process.env ([cadeaa7](https://github.com/cheryx2020/core/commit/cadeaa74aeb442f7af057a6c0fbe716a858beb43))
+
 ## [1.8.1](https://github.com/cheryx2020/core/compare/v1.8.0...v1.8.1) (2026-05-17)
 
 
