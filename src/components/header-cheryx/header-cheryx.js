@@ -56,7 +56,7 @@ const HeaderCherxy = ({ isAdmin, isEdit, url, showNavigator = true, Link, mainIm
   url: `/tu-hoc-dan-co-ban`
 }, {
   text: 'Mẹo đan móc lượm lặt',
-  url: `/${process?.env?.NEXT_PUBLIC_PRE_TIP}`
+  url: `/${process.env.NEXT_PUBLIC_PRE_TIP}`
 }], onMenuDataChange = () => { }, styles: wrapperStyle = {}, socialLinks, socialLinksStyles = {} }) => {
   const _styles = {
     ...wrapperStyle

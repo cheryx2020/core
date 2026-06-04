@@ -152,7 +152,7 @@ const PatternDetail = ({ name: _name, theme, price: _price, discount, ravelryUrl
   } else {
     console.log("No number found.");
   }
-  const isVi = process?.env?.NEXT_PUBLIC_language === 'vi';
+  const isVi = process.env.NEXT_PUBLIC_language === 'vi';
   const onClickLink = (e, key) => {
     if (isAdmin) {
       e.preventDefault();

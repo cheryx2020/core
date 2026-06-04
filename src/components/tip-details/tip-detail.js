@@ -59,7 +59,7 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, setIsEdit = ()
         return;
     }
     const body = {
-      language: process?.env?.NEXT_PUBLIC_language || 'en',
+      language: process.env.NEXT_PUBLIC_language || 'en',
       title: postTitle,
       category: isPatternDetail ? 'pattern-detail' : category,
       isPattern: _isPattern,
@@ -147,8 +147,8 @@ const TipDetail = ({ ProductJsonLd ,Link, useDispatch = () => {}, setIsEdit = ()
     </div>
     <div className={styles.shareZone}>
       <div className={styles.text}>Share:</div>
-      <div className={styles.shareBtn}><FacebookShareButton url={`${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`} quote={postTitle} className="Demo__some-network__share-button"><FacebookIcon size={32} round/></FacebookShareButton></div>
-      <div className={styles.shareBtn}><TwitterShareButton url={`${process?.env?.NEXT_PUBLIC_pageUrl}/tip/${data.id}`} quote={postTitle} className="Demo__some-network__share-button"><TwitterIcon size={32} round/></TwitterShareButton></div>
+      <div className={styles.shareBtn}><FacebookShareButton url={`${process.env.NEXT_PUBLIC_pageUrl}/tip/${data.id}`} quote={postTitle} className="Demo__some-network__share-button"><FacebookIcon size={32} round/></FacebookShareButton></div>
+      <div className={styles.shareBtn}><TwitterShareButton url={`${process.env.NEXT_PUBLIC_pageUrl}/tip/${data.id}`} quote={postTitle} className="Demo__some-network__share-button"><TwitterIcon size={32} round/></TwitterShareButton></div>
     </div>
   </article>
   {isPatternDetail && <ProductJsonLd

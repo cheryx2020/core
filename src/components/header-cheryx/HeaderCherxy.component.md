@@ -47,7 +47,7 @@ header-cheryx/
   { text: 'Lớp đan thú', url: '/lop-dan-len' },
   { text: 'Mẫu đan miễn phí', url: '/mau-dan-len-mien-phi' },
   { text: 'Tự học đan len cơ bản', url: '/tu-hoc-dan-co-ban' },
-  { text: 'Mẹo đan móc lượm lặt', url: `/${process?.env?.NEXT_PUBLIC_PRE_TIP}` }
+  { text: 'Mẹo đan móc lượm lặt', url: `/${process.env.NEXT_PUBLIC_PRE_TIP}` }
 ]
 ```
 

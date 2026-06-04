@@ -37,7 +37,7 @@ const TipArticle = ({Image, titleStyle = {}, Link, useDispatch = () => {}, data,
           alert('Kích thước file không được vượt quá 200KB');
           return;
         }
-        url = await uploadFile(e.target.files[0], process?.env?.NEXT_PUBLIC_publicImagesPath, false, `post_${data.id}_thubnail`, true);
+        url = await uploadFile(e.target.files[0], process.env.NEXT_PUBLIC_publicImagesPath, false, `post_${data.id}_thubnail`, true);
       } catch(e) {
         url = '';
         alert('Có lỗi xảy ra khi tải ảnh lên');

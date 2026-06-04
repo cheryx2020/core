@@ -12,7 +12,7 @@ const HeaderPage = ({ seo, url, seoConfig, Head, NextSeo }) => {
             title={title}
             description={descriptionSeo}
             openGraph={{
-                url: `${process?.env?.NEXT_PUBLIC_pageUrl}/${url}`,
+                url: `${process.env.NEXT_PUBLIC_pageUrl}/${url}`,
                 title,
                 description: descriptionSeo,
                 images: [
